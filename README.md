@@ -4,12 +4,20 @@ This project using for shopping food and delivery service. We use Flutter bloc a
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Application state management va business logic uchun BLoC va Flutter BLoC plugginlaridan foydalanildi.
 
-A few resources to get you started if this is your first Flutter project:
+- [Business Logic](https://pub.dev/packages/bloc)
+- [State management](https://pub.dev/packages/flutter_bloc)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Singletonlik va DI uchun GetIt pluggindan foydalanildi.
+- [Singleton and DI](https://pub.dev/packages/get_it)
+
+Network service. Internet bilan ishlash uchun Dio pluggindan foydalanildi.
+- [Network service](https://pub.dev/packages/dio)
+
+
+Textlarga style berish uchub GoogleFonts pluggindan foydalanildi
+- [Styles](https://pub.dev/packages/google_fonts)
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials, samples, guidance on
