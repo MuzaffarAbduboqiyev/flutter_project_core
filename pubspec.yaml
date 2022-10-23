@@ -60,6 +60,11 @@ dependencies:
   # Textlarni ko'rinishi uchun TextStyle berish uchun foydalaniladi
   google_fonts: ^3.0.1
 
+  # Local Database
+  # Kichik ma'lumotlarni Local devicega saqlab turish uchun
+  # theme, password, token, phone number
+  hive: ^2.2.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -70,6 +75,11 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+  # Generate Hive and Moor database
+  # Hive va Moor databaselarni berilgan modelga mos
+  # table va Map(key, value)larni yaratib beradi
+  build_runner: ^2.1.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
