@@ -51,6 +51,13 @@ dependencies:
   #BlocProvider, BlocBuilder, BlocListener
   flutter_bloc: ^8.1.1
 
+  # Bloc dagi amallar qanday tartibda bajarilishini ko'rsatadi
+  # ketma-ket = sequential(),
+  # bir vaqtda = concurrent(),
+  # avvalgisini amalni bekor qilib yangi amalni bajarish = restartable(),
+  # avvalgi amal bajarilmaguncha yangi amalni bekor qilish = droppable(),
+  bloc_concurrency: ^0.2.0
+
   # Network service:
   # Network bilan ishlash uchun
   # Ma'lumotlarni serverga yuborish va serverdan ma;lumotlarni olib kelish uchun foydalaniladi
@@ -64,6 +71,9 @@ dependencies:
   # Kichik ma'lumotlarni Local devicega saqlab turish uchun
   # theme, password, token, phone number
   hive: ^2.2.3
+
+  # Local databaseni device xotirasiga saqlash uchun application o'rnatilgan manzilni ko'rsatadi
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,90 @@
+import 'package:delivery_service/model/local_database/hive_database.dart';
+import 'package:delivery_service/model/response_model/network_response_model.dart';
+import 'package:delivery_service/util/service/network/urls.dart';
+import 'package:dio/dio.dart';
+
+abstract class NetworkService {
+  Future<NetworkResponseModel> postMethod({
+    required String url,
+    required dynamic body,
+    bool hasHeader = true,
+  });
+
+  Future<NetworkResponseModel> getMethod({
+    required String url,
+    bool hasHeader = true,
+  });
+}
+
+class NetworkServiceImpl extends NetworkService {
+  final HiveDatabase hiveDatabase;
+  final Dio dio;
+
+  NetworkServiceImpl({
+    required this.hiveDatabase,
+    required this.dio,
+  });
+
+  @override
+  Future<NetworkResponseModel> getMethod({
+    required String url,
+    bool hasHeader = true,
+  }) async {
+    final header = await _getHeader(hasHeader);
+    dio.options.headers = header;
+    try {
+      final response = await dio.get(url);
+      return NetworkResponseModel.success(response: response);
+    } on DioError catch (error) {
+      if (error.type == DioErrorType.connectTimeout) {
+        return NetworkResponseModel.error(
+            errorMessage: "Исключение времени ожидания соединения");
+      } else {
+        return NetworkResponseModel.error(errorMessage: error.message);
+      }
+    }
+  }
+
+  @override
+  Future<NetworkResponseModel> postMethod({
+    required String url,
+    required dynamic body,
+    bool hasHeader = true,
+  }) async {
+      final header = await _getHeader(hasHeader);
+      dio.options.headers = header;
+
+    try {
+      final response = await dio.post(
+        url,
+        data: body,
+      );
+      return NetworkResponseModel.success(response: response);
+    } on DioError catch (error) {
+      if (error.type == DioErrorType.connectTimeout) {
+        return NetworkResponseModel.error(
+            errorMessage: "Исключение времени ожидания соединения");
+      } else {
+        return NetworkResponseModel.error(errorMessage: error.message);
+      }
+    }
+  }
+
+  Future<Map<String, String>> _getHeader(bool hasHeader) async {
+    final Map<String, String> headers = {};
+    if (hasHeader) {
+      headers["Accept"] = "application/json";
+      headers["Content-Type"] = "application/json";
+
+      final String token = await hiveDatabase.getToken();
+      if (token.isNotEmpty) headers["Authorization"] = "Bearer $token";
+    }
+    return headers;
+  }
+}
+
+final dioBaseOptions = BaseOptions(
+  baseUrl: baseUrl,
+  connectTimeout: 30000,
+  receiveTimeout: 30000,
+);
