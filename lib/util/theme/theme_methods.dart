@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 /// * Dark bo'lsa [MyTheme.dark] qaytaradi aks holda [MyTheme.light]
 
 ThemeData getCurrentTheme(BuildContext context) {
-  var brightness = MediaQuery.of(context).platformBrightness;
-  bool isDarkMode = brightness == Brightness.dark;
-  return (isDarkMode) ? MyTheme.dark() : MyTheme.light();
+  return Theme.of(context);
 }
 
 /// Hozirgi theme dark bo'lsa [True] aks holda [False] qaytaradi.
