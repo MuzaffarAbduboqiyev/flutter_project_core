@@ -7,9 +7,11 @@ import 'package:delivery_service/controller/app_controller/app_event.dart';
 
 class AppState {
   final bool isDarkMode;
+  final String language;
 
   AppState({
     required this.isDarkMode,
+    required this.language,
   });
 
   /// copyWith amali kerakli field(maydon)larni o'zgartirish uchun ishlatiladi
@@ -17,10 +19,15 @@ class AppState {
   /// qiymat berilmagan fieldlar eski qiymatini oladi yoki saqlab qoladi va Yangi [AppState] qaytaradi.
   AppState copyWith({
     bool? isDarkMode,
+    String? language,
   }) =>
-      AppState(isDarkMode: isDarkMode ?? this.isDarkMode);
+      AppState(
+        isDarkMode: isDarkMode ?? this.isDarkMode,
+        language: language ?? this.language,
+      );
 
   factory AppState.initial() => AppState(
-        isDarkMode: true,
+    isDarkMode: true,
+        language: "uz",
       );
 }
