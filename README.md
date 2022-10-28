@@ -25,6 +25,11 @@ Local Database. Kichik ma'lumotlarni(theme mode, password, token, phone number) 
 turish uchun.
 - [Hive local database](https://pub.dev/packages/hive)
 
+
+Multi Language. Applicationni ko'p tilda foydalanish uchun(Uz, Ru, En).
+- [EasyLocalization](https://pub.dev/packages/easy_localization)
+
+
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials, samples, guidance on
 mobile development, and a full API reference.
