@@ -1,5 +1,8 @@
 {
   "title": "Title",
   "home": "Home",
-  "click_me": "Click me"
+  "click_me": "Click me",
+  "error": {
+    "unknown_error": "Unknown error"
+  }
 }

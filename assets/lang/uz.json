@@ -1,5 +1,8 @@
 {
   "title": "Sarlavha",
   "home": "Uy",
-  "click_me": "Meni bosing"
+  "click_me": "Meni bosing",
+  "error": {
+    "unknown_error": "Aniqlanmagan xatolik"
+  }
 }
