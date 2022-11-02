@@ -1,8 +1,13 @@
 {
   "title": "Title",
-  "home": "Home",
   "click_me": "Click me",
   "error": {
-    "unknown_error": "Unknown error"
+    "unknown_error": "Unknown error",
+    "refresh": "Refresh"
+  },
+  "home": {
+    "user_info": {
+      "title": "Deliver to"
+    }
   }
 }

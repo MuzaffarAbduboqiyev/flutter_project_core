@@ -78,6 +78,12 @@ dependencies:
   # Multi(ko'p) language(til) uchun foydalaniladi
   easy_localization: ^3.0.1
 
+  # Vektor rasmlarni yuklash va ko'rsatish uchun foydalaniladi
+  flutter_svg: ^1.1.6
+
+  # Ma'lumotlarni yuklanayotganligini bildiradi
+  shimmer: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -109,6 +115,7 @@ flutter:
   assets:
     - assets/
     - assets/lang/
+    - assets/img/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

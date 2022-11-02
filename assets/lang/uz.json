@@ -1,8 +1,13 @@
 {
   "title": "Sarlavha",
-  "home": "Uy",
   "click_me": "Meni bosing",
   "error": {
-    "unknown_error": "Aniqlanmagan xatolik"
+    "unknown_error": "Aniqlanmagan xatolik",
+    "refresh": "Yangilash"
+  },
+  "home": {
+    "user_info": {
+      "title": "Yetkazib berish"
+    }
   }
 }
