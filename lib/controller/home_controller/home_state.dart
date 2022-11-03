@@ -1,4 +1,5 @@
 import 'package:delivery_service/model/category_model/category_model.dart';
+import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 
 /// [HomeScreen] dagi category larni holatini bilish va boshqarish uchun [CategoryStatus] holatlar ebumini yaratib oldik
 enum CategoryStatus {
@@ -23,6 +24,7 @@ class HomeState {
   final RestaurantStatus restaurantStatus;
   final List<CategoryModel> categories;
   final int selectedCategoryId;
+  final List<RestaurantModel> restaurants;
   final String error;
 
   HomeState({
@@ -30,6 +32,7 @@ class HomeState {
     required this.restaurantStatus,
     required this.categories,
     required this.selectedCategoryId,
+    required this.restaurants,
     required this.error,
   });
 
@@ -40,6 +43,7 @@ class HomeState {
         restaurantStatus: RestaurantStatus.init,
         categories: [],
         selectedCategoryId: -1,
+        restaurants: [],
         error: "",
       );
 
@@ -51,6 +55,7 @@ class HomeState {
     RestaurantStatus? restaurantStatus,
     List<CategoryModel>? categories,
     int? selectedCategoryId,
+    List<RestaurantModel>? restaurants,
     String? error,
   }) =>
       HomeState(
@@ -58,6 +63,7 @@ class HomeState {
         restaurantStatus: restaurantStatus ?? this.restaurantStatus,
         categories: categories ?? this.categories,
         selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
+        restaurants: restaurants ?? this.restaurants,
         error: error ?? this.error,
       );
 }

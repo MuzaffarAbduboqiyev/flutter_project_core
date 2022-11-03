@@ -3,11 +3,16 @@
   "click_me": "Нажми на меня",
   "error": {
     "unknown_error": "Неизвестная ошибка",
-    "refresh": "Обновить"
+    "refresh": "Обновить",
+    "no_internet_connection": "Нет соединения с интернетом"
   },
   "home": {
     "user_info": {
       "title": "Доставка к"
     }
+  },
+  "restaurant": {
+    "minute": "мин",
+    "restaurants": "Рестораны"
   }
 }

@@ -139,6 +139,8 @@ class _MyAppState extends State<MyApp> {
 
         /// [EasyLocalization] dagi [supportedLocales] ga berilgan tillarnini oladi
         supportedLocales: context.supportedLocales,
+
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

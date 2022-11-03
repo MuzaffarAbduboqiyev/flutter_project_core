@@ -50,7 +50,7 @@ class SimpleResponseModel {
       );
 }
 
-/// Generic T => type (toifa) bo'lib, qaysi model, class yoki type(int, String, double, bool) berilsa
+/// Generic T => type (toifa) bo'lib, qaysi model, class yoki type(int, String, double, bool, List) berilsa
 /// [DataResponseModel.data] T toifada bo'ladi
 class DataResponseModel<T> {
   bool status;

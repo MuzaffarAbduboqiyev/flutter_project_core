@@ -3,11 +3,16 @@
   "click_me": "Meni bosing",
   "error": {
     "unknown_error": "Aniqlanmagan xatolik",
-    "refresh": "Yangilash"
+    "refresh": "Yangilash",
+    "no_internet_connection": "Internet aloqasi yo'q"
   },
   "home": {
     "user_info": {
       "title": "Yetkazib berish"
     }
+  },
+  "restaurant": {
+    "minute": "min",
+    "restaurants": "Restaranlar"
   }
 }

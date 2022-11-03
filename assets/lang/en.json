@@ -3,11 +3,16 @@
   "click_me": "Click me",
   "error": {
     "unknown_error": "Unknown error",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "no_internet_connection": "No internet connection"
   },
   "home": {
     "user_info": {
       "title": "Deliver to"
     }
+  },
+  "restaurant": {
+    "minute": "min",
+    "restaurants": "Restaurants"
   }
 }

@@ -24,6 +24,9 @@ class _HomeCategoryState extends State<HomeCategory> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 98,
+      /// BlocBuilder<Bloc, State> bu widget bo'lib Bloc va State qabul qiladi
+      /// BlocBuilder o'zi qabul qilgan Blocga yangi State emit qilingan vaqtda
+      /// builder mehtodi ishga tushib Widgetni qayta yig'adi
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) =>
             (state.categoryStatus == CategoryStatus.loading)
@@ -36,10 +39,9 @@ class _HomeCategoryState extends State<HomeCategory> {
                     : ScrollConfiguration(
                         behavior: CustomScrollBehavior(),
                         child: ListView.builder(
-                          padding: const EdgeInsets.only(left: 16),
+                          padding: const EdgeInsets.only(left: 12),
                           scrollDirection: Axis.horizontal,
                           itemCount: state.categories.length,
-
                           itemBuilder: (context, index) => HomeCategoryItem(
                             categoryModel: state.categories[index],
                             selectedCategoryItemId: state.selectedCategoryId,

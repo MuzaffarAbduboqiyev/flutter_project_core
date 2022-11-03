@@ -1,7 +1,9 @@
 import 'package:delivery_service/controller/app_controller/app_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
+import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/model/category_model/category_network_service.dart';
 import 'package:delivery_service/model/local_database/hive_database.dart';
+import 'package:delivery_service/model/restaurant_model/restaurant_network_service.dart';
 import 'package:delivery_service/util/service/network/network_service.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -54,6 +56,20 @@ void init() {
   // Category network service singleton qilish
   singleton.registerLazySingleton<CategoryNetworkService>(
     () => CategoryNetworkServiceImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  // Restaurant repositoryni singleton qilish
+  singleton.registerLazySingleton<RestaurantRepository>(
+    () => RestaurantRepositoryImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  // Restaurant network service singleton qilish
+  singleton.registerLazySingleton<RestaurantNetworkService>(
+    () => RestaurantNetworkServiceImpl(
       networkService: singleton(),
     ),
   );

@@ -25,6 +25,16 @@ class HomeCategoryItem extends StatefulWidget {
 class _HomeCategoryItemState extends State<HomeCategoryItem> {
   @override
   Widget build(BuildContext context) {
+    /// HomeScreendagi Category ni biror itemini bosganda
+    /// HomeBlocga shu bosilgan itemga kelgan categoryModel ni HomeChangeSelectedCategoryEvent  orqali  add  qilamiz,
+    /// Agar HomeState dagi selectedCategoryId fieldni qiymati shu categoryModel id siga teng bo'lsa,
+    /// demak bu itemga kelgan categoryModel avval tanlanga bo'ladi va biz uni tanlanmagan qilish uchun selectedCategoryId ni -1 ga tenglab qo'yamiz
+    /// yoki bu itemga eklgan categoryModel id si selectedCategoryId ga teng bo'lmasa bu item tanlanmagan bo'ladi
+    /// va biz buni shu categoryModel tanlangan qilish uchun selectedCategoryId ni itemga kelgan categoryModel id siga tenglab qo'yamiz va HomeBlocda yangi state ni emit qilamiz.
+    ///
+    ///
+    /// Biz CategoryModelni tanlasak, Serverda shu Categoryga mos Restaurantlarni olib kelamiz
+    /// yoki CategoryModelni tanlanmagan bo'lsa, barcha Restauranlarni olib kelamiz
     void _changeSelectedCategory() {
       context.read<HomeBloc>().add(
             HomeChangeSelectedCategoryEvent(
