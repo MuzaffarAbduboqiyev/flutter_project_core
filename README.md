@@ -29,6 +29,11 @@ turish uchun.
 Multi Language. Applicationni ko'p tilda foydalanish uchun(Uz, Ru, En).
 - [EasyLocalization](https://pub.dev/packages/easy_localization)
 
+Local Database. Katta ma'lumotlarni List larni saqlash uchun Moor databasedan foydalanildi.
+Buni afzallik tomonlaridan biri, Databasedagi o'zgarishlarni eshitib turish mumkin
+- [MoorDatabase](https://pub.dev/packages/moor_flutter/versions/4.0.0-nullsafety)
+
+
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials, samples, guidance on
