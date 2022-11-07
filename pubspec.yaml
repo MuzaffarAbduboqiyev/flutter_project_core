@@ -84,6 +84,18 @@ dependencies:
   # Ma'lumotlarni yuklanayotganligini bildiradi
   shimmer: ^2.0.0
 
+  # Bottom navbar uchun,
+  # buni qulayligi bottom nav bardagi screenlar ichidagi biror screenga o'tganda
+  # bottom nav bar saqlanib qolish kerakmi yoki yo'qmi belgilasa bo'ladi
+  # va o'zini tayyor designlari ko'p
+  persistent_bottom_nav_bar: ^5.0.2
+
+  # Biz katta ma'lumotlarni Local databsega saqlash uchun moor_flutter dan foydalanamiz
+  # Buni Table degan abstract clasi bor va biz o'zimizga kerak bo'ladigan
+  # model class yaratsak va uni Tabledan extend qilsak, moor_generator shu biz yaratgan data classga mos
+  # Table(jadval) yaratib beradi
+  moor_flutter: ^4.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -99,6 +111,12 @@ dev_dependencies:
   # Hive va Moor databaselarni berilgan modelga mos
   # table va Map(key, value)larni yaratib beradi
   build_runner: ^2.1.7
+
+  # Biz ma'lumotlarni Local Database ga saqlash uchun flutter_moor databasedan foydalandik
+  # Bu databasening Table clasidan extend qilib hosil qilingan classni
+  # Table larini hosil qilish uchun moor_generator foydalaniladi
+  # va bu generator biz yaratgan databaseni database_name.g.dart classini yaratib beradi
+  moor_generator: ^4.6.0+1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,3 +1,4 @@
+import 'package:delivery_service/ui/dashboard/dashboard_screen.dart';
 import 'package:delivery_service/ui/home/home_screen.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,11 @@ class ScreenObserver{
 
   Route<dynamic> onGenerateRoure(RouteSettings settings) {
     switch (settings.name) {
+      case dashboardScreen:
+        return _buildRoute(settings, const DashboardScreen());
+
       case homeScreen:
         return _buildRoute(settings, const HomeScreen());
-
 
       default:
         return _errorRoute();

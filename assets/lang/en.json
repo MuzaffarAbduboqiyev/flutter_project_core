@@ -6,6 +6,12 @@
     "refresh": "Refresh",
     "no_internet_connection": "No internet connection"
   },
+  "nav_bar": {
+    "home": "Home",
+    "search": "Search",
+    "order": "Order",
+    "account": "Account"
+  },
   "home": {
     "user_info": {
       "title": "Deliver to"

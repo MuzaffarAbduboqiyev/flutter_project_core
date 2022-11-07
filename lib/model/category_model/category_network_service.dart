@@ -6,6 +6,8 @@ import 'package:delivery_service/util/service/network/urls.dart';
 /// [CategoryNetworkService] Serverdan category lar bo'yicha request (so'rov) lar bilan ishlaydi
 abstract class CategoryNetworkService {
   Future<NetworkResponseModel> getAllCategories();
+
+  Future<NetworkResponseModel> getSearchCategories();
 }
 
 class CategoryNetworkServiceImpl extends CategoryNetworkService {
@@ -20,6 +22,15 @@ class CategoryNetworkServiceImpl extends CategoryNetworkService {
     /// [NetworkService.getMethod] ishlatadi va berilgan url ga request (so'rov) jo'natadi va response (javob) kelguncha kutib turadi
     /// va kelgan javobni qaytaradi
     final response = await networkService.getMethod(url: allCategoriesUrl);
+    return response;
+  }
+
+  /// Search oynaga kerak bo'ladigan Popular(mashhur, eng ko'p kerak bo'ladigan)
+  /// Categories larni serverdan fetch qiladi
+  @override
+  Future<NetworkResponseModel> getSearchCategories() async {
+    final response =
+        await networkService.getMethod(url: "$allCategoriesUrl?popular=true");
     return response;
   }
 }

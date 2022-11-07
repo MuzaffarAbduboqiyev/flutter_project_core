@@ -6,6 +6,12 @@
     "refresh": "Yangilash",
     "no_internet_connection": "Internet aloqasi yo'q"
   },
+  "nav_bar": {
+    "home": "Uy",
+    "search": "Qidiruv",
+    "order": "Buyurtma",
+    "account": "Hisob"
+  },
   "home": {
     "user_info": {
       "title": "Yetkazib berish"

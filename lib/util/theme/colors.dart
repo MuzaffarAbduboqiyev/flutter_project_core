@@ -26,6 +26,10 @@ final lightNavBgColor = HexColor.fromHex("#FFFFFF");
 final navSelectedColor = HexColor.fromHex("#FFCC66");
 final lightNavSelectedColor = HexColor.fromHex("#FFCC66");
 
+
+final navSelectedTextColor = HexColor.fromHex("#000000");
+final lightNavSelectedTextColor = HexColor.fromHex("#000000");
+
 final navUnselectedColor = HexColor.fromHex("#8D8D91");
 final lightNavUnselectedColor = HexColor.fromHex("#5E5E5E");
 

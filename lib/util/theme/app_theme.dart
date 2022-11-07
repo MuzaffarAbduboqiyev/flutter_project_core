@@ -19,11 +19,11 @@ class MyTheme {
         titleTextStyle: lightTextTheme.headline2,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        selectedItemColor: lightNavSelectedColor,
+        selectedItemColor: lightNavBgColor,
         selectedIconTheme:
             IconThemeData(color: lightNavSelectedColor, size: 20),
         selectedLabelStyle: getLightStyle(
-          color: lightNavSelectedColor,
+          color: lightNavSelectedTextColor,
           textSize: 10,
         ),
         unselectedItemColor: lightNavUnselectedColor,
@@ -109,7 +109,7 @@ class MyTheme {
           size: 20,
         ),
         selectedLabelStyle: getDarkStyle(
-          color: navSelectedColor,
+          color: navSelectedTextColor,
           textSize: 10,
         ),
         unselectedItemColor: navBgColor,

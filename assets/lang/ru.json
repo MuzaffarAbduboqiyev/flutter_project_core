@@ -6,6 +6,12 @@
     "refresh": "Обновить",
     "no_internet_connection": "Нет соединения с интернетом"
   },
+  "nav_bar": {
+    "home": "Дом",
+    "search": "Поиск",
+    "order": "Заказ",
+    "account": "Профиль"
+  },
   "home": {
     "user_info": {
       "title": "Доставка к"
