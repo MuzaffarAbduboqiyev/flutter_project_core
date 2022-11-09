@@ -96,6 +96,9 @@ dependencies:
   # Table(jadval) yaratib beradi
   moor_flutter: ^4.0.0
 
+  # Debounce -> bir amalni ma'lum vaqtdan keyin bajarilishi
+  easy_debounce: ^2.0.2+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

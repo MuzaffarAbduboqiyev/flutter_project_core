@@ -1,6 +1,9 @@
 {
   "title": "Название",
   "click_me": "Нажми на меня",
+  "no": "Нет",
+  "yes": "Да",
+  "sum": "сум",
   "error": {
     "unknown_error": "Неизвестная ошибка",
     "refresh": "Обновить",
@@ -20,5 +23,15 @@
   "restaurant": {
     "minute": "мин",
     "restaurants": "Рестораны"
+  },
+  "search": {
+    "search": "Поиск",
+    "not_found": "Ничего не найдено",
+    "recent_searches": "Недавние поиски",
+    "history_clear": "Чисто",
+    "clear_title": "Чистая история",
+    "clear_content": "Очистить историю поиска?",
+    "clear_all": "Очистить все",
+    "products": "Товары"
   }
 }

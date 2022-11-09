@@ -13,7 +13,13 @@ abstract class SearchRepository {
 
   Future<DataResponseModel<List<CategoryModel>>> searchCategories();
 
-  Stream<List<SearchData>> searchHistory();
+  Future<bool> removeSearchHistory({required SearchData searchData});
+
+  Future<bool> clearSearchHistory();
+
+  Future<bool> saveSearchHistory({required String searchName});
+
+  Stream<List<SearchData>> listenSearchHistory();
 }
 
 class SearchRepositoryImpl extends SearchRepository {
@@ -66,6 +72,28 @@ class SearchRepositoryImpl extends SearchRepository {
   }
 
   @override
-  Stream<List<SearchData>> searchHistory() =>
+  Stream<List<SearchData>> listenSearchHistory() =>
       moorDatabase.listenSearchHistory();
+
+  @override
+  Future<bool> removeSearchHistory({required SearchData searchData}) async {
+    await moorDatabase.deleteSearchHistory(searchData.searchName);
+    return true;
+  }
+
+  @override
+  Future<bool> clearSearchHistory() async {
+    await moorDatabase.clearSearchHistory();
+    return true;
+  }
+
+  @override
+  Future<bool> saveSearchHistory({required String searchName}) async {
+    await moorDatabase.insertSearchHistory(
+      SearchData(
+        searchName: searchName,
+      ),
+    );
+    return true;
+  }
 }

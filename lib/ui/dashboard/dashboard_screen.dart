@@ -48,6 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           handleAndroidBackButtonPress: true,
           stateManagement: true,
           hideNavigationBarWhenKeyboardShows: true,
+          resizeToAvoidBottomInset: true,
           popActionScreens: PopActionScreensType.all,
           screenTransitionAnimation: const ScreenTransitionAnimation(
             animateTabTransition: true,

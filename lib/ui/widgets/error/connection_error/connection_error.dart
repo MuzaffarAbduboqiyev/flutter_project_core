@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class ConnectionErrorWidget extends StatelessWidget {
   final Function refreshFunction;
 
-  const ConnectionErrorWidget(this.refreshFunction, {Key? key})
+  const ConnectionErrorWidget({required this.refreshFunction, Key? key})
       : super(key: key);
 
   @override

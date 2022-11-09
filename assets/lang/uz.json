@@ -1,6 +1,9 @@
 {
   "title": "Sarlavha",
   "click_me": "Meni bosing",
+  "no": "Yo'q",
+  "yes": "Ha",
+  "sum": "so'm",
   "error": {
     "unknown_error": "Aniqlanmagan xatolik",
     "refresh": "Yangilash",
@@ -20,5 +23,15 @@
   "restaurant": {
     "minute": "min",
     "restaurants": "Restaranlar"
+  },
+  "search": {
+    "search": "Qidirish",
+    "not_found": "Hech narsa topilmadi",
+    "recent_searches": "Oxirgi qidiruvlar",
+    "history_clear": "Tozalash",
+    "clear_title": "Tarixni tozalash",
+    "clear_content": "Qidiruv tarixini tozalash kerakmi?",
+    "clear_all": "Hammasini tozalash",
+    "products": "Mahsulotlar"
   }
 }

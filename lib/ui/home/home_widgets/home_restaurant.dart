@@ -26,7 +26,7 @@ class _HomeRestaurantState extends State<HomeRestaurant> {
           (state.restaurantStatus == RestaurantStatus.loading)
               ? const HomeRestaurantShimmer()
               : (state.restaurantStatus == RestaurantStatus.error)
-                  ? ConnectionErrorWidget(getRestaurants)
+                  ? ConnectionErrorWidget(refreshFunction: getRestaurants,)
                   : ScrollConfiguration(
                       behavior: CustomScrollBehavior(),
                       child: ListView.builder(

@@ -1,6 +1,9 @@
 {
   "title": "Title",
   "click_me": "Click me",
+  "no": "No",
+  "yes": "Yes",
+  "sum": "sum",
   "error": {
     "unknown_error": "Unknown error",
     "refresh": "Refresh",
@@ -20,5 +23,15 @@
   "restaurant": {
     "minute": "min",
     "restaurants": "Restaurants"
+  },
+  "search": {
+    "search": "Search",
+    "not_found": "Nothing found",
+    "recent_searches": "Recent Searches",
+    "history_clear": "Clear",
+    "clear_title": "Clear history",
+    "clear_content": "Should clear search history?",
+    "clear_all": "Clear all",
+    "products": "Products"
   }
 }

@@ -86,6 +86,7 @@ class MyTheme {
       backgroundColor: lightBackgroundColor,
       indicatorColor: lightButtonColor,
       disabledColor: lightButtonDisableColor,
+      hintColor: lightHintColor,
     );
   }
 
@@ -170,6 +171,7 @@ class MyTheme {
       backgroundColor: backgroundColor,
       indicatorColor: buttonColor,
       disabledColor: buttonDisableColor,
+      hintColor: hintColor,
     );
   }
 }
