@@ -50,6 +50,9 @@ List<RestaurantModel> parseRestaurantModel(dynamic response) {
       final RestaurantModel restaurantModel = RestaurantModel.fromMap(element);
       restaurants.add(restaurantModel);
     }
+  }else if(response is Map<String, dynamic>){
+    final RestaurantModel restaurantModel = RestaurantModel.fromMap(response);
+    restaurants.add(restaurantModel);
   }
 
   return restaurants;

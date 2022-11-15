@@ -1,21 +1,7 @@
+import 'package:delivery_service/controller/category_controller/category_state.dart';
+import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
-
-/// [HomeScreen] dagi category larni holatini bilish va boshqarish uchun [CategoryStatus] holatlar ebumini yaratib oldik
-enum CategoryStatus {
-  init,
-  loading,
-  loaded,
-  error,
-}
-
-/// [HomeScreen] dagi restaurant larni holatini bilish va boshqarish uchun [RestaurantStatus] holatlar ebumini yaratib oldik
-enum RestaurantStatus {
-  init,
-  loading,
-  loaded,
-  error,
-}
 
 /// [HomeScreen] ni umumiy holatini boshqarish va kerakli data(ma'lumotlarni) saqlab turish uchun
 /// [HomeState] class ini yaratib oldik

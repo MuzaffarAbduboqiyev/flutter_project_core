@@ -8,6 +8,10 @@ abstract class RestaurantNetworkService {
   Future<NetworkResponseModel> getCategoryRestaurants({
     required int categoryId,
   });
+
+  Future<NetworkResponseModel> getRestaurantDetails({
+    required int restaurantId,
+  });
 }
 
 class RestaurantNetworkServiceImpl extends RestaurantNetworkService {
@@ -27,6 +31,15 @@ class RestaurantNetworkServiceImpl extends RestaurantNetworkService {
   }) async {
     final response = await networkService.getMethod(
         url: "$allRestaurantsUrl?category=$categoryId");
+    return response;
+  }
+
+  @override
+  Future<NetworkResponseModel> getRestaurantDetails({
+    required int restaurantId,
+  }) async {
+    final response =
+        await networkService.getMethod(url: "$allRestaurantsUrl/$restaurantId");
     return response;
   }
 }

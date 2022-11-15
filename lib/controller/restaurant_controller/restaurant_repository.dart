@@ -9,6 +9,10 @@ abstract class RestaurantRepository {
   Future<DataResponseModel<List<RestaurantModel>>> getCategoryRestaurants({
     required int categoryId,
   });
+
+  Future<DataResponseModel<RestaurantModel>> getRestaurantDetails({
+    required int restaurantId,
+  });
 }
 
 class RestaurantRepositoryImpl extends RestaurantRepository {
@@ -29,6 +33,22 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
     final response =
         await networkService.getCategoryRestaurants(categoryId: categoryId);
     return _parseRestaurants(response);
+  }
+
+  @override
+  Future<DataResponseModel<RestaurantModel>> getRestaurantDetails({
+    required int restaurantId,
+  }) async {
+    final response =
+        await networkService.getRestaurantDetails(restaurantId: restaurantId);
+    final parsedModel = _parseRestaurants(response);
+    if (parsedModel.status &&
+        parsedModel.data != null &&
+        (parsedModel.data?.isNotEmpty ?? false)) {
+      return DataResponseModel.success(model: parsedModel.data?[0]);
+    } else {
+      return DataResponseModel.error(responseMessage: parsedModel.message);
+    }
   }
 
   DataResponseModel<List<RestaurantModel>> _parseRestaurants(

@@ -1,6 +1,6 @@
 import 'package:delivery_service/controller/search_controller/search_bloc.dart';
 import 'package:delivery_service/controller/search_controller/search_event.dart';
-import 'package:delivery_service/model/product_model/product_model.dart';
+import 'package:delivery_service/model/product_model/search_product_model.dart';
 import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchProductItem extends StatelessWidget {
-  final ProductModel productModel;
+  final SearchProductModel productModel;
 
   const SearchProductItem({required this.productModel, Key? key})
       : super(key: key);

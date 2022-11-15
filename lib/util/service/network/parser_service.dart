@@ -109,3 +109,17 @@ bool? parseToBoolNULL({required Map response, required String key}) {
                       : null
       : null;
 }
+
+num parseToNum({required Map response, required String key}) {
+  return response.containsKey(key)
+      ? (response[key] != null)
+          ? (response[key] is String)
+              ? num.parse(response[key] ?? "0")
+              : (response[key] is double)
+                  ? (response[key]).round()
+                  : (response[key] is int)
+                      ? response[key]
+                      : 0
+          : 0
+      : 0;
+}

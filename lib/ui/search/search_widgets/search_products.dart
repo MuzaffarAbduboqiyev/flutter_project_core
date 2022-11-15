@@ -1,6 +1,6 @@
 import 'package:delivery_service/controller/search_controller/search_bloc.dart';
 import 'package:delivery_service/controller/search_controller/search_state.dart';
-import 'package:delivery_service/model/product_model/product_model.dart';
+import 'package:delivery_service/model/product_model/search_product_model.dart';
 import 'package:delivery_service/model/restaurant_model/vendor_model.dart';
 import 'package:delivery_service/ui/widgets/items/product/search_product_item.dart';
 import 'package:delivery_service/ui/widgets/items/restaurant/search_vendor_item.dart';
@@ -84,7 +84,7 @@ class _SearchProductsState extends State<SearchProducts> {
     );
   }
 
-  _products(List<ProductModel> products) {
+  _products(List<SearchProductModel> products) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
