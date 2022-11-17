@@ -1,10 +1,12 @@
 import 'package:delivery_service/controller/app_controller/app_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
+import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/controller/search_controller/search_repository.dart';
 import 'package:delivery_service/model/category_model/category_network_service.dart';
 import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/model/product_model/product_network_service.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_network_service.dart';
 import 'package:delivery_service/model/search_model/search_network_service.dart';
 import 'package:delivery_service/util/service/network/network_service.dart';
@@ -71,6 +73,8 @@ void init() {
   singleton.registerLazySingleton<RestaurantRepository>(
     () => RestaurantRepositoryImpl(
       networkService: singleton(),
+      categoryRepository: singleton(),
+      productRepository: singleton(),
     ),
   );
 
@@ -92,6 +96,19 @@ void init() {
 
   singleton.registerLazySingleton<SearchNetworkService>(
     () => SearchNetworkServiceImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  /// Product controller
+  singleton.registerLazySingleton<ProductRepository>(
+    () => ProductRepositoryImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  singleton.registerLazySingleton<ProductNetworkService>(
+    () => ProductNetworkServiceImpl(
       networkService: singleton(),
     ),
   );

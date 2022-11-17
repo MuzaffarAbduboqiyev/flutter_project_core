@@ -9,3 +9,6 @@ const allRestaurantsUrl = "restaurants";
 
 /// Search urls
 const searchUrl = "v1/search";
+
+/// Product urls
+const productUrl = "products";

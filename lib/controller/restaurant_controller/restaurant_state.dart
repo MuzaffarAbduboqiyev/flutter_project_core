@@ -15,51 +15,66 @@ enum RestaurantStatus {
 class RestaurantState {
   final RestaurantStatus restaurantStatus;
   final RestaurantModel restaurantModel;
+  final int restaurantId;
 
   final CategoryStatus categoryStatus;
   final List<CategoryModel> categories;
+  final int selectedCategoryId;
 
   final ProductStatus productStatus;
   final List<ProductModel> products;
 
+  final String searchName;
   final String error;
 
   RestaurantState({
     required this.restaurantStatus,
     required this.restaurantModel,
+    required this.restaurantId,
     required this.categoryStatus,
     required this.categories,
+    required this.selectedCategoryId,
     required this.productStatus,
     required this.products,
+    required this.searchName,
     required this.error,
   });
 
   factory RestaurantState.initial() => RestaurantState(
-        restaurantStatus: RestaurantStatus.init,
+    restaurantStatus: RestaurantStatus.init,
         restaurantModel: RestaurantModel.example(),
+        restaurantId: 0,
         categoryStatus: CategoryStatus.init,
         categories: [],
+        selectedCategoryId: -1,
         productStatus: ProductStatus.init,
         products: [],
+        searchName: "",
         error: "",
       );
 
   RestaurantState copyWith({
     RestaurantStatus? restaurantStatus,
     RestaurantModel? restaurantModel,
+    int? restaurantId,
     CategoryStatus? categoryStatus,
     List<CategoryModel>? categories,
+    int? selectedCategoryId,
     ProductStatus? productStatus,
     List<ProductModel>? products,
+    String? searchName,
     String? error,
   }) =>
       RestaurantState(
         restaurantStatus: restaurantStatus ?? this.restaurantStatus,
         restaurantModel: restaurantModel ?? this.restaurantModel,
+        restaurantId: restaurantId ?? this.restaurantId,
         categoryStatus: categoryStatus ?? this.categoryStatus,
         categories: categories ?? this.categories,
+        selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
         productStatus: productStatus ?? this.productStatus,
         products: products ?? this.products,
+        searchName: searchName ?? this.searchName,
         error: error ?? this.error,
       );
 }

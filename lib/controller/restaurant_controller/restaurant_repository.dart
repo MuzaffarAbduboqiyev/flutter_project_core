@@ -1,3 +1,7 @@
+import 'package:delivery_service/controller/category_controller/category_repository.dart';
+import 'package:delivery_service/controller/product_controller/product_repository.dart';
+import 'package:delivery_service/model/category_model/category_model.dart';
+import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
@@ -10,15 +14,31 @@ abstract class RestaurantRepository {
     required int categoryId,
   });
 
+  Future<DataResponseModel<List<CategoryModel>>> getRestaurantCategories({
+    required int restaurantId,
+  });
+
   Future<DataResponseModel<RestaurantModel>> getRestaurantDetails({
     required int restaurantId,
+  });
+
+  Future<DataResponseModel<List<ProductModel>>> getRestaurantProducts({
+    required int restaurantId,
+    required int categoryId,
+    required String searchName,
   });
 }
 
 class RestaurantRepositoryImpl extends RestaurantRepository {
   final RestaurantNetworkService networkService;
+  final CategoryRepository categoryRepository;
+  final ProductRepository productRepository;
 
-  RestaurantRepositoryImpl({required this.networkService});
+  RestaurantRepositoryImpl({
+    required this.networkService,
+    required this.categoryRepository,
+    required this.productRepository,
+  });
 
   @override
   Future<DataResponseModel<List<RestaurantModel>>> getAllRestaurants() async {
@@ -31,7 +51,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
     required int categoryId,
   }) async {
     final response =
-        await networkService.getCategoryRestaurants(categoryId: categoryId);
+    await networkService.getCategoryRestaurants(categoryId: categoryId);
     return _parseRestaurants(response);
   }
 
@@ -49,6 +69,31 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
     } else {
       return DataResponseModel.error(responseMessage: parsedModel.message);
     }
+  }
+
+  @override
+  Future<DataResponseModel<List<CategoryModel>>> getRestaurantCategories({
+    required int restaurantId,
+  }) async {
+    final response = await categoryRepository.getRestaurantCategories(
+      restaurantId: restaurantId,
+    );
+    return response;
+  }
+
+  @override
+  Future<DataResponseModel<List<ProductModel>>> getRestaurantProducts({
+    required int restaurantId,
+    required int categoryId,
+    required String searchName,
+  }) async {
+    final response = await productRepository.getRestaurantProducts(
+      restaurantId: restaurantId,
+      categoryId: categoryId,
+      searchName: searchName,
+    );
+
+    return response;
   }
 
   DataResponseModel<List<RestaurantModel>> _parseRestaurants(

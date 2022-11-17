@@ -17,6 +17,10 @@ abstract class CategoryRepository {
   Future<DataResponseModel<List<CategoryModel>>> getAllCategories();
 
   Future<DataResponseModel<List<CategoryModel>>> getSearchCategories();
+
+  Future<DataResponseModel<List<CategoryModel>>> getRestaurantCategories({
+    required int restaurantId,
+  });
 }
 
 class CategoryRepositoryImpl extends CategoryRepository {
@@ -28,30 +32,36 @@ class CategoryRepositoryImpl extends CategoryRepository {
   /// [HomeScreen] dagi categories
   @override
   Future<DataResponseModel<List<CategoryModel>>> getAllCategories() async {
-    final response = await _fetchCategories(categoryType: CategoryType.all);
-    return response;
+    final response = await networkService.getAllCategories();
+    return _parseCategories(response: response);
   }
 
   /// [SearchScreen] dagi categories
   @override
   Future<DataResponseModel<List<CategoryModel>>> getSearchCategories() async {
-    final response = await _fetchCategories(categoryType: CategoryType.search);
-    return response;
+    final response = await networkService.getSearchCategories();
+    return _parseCategories(response: response);
   }
 
-  Future<DataResponseModel<List<CategoryModel>>> _fetchCategories(
-      {required CategoryType categoryType}) async {
-    try {
-      final NetworkResponseModel response = (categoryType == CategoryType.all)
-          ? await networkService.getAllCategories()
-          : await networkService.getSearchCategories();
+  @override
+  Future<DataResponseModel<List<CategoryModel>>> getRestaurantCategories({
+    required int restaurantId,
+  }) async {
+    final response = await networkService.getRestaurantCategories(
+      restaurantId: restaurantId,
+    );
+    return _parseCategories(response: response);
+  }
 
+  DataResponseModel<List<CategoryModel>> _parseCategories({
+    required NetworkResponseModel response,
+  }) {
+    try {
       if (response.status &&
           response.response != null &&
           response.response?.data.containsKey("data")) {
         final List<CategoryModel> categories =
             parseCategoryModel(response.response?.data["data"]);
-
         return DataResponseModel.success(model: categories);
       } else {
         return getDataResponseErrorHandler<List<CategoryModel>>(response);
