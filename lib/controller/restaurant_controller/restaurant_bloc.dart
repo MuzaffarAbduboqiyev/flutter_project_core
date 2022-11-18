@@ -33,6 +33,11 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       _changeSelectedCategory,
       transformer: concurrent(),
     );
+
+    on<RestaurantRefreshProductsEvent>(
+      _refreshProducts,
+      transformer: concurrent(),
+    );
   }
 
   FutureOr<void> _init(
@@ -105,7 +110,15 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
                 : event.selectedCategoryId,
       ),
     );
+    _restaurantProducts(emit);
+  }
 
+  FutureOr<void> _refreshProducts(RestaurantRefreshProductsEvent event,
+      Emitter<RestaurantState> emit) async {
+    _restaurantProducts(emit);
+  }
+
+  _restaurantProducts(Emitter<RestaurantState> emit) async {
     final response = await restaurantRepository.getRestaurantProducts(
       restaurantId: state.restaurantId,
       categoryId: state.selectedCategoryId,

@@ -99,6 +99,9 @@ dependencies:
   # Debounce -> bir amalni ma'lum vaqtdan keyin bajarilishi
   easy_debounce: ^2.0.2+1
 
+  # Refresh screen
+  pull_to_refresh: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
