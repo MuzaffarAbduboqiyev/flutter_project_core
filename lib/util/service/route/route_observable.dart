@@ -1,7 +1,10 @@
+import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/ui/dashboard/dashboard_screen.dart';
 import 'package:delivery_service/ui/home/home_screen.dart';
+import 'package:delivery_service/ui/restaurant/restaurant_screen.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class ScreenObserver{
   final RouteObserver<PageRoute> routeObserver;
@@ -39,5 +42,30 @@ class ScreenObserver{
         ),
       );
     });
+  }
+}
+
+Future<bool> pushNewScreen(
+  BuildContext context,
+  String pathName, {
+  bool navbarStatus = false,
+  Map? arguments,
+}) async {
+  switch (pathName) {
+    case restaurantScreen:
+      await PersistentNavBarNavigator.pushNewScreen(
+        context,
+        screen: RestaurantScreen(
+          restaurantModel: arguments?["restaurant_model"] as RestaurantModel,
+          restaurantId: arguments?["restaurant_id"],
+          categories: arguments?["restaurant_categories"],
+          products: arguments?["restaurant_products"],
+        ),
+        withNavBar: navbarStatus,
+      );
+      return true;
+
+    default:
+      return true;
   }
 }

@@ -110,15 +110,28 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
                 : event.selectedCategoryId,
       ),
     );
-    _restaurantProducts(emit);
+    final response = await restaurantRepository.getRestaurantProducts(
+      restaurantId: state.restaurantId,
+      categoryId: state.selectedCategoryId,
+      searchName: state.searchName,
+    );
+
+    emit(
+      state.copyWith(
+        productStatus:
+            (response.status) ? ProductStatus.loaded : ProductStatus.error,
+        products: response.data,
+      ),
+    );
   }
 
   FutureOr<void> _refreshProducts(RestaurantRefreshProductsEvent event,
       Emitter<RestaurantState> emit) async {
-    _restaurantProducts(emit);
-  }
-
-  _restaurantProducts(Emitter<RestaurantState> emit) async {
+    emit(
+      state.copyWith(
+        productStatus: ProductStatus.loading,
+      ),
+    );
     final response = await restaurantRepository.getRestaurantProducts(
       restaurantId: state.restaurantId,
       categoryId: state.selectedCategoryId,

@@ -33,5 +33,12 @@
     "clear_content": "Qidiruv tarixini tozalash kerakmi?",
     "clear_all": "Hammasini tozalash",
     "products": "Mahsulotlar"
+  },
+  "refresh": {
+    "refreshing": "Yangilanish",
+    "completed": "Bajarildi",
+    "failed": "Muvaffaqiyatsiz",
+    "release": "Release",
+    "idle": "Yuklanmoqda"
   }
 }

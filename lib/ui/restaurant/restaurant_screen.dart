@@ -1,12 +1,21 @@
+import 'package:delivery_service/controller/product_controller/product_state.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_bloc.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_event.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
+import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_appbar.dart';
+import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_category.dart';
+import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_prodcuts.dart';
+import 'package:delivery_service/ui/widgets/refresh/refresh_header.dart';
+import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
+import 'package:delivery_service/ui/widgets/sliver/sliver_delegate.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
+import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class RestaurantScreen extends StatelessWidget {
   final int restaurantId;
@@ -28,13 +37,13 @@ class RestaurantScreen extends StatelessWidget {
       create: (context) => RestaurantBloc(
         restaurantRepository: singleton(),
       )..add(
-          RestaurantInitEvent(
-            restaurantId: restaurantId,
-            restaurantModel: restaurantModel,
-            categories: categories,
-            products: products,
-          ),
+        RestaurantInitEvent(
+          restaurantId: restaurantId,
+          restaurantModel: restaurantModel,
+          categories: categories,
+          products: products,
         ),
+      ),
       child: const RestaurantPage(),
     );
   }
@@ -48,6 +57,7 @@ class RestaurantPage extends StatefulWidget {
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
+  late RefreshController refreshController;
 
   _refresh() {
     context.read<RestaurantBloc>().add(RestaurantGetEvent());
@@ -57,16 +67,59 @@ class _RestaurantPageState extends State<RestaurantPage> {
 
   @override
   initState() {
+    refreshController = RefreshController(
+      initialRefresh: false,
+    );
     _refresh();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RestaurantBloc, RestaurantState>(
-      builder: (context, state) {
-        return Container();
-      },
+    return Scaffold(
+      backgroundColor: getCurrentTheme(context).backgroundColor,
+      body: BlocListener<RestaurantBloc, RestaurantState>(
+        listener: (context, state) {
+          if (state.productStatus == ProductStatus.loaded &&
+              refreshController.isRefresh) {
+            refreshController.refreshCompleted();
+          }
+        },
+        child: BlocBuilder<RestaurantBloc, RestaurantState>(
+          builder: (context, state) => ScrollConfiguration(
+            behavior: CustomScrollBehavior(),
+            child: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  getRestaurantAppbar(context, state.restaurantModel),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: ProductSliverDelegate(
+                      child: const RestaurantCategory(),
+                    ),
+                  ),
+                ];
+              },
+              body: SmartRefresher(
+                controller: refreshController,
+                enablePullUp: false,
+                enablePullDown: true,
+                onRefresh: _refresh,
+                header: getRefreshHeader(),
+                physics: const BouncingScrollPhysics(),
+                child: const CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: RestaurantProducts(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -33,5 +33,12 @@
     "clear_content": "Should clear search history?",
     "clear_all": "Clear all",
     "products": "Products"
+  },
+  "refresh": {
+    "refreshing": "Refreshing",
+    "completed": "Completed",
+    "failed": "Failed",
+    "release": "Release",
+    "idle": "Loading"
   }
 }
