@@ -25,6 +25,7 @@ class RestaurantState {
   final List<ProductModel> products;
 
   final String searchName;
+  final bool isFavorite;
   final String error;
 
   RestaurantState({
@@ -37,6 +38,7 @@ class RestaurantState {
     required this.productStatus,
     required this.products,
     required this.searchName,
+    required this.isFavorite,
     required this.error,
   });
 
@@ -50,6 +52,7 @@ class RestaurantState {
         productStatus: ProductStatus.init,
         products: [],
         searchName: "",
+        isFavorite: false,
         error: "",
       );
 
@@ -63,6 +66,7 @@ class RestaurantState {
     ProductStatus? productStatus,
     List<ProductModel>? products,
     String? searchName,
+    bool? isFavorite,
     String? error,
   }) =>
       RestaurantState(
@@ -75,6 +79,7 @@ class RestaurantState {
         productStatus: productStatus ?? this.productStatus,
         products: products ?? this.products,
         searchName: searchName ?? this.searchName,
+        isFavorite: isFavorite ?? this.isFavorite,
         error: error ?? this.error,
       );
 }

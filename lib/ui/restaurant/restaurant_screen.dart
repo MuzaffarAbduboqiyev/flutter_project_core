@@ -1,3 +1,4 @@
+import 'package:delivery_service/controller/category_controller/category_state.dart';
 import 'package:delivery_service/controller/product_controller/product_state.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_bloc.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_event.dart';
@@ -8,6 +9,8 @@ import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_appbar.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_category.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_prodcuts.dart';
+import 'package:delivery_service/ui/widgets/appbar/simple_appbar.dart';
+import 'package:delivery_service/ui/widgets/error/connection_error/connection_error.dart';
 import 'package:delivery_service/ui/widgets/refresh/refresh_header.dart';
 import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
 import 'package:delivery_service/ui/widgets/sliver/sliver_delegate.dart';
@@ -76,48 +79,61 @@ class _RestaurantPageState extends State<RestaurantPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: getCurrentTheme(context).backgroundColor,
-      body: BlocListener<RestaurantBloc, RestaurantState>(
-        listener: (context, state) {
-          if (state.productStatus == ProductStatus.loaded &&
-              refreshController.isRefresh) {
-            refreshController.refreshCompleted();
-          }
-        },
-        child: BlocBuilder<RestaurantBloc, RestaurantState>(
-          builder: (context, state) => ScrollConfiguration(
-            behavior: CustomScrollBehavior(),
-            child: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  getRestaurantAppbar(context, state.restaurantModel),
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: ProductSliverDelegate(
-                      child: const RestaurantCategory(),
+    return BlocListener<RestaurantBloc, RestaurantState>(
+      listener: (context, state) {
+        if (state.productStatus == ProductStatus.loaded &&
+            refreshController.isRefresh) {
+          refreshController.refreshCompleted();
+        }
+      },
+      child: BlocBuilder<RestaurantBloc, RestaurantState>(
+        builder: (context, state) => Scaffold(
+          backgroundColor: getCurrentTheme(context).backgroundColor,
+          appBar: (state.restaurantStatus == RestaurantStatus.error ||
+                  state.categoryStatus == CategoryStatus.error ||
+                  state.productStatus == ProductStatus.error)
+              ? simpleAppBar(context, "")
+              : null,
+          body: (state.restaurantStatus == RestaurantStatus.error ||
+                  state.categoryStatus == CategoryStatus.error ||
+                  state.productStatus == ProductStatus.error)
+              ? ConnectionErrorWidget(refreshFunction: _refresh)
+              : ScrollConfiguration(
+                  behavior: CustomScrollBehavior(),
+                  child: NestedScrollView(
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return <Widget>[
+                        getRestaurantAppbar(
+                          context,
+                          state.restaurantModel,
+                          state.isFavorite,
+                        ),
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: ProductSliverDelegate(
+                            child: const RestaurantCategory(),
+                          ),
+                        ),
+                      ];
+                    },
+                    body: SmartRefresher(
+                      controller: refreshController,
+                      enablePullUp: false,
+                      enablePullDown: true,
+                      onRefresh: _refresh,
+                      header: getRefreshHeader(),
+                      physics: const BouncingScrollPhysics(),
+                      child: const CustomScrollView(
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: RestaurantProducts(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ];
-              },
-              body: SmartRefresher(
-                controller: refreshController,
-                enablePullUp: false,
-                enablePullDown: true,
-                onRefresh: _refresh,
-                header: getRefreshHeader(),
-                physics: const BouncingScrollPhysics(),
-                child: const CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: RestaurantProducts(),
-                    ),
-                  ],
                 ),
-              ),
-            ),
-          ),
         ),
       ),
     );

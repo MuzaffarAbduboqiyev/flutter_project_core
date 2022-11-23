@@ -1,16 +1,26 @@
+import 'package:delivery_service/controller/restaurant_controller/restaurant_bloc.dart';
+import 'package:delivery_service/controller/restaurant_controller/restaurant_event.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-getRestaurantAppbar(BuildContext context, RestaurantModel restaurantModel) {
+getRestaurantAppbar(BuildContext context, RestaurantModel restaurantModel,
+    bool restaurantState) {
   return SliverAppBar(
-    actions: const [
-      Icon(Icons.search),
-      SizedBox(width: 24.0),
-      Icon(Icons.favorite_border),
-      SizedBox(width: 24.0),
+    actions: [
+      InkWell(
+        onTap: () {
+          context.read<RestaurantBloc>().add(RestaurantFavoriteEvent());
+        },
+        child: Icon(
+          Icons.favorite_border,
+          color: restaurantState ? Colors.red : null,
+        ),
+      ),
+      const SizedBox(width: 24.0),
     ],
     expandedHeight: 254.0,
     pinned: true,
@@ -52,7 +62,7 @@ getRestaurantAppbar(BuildContext context, RestaurantModel restaurantModel) {
                                 child: Icon(
                                   Icons.star,
                                   color:
-                                      getCurrentTheme(context).iconTheme.color,
+                                  getCurrentTheme(context).iconTheme.color,
                                   size: 15,
                                 ),
                               ),
@@ -60,7 +70,7 @@ getRestaurantAppbar(BuildContext context, RestaurantModel restaurantModel) {
                             TextSpan(
                               text: restaurantModel.rating.toString(),
                               style:
-                                  getCurrentTheme(context).textTheme.bodyMedium,
+                              getCurrentTheme(context).textTheme.bodyMedium,
                             ),
                           ],
                         ),

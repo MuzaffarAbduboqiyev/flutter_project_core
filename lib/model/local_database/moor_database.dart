@@ -1,3 +1,4 @@
+import 'package:delivery_service/model/favorite_model/favorite_%20model.dart';
 import 'package:delivery_service/model/search_model/search_model.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
@@ -5,14 +6,15 @@ part 'moor_database.g.dart';
 
 @UseMoor(tables: [
   Search,
+  Favorite,
 ])
 class MoorDatabase extends _$MoorDatabase {
   MoorDatabase()
       : super(FlutterQueryExecutor.inDatabaseFolder(
-            path: 'application_database.sqlite', logStatements: true));
+      path: 'application_database.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   /// Search history operations
   ///
@@ -43,4 +45,35 @@ class MoorDatabase extends _$MoorDatabase {
   /// Saqlangan qidiruvlar Table ini tozalab tashlaydi
   /// Hamma saqlangan qidiruvlarni o'chirib tashlaydi
   clearSearchHistory() => (delete(search)).go();
+
+  /// Favorite
+  Future insertFavorite(FavoriteData favoriteData) =>
+      into(favorite).insert(favoriteData, mode: InsertMode.insertOrReplace);
+
+  Future<List<FavoriteData>> getFavourite() {
+    return select(favorite).get();
+  }
+
+
+
+  Stream<List<FavoriteData>> listenFavourite() {
+    return select(favorite).watch();
+  }
+
+  Stream<FavoriteData?> listenSingleFavorite(int restaurantId) {
+    return (select(favorite)
+          ..where((databaseItem) => databaseItem.id.equals(restaurantId)))
+        .watchSingleOrNull();
+  }
+
+  Future<FavoriteData?> getSingleFavorite(int restaurantId) {
+    return (select(favorite)
+          ..where((databaseItem) => databaseItem.id.equals(restaurantId)))
+        .getSingleOrNull();
+  }
+
+
+  deleteFavorite(int restaurantId) =>
+      (delete(favorite)..where((dbItem) => dbItem.id.equals(restaurantId)))
+          .go();
 }

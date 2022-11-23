@@ -6,7 +6,6 @@ import 'package:delivery_service/controller/product_controller/product_state.dar
 import 'package:delivery_service/controller/restaurant_controller/restaurant_event.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
-import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
@@ -38,6 +37,11 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       _refreshProducts,
       transformer: concurrent(),
     );
+
+    on<RestaurantFavoriteEvent>(
+      _changeFavorite,
+      transformer: concurrent(),
+    );
   }
 
   FutureOr<void> _init(
@@ -54,26 +58,28 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
 
   FutureOr<void> _getRestaurant(
       RestaurantGetEvent event, Emitter<RestaurantState> emit) async {
-    if (state.restaurantModel.id == RestaurantModel.example().id) {
-      emit(
-        state.copyWith(
-          restaurantStatus: RestaurantStatus.loading,
-        ),
-      );
+    emit(
+      state.copyWith(
+        restaurantStatus: RestaurantStatus.loading,
+      ),
+    );
 
-      final response = await restaurantRepository.getRestaurantDetails(
-        restaurantId: state.restaurantId,
-      );
+    final response = await restaurantRepository.getRestaurantDetails(
+      restaurantId: state.restaurantId,
+    );
 
-      emit(
-        state.copyWith(
-          restaurantStatus: (response.status)
-              ? RestaurantStatus.loaded
-              : RestaurantStatus.error,
-          restaurantModel: response.data,
-        ),
-      );
-    }
+    final favoriteResponse = await restaurantRepository.getFavoriteState(
+        restaurantId: state.restaurantId);
+
+    emit(
+      state.copyWith(
+        restaurantStatus: (response.status)
+            ? RestaurantStatus.loaded
+            : RestaurantStatus.error,
+        restaurantModel: response.data,
+        isFavorite: favoriteResponse,
+      ),
+    );
   }
 
   FutureOr<void> _getCategories(
@@ -144,6 +150,19 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
             (response.status) ? ProductStatus.loaded : ProductStatus.error,
         products: response.data,
       ),
+    );
+  }
+
+  FutureOr<void> _changeFavorite(
+      RestaurantFavoriteEvent event, Emitter<RestaurantState> emit) async {
+    emit(
+      state.copyWith(
+        isFavorite: !state.isFavorite,
+      ),
+    );
+
+    await restaurantRepository.changeRestaurantFavoriteState(
+      restaurantModel: state.restaurantModel,
     );
   }
 }

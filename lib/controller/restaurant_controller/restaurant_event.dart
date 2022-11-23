@@ -28,5 +28,6 @@ class RestaurantSelectedCategoryEvent extends RestaurantEvent {
   RestaurantSelectedCategoryEvent({required this.selectedCategoryId});
 }
 
-class RestaurantRefreshProductsEvent extends RestaurantEvent{}
+class RestaurantRefreshProductsEvent extends RestaurantEvent {}
 
+class RestaurantFavoriteEvent extends RestaurantEvent {}

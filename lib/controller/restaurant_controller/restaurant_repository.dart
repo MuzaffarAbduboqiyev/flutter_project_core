@@ -1,11 +1,13 @@
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_network_service.dart';
+import 'package:delivery_service/util/extensions/restaurant_extension.dart';
 
 abstract class RestaurantRepository {
   Future<DataResponseModel<List<RestaurantModel>>> getAllRestaurants();
@@ -22,6 +24,14 @@ abstract class RestaurantRepository {
     required int restaurantId,
   });
 
+  Future<bool> changeRestaurantFavoriteState({
+    required RestaurantModel restaurantModel,
+  });
+
+  Future<bool> getFavoriteState({
+    required int restaurantId,
+  });
+
   Future<DataResponseModel<List<ProductModel>>> getRestaurantProducts({
     required int restaurantId,
     required int categoryId,
@@ -33,11 +43,13 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
   final RestaurantNetworkService networkService;
   final CategoryRepository categoryRepository;
   final ProductRepository productRepository;
+  final MoorDatabase moorDatabase;
 
   RestaurantRepositoryImpl({
     required this.networkService,
     required this.categoryRepository,
     required this.productRepository,
+    required this.moorDatabase,
   });
 
   @override
@@ -114,5 +126,24 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
         responseMessage: error.toString(),
       );
     }
+  }
+
+  @override
+  Future<bool> changeRestaurantFavoriteState({
+    required RestaurantModel restaurantModel,
+  }) async {
+    final response = await moorDatabase.getSingleFavorite(restaurantModel.id);
+
+    (response == null)
+        ? await moorDatabase
+            .insertFavorite(restaurantModel.parseToFavoriteModel())
+        : await moorDatabase.deleteFavorite(restaurantModel.id);
+    return true;
+  }
+
+  @override
+  Future<bool> getFavoriteState({required int restaurantId}) async {
+    final response = await moorDatabase.getSingleFavorite(restaurantId);
+    return response != null;
   }
 }

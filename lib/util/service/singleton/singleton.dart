@@ -75,6 +75,7 @@ void init() {
       networkService: singleton(),
       categoryRepository: singleton(),
       productRepository: singleton(),
+      moorDatabase: singleton(),
     ),
   );
 
