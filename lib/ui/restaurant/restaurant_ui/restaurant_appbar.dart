@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 getRestaurantAppbar(BuildContext context, RestaurantModel restaurantModel,
-    bool restaurantState) {
+    bool restaurantFavoriteState) {
   return SliverAppBar(
     actions: [
       InkWell(
@@ -17,7 +17,7 @@ getRestaurantAppbar(BuildContext context, RestaurantModel restaurantModel,
         },
         child: Icon(
           Icons.favorite_border,
-          color: restaurantState ? Colors.red : null,
+          color: restaurantFavoriteState ? Colors.red : null,
         ),
       ),
       const SizedBox(width: 24.0),
