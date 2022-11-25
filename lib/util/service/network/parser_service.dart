@@ -123,3 +123,7 @@ num parseToNum({required Map response, required String key}) {
           : 0
       : 0;
 }
+
+num parseToPrice({required Map response, required String key}) {
+  return parseToNum(response: response, key: key) / 100;
+}

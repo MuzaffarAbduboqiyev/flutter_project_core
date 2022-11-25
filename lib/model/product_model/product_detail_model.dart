@@ -1,6 +1,7 @@
+import 'package:delivery_service/model/product_model/product_variation_model.dart';
 import 'package:delivery_service/util/service/network/parser_service.dart';
 
-class ProductModel {
+class ProductDetailModel {
   final int id;
   final String name;
   final String excerpt;
@@ -10,8 +11,11 @@ class ProductModel {
   final String image;
   final bool popular;
   final bool available;
+  final String description;
+  final int selectedCount;
+  final List<ProductVariationModel> variations;
 
-  ProductModel({
+  ProductDetailModel({
     required this.id,
     required this.name,
     required this.excerpt,
@@ -21,10 +25,13 @@ class ProductModel {
     required this.image,
     required this.popular,
     required this.available,
+    required this.description,
+    required this.selectedCount,
+    required this.variations,
   });
 
-  factory ProductModel.example() => ProductModel(
-    id: 0,
+  factory ProductDetailModel.example() => ProductDetailModel(
+        id: 0,
         name: "",
         excerpt: "",
         price: 0,
@@ -33,10 +40,14 @@ class ProductModel {
         image: "",
         popular: false,
         available: false,
+        description: "",
+        selectedCount: 0,
+        variations: <ProductVariationModel>[],
       );
 
-  factory ProductModel.fromMap(Map<String, dynamic> response) => ProductModel(
-    id: parseToInt(response: response, key: "id"),
+  factory ProductDetailModel.fromMap(Map<String, dynamic> response) =>
+      ProductDetailModel(
+        id: parseToInt(response: response, key: "id"),
         name: parseToString(response: response, key: "name"),
         excerpt: parseToString(response: response, key: "excerpt"),
         price: parseToPrice(response: response, key: "price"),
@@ -45,18 +56,8 @@ class ProductModel {
         image: parseToString(response: response, key: "image"),
         popular: parseToBool(response: response, key: "is_popular"),
         available: parseToBool(response: response, key: "is_available"),
+        description: parseToString(response: response, key: "description"),
+        selectedCount: parseToInt(response: response, key: "selected_count"),
+        variations: parseToProductVariation(response, "variations"),
       );
-}
-
-List<ProductModel> parseProductModel(dynamic response) {
-  final List<ProductModel> products = [];
-
-  if (response is List) {
-    for (var element in response) {
-      final ProductModel productModel = ProductModel.fromMap(element);
-      products.add(productModel);
-    }
-  }
-
-  return products;
 }
