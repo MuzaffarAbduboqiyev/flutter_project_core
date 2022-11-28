@@ -40,13 +40,13 @@ class RestaurantScreen extends StatelessWidget {
       create: (context) => RestaurantBloc(
         restaurantRepository: singleton(),
       )..add(
-        RestaurantInitEvent(
-          restaurantId: restaurantId,
-          restaurantModel: restaurantModel,
-          categories: categories,
-          products: products,
+          RestaurantInitEvent(
+            restaurantId: restaurantId,
+            restaurantModel: restaurantModel,
+            categories: categories,
+            products: products,
+          ),
         ),
-      ),
       child: const RestaurantPage(),
     );
   }
@@ -87,53 +87,56 @@ class _RestaurantPageState extends State<RestaurantPage> {
         }
       },
       child: BlocBuilder<RestaurantBloc, RestaurantState>(
-        builder: (context, state) => Scaffold(
-          backgroundColor: getCurrentTheme(context).backgroundColor,
-          appBar: (state.restaurantStatus == RestaurantStatus.error ||
-                  state.categoryStatus == CategoryStatus.error ||
-                  state.productStatus == ProductStatus.error)
-              ? simpleAppBar(context, "")
-              : null,
-          body: (state.restaurantStatus == RestaurantStatus.error ||
-                  state.categoryStatus == CategoryStatus.error ||
-                  state.productStatus == ProductStatus.error)
-              ? ConnectionErrorWidget(refreshFunction: _refresh)
-              : ScrollConfiguration(
-                  behavior: CustomScrollBehavior(),
-                  child: NestedScrollView(
-                    headerSliverBuilder:
-                        (BuildContext context, bool innerBoxIsScrolled) {
-                      return <Widget>[
-                        getRestaurantAppbar(
-                          context,
-                          state.restaurantModel,
-                          state.isFavorite,
-                        ),
-                        SliverPersistentHeader(
-                          pinned: true,
-                          delegate: ProductSliverDelegate(
-                            child: const RestaurantCategory(),
+        builder: (context, state) => SafeArea(
+          child: Scaffold(
+            backgroundColor: getCurrentTheme(context).backgroundColor,
+            appBar: (state.restaurantStatus == RestaurantStatus.error ||
+                    state.categoryStatus == CategoryStatus.error ||
+                    state.productStatus == ProductStatus.error)
+                ? simpleAppBar(context, "")
+                : null,
+            body: (state.restaurantStatus == RestaurantStatus.error ||
+                    state.categoryStatus == CategoryStatus.error ||
+                    state.productStatus == ProductStatus.error)
+                ? ConnectionErrorWidget(refreshFunction: _refresh)
+                : ScrollConfiguration(
+                    behavior: CustomScrollBehavior(),
+                    child: NestedScrollView(
+                      headerSliverBuilder:
+                          (BuildContext context, bool innerBoxIsScrolled) {
+                        return <Widget>[
+                          getRestaurantAppbar(
+                            context,
+                            state.restaurantModel,
+                            state.isFavorite,
+                            state,
                           ),
-                        ),
-                      ];
-                    },
-                    body: SmartRefresher(
-                      controller: refreshController,
-                      enablePullUp: false,
-                      enablePullDown: true,
-                      onRefresh: _refresh,
-                      header: getRefreshHeader(),
-                      physics: const BouncingScrollPhysics(),
-                      child: const CustomScrollView(
-                        slivers: [
-                          SliverToBoxAdapter(
-                            child: RestaurantProducts(),
+                          SliverPersistentHeader(
+                            pinned: true,
+                            delegate: ProductSliverDelegate(
+                              child: const RestaurantCategory(),
+                            ),
                           ),
-                        ],
+                        ];
+                      },
+                      body: SmartRefresher(
+                        controller: refreshController,
+                        enablePullUp: false,
+                        enablePullDown: true,
+                        onRefresh: _refresh,
+                        header: getRefreshHeader(),
+                        physics: const BouncingScrollPhysics(),
+                        child: const CustomScrollView(
+                          slivers: [
+                            SliverToBoxAdapter(
+                              child: RestaurantProducts(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
+          ),
         ),
       ),
     );

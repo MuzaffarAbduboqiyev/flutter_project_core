@@ -1,6 +1,7 @@
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
+import 'package:delivery_service/ui/order/order_screen.dart';
 import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
@@ -34,43 +35,38 @@ class _HomeRestaurantItemState extends State<HomeRestaurantItem> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: _openRestaurantScreen,
       child: Container(
-        height: 236,
+        height: 246.0,
         width: double.maxFinite,
-        margin: const EdgeInsets.all(
-          16,
-        ),
+        margin: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             getClipRReact(
-              borderRadius: 12,
+              borderRadius: 12.0,
               child: ImageLoading(
                 imageUrl: widget.restaurantModel.image,
                 imageWidth: double.maxFinite,
-                imageHeight: 180,
+                imageHeight: 180.0,
                 imageFitType: BoxFit.cover,
               ),
             ),
-            const SizedBox(
-              height: 11,
-            ),
+            const SizedBox(height: 11.0),
             Text(
               widget.restaurantModel.name,
               style: getCurrentTheme(context).textTheme.displayMedium,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(
-              height: 6,
-            ),
+            const SizedBox(height: 6.0),
             SizedBox(
-              height: 17,
+              height: 17.0,
               child: RichText(
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -132,5 +128,4 @@ class _HomeRestaurantItemState extends State<HomeRestaurantItem> {
       ),
     );
   }
-
 }

@@ -18,9 +18,9 @@ class RestaurantCategory extends StatelessWidget {
           : Padding(
               padding: const EdgeInsets.symmetric(vertical: 24.0),
               child: SizedBox(
-                height: 32,
+                height: 32.0,
                 child: ListView.builder(
-                  padding: const EdgeInsets.only(left: 8),
+                  padding: const EdgeInsets.only(left: 8.0),
                   scrollDirection: Axis.horizontal,
                   itemCount: state.categories.length,
                   itemBuilder: (context, index) => RestaurantCategoryItem(

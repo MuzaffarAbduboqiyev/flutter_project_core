@@ -18,7 +18,7 @@ class RestaurantProducts extends StatelessWidget {
             ? const RestaurantProductShimmer()
             : GridView.builder(
                 shrinkWrap: true,
-                padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8,),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0,),
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

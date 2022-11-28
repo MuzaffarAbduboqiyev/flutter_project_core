@@ -33,8 +33,8 @@ class HomeState {
         error: "",
       );
 
-  /// [HomeState] dagai saqlangan data larni o'zgartirish uchun ishlatiladi
-  /// bu methodda faqat berilgan berilgan qiymatlar o'zgaradi, ya'ni yangi qiymatlarni oladi
+  /// [HomeState] dagai saqlangan data(malumotlarni) larni o'zgartirish uchun ishlatiladi
+  /// bu methodda faqat berilgan  qiymatlar o'zgaradi, ya'ni yangi qiymatlarni oladi
   /// null bo'lgan yani mehtodni chaqirganda berilmagan qiymatlar, avvalgi eski qiymatlarini o'zlariga o'zlashtirib oladi
   HomeState copyWith({
     CategoryStatus? categoryStatus,

@@ -9,7 +9,9 @@ part of 'moor_database.dart';
 // ignore_for_file: type=lint
 class SearchData extends DataClass implements Insertable<SearchData> {
   final String searchName;
+
   SearchData({required this.searchName});
+
   factory SearchData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -18,6 +20,7 @@ class SearchData extends DataClass implements Insertable<SearchData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}search_name'])!,
     );
   }
+
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -38,6 +41,7 @@ class SearchData extends DataClass implements Insertable<SearchData> {
       searchName: serializer.fromJson<String>(json['searchName']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -49,6 +53,7 @@ class SearchData extends DataClass implements Insertable<SearchData> {
   SearchData copyWith({String? searchName}) => SearchData(
         searchName: searchName ?? this.searchName,
       );
+
   @override
   String toString() {
     return (StringBuffer('SearchData(')
@@ -59,6 +64,7 @@ class SearchData extends DataClass implements Insertable<SearchData> {
 
   @override
   int get hashCode => searchName.hashCode;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -67,12 +73,15 @@ class SearchData extends DataClass implements Insertable<SearchData> {
 
 class SearchCompanion extends UpdateCompanion<SearchData> {
   final Value<String> searchName;
+
   const SearchCompanion({
     this.searchName = const Value.absent(),
   });
+
   SearchCompanion.insert({
     required String searchName,
   }) : searchName = Value(searchName);
+
   static Insertable<SearchData> custom({
     Expression<String>? searchName,
   }) {
@@ -109,18 +118,24 @@ class $SearchTable extends Search with TableInfo<$SearchTable, SearchData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
+
   $SearchTable(this.attachedDatabase, [this._alias]);
+
   final VerificationMeta _searchNameMeta = const VerificationMeta('searchName');
   @override
   late final GeneratedColumn<String?> searchName = GeneratedColumn<String?>(
       'search_name', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
+
   @override
   List<GeneratedColumn> get $columns => [searchName];
+
   @override
   String get aliasedName => _alias ?? 'search';
+
   @override
   String get actualTableName => 'search';
+
   @override
   VerificationContext validateIntegrity(Insertable<SearchData> instance,
       {bool isInserting = false}) {
@@ -139,6 +154,7 @@ class $SearchTable extends Search with TableInfo<$SearchTable, SearchData> {
 
   @override
   Set<GeneratedColumn> get $primaryKey => {searchName};
+
   @override
   SearchData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return SearchData.fromData(data, attachedDatabase,
@@ -159,6 +175,7 @@ class FavoriteData extends DataClass implements Insertable<FavoriteData> {
   final String affordability;
   final int deliveryTime;
   final bool available;
+
   FavoriteData(
       {required this.id,
       required this.name,
@@ -167,6 +184,7 @@ class FavoriteData extends DataClass implements Insertable<FavoriteData> {
       required this.affordability,
       required this.deliveryTime,
       required this.available});
+
   factory FavoriteData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -187,6 +205,7 @@ class FavoriteData extends DataClass implements Insertable<FavoriteData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}available'])!,
     );
   }
+
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -225,6 +244,7 @@ class FavoriteData extends DataClass implements Insertable<FavoriteData> {
       available: serializer.fromJson<bool>(json['available']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -256,6 +276,7 @@ class FavoriteData extends DataClass implements Insertable<FavoriteData> {
         deliveryTime: deliveryTime ?? this.deliveryTime,
         available: available ?? this.available,
       );
+
   @override
   String toString() {
     return (StringBuffer('FavoriteData(')
@@ -273,6 +294,7 @@ class FavoriteData extends DataClass implements Insertable<FavoriteData> {
   @override
   int get hashCode => Object.hash(
       id, name, image, rating, affordability, deliveryTime, available);
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -294,6 +316,7 @@ class FavoriteCompanion extends UpdateCompanion<FavoriteData> {
   final Value<String> affordability;
   final Value<int> deliveryTime;
   final Value<bool> available;
+
   const FavoriteCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -303,6 +326,7 @@ class FavoriteCompanion extends UpdateCompanion<FavoriteData> {
     this.deliveryTime = const Value.absent(),
     this.available = const Value.absent(),
   });
+
   FavoriteCompanion.insert({
     this.id = const Value.absent(),
     required String name,
@@ -317,6 +341,7 @@ class FavoriteCompanion extends UpdateCompanion<FavoriteData> {
         affordability = Value(affordability),
         deliveryTime = Value(deliveryTime),
         available = Value(available);
+
   static Insertable<FavoriteData> custom({
     Expression<int>? id,
     Expression<String>? name,
@@ -403,7 +428,9 @@ class $FavoriteTable extends Favorite
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
+
   $FavoriteTable(this.attachedDatabase, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -443,13 +470,17 @@ class $FavoriteTable extends Favorite
       type: const BoolType(),
       requiredDuringInsert: true,
       defaultConstraints: 'CHECK (available IN (0, 1))');
+
   @override
   List<GeneratedColumn> get $columns =>
       [id, name, image, rating, affordability, deliveryTime, available];
+
   @override
   String get aliasedName => _alias ?? 'favorite';
+
   @override
   String get actualTableName => 'favorite';
+
   @override
   VerificationContext validateIntegrity(Insertable<FavoriteData> instance,
       {bool isInserting = false}) {
@@ -503,6 +534,7 @@ class $FavoriteTable extends Favorite
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   FavoriteData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return FavoriteData.fromData(data, attachedDatabase,
@@ -519,8 +551,10 @@ abstract class _$MoorDatabase extends GeneratedDatabase {
   _$MoorDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $SearchTable search = $SearchTable(this);
   late final $FavoriteTable favorite = $FavoriteTable(this);
+
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
+
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [search, favorite];
 }

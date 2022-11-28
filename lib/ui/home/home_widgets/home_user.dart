@@ -6,21 +6,21 @@ import 'package:flutter_svg/svg.dart';
 
 class HomeUserWidget extends StatelessWidget {
   const HomeUserWidget({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: SvgPicture.asset(
         "assets/img/avatar.svg",
-        width: 48,
-        height: 48,
+        width: 48.0,
+        height: 48.0,
+
       ),
       title: Text(
         translate("home.user_info.title"),
         style: getCustomStyle(
           context: context,
           weight: FontWeight.w600,
-          textSize: 15,
+          textSize: 15.0,
           color: getCurrentTheme(context).indicatorColor,
         ),
       ),
@@ -28,8 +28,8 @@ class HomeUserWidget extends StatelessWidget {
         "883 Spring St, San Francisco",
         style: getCustomStyle(
           context: context,
-          weight: FontWeight.w600,
-          textSize: 15,
+          weight: FontWeight.w400,
+          textSize: 15.0,
           color: getCurrentTheme(context).indicatorColor,
         ),
         maxLines: 1,

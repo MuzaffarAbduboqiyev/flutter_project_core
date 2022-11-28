@@ -58,16 +58,16 @@ class ConnectionErrorWidget extends StatelessWidget {
                             ),
                           ),
                           WidgetSpan(
-                              alignment: PlaceholderAlignment.middle,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Icon(
-                                  Icons.cached_outlined,
-                                  color:
-                                      getCurrentTheme(context).iconTheme.color,
-                                  size: 24,
-                                ),
-                              )),
+                            alignment: PlaceholderAlignment.middle,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 24.0),
+                              child: Icon(
+                                Icons.cached_outlined,
+                                color: getCurrentTheme(context).iconTheme.color,
+                                size: 24,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

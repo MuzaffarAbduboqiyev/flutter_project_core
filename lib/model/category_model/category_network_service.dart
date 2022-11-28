@@ -4,6 +4,7 @@ import 'package:delivery_service/util/service/network/urls.dart';
 
 /// [CategoryNetworkService] Applicationdagi barcha category lar bilan bog'liq bo'lgan server ishlarini bajaradi
 /// [CategoryNetworkService] Serverdan category lar bo'yicha request (so'rov) lar bilan ishlaydi
+///
 abstract class CategoryNetworkService {
   Future<NetworkResponseModel> getAllCategories();
 
@@ -14,7 +15,8 @@ abstract class CategoryNetworkService {
 }
 
 class CategoryNetworkServiceImpl extends CategoryNetworkService {
-  /// [NetworkService] Bizda server bilan ishlash uchun singleton class yaratilagn. U get va post methodlari bilan ishlaydi
+  /// [NetworkService] Bizda server bilan ishlash uchun singleton
+  /// class yaratilagn. U get va post methodlari bilan ishlaydi
   final NetworkService networkService;
 
   CategoryNetworkServiceImpl({required this.networkService});
@@ -22,7 +24,8 @@ class CategoryNetworkServiceImpl extends CategoryNetworkService {
   /// Home pagedagi category larni get (olish) uchun ishlatiladi
   @override
   Future<NetworkResponseModel> getAllCategories() async {
-    /// [NetworkService.getMethod] ishlatadi va berilgan url ga request (so'rov) jo'natadi va response (javob) kelguncha kutib turadi
+    /// [NetworkService.getMethod] ishlatadi va berilgan url ga request (so'rov) jo'natadi
+    /// va response (javob) kelguncha kutib turadi
     /// va kelgan javobni qaytaradi
     final response = await networkService.getMethod(url: allCategoriesUrl);
     return response;

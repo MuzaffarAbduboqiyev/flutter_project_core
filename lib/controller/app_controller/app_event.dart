@@ -12,7 +12,7 @@ abstract class AppEvent {}
 /// Bu [AppBloc] ichidagi on<AppChangeThemeEvent> eventTransformer ga murojat qiladi va uni [_changeTheme] methodini chaqiriladi.
 class AppChangeThemeEvent extends AppEvent {}
 
-/// Applicationni [HiveDatabase] ga saqlangfan ThemeMode ni olish uchun
+/// Applicationni [HiveDatabase] ga saqlangan ThemeMode ni olish uchun
 /// [AppBloc] ga [AppGetThemeEvent] add qilamiz
 /// Bu [AppBloc] ichidagi on<AppGetThemeEvent> eventTransformer ga murojat qiladi va uni [_getTheme] methodini chaqiriladi.
 class AppGetThemeEvent extends AppEvent {}

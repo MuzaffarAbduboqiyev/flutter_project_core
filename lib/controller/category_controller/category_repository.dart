@@ -10,7 +10,7 @@ enum CategoryType {
   search,
 }
 
-/// [CategoryRepository] bu [CategoryNetworkService] dan kelgan ma'lumotlarni parse qiladi (class modelga o'girish)
+/// [CategoryRepository] bu [CategoryNetworkService] dan kelgan ma'lumotlarni parse(tahlil qilish) qiladi (class modelga o'giradi)
 /// agar qandaydir error (xato) bo'lsa, uni handle (hatolikni topish) qiladi
 /// va error yoki Catgory Model qaytaradi
 abstract class CategoryRepository {
@@ -24,7 +24,7 @@ abstract class CategoryRepository {
 }
 
 class CategoryRepositoryImpl extends CategoryRepository {
-  /// [CategoryNetworkService] category ni network bilan ishlash clasi
+  /// [CategoryNetworkService] category ni network bilan ishlash classi
   final CategoryNetworkService networkService;
 
   CategoryRepositoryImpl({required this.networkService});

@@ -3,13 +3,13 @@ import 'package:delivery_service/util/service/network/network_service.dart';
 import 'package:delivery_service/util/service/network/urls.dart';
 
 abstract class RestaurantNetworkService {
-  Future<NetworkResponseModel> getAllRestaurants();
+  Future<NetworkResponseModel> getAllRestaurants();// Barcha restoranlarni oling
 
-  Future<NetworkResponseModel> getCategoryRestaurants({
+  Future<NetworkResponseModel> getCategoryRestaurants({ // Kategoriyali restoranlarni oling
     required int categoryId,
   });
 
-  Future<NetworkResponseModel> getRestaurantDetails({
+  Future<NetworkResponseModel> getRestaurantDetails({ // Restoran tafsilotlarini oling
     required int restaurantId,
   });
 }
@@ -20,12 +20,14 @@ class RestaurantNetworkServiceImpl extends RestaurantNetworkService {
   RestaurantNetworkServiceImpl({required this.networkService});
 
   @override
+  // getAllRestaurants =  Barcha restoranlarni oling
   Future<NetworkResponseModel> getAllRestaurants() async {
     final response = await networkService.getMethod(url: allRestaurantsUrl);
     return response;
   }
 
   @override
+  // getCategoryRestaurants = Kategoriyali restoranlarni oling
   Future<NetworkResponseModel> getCategoryRestaurants({
     required int categoryId,
   }) async {
@@ -35,6 +37,7 @@ class RestaurantNetworkServiceImpl extends RestaurantNetworkService {
   }
 
   @override
+  // getRestaurantDetails = Restoran tafsilotlarini oling
   Future<NetworkResponseModel> getRestaurantDetails({
     required int restaurantId,
   }) async {

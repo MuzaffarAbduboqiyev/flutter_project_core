@@ -6,10 +6,10 @@ import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 
 /// Restaurant larni holatini bilish va boshqarish uchun [RestaurantStatus] holatlar ebumini yaratib oldik
 enum RestaurantStatus {
-  init,
-  loading,
-  loaded,
-  error,
+  init, // boshlang'ich
+  loading, // yuklash
+  loaded, // yuklangan
+  error, // xato
 }
 
 class RestaurantState {
@@ -42,8 +42,9 @@ class RestaurantState {
     required this.error,
   });
 
+  // initial = boshlang'ich
   factory RestaurantState.initial() => RestaurantState(
-    restaurantStatus: RestaurantStatus.init,
+        restaurantStatus: RestaurantStatus.init,
         restaurantModel: RestaurantModel.example(),
         restaurantId: 0,
         categoryStatus: CategoryStatus.init,

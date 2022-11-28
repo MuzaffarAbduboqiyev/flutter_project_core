@@ -16,7 +16,7 @@ class HomeRestaurantShimmer extends StatelessWidget {
           baseColor: Colors.grey.shade400,
           highlightColor: Colors.white,
           child: Container(
-            height: 236,
+            height: 246,
             width: double.maxFinite,
             margin: const EdgeInsets.all(16),
             child: Column(

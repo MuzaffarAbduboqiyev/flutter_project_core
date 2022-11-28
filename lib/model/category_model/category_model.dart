@@ -17,6 +17,7 @@ class CategoryModel {
         image: parseToString(response: response, key: "image"),
       );
 
+  /// example = misol
   factory CategoryModel.example() => CategoryModel(
         id: 0,
         name: "",

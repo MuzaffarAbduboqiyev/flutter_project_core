@@ -6,7 +6,7 @@ import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-class ScreenObserver{
+class ScreenObserver {
   final RouteObserver<PageRoute> routeObserver;
 
   ScreenObserver() : routeObserver = RouteObserver<PageRoute>();

@@ -1,5 +1,8 @@
 import 'package:delivery_service/controller/home_controller/home_bloc.dart';
 import 'package:delivery_service/controller/home_controller/home_event.dart';
+import 'package:delivery_service/controller/product_controller/product_state.dart';
+import 'package:delivery_service/controller/restaurant_controller/restaurant_bloc.dart';
+import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
 import 'package:delivery_service/ui/home/home_widgets/home_category.dart';
 import 'package:delivery_service/ui/home/home_widgets/home_restaurant.dart';
 import 'package:delivery_service/ui/home/home_widgets/home_user.dart';
@@ -8,6 +11,7 @@ import 'package:delivery_service/util/service/translator/translate_service.dart'
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -33,13 +37,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   void _loadHomeData() {
-    context.read<HomeBloc>().add(HomeGetRestaurantsEvent());
-
     /// [HomeScreen] ishga tushgan vaqtda category larni serverdan yuklash eventi(amali)
     /// Bu [HomeBloc]ga [HomeGetCategoriesEvent] add bo'lganda [HomeBloc] dagi on<HomeGetCategoriesEvent> eventTransformerini chaqiradi
     /// va on<HomeGetCategoriesEvent> eventTransformerdagi [_getAllCategories] methodini ishga tushiradi.
     /// Biz HomeBloc ga HomeGetCategoriesEvent qilishdan avval HomeBlocda shu event kelsa qaysi method chaqirilishini belgilab qo'yganmiz
     context.read<HomeBloc>().add(HomeGetCategoriesEvent());
+    context.read<HomeBloc>().add(HomeGetRestaurantsEvent());
   }
 
   @override
@@ -55,36 +58,27 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: getCurrentTheme(context).backgroundColor,
-          body: Column(
+        backgroundColor: getCurrentTheme(context).backgroundColor,
+        body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const HomeUserWidget(),
-            const SizedBox(
-              height: 16,
-            ),
-
-            /// HomePage dagi Category larni ko'rsatuvchi Widget
-            const HomeCategory(),
-            const SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                translate("restaurant.restaurants"),
-                style: getCurrentTheme(context).textTheme.displayLarge,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const HomeUserWidget(),
+              const SizedBox(height: 16.0),
+              const HomeCategory(),
+              const SizedBox(height: 16.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(
+                  translate("restaurant.restaurants"),
+                  style: getCurrentTheme(context).textTheme.displayLarge,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Expanded(
-              child: HomeRestaurant(),
-            ),
-          ],
-        ),
+              const SizedBox(height: 8.0),
+              const Expanded(
+                child: HomeRestaurant(),
+              ),
+            ]),
       ),
     );
   }

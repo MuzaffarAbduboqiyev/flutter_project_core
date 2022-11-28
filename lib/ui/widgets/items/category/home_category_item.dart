@@ -30,7 +30,8 @@ class _HomeCategoryItemState extends State<HomeCategoryItem> {
     /// Agar HomeState dagi selectedCategoryId fieldni qiymati shu categoryModel id siga teng bo'lsa,
     /// demak bu itemga kelgan categoryModel avval tanlanga bo'ladi va biz uni tanlanmagan qilish uchun selectedCategoryId ni -1 ga tenglab qo'yamiz
     /// yoki bu itemga eklgan categoryModel id si selectedCategoryId ga teng bo'lmasa bu item tanlanmagan bo'ladi
-    /// va biz buni shu categoryModel tanlangan qilish uchun selectedCategoryId ni itemga kelgan categoryModel id siga tenglab qo'yamiz va HomeBlocda yangi state ni emit qilamiz.
+    /// va biz buni shu categoryModel tanlangan qilish uchun selectedCategoryId ni itemga kelgan categoryModel id siga tenglab qo'yamiz va
+    /// HomeBlocda yangi state ni emit qilamiz.
     ///
     ///
     /// Biz CategoryModelni tanlasak, Serverda shu Categoryga mos Restaurantlarni olib kelamiz
@@ -54,18 +55,18 @@ class _HomeCategoryItemState extends State<HomeCategoryItem> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: 70,
-              width: 70,
+              height: 70.0,
+              width: 70.0,
               decoration: getContainerDecoration(
                 context,
                 fillColor:
                     (widget.selectedCategoryItemId != widget.categoryModel.id)
                         ? getCurrentTheme(context).backgroundColor
                         : getCurrentTheme(context).indicatorColor,
+                borderRadius: 12,
               ),
               child: Center(
                 child: getClipRReact(
-                  borderRadius: 4.0,
                   child: ImageLoading(
                     imageUrl: widget.categoryModel.image,
                     imageWidth: 24,
@@ -75,9 +76,7 @@ class _HomeCategoryItemState extends State<HomeCategoryItem> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 5,
-            ),
+            const SizedBox(height: 5.0),
             Text(
               widget.categoryModel.name,
               style: getCurrentTheme(context).textTheme.labelSmall,

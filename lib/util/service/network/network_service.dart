@@ -98,7 +98,6 @@ class NetworkServiceImpl extends NetworkService {
   }
 }
 
-
 final dioBaseOptions = BaseOptions(
   baseUrl: baseUrl,
   connectTimeout: 30000,

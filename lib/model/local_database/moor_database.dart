@@ -48,24 +48,26 @@ class MoorDatabase extends _$MoorDatabase {
 
   /// Favorite
   Future insertFavorite(FavoriteData favoriteData) =>
-      into(favorite).insert(favoriteData, mode: InsertMode.insertOrReplace);
+      into(favorite).insert(favoriteData, mode: InsertMode.insertOrReplace);// joylashtiring yoki almashtiring
 
   Future<List<FavoriteData>> getFavourite() {
+    // select = tanlang
     return select(favorite).get();
   }
 
 
 
+  // listen= tingla
   Stream<List<FavoriteData>> listenFavourite() {
     return select(favorite).watch();
   }
-
+  // listenSingleFavorite = Yagona sevimli tinglang
   Stream<FavoriteData?> listenSingleFavorite(int restaurantId) {
     return (select(favorite)
           ..where((databaseItem) => databaseItem.id.equals(restaurantId)))
         .watchSingleOrNull();
   }
-
+  // getSingleFavorite = Yagona sevimlini oling
   Future<FavoriteData?> getSingleFavorite(int restaurantId) {
     return (select(favorite)
           ..where((databaseItem) => databaseItem.id.equals(restaurantId)))
@@ -73,6 +75,7 @@ class MoorDatabase extends _$MoorDatabase {
   }
 
 
+  // deleteFavorite = Sevimlini o'chirish
   deleteFavorite(int restaurantId) =>
       (delete(favorite)..where((dbItem) => dbItem.id.equals(restaurantId)))
           .go();

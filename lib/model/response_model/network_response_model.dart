@@ -11,6 +11,8 @@ class NetworkResponseModel {
     required this.errorMessage,
   });
 
+  /// factory = zavod
+  /// success = muvaffaqiyat
   factory NetworkResponseModel.success({Response? response}) =>
       NetworkResponseModel(
         status: true,
@@ -26,7 +28,8 @@ class NetworkResponseModel {
       );
 }
 
-/// [SimpleResponseModel] response (javob)da faqat true/false qiymat qaytarish uchun
+/// SimpleResponseModel = OddiyJavobModel
+/// [SimpleResponseModel] responseda faqat true/false qiymat qaytarish uchun
 /// Agar response [SimpleResponseModel.status] false bo'lsa [SimpleResponseModel.message] ga qanday error bo'lgani beriladi
 class SimpleResponseModel {
   final bool status;
@@ -36,7 +39,6 @@ class SimpleResponseModel {
     required this.status,
     required this.message,
   });
-
   factory SimpleResponseModel.success({String? responseMessage}) =>
       SimpleResponseModel(
         status: true,

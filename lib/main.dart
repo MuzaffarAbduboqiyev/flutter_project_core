@@ -65,8 +65,8 @@ void main() async{
 
       /// [supportedLocales] Multi Language => application ishlay oladigan tillar ro'yhati
       supportedLocales: const [
-        Locale('ru', 'RU'),
         Locale('en', 'EN'),
+        Locale('ru', 'RU'),
         Locale('uz', 'UZ'),
       ],
 
@@ -139,7 +139,6 @@ class _MyAppState extends State<MyApp> {
 
         /// [EasyLocalization] dagi [supportedLocales] ga berilgan tillarnini oladi
         supportedLocales: context.supportedLocales,
-
         debugShowCheckedModeBanner: false,
       ),
     );

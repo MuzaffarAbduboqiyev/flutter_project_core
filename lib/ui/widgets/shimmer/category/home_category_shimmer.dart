@@ -13,41 +13,36 @@ class HomeCategoryShimmer extends StatelessWidget {
       itemBuilder: (context, index) => Shimmer.fromColors(
         baseColor: Colors.grey.shade400,
         highlightColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 70,
-              height: 70,
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              decoration: getContainerDecoration(
-                context,
-              ),
-              child: Center(
-                child: Container(
-                  width: 24,
-                  height: 24,
-                  decoration: getContainerDecoration(
-                    context,
-                    borderRadius: 4,
-                    fillColor: Colors.white,
-                  ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Container(
+            width: 70,
+            height: 70,
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            decoration: getContainerDecoration(
+              context,
+            ),
+            child: Center(
+              child: Container(
+                width: 24,
+                height: 24,
+                decoration: getContainerDecoration(
+                  context,
+                  borderRadius: 4,
+                  fillColor: Colors.white,
                 ),
               ),
             ),
-            const SizedBox(
-              height: 5,
+          ),
+          const SizedBox(height: 5),
+          Container(
+            height: 15,
+            width: 70,
+            decoration: getContainerDecoration(
+              context,
+              fillColor: Colors.white,
             ),
-            Container(
-              height: 15,
-              width: 70,
-              decoration: getContainerDecoration(
-                context,
-                fillColor: Colors.white,
-              ),
-            )
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
