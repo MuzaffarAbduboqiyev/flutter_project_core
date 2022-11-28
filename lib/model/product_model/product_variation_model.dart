@@ -1,3 +1,4 @@
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/util/service/network/parser_service.dart';
 
 class ProductVariationModel {
@@ -22,15 +23,15 @@ class ProductVariationModel {
   });
 
   factory ProductVariationModel.example() => ProductVariationModel(
-        id: 0,
-        name: "",
-        price: 0,
-        priceDiffer: false,
-        count: 0,
-        hasStock: false,
-        available: false,
-        selectedCount: 0,
-      );
+    id: 0,
+    name: "",
+    price: 0,
+    priceDiffer: false,
+    count: 0,
+    hasStock: false,
+    available: false,
+    selectedCount: 0,
+  );
 
   factory ProductVariationModel.fromMap(Map<String, dynamic> response) =>
       ProductVariationModel(
@@ -64,11 +65,20 @@ class ProductVariationModel {
         available: available ?? this.available,
         selectedCount: selectedCount ?? this.selectedCount,
       );
+
+  ProductCartData parseToCartModel(int productId) => ProductCartData(
+        productId: productId,
+        name: name,
+        price: BigInt.from(price),
+        count: count,
+        hasStock: hasStock,
+        selectedCount: selectedCount,
+        variationId: id,
+      );
 }
 
-List<ProductVariationModel> parseToProductVariation(
-  dynamic response,
-  String key,
+List<ProductVariationModel> parseToProductVariation(dynamic response,
+    String key,
 ) {
   final List<ProductVariationModel> items = [];
   if (response.containsKey(key) &&

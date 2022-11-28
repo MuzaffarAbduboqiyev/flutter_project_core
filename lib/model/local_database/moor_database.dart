@@ -1,4 +1,5 @@
 import 'package:delivery_service/model/favorite_model/favorite_%20model.dart';
+import 'package:delivery_service/model/product_model/product_cart.dart';
 import 'package:delivery_service/model/search_model/search_model.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
@@ -7,6 +8,7 @@ part 'moor_database.g.dart';
 @UseMoor(tables: [
   Search,
   Favorite,
+  ProductCart,
 ])
 class MoorDatabase extends _$MoorDatabase {
   MoorDatabase()
@@ -14,7 +16,7 @@ class MoorDatabase extends _$MoorDatabase {
       path: 'application_database.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   /// Search history operations
   ///
@@ -72,8 +74,46 @@ class MoorDatabase extends _$MoorDatabase {
         .getSingleOrNull();
   }
 
-
   deleteFavorite(int restaurantId) =>
       (delete(favorite)..where((dbItem) => dbItem.id.equals(restaurantId)))
           .go();
+
+  Future<List<ProductCartData>> getProductVariations({
+    required int productId,
+  }) {
+    return (select(productCart)
+          ..where((databaseItem) => databaseItem.productId.equals(productId)))
+        .get();
+  }
+
+  Future insertProductCart({
+    required ProductCartData productCartData,
+  }) {
+    return into(productCart).insert(
+      productCartData,
+      mode: InsertMode.insertOrReplace,
+    );
+  }
+
+  deleteProductVariation({
+    required int productId,
+    required int variationId,
+  }) =>
+      (delete(productCart)
+            ..where((databaseItem) =>
+                databaseItem.productId.equals(productId) &
+                databaseItem.variationId.equals(variationId)))
+          .go();
+
+  deleteProduct({
+    required int productId,
+  }) =>
+      (delete(productCart)
+            ..where((databaseItem) =>
+                databaseItem.productId.equals(productId)))
+          .go();
+
+
+
+  clearProductCart() => (delete(productCart)).go();
 }

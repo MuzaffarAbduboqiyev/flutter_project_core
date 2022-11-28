@@ -515,12 +515,383 @@ class $FavoriteTable extends Favorite
   }
 }
 
+class ProductCartData extends DataClass implements Insertable<ProductCartData> {
+  final int productId;
+  final String name;
+  final BigInt price;
+  final int count;
+  final bool hasStock;
+  final int selectedCount;
+  final int variationId;
+  ProductCartData(
+      {required this.productId,
+      required this.name,
+      required this.price,
+      required this.count,
+      required this.hasStock,
+      required this.selectedCount,
+      required this.variationId});
+  factory ProductCartData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return ProductCartData(
+      productId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}product_id'])!,
+      name: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
+      price: const BigIntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}price'])!,
+      count: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}count'])!,
+      hasStock: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}has_stock'])!,
+      selectedCount: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}selected_count'])!,
+      variationId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}variation_id'])!,
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['product_id'] = Variable<int>(productId);
+    map['name'] = Variable<String>(name);
+    map['price'] = Variable<BigInt>(price);
+    map['count'] = Variable<int>(count);
+    map['has_stock'] = Variable<bool>(hasStock);
+    map['selected_count'] = Variable<int>(selectedCount);
+    map['variation_id'] = Variable<int>(variationId);
+    return map;
+  }
+
+  ProductCartCompanion toCompanion(bool nullToAbsent) {
+    return ProductCartCompanion(
+      productId: Value(productId),
+      name: Value(name),
+      price: Value(price),
+      count: Value(count),
+      hasStock: Value(hasStock),
+      selectedCount: Value(selectedCount),
+      variationId: Value(variationId),
+    );
+  }
+
+  factory ProductCartData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ProductCartData(
+      productId: serializer.fromJson<int>(json['productId']),
+      name: serializer.fromJson<String>(json['name']),
+      price: serializer.fromJson<BigInt>(json['price']),
+      count: serializer.fromJson<int>(json['count']),
+      hasStock: serializer.fromJson<bool>(json['hasStock']),
+      selectedCount: serializer.fromJson<int>(json['selectedCount']),
+      variationId: serializer.fromJson<int>(json['variationId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'productId': serializer.toJson<int>(productId),
+      'name': serializer.toJson<String>(name),
+      'price': serializer.toJson<BigInt>(price),
+      'count': serializer.toJson<int>(count),
+      'hasStock': serializer.toJson<bool>(hasStock),
+      'selectedCount': serializer.toJson<int>(selectedCount),
+      'variationId': serializer.toJson<int>(variationId),
+    };
+  }
+
+  ProductCartData copyWith(
+          {int? productId,
+          String? name,
+          BigInt? price,
+          int? count,
+          bool? hasStock,
+          int? selectedCount,
+          int? variationId}) =>
+      ProductCartData(
+        productId: productId ?? this.productId,
+        name: name ?? this.name,
+        price: price ?? this.price,
+        count: count ?? this.count,
+        hasStock: hasStock ?? this.hasStock,
+        selectedCount: selectedCount ?? this.selectedCount,
+        variationId: variationId ?? this.variationId,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ProductCartData(')
+          ..write('productId: $productId, ')
+          ..write('name: $name, ')
+          ..write('price: $price, ')
+          ..write('count: $count, ')
+          ..write('hasStock: $hasStock, ')
+          ..write('selectedCount: $selectedCount, ')
+          ..write('variationId: $variationId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      productId, name, price, count, hasStock, selectedCount, variationId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ProductCartData &&
+          other.productId == this.productId &&
+          other.name == this.name &&
+          other.price == this.price &&
+          other.count == this.count &&
+          other.hasStock == this.hasStock &&
+          other.selectedCount == this.selectedCount &&
+          other.variationId == this.variationId);
+}
+
+class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
+  final Value<int> productId;
+  final Value<String> name;
+  final Value<BigInt> price;
+  final Value<int> count;
+  final Value<bool> hasStock;
+  final Value<int> selectedCount;
+  final Value<int> variationId;
+  const ProductCartCompanion({
+    this.productId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.price = const Value.absent(),
+    this.count = const Value.absent(),
+    this.hasStock = const Value.absent(),
+    this.selectedCount = const Value.absent(),
+    this.variationId = const Value.absent(),
+  });
+  ProductCartCompanion.insert({
+    required int productId,
+    required String name,
+    required BigInt price,
+    required int count,
+    required bool hasStock,
+    required int selectedCount,
+    required int variationId,
+  })  : productId = Value(productId),
+        name = Value(name),
+        price = Value(price),
+        count = Value(count),
+        hasStock = Value(hasStock),
+        selectedCount = Value(selectedCount),
+        variationId = Value(variationId);
+  static Insertable<ProductCartData> custom({
+    Expression<int>? productId,
+    Expression<String>? name,
+    Expression<BigInt>? price,
+    Expression<int>? count,
+    Expression<bool>? hasStock,
+    Expression<int>? selectedCount,
+    Expression<int>? variationId,
+  }) {
+    return RawValuesInsertable({
+      if (productId != null) 'product_id': productId,
+      if (name != null) 'name': name,
+      if (price != null) 'price': price,
+      if (count != null) 'count': count,
+      if (hasStock != null) 'has_stock': hasStock,
+      if (selectedCount != null) 'selected_count': selectedCount,
+      if (variationId != null) 'variation_id': variationId,
+    });
+  }
+
+  ProductCartCompanion copyWith(
+      {Value<int>? productId,
+      Value<String>? name,
+      Value<BigInt>? price,
+      Value<int>? count,
+      Value<bool>? hasStock,
+      Value<int>? selectedCount,
+      Value<int>? variationId}) {
+    return ProductCartCompanion(
+      productId: productId ?? this.productId,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      count: count ?? this.count,
+      hasStock: hasStock ?? this.hasStock,
+      selectedCount: selectedCount ?? this.selectedCount,
+      variationId: variationId ?? this.variationId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (productId.present) {
+      map['product_id'] = Variable<int>(productId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (price.present) {
+      map['price'] = Variable<BigInt>(price.value);
+    }
+    if (count.present) {
+      map['count'] = Variable<int>(count.value);
+    }
+    if (hasStock.present) {
+      map['has_stock'] = Variable<bool>(hasStock.value);
+    }
+    if (selectedCount.present) {
+      map['selected_count'] = Variable<int>(selectedCount.value);
+    }
+    if (variationId.present) {
+      map['variation_id'] = Variable<int>(variationId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ProductCartCompanion(')
+          ..write('productId: $productId, ')
+          ..write('name: $name, ')
+          ..write('price: $price, ')
+          ..write('count: $count, ')
+          ..write('hasStock: $hasStock, ')
+          ..write('selectedCount: $selectedCount, ')
+          ..write('variationId: $variationId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ProductCartTable extends ProductCart
+    with TableInfo<$ProductCartTable, ProductCartData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ProductCartTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _productIdMeta = const VerificationMeta('productId');
+  @override
+  late final GeneratedColumn<int?> productId = GeneratedColumn<int?>(
+      'product_id', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
+      'name', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _priceMeta = const VerificationMeta('price');
+  @override
+  late final GeneratedColumn<BigInt?> price = GeneratedColumn<BigInt?>(
+      'price', aliasedName, false,
+      type: const BigIntType(), requiredDuringInsert: true);
+  final VerificationMeta _countMeta = const VerificationMeta('count');
+  @override
+  late final GeneratedColumn<int?> count = GeneratedColumn<int?>(
+      'count', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _hasStockMeta = const VerificationMeta('hasStock');
+  @override
+  late final GeneratedColumn<bool?> hasStock = GeneratedColumn<bool?>(
+      'has_stock', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (has_stock IN (0, 1))');
+  final VerificationMeta _selectedCountMeta =
+      const VerificationMeta('selectedCount');
+  @override
+  late final GeneratedColumn<int?> selectedCount = GeneratedColumn<int?>(
+      'selected_count', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _variationIdMeta =
+      const VerificationMeta('variationId');
+  @override
+  late final GeneratedColumn<int?> variationId = GeneratedColumn<int?>(
+      'variation_id', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [productId, name, price, count, hasStock, selectedCount, variationId];
+  @override
+  String get aliasedName => _alias ?? 'product_cart';
+  @override
+  String get actualTableName => 'product_cart';
+  @override
+  VerificationContext validateIntegrity(Insertable<ProductCartData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('product_id')) {
+      context.handle(_productIdMeta,
+          productId.isAcceptableOrUnknown(data['product_id']!, _productIdMeta));
+    } else if (isInserting) {
+      context.missing(_productIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('price')) {
+      context.handle(
+          _priceMeta, price.isAcceptableOrUnknown(data['price']!, _priceMeta));
+    } else if (isInserting) {
+      context.missing(_priceMeta);
+    }
+    if (data.containsKey('count')) {
+      context.handle(
+          _countMeta, count.isAcceptableOrUnknown(data['count']!, _countMeta));
+    } else if (isInserting) {
+      context.missing(_countMeta);
+    }
+    if (data.containsKey('has_stock')) {
+      context.handle(_hasStockMeta,
+          hasStock.isAcceptableOrUnknown(data['has_stock']!, _hasStockMeta));
+    } else if (isInserting) {
+      context.missing(_hasStockMeta);
+    }
+    if (data.containsKey('selected_count')) {
+      context.handle(
+          _selectedCountMeta,
+          selectedCount.isAcceptableOrUnknown(
+              data['selected_count']!, _selectedCountMeta));
+    } else if (isInserting) {
+      context.missing(_selectedCountMeta);
+    }
+    if (data.containsKey('variation_id')) {
+      context.handle(
+          _variationIdMeta,
+          variationId.isAcceptableOrUnknown(
+              data['variation_id']!, _variationIdMeta));
+    } else if (isInserting) {
+      context.missing(_variationIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {productId, variationId};
+  @override
+  ProductCartData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return ProductCartData.fromData(data, attachedDatabase,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $ProductCartTable createAlias(String alias) {
+    return $ProductCartTable(attachedDatabase, alias);
+  }
+}
+
 abstract class _$MoorDatabase extends GeneratedDatabase {
   _$MoorDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $SearchTable search = $SearchTable(this);
   late final $FavoriteTable favorite = $FavoriteTable(this);
+  late final $ProductCartTable productCart = $ProductCartTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [search, favorite];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [search, favorite, productCart];
 }

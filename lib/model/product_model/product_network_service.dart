@@ -8,6 +8,10 @@ abstract class ProductNetworkService {
     required int categoryId,
     required String searchName,
   });
+
+  Future<NetworkResponseModel> getProductDetail({
+    required int productId,
+  });
 }
 
 class ProductNetworkServiceImpl extends ProductNetworkService {
@@ -30,6 +34,14 @@ class ProductNetworkServiceImpl extends ProductNetworkService {
       url += "name=$searchName";
     }
     final response = await networkService.getMethod(url: url);
+    return response;
+  }
+
+  @override
+  Future<NetworkResponseModel> getProductDetail(
+      {required int productId}) async {
+    final response =
+        await networkService.getMethod(url: "$productUrl/$productId");
     return response;
   }
 }
