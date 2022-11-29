@@ -105,6 +105,7 @@ void init() {
   singleton.registerLazySingleton<ProductRepository>(
     () => ProductRepositoryImpl(
       networkService: singleton(),
+      moorDatabase: singleton(),
     ),
   );
 
