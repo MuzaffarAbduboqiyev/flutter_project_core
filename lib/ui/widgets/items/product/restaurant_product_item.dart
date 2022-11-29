@@ -1,8 +1,6 @@
 import 'package:delivery_service/model/product_model/product_model.dart';
-import 'package:delivery_service/ui/order/order_screen.dart';
+import 'package:delivery_service/ui/product/product_detail_screen.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
-import 'package:delivery_service/util/service/route/route_names.dart';
-import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 
@@ -22,20 +20,7 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(20),
-            ),
-          ),
-          builder: (context) => Column(
-            children: [],
-          ),
-        );
-      },
+      onTap: _openProduct,
       child: Card(
         color: getCurrentTheme(context).cardColor,
         shape: RoundedRectangleBorder(
@@ -55,9 +40,12 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
                 imageWidth: double.maxFinite,
                 imageHeight: 145,
               ),
+              const SizedBox(
+                height: 8,
+              ),
               SizedBox(
                 width: double.maxFinite,
-                height: 50,
+                height: 36,
                 child: Text(
                   widget.productModel.name,
                   style: getCurrentTheme(context).textTheme.bodyLarge,
@@ -81,6 +69,16 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
           ),
         ),
       ),
+    );
+  }
+
+  void _openProduct() async {
+    await showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      context: context,
+      builder: (builderContext) =>
+          ProductDetailScreen(productId: widget.productModel.id),
     );
   }
 }
