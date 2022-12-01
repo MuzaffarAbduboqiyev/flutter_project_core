@@ -22,3 +22,9 @@ class ProductCartEvent extends ProductEvent {
 
   ProductCartEvent({required this.productVariations});
 }
+
+class ProductVariationEvent extends ProductEvent {
+  final ProductVariationModel selectedVariationModel;
+
+  ProductVariationEvent({required this.selectedVariationModel});
+}

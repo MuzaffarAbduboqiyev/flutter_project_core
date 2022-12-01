@@ -30,6 +30,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       _changeCart,
       transformer: sequential(),
     );
+
+    on<ProductVariationEvent>(
+      _changeSelectedVariation,
+      transformer: sequential(),
+    );
   }
 
   FutureOr<void> _init(ProductInitialEvent event, Emitter<ProductState> emit) {
@@ -88,6 +93,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         productStatus:
             (response.status) ? ProductStatus.cartChanged : ProductStatus.error,
         error: response.message,
+      ),
+    );
+  }
+
+  FutureOr<void> _changeSelectedVariation(
+      ProductVariationEvent event, Emitter<ProductState> emit) {
+    emit(
+      state.copyWith(
+        selectedVariationModel: event.selectedVariationModel,
       ),
     );
   }
