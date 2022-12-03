@@ -4,6 +4,7 @@
   "no": "No",
   "yes": "Yes",
   "sum": "sum",
+  "add": "Add",
   "error": {
     "unknown_error": "Unknown error",
     "refresh": "Refresh",

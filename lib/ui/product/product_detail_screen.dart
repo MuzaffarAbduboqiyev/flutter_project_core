@@ -6,9 +6,14 @@ import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
 import 'package:delivery_service/ui/widgets/error/connection_error/connection_error.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
+import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
+import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
+import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,45 +47,41 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
-  ProductVariationModel selectedVariationModel =
-      ProductVariationModel.example().copyWith(
-    selectedCount: 1,
-  );
+  final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
+  List<ProductVariationModel> variationModels = [];
+  num price = 0;
 
   addCart() {
     context.read<ProductBloc>().add(
           ProductCartEvent(
-            productVariations: [selectedVariationModel],
+            productVariations: variationModels
+                .where((element) => element.selectedCount > 0)
+                .toList(),
           ),
         );
   }
 
-  increaseCount() {
-    if (selectedVariationModel.selectedCount < selectedVariationModel.count) {
+  increaseCount(int index) {
+    if (variationModels[index].selectedCount < variationModels[index].count) {
       setState(() {
-        selectedVariationModel = selectedVariationModel.copyWith(
-          selectedCount: selectedVariationModel.count + 1,
+        variationModels[index] = variationModels[index].copyWith(
+          selectedCount: variationModels[index].selectedCount + 1,
         );
+
+        price += variationModels[index].price;
       });
     }
   }
 
-  decreaseCount() {
-    if (selectedVariationModel.selectedCount > 1) {
+  decreaseCount(int index) {
+    if (variationModels[index].selectedCount > 0) {
       setState(() {
-        selectedVariationModel = selectedVariationModel.copyWith(
-          selectedCount: selectedVariationModel.count - 1,
+        variationModels[index] = variationModels[index].copyWith(
+          selectedCount: variationModels[index].selectedCount - 1,
         );
+        price -= variationModels[index].price;
       });
     }
-  }
-
-  changeSelectedVariationModel(ProductVariationModel variationModel) {
-    setState(() {
-      selectedVariationModel = variationModel.copyWith(
-        selectedCount: selectedVariationModel.selectedCount,
-      );
-    });
   }
 
   _refresh() {
@@ -99,11 +100,22 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       ),
       child: BlocListener<ProductBloc, ProductState>(
         listener: (context, state) {
-          if (state.productDetailModel.variations.isNotEmpty &&
-              selectedVariationModel == ProductVariationModel.example()) {
-            changeSelectedVariationModel(
-                state.productDetailModel.variations[0]);
+          if (state.productStatus == ProductStatus.cartChanged) {
+            Navigator.pop(context);
           }
+          if (state.productStatus == ProductStatus.error) {
+            if (kDebugMode) {
+              print("Error: ${state.error}");
+            }
+          }
+
+          if (state.productDetailModel.variations.isNotEmpty &&
+              variationModels.isEmpty) {
+            price = 0;
+            variationModels = state.productDetailModel.variations;
+            for (var element in variationModels) {
+              price += (element.selectedCount * element.price);
+            }}
         },
         child: BlocBuilder<ProductBloc, ProductState>(
           builder: (context, state) =>
@@ -165,27 +177,108 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: state.productDetailModel.variations
+              children: variationModels
                   .asMap()
                   .map((index, variationModel) {
                     return MapEntry(
-                      index,
-                      CheckboxListTile(
-                        controlAffinity: ListTileControlAffinity.leading,
-                        value: variationModel.id == selectedVariationModel.id,
-                        title: Text(
-                          variationModel.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: getCurrentTheme(context).textTheme.bodyLarge,
-                        ),
-                        onChanged: (checked) {
-                          if (variationModel.id != selectedVariationModel.id) {
-                            changeSelectedVariationModel(variationModel);
-                          }
-                        },
-                      ),
-                    );
+                        index,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      variationModel.name.toCapitalized(),
+                                      style: getCurrentTheme(context)
+                                          .textTheme
+                                          .bodyLarge,
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      "${moneyFormatter.format(variationModel.price)} ${translate("sum")}",
+                                      style: getCurrentTheme(context)
+                                          .textTheme
+                                          .labelMedium,
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 130,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 8),
+                                    decoration: getContainerDecoration(
+                                      context,
+                                      fillColor:
+                                          getCurrentTheme(context).cardColor,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          onTap: () => decreaseCount(index),
+                                          child: const Icon(
+                                            Icons.remove,
+                                            size: 24,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            variationModel.selectedCount
+                                                .toString(),
+                                            style: getCurrentTheme(context)
+                                                .textTheme
+                                                .bodyLarge,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        InkWell(
+                                          onTap: () => increaseCount(index),
+                                          child: const Icon(
+                                            Icons.add,
+                                            size: 24,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ));
                   })
                   .values
                   .toList(),
@@ -197,42 +290,37 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   _cart() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: getContainerDecoration(
-            context,
-            fillColor: getCurrentTheme(context).cardColor,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: decreaseCount,
-                child: const Icon(Icons.remove),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                selectedVariationModel.selectedCount.toString(),
-                style: getCurrentTheme(context).textTheme.bodyLarge,
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              InkWell(
-                onTap: increaseCount,
-                child: const Icon(Icons.add),
-              ),
-            ],
-          ),
+    return InkWell(
+      onTap: addCart,
+      child: Container(
+        decoration: getContainerDecoration(
+          context,
+          fillColor: getCurrentTheme(context).indicatorColor,
         ),
-      ],
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              translate("add").toUpperCase(),
+              style: getCustomStyle(context: context, color: Colors.black),
+            ),
+            const SizedBox(
+              width: 16,
+            ),
+            Expanded(
+              child: Text(
+                "${moneyFormatter.format(price)} ${translate("sum")}",
+                style: getCustomStyle(context: context, color: Colors.black),
+                textAlign: TextAlign.end,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

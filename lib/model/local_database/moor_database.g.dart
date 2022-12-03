@@ -518,7 +518,7 @@ class $FavoriteTable extends Favorite
 class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   final int productId;
   final String name;
-  final BigInt price;
+  final int price;
   final int count;
   final bool hasStock;
   final int selectedCount;
@@ -540,7 +540,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}product_id'])!,
       name: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
-      price: const BigIntType()
+      price: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}price'])!,
       count: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}count'])!,
@@ -557,7 +557,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
     final map = <String, Expression>{};
     map['product_id'] = Variable<int>(productId);
     map['name'] = Variable<String>(name);
-    map['price'] = Variable<BigInt>(price);
+    map['price'] = Variable<int>(price);
     map['count'] = Variable<int>(count);
     map['has_stock'] = Variable<bool>(hasStock);
     map['selected_count'] = Variable<int>(selectedCount);
@@ -583,7 +583,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
     return ProductCartData(
       productId: serializer.fromJson<int>(json['productId']),
       name: serializer.fromJson<String>(json['name']),
-      price: serializer.fromJson<BigInt>(json['price']),
+      price: serializer.fromJson<int>(json['price']),
       count: serializer.fromJson<int>(json['count']),
       hasStock: serializer.fromJson<bool>(json['hasStock']),
       selectedCount: serializer.fromJson<int>(json['selectedCount']),
@@ -596,7 +596,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
     return <String, dynamic>{
       'productId': serializer.toJson<int>(productId),
       'name': serializer.toJson<String>(name),
-      'price': serializer.toJson<BigInt>(price),
+      'price': serializer.toJson<int>(price),
       'count': serializer.toJson<int>(count),
       'hasStock': serializer.toJson<bool>(hasStock),
       'selectedCount': serializer.toJson<int>(selectedCount),
@@ -607,7 +607,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   ProductCartData copyWith(
           {int? productId,
           String? name,
-          BigInt? price,
+          int? price,
           int? count,
           bool? hasStock,
           int? selectedCount,
@@ -654,7 +654,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
 class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
   final Value<int> productId;
   final Value<String> name;
-  final Value<BigInt> price;
+  final Value<int> price;
   final Value<int> count;
   final Value<bool> hasStock;
   final Value<int> selectedCount;
@@ -671,7 +671,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
   ProductCartCompanion.insert({
     required int productId,
     required String name,
-    required BigInt price,
+    required int price,
     required int count,
     required bool hasStock,
     required int selectedCount,
@@ -686,7 +686,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
   static Insertable<ProductCartData> custom({
     Expression<int>? productId,
     Expression<String>? name,
-    Expression<BigInt>? price,
+    Expression<int>? price,
     Expression<int>? count,
     Expression<bool>? hasStock,
     Expression<int>? selectedCount,
@@ -706,7 +706,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
   ProductCartCompanion copyWith(
       {Value<int>? productId,
       Value<String>? name,
-      Value<BigInt>? price,
+      Value<int>? price,
       Value<int>? count,
       Value<bool>? hasStock,
       Value<int>? selectedCount,
@@ -732,7 +732,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
       map['name'] = Variable<String>(name.value);
     }
     if (price.present) {
-      map['price'] = Variable<BigInt>(price.value);
+      map['price'] = Variable<int>(price.value);
     }
     if (count.present) {
       map['count'] = Variable<int>(count.value);
@@ -782,9 +782,9 @@ class $ProductCartTable extends ProductCart
       type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _priceMeta = const VerificationMeta('price');
   @override
-  late final GeneratedColumn<BigInt?> price = GeneratedColumn<BigInt?>(
+  late final GeneratedColumn<int?> price = GeneratedColumn<int?>(
       'price', aliasedName, false,
-      type: const BigIntType(), requiredDuringInsert: true);
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _countMeta = const VerificationMeta('count');
   @override
   late final GeneratedColumn<int?> count = GeneratedColumn<int?>(

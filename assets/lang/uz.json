@@ -4,6 +4,7 @@
   "no": "Yo'q",
   "yes": "Ha",
   "sum": "so'm",
+  "add": "Qo'shish",
   "error": {
     "unknown_error": "Aniqlanmagan xatolik",
     "refresh": "Yangilash",

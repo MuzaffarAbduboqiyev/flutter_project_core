@@ -16,7 +16,7 @@ class MoorDatabase extends _$MoorDatabase {
       path: 'application_database.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   /// Search history operations
   ///

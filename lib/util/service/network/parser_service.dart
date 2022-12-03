@@ -124,6 +124,6 @@ num parseToNum({required Map response, required String key}) {
       : 0;
 }
 
-num parseToPrice({required Map response, required String key}) {
-  return parseToNum(response: response, key: key) / 100;
+int parseToPrice({required Map response, required String key}) {
+  return parseToInt(response: response, key: key) ~/ 100;
 }
