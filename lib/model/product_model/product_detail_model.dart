@@ -5,7 +5,7 @@ class ProductDetailModel {
   final int id;
   final String name;
   final String excerpt;
-  final num price;
+  final int price;
   final int count;
   final bool hasStock;
   final String image;

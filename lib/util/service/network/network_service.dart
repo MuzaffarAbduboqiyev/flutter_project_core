@@ -2,6 +2,7 @@ import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 import 'package:delivery_service/util/service/network/urls.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 /// [NetworkService] internet(server) bilan ishlash uchun service
 /// bunda ma'lumotlarni olish va yuklash uchun [Dio] dan foydalaniladi
@@ -39,6 +40,9 @@ class NetworkServiceImpl extends NetworkService {
     final header = await _getHeader(hasHeader);
     dio.options.headers = header;
     try {
+      if (kDebugMode) {
+        print("Url: $url");
+      }
       final response = await dio.get(url);
       return NetworkResponseModel.success(response: response);
     } on DioError catch (error) {
@@ -68,6 +72,9 @@ class NetworkServiceImpl extends NetworkService {
     dio.options.headers = header;
 
     try {
+      if (kDebugMode) {
+        print("Url: $url, body: $body");
+      }
       final response = await dio.post(
         url,
         data: body,

@@ -4,7 +4,7 @@ import 'package:delivery_service/util/service/network/parser_service.dart';
 class ProductVariationModel {
   final int id;
   final String name;
-  final num price;
+  final int price;
   final bool priceDiffer;
   final int count;
   final bool hasStock;
@@ -48,7 +48,7 @@ class ProductVariationModel {
   ProductVariationModel copyWith({
     int? id,
     String? name,
-    num? price,
+    int? price,
     bool? priceDiffer,
     int? count,
     bool? hasStock,
@@ -69,7 +69,7 @@ class ProductVariationModel {
   ProductCartData parseToCartModel(int productId) => ProductCartData(
         productId: productId,
         name: name,
-        price: BigInt.from(price),
+        price: int.parse("$price"),
         count: count,
         hasStock: hasStock,
         selectedCount: selectedCount,

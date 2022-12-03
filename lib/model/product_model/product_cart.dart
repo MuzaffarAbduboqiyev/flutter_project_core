@@ -5,7 +5,7 @@ class ProductCart extends Table {
 
   TextColumn get name => text()();
 
-  Int64Column get price => int64()();
+  IntColumn get price => integer()();
 
   IntColumn get count => integer()();
 
