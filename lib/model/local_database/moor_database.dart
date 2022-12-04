@@ -95,6 +95,10 @@ class MoorDatabase extends _$MoorDatabase {
     );
   }
 
+  Stream<List<ProductCartData>> listenCartProducts() => select(productCart).watch();
+
+  Future<List<ProductCartData>> getCartProducts() => select(productCart).get();
+
   deleteProductVariation({
     required int productId,
     required int variationId,

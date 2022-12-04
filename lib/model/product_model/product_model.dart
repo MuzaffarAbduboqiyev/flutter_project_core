@@ -10,6 +10,7 @@ class ProductModel {
   final String image;
   final bool popular;
   final bool available;
+  final int selectedCount;
 
   ProductModel({
     required this.id,
@@ -21,6 +22,7 @@ class ProductModel {
     required this.image,
     required this.popular,
     required this.available,
+    required this.selectedCount,
   });
 
   factory ProductModel.example() => ProductModel(
@@ -33,6 +35,7 @@ class ProductModel {
         image: "",
         popular: false,
         available: false,
+        selectedCount: 0,
       );
 
   factory ProductModel.fromMap(Map<String, dynamic> response) => ProductModel(
@@ -45,6 +48,32 @@ class ProductModel {
         image: parseToString(response: response, key: "image"),
         popular: parseToBool(response: response, key: "is_popular"),
         available: parseToBool(response: response, key: "is_available"),
+        selectedCount: parseToInt(response: response, key: "selected_count"),
+      );
+
+  ProductModel copyWith({
+    int? id,
+    String? name,
+    String? excerpt,
+    int? price,
+    int? count,
+    bool? hasStock,
+    String? image,
+    bool? popular,
+    bool? available,
+    int? selectedCount,
+  }) =>
+      ProductModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        excerpt: excerpt ?? this.excerpt,
+        price: price ?? this.price,
+        count: count ?? this.count,
+        hasStock: hasStock ?? this.hasStock,
+        image: image ?? this.image,
+        popular: popular ?? this.popular,
+        available: available ?? this.available,
+        selectedCount: selectedCount ?? this.selectedCount,
       );
 }
 

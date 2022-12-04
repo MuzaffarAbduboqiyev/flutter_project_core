@@ -37,6 +37,10 @@ abstract class RestaurantRepository {
     required int categoryId,
     required String searchName,
   });
+
+  Stream<List<ProductCartData>> listenCartProducts();
+
+  Future<List<ProductCartData>> getCartProducts();
 }
 
 class RestaurantRepositoryImpl extends RestaurantRepository {
@@ -146,4 +150,11 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
     final response = await moorDatabase.getSingleFavorite(restaurantId);
     return response != null;
   }
+
+  @override
+  Stream<List<ProductCartData>> listenCartProducts() =>
+      productRepository.listenCartProducts();
+
+  @override
+  Future<List<ProductCartData>> getCartProducts() => productRepository.getCartProducts();
 }

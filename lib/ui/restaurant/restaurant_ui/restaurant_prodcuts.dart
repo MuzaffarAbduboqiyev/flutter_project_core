@@ -23,7 +23,7 @@ class RestaurantProducts extends StatelessWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio:
-                      (((MediaQuery.of(context).size.width - 32) / 2) / 254),
+                      (((MediaQuery.of(context).size.width - 32) / 2) / 260),
                 ),
                 itemBuilder: (_, index) => RestaurantProductItem(
                   productModel: state.products[index],

@@ -15,7 +15,11 @@ import 'package:delivery_service/ui/widgets/refresh/refresh_header.dart';
 import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
 import 'package:delivery_service/ui/widgets/sliver/sliver_delegate.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
+import 'package:delivery_service/util/service/translator/translate_service.dart';
+import 'package:delivery_service/util/theme/decorations.dart';
+import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -61,12 +65,15 @@ class RestaurantPage extends StatefulWidget {
 
 class _RestaurantPageState extends State<RestaurantPage> {
   late RefreshController refreshController;
+  final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
 
-  _refresh() {
+  void _refresh() {
     context.read<RestaurantBloc>().add(RestaurantGetEvent());
     context.read<RestaurantBloc>().add(RestaurantCategoriesEvent());
     context.read<RestaurantBloc>().add(RestaurantRefreshProductsEvent());
   }
+
+  void viewCart() {}
 
   @override
   initState() {
@@ -98,42 +105,112 @@ class _RestaurantPageState extends State<RestaurantPage> {
                   state.categoryStatus == CategoryStatus.error ||
                   state.productStatus == ProductStatus.error)
               ? ConnectionErrorWidget(refreshFunction: _refresh)
-              : ScrollConfiguration(
-                  behavior: CustomScrollBehavior(),
-                  child: NestedScrollView(
-                    headerSliverBuilder:
-                        (BuildContext context, bool innerBoxIsScrolled) {
-                      return <Widget>[
-                        getRestaurantAppbar(
-                          context,
-                          state.restaurantModel,
-                          state.isFavorite,
-                        ),
-                        SliverPersistentHeader(
-                          pinned: true,
-                          delegate: ProductSliverDelegate(
-                            child: const RestaurantCategory(),
+              : Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: ScrollConfiguration(
+                        behavior: CustomScrollBehavior(),
+                        child: NestedScrollView(
+                          headerSliverBuilder:
+                              (BuildContext context, bool innerBoxIsScrolled) {
+                            return <Widget>[
+                              getRestaurantAppbar(
+                                context,
+                                state.restaurantModel,
+                                state.isFavorite,
+                              ),
+                              SliverPersistentHeader(
+                                pinned: true,
+                                delegate: ProductSliverDelegate(
+                                  child: const RestaurantCategory(),
+                                ),
+                              ),
+                            ];
+                          },
+                          body: SmartRefresher(
+                            controller: refreshController,
+                            enablePullUp: false,
+                            enablePullDown: true,
+                            onRefresh: _refresh,
+                            header: getRefreshHeader(),
+                            physics: const BouncingScrollPhysics(),
+                            child: const CustomScrollView(
+                              slivers: [
+                                SliverToBoxAdapter(
+                                  child: RestaurantProducts(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ];
-                    },
-                    body: SmartRefresher(
-                      controller: refreshController,
-                      enablePullUp: false,
-                      enablePullDown: true,
-                      onRefresh: _refresh,
-                      header: getRefreshHeader(),
-                      physics: const BouncingScrollPhysics(),
-                      child: const CustomScrollView(
-                        slivers: [
-                          SliverToBoxAdapter(
-                            child: RestaurantProducts(),
-                          ),
-                        ],
                       ),
-                    ),
                   ),
-                ),
+                  if(state.totalCount > 0)
+                      _cart(
+                    state.totalCount,
+                    state.totalAmount,
+                  ),
+                ],
+              ),
+        ),
+      ),
+    );
+  }
+
+  _cart(int count, int price) {
+    return InkWell(
+      onTap: viewCart,
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        decoration: getContainerDecoration(
+          context,
+          fillColor: getCurrentTheme(context).indicatorColor,
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              decoration: getContainerDecoration(
+                context,
+                borderRadius: 8,
+                fillColor: Colors.black,
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8,),
+              child: Text(
+                "$count",
+                style: getCurrentTheme(context).textTheme.bodyMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: Text(
+                translate("view_cart").toUpperCase(),
+                style: getCustomStyle(context: context, color: Colors.black),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              "${moneyFormatter.format(price)} ${translate("sum")}",
+              style: getCustomStyle(context: context, color: Colors.black),
+              textAlign: TextAlign.end,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ],
         ),
       ),
     );

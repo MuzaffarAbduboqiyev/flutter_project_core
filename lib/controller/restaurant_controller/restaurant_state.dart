@@ -28,6 +28,9 @@ class RestaurantState {
   final bool isFavorite;
   final String error;
 
+  final int totalCount;
+  final int totalAmount;
+
   RestaurantState({
     required this.restaurantStatus,
     required this.restaurantModel,
@@ -39,6 +42,8 @@ class RestaurantState {
     required this.products,
     required this.searchName,
     required this.isFavorite,
+    required this.totalCount,
+    required this.totalAmount,
     required this.error,
   });
 
@@ -53,6 +58,8 @@ class RestaurantState {
         products: [],
         searchName: "",
         isFavorite: false,
+        totalCount: 0,
+        totalAmount: 0,
         error: "",
       );
 
@@ -67,6 +74,8 @@ class RestaurantState {
     List<ProductModel>? products,
     String? searchName,
     bool? isFavorite,
+    int? totalCount,
+    int? totalAmount,
     String? error,
   }) =>
       RestaurantState(
@@ -80,6 +89,8 @@ class RestaurantState {
         products: products ?? this.products,
         searchName: searchName ?? this.searchName,
         isFavorite: isFavorite ?? this.isFavorite,
+        totalCount: totalCount ?? this.totalCount,
+        totalAmount: totalAmount ?? this.totalAmount,
         error: error ?? this.error,
       );
 }

@@ -21,6 +21,10 @@ abstract class ProductRepository {
     required int productId,
     required List<ProductVariationModel> selectedVariations,
   });
+
+  Stream<List<ProductCartData>> listenCartProducts();
+
+  Future<List<ProductCartData>> getCartProducts();
 }
 
 class ProductRepositoryImpl extends ProductRepository {
@@ -115,4 +119,10 @@ class ProductRepositoryImpl extends ProductRepository {
       return SimpleResponseModel.error(responseMessage: error.toString());
     }
   }
+
+  @override
+  Stream<List<ProductCartData>> listenCartProducts() => moorDatabase.listenCartProducts();
+
+  @override
+  Future<List<ProductCartData>> getCartProducts() => moorDatabase.getCartProducts();
 }

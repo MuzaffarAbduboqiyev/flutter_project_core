@@ -130,6 +130,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             Expanded(
                               child: _body(state),
                             ),
+                            const SizedBox(height: 10),
                             _cart(),
                           ],
                         ),
@@ -207,6 +208,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     ),
                                     Text(
                                       "${moneyFormatter.format(variationModel.price)} ${translate("sum")}",
+                                      style: getCurrentTheme(context)
+                                          .textTheme
+                                          .labelMedium,
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text(
+                                      "${translate("in_stock")}: ${variationModel.count}",
                                       style: getCurrentTheme(context)
                                           .textTheme
                                           .labelMedium,
