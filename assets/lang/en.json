@@ -5,6 +5,8 @@
   "yes": "Yes",
   "sum": "sum",
   "add": "Add",
+  "in_stock": "In stock",
+  "view_cart": "View cart",
   "error": {
     "unknown_error": "Unknown error",
     "refresh": "Refresh",

@@ -1,4 +1,5 @@
 import 'package:delivery_service/model/category_model/category_model.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 
@@ -31,3 +32,12 @@ class RestaurantSelectedCategoryEvent extends RestaurantEvent {
 class RestaurantRefreshProductsEvent extends RestaurantEvent {}
 
 class RestaurantFavoriteEvent extends RestaurantEvent {}
+class RestaurantCartUpdateEvent extends RestaurantEvent {}
+
+class RestaurantCartEvent extends RestaurantEvent {
+  final List<ProductCartData> productVariations;
+
+  RestaurantCartEvent({
+    required this.productVariations,
+  });
+}

@@ -5,6 +5,8 @@
   "yes": "Ha",
   "sum": "so'm",
   "add": "Qo'shish",
+  "in_stock": "Sotuvda",
+  "view_cart": "Savatni ko'rish",
   "error": {
     "unknown_error": "Aniqlanmagan xatolik",
     "refresh": "Yangilash",

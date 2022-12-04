@@ -6,10 +6,12 @@ import 'package:delivery_service/controller/product_controller/product_state.dar
 import 'package:delivery_service/controller/restaurant_controller/restaurant_event.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   final RestaurantRepository restaurantRepository;
+  late StreamSubscription listenerCartProducts;
 
   RestaurantBloc({required this.restaurantRepository})
       : super(RestaurantState.initial()) {
@@ -42,6 +44,26 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       _changeFavorite,
       transformer: concurrent(),
     );
+
+    on<RestaurantCartEvent>(
+      _listenCartProducts,
+      transformer: concurrent(),
+    );
+
+    on<RestaurantCartUpdateEvent>(
+      _updateCartProducts,
+      transformer: concurrent(),
+    );
+
+    listenerCartProducts = restaurantRepository
+        .listenCartProducts()
+        .listen((cartProductVariations) {
+      add(
+        RestaurantCartEvent(
+          productVariations: cartProductVariations,
+        ),
+      );
+    });
   }
 
   FutureOr<void> _init(
@@ -129,6 +151,8 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
         products: response.data,
       ),
     );
+
+    add(RestaurantCartUpdateEvent());
   }
 
   FutureOr<void> _refreshProducts(RestaurantRefreshProductsEvent event,
@@ -151,6 +175,8 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
         products: response.data,
       ),
     );
+
+    add(RestaurantCartUpdateEvent());
   }
 
   FutureOr<void> _changeFavorite(
@@ -164,5 +190,55 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     await restaurantRepository.changeRestaurantFavoriteState(
       restaurantModel: state.restaurantModel,
     );
+  }
+
+  FutureOr<void> _listenCartProducts(
+      RestaurantCartEvent event, Emitter<RestaurantState> emit) {
+    int totalCount = 0;
+    int totalAmount = 0;
+    List<int> selectedProductsId = [];
+
+    state.products.asMap().forEach((index, productModel) {
+      state.products[index] = state.products[index].copyWith(selectedCount: 0);
+      for (ProductCartData productVariation in event.productVariations) {
+        if (productVariation.productId == productModel.id) {
+          state.products[index] = state.products[index].copyWith(
+            selectedCount: (state.products[index].selectedCount +
+                productVariation.selectedCount),
+          );
+
+          totalAmount +=
+              (productVariation.selectedCount * productVariation.price);
+
+          if (!selectedProductsId.contains(productModel.id)) {
+            totalCount += 1;
+            selectedProductsId.add(productModel.id);
+          }
+        }
+      }
+    });
+
+    emit(
+      state.copyWith(
+        totalAmount: totalAmount,
+        totalCount: totalCount,
+      ),
+    );
+  }
+
+  FutureOr<void> _updateCartProducts(
+      RestaurantCartUpdateEvent event, Emitter<RestaurantState> emit) async {
+    final response = await restaurantRepository.getCartProducts();
+    add(
+      RestaurantCartEvent(
+        productVariations: response,
+      ),
+    );
+  }
+
+  @override
+  close() async {
+    listenerCartProducts.cancel();
+    super.close();
   }
 }
