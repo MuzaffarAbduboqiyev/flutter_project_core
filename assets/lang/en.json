@@ -7,6 +7,11 @@
   "add": "Add",
   "in_stock": "In stock",
   "view_cart": "View cart",
+  "delivery": "Delivery",
+  "total": "Total",
+  "checkout": "Checkout",
+  "no_orders_yet": "No Orders Yet",
+  "discover": "Discover and place your first order",
   "error": {
     "unknown_error": "Unknown error",
     "refresh": "Refresh",

@@ -5,10 +5,12 @@ abstract class ProductEvent {}
 
 class ProductInitialEvent extends ProductEvent {
   int productId;
+  int restaurantId;
   ProductDetailModel? productDetailModel;
 
   ProductInitialEvent({
     required this.productId,
+    required this.restaurantId,
     this.productDetailModel,
   });
 }

@@ -38,9 +38,15 @@ abstract class RestaurantRepository {
     required String searchName,
   });
 
+
+  // listenCartProducts = Savat mahsulotlarini tinglang
   Stream<List<ProductCartData>> listenCartProducts();
 
+
+  // getCartProducts = Savat mahsulotlarini oling
   Future<List<ProductCartData>> getCartProducts();
+
+
 }
 
 class RestaurantRepositoryImpl extends RestaurantRepository {
@@ -99,7 +105,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
 
   @override
   Future<DataResponseModel<List<ProductModel>>> getRestaurantProducts({
-    required int restaurantId,
+  required int restaurantId,
     required int categoryId,
     required String searchName,
   }) async {

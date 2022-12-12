@@ -32,6 +32,7 @@ class RestaurantSelectedCategoryEvent extends RestaurantEvent {
 class RestaurantRefreshProductsEvent extends RestaurantEvent {}
 
 class RestaurantFavoriteEvent extends RestaurantEvent {}
+
 class RestaurantCartUpdateEvent extends RestaurantEvent {}
 
 class RestaurantCartEvent extends RestaurantEvent {

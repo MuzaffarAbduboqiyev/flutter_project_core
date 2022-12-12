@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 class HomeUserWidget extends StatelessWidget {
   const HomeUserWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -13,7 +14,6 @@ class HomeUserWidget extends StatelessWidget {
         "assets/img/avatar.svg",
         width: 48.0,
         height: 48.0,
-
       ),
       title: Text(
         translate("home.user_info.title"),

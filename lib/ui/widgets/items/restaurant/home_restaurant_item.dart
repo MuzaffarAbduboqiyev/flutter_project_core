@@ -1,7 +1,6 @@
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
-import 'package:delivery_service/ui/order/order_screen.dart';
 import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';

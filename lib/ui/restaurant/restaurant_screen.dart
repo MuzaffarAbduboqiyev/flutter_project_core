@@ -6,6 +6,7 @@ import 'package:delivery_service/controller/restaurant_controller/restaurant_sta
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
+import 'package:delivery_service/ui/order/order_screen.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_appbar.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_category.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_prodcuts.dart';
@@ -14,6 +15,8 @@ import 'package:delivery_service/ui/widgets/error/connection_error/connection_er
 import 'package:delivery_service/ui/widgets/refresh/refresh_header.dart';
 import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
 import 'package:delivery_service/ui/widgets/sliver/sliver_delegate.dart';
+import 'package:delivery_service/util/service/route/route_names.dart';
+import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
@@ -44,13 +47,13 @@ class RestaurantScreen extends StatelessWidget {
       create: (context) => RestaurantBloc(
         restaurantRepository: singleton(),
       )..add(
-        RestaurantInitEvent(
-          restaurantId: restaurantId,
-          restaurantModel: restaurantModel,
-          categories: categories,
-          products: products,
+          RestaurantInitEvent(
+            restaurantId: restaurantId,
+            restaurantModel: restaurantModel,
+            categories: categories,
+            products: products,
+          ),
         ),
-      ),
       child: const RestaurantPage(),
     );
   }
@@ -73,7 +76,13 @@ class _RestaurantPageState extends State<RestaurantPage> {
     context.read<RestaurantBloc>().add(RestaurantRefreshProductsEvent());
   }
 
-  void viewCart() {}
+  void viewCart() {
+    pushNewScreen(
+      context,
+      orderScreen,
+      navbarStatus: false,
+    );
+  }
 
   @override
   initState() {
@@ -106,11 +115,11 @@ class _RestaurantPageState extends State<RestaurantPage> {
                   state.productStatus == ProductStatus.error)
               ? ConnectionErrorWidget(refreshFunction: _refresh)
               : Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: ScrollConfiguration(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: ScrollConfiguration(
                         behavior: CustomScrollBehavior(),
                         child: NestedScrollView(
                           headerSliverBuilder:
@@ -120,6 +129,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                                 context,
                                 state.restaurantModel,
                                 state.isFavorite,
+                                state,
                               ),
                               SliverPersistentHeader(
                                 pinned: true,
@@ -146,20 +156,20 @@ class _RestaurantPageState extends State<RestaurantPage> {
                           ),
                         ),
                       ),
-                  ),
-                  if(state.totalCount > 0)
+                    ),
+                    if (state.totalCount > 0)
                       _cart(
-                    state.totalCount,
-                    state.totalAmount,
-                  ),
-                ],
-              ),
+                        state.totalCount,
+                        state.totalAmount,
+                      ),
+                  ],
+                ),
         ),
       ),
     );
   }
 
-  _cart(int count, int price) {
+  _cart(int totalCount, int totalAmount) {
     return InkWell(
       onTap: viewCart,
       child: Container(
@@ -179,9 +189,12 @@ class _RestaurantPageState extends State<RestaurantPage> {
                 borderRadius: 8,
                 fillColor: Colors.black,
               ),
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8,),
+              padding: const EdgeInsets.symmetric(
+                vertical: 4,
+                horizontal: 8,
+              ),
               child: Text(
-                "$count",
+                "$totalCount",
                 style: getCurrentTheme(context).textTheme.bodyMedium,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -204,7 +217,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
               width: 8,
             ),
             Text(
-              "${moneyFormatter.format(price)} ${translate("sum")}",
+              "${moneyFormatter.format(totalAmount)} ${translate("sum")}",
               style: getCustomStyle(context: context, color: Colors.black),
               textAlign: TextAlign.end,
               overflow: TextOverflow.ellipsis,

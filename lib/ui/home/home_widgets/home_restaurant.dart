@@ -1,4 +1,5 @@
 import 'package:delivery_service/controller/home_controller/home_bloc.dart';
+import 'package:delivery_service/controller/home_controller/home_event.dart';
 import 'package:delivery_service/controller/home_controller/home_state.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
 import 'package:delivery_service/ui/widgets/error/connection_error/connection_error.dart';
@@ -16,7 +17,7 @@ class HomeRestaurant extends StatefulWidget {
 }
 
 class _HomeRestaurantState extends State<HomeRestaurant> {
-  void getRestaurants() {}
+  void getRestaurantRefresh() {}
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class _HomeRestaurantState extends State<HomeRestaurant> {
               ? const HomeRestaurantShimmer()
               : (state.restaurantStatus == RestaurantStatus.error)
                   ? ConnectionErrorWidget(
-                      refreshFunction: getRestaurants,
+                      refreshFunction: getRestaurantRefresh,
                     )
                   : ScrollConfiguration(
                       behavior: CustomScrollBehavior(),

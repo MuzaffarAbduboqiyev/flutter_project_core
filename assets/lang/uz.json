@@ -7,6 +7,11 @@
   "add": "Qo'shish",
   "in_stock": "Sotuvda",
   "view_cart": "Savatni ko'rish",
+  "delivery": "Yetkazib berish",
+  "total": "Jami sum",
+  "checkout": "Tekshirib ko'rmoq",
+  "no_orders_yet": "Hozircha buyurtmalar yoʻq",
+  "discover": "Birinchi buyurtmangizni kashf qiling va joylashtiring",
   "error": {
     "unknown_error": "Aniqlanmagan xatolik",
     "refresh": "Yangilash",

@@ -15,10 +15,14 @@ abstract class ProductRepository {
 
   Future<DataResponseModel<ProductDetailModel>> getProductDetail({
     required int productId,
+    required int restaurantId,
+    required String productImage,
   });
 
   Future<SimpleResponseModel> changeProductSelectedDatabase({
     required int productId,
+    required int restaurantId,
+    required String productImage,
     required List<ProductVariationModel> selectedVariations,
   });
 
@@ -64,11 +68,15 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<DataResponseModel<ProductDetailModel>> getProductDetail(
-      {required int productId}) async {
+  Future<DataResponseModel<ProductDetailModel>> getProductDetail({
+    required int productId,
+    required int restaurantId,
+    required String productImage,
+  }) async {
     try {
       final response = await networkService.getProductDetail(
         productId: productId,
+        productImage: productImage,
       );
       if (response.status &&
           response.response != null &&
@@ -105,13 +113,16 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   Future<SimpleResponseModel> changeProductSelectedDatabase({
     required int productId,
+    required int restaurantId,
+    required String productImage,
+
     required List<ProductVariationModel> selectedVariations,
   }) async {
     try {
       await moorDatabase.deleteProduct(productId: productId);
       for (var element in selectedVariations) {
         await moorDatabase.insertProductCart(
-            productCartData: element.parseToCartModel(productId));
+            productCartData: element.parseToCartModel(productId, productImage));
       }
 
       return SimpleResponseModel.success();
@@ -121,8 +132,10 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Stream<List<ProductCartData>> listenCartProducts() => moorDatabase.listenCartProducts();
+  Stream<List<ProductCartData>> listenCartProducts() =>
+      moorDatabase.listenCartProducts();
 
   @override
-  Future<List<ProductCartData>> getCartProducts() => moorDatabase.getCartProducts();
+  Future<List<ProductCartData>> getCartProducts() =>
+      moorDatabase.getCartProducts();
 }

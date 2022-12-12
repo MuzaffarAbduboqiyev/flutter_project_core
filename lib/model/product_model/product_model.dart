@@ -26,7 +26,7 @@ class ProductModel {
   });
 
   factory ProductModel.example() => ProductModel(
-    id: 0,
+        id: 0,
         name: "",
         excerpt: "",
         price: 0,
@@ -39,7 +39,7 @@ class ProductModel {
       );
 
   factory ProductModel.fromMap(Map<String, dynamic> response) => ProductModel(
-    id: parseToInt(response: response, key: "id"),
+        id: parseToInt(response: response, key: "id"),
         name: parseToString(response: response, key: "name"),
         excerpt: parseToString(response: response, key: "excerpt"),
         price: parseToPrice(response: response, key: "price"),

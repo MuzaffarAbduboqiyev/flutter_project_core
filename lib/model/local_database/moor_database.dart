@@ -13,13 +13,12 @@ part 'moor_database.g.dart';
 class MoorDatabase extends _$MoorDatabase {
   MoorDatabase()
       : super(FlutterQueryExecutor.inDatabaseFolder(
-      path: 'application_database.sqlite', logStatements: true));
+            path: 'application_database.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 6;
 
   /// Search history operations
-  ///
   /// Insert new search name -> Yangi qidiruv nomini kiritish
   /// Agar bu nom avval bo'lsa almashtiradi, yoki yangi nom qo'shadi
   Future insertSearchHistory(SearchData searchData) =>
@@ -56,8 +55,6 @@ class MoorDatabase extends _$MoorDatabase {
     return select(favorite).get();
   }
 
-
-
   Stream<List<FavoriteData>> listenFavourite() {
     return select(favorite).watch();
   }
@@ -78,24 +75,20 @@ class MoorDatabase extends _$MoorDatabase {
       (delete(favorite)..where((dbItem) => dbItem.id.equals(restaurantId)))
           .go();
 
-  Future<List<ProductCartData>> getProductVariations({
-    required int productId,
-  }) {
+  /// Product
+  Future<List<ProductCartData>> getProductVariations({required int productId}) {
     return (select(productCart)
           ..where((databaseItem) => databaseItem.productId.equals(productId)))
         .get();
   }
 
-  Future insertProductCart({
-    required ProductCartData productCartData,
-  }) {
-    return into(productCart).insert(
-      productCartData,
-      mode: InsertMode.insertOrReplace,
-    );
+  Future insertProductCart({required ProductCartData productCartData}) {
+    return into(productCart)
+        .insert(productCartData, mode: InsertMode.insertOrReplace);
   }
 
-  Stream<List<ProductCartData>> listenCartProducts() => select(productCart).watch();
+  Stream<List<ProductCartData>> listenCartProducts() =>
+      select(productCart).watch();
 
   Future<List<ProductCartData>> getCartProducts() => select(productCart).get();
 
@@ -109,15 +102,12 @@ class MoorDatabase extends _$MoorDatabase {
                 databaseItem.variationId.equals(variationId)))
           .go();
 
-  deleteProduct({
+    deleteProduct({
     required int productId,
   }) =>
       (delete(productCart)
-            ..where((databaseItem) =>
-                databaseItem.productId.equals(productId)))
+            ..where((databaseItem) => databaseItem.productId.equals(productId)))
           .go();
-
-
 
   clearProductCart() => (delete(productCart)).go();
 }

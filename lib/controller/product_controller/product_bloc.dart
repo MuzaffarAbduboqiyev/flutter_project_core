@@ -56,8 +56,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       ),
     );
 
-    final response =
-        await repository.getProductDetail(productId: state.productId);
+    final response = await repository.getProductDetail(
+      productId: state.productId,
+      restaurantId: state.selectedVariationModel.id,
+      productImage: state.productDetailModel.image,
+    );
 
     emit(
       state.copyWith(
@@ -85,6 +88,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     final SimpleResponseModel response =
         await repository.changeProductSelectedDatabase(
       productId: state.productId,
+       restaurantId: state.selectedVariationModel.price,
+      productImage: state.productDetailModel.image,
       selectedVariations: event.productVariations,
     );
 

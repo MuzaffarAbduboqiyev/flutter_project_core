@@ -16,7 +16,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   RestaurantBloc({required this.restaurantRepository})
       : super(RestaurantState.initial()) {
     on<RestaurantInitEvent>(
-      _init,
+      _initial,
       transformer: concurrent(),
     );
 
@@ -65,8 +65,8 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       );
     });
   }
-
-  FutureOr<void> _init(
+  // _initial = boshlang'ich
+  FutureOr<void> _initial(
       RestaurantInitEvent event, Emitter<RestaurantState> emit) {
     emit(
       state.copyWith(
@@ -77,7 +77,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       ),
     );
   }
-
+  // _getRestaurant = restoran oling
   FutureOr<void> _getRestaurant(
       RestaurantGetEvent event, Emitter<RestaurantState> emit) async {
     emit(
@@ -103,7 +103,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       ),
     );
   }
-
+  // _getCategories = Kategoriyalarni oling
   FutureOr<void> _getCategories(
       RestaurantCategoriesEvent event, Emitter<RestaurantState> emit) async {
     emit(
@@ -124,7 +124,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       ),
     );
   }
-
+  // _changeSelectedCategory = Tanlangan toifani o'zgartirish
   FutureOr<void> _changeSelectedCategory(
     RestaurantSelectedCategoryEvent event,
     Emitter<RestaurantState> emit,
@@ -154,7 +154,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
 
     add(RestaurantCartUpdateEvent());
   }
-
+  // _refreshProducts = Mahsulotlarni yangilash
   FutureOr<void> _refreshProducts(RestaurantRefreshProductsEvent event,
       Emitter<RestaurantState> emit) async {
     emit(
@@ -178,7 +178,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
 
     add(RestaurantCartUpdateEvent());
   }
-
+  // _changeFavorite = Sevimlini o'zgartirish
   FutureOr<void> _changeFavorite(
       RestaurantFavoriteEvent event, Emitter<RestaurantState> emit) async {
     emit(
@@ -191,7 +191,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       restaurantModel: state.restaurantModel,
     );
   }
-
+  // _listenCartProducts = Savat mahsulotlarini tinglang
   FutureOr<void> _listenCartProducts(
       RestaurantCartEvent event, Emitter<RestaurantState> emit) {
     int totalCount = 0;
@@ -226,13 +226,12 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     );
   }
 
+  // _updateCartProducts = Savat mahsulotlarini yangilash
   FutureOr<void> _updateCartProducts(
       RestaurantCartUpdateEvent event, Emitter<RestaurantState> emit) async {
     final response = await restaurantRepository.getCartProducts();
     add(
-      RestaurantCartEvent(
-        productVariations: response,
-      ),
+      RestaurantCartEvent(productVariations: response),
     );
   }
 

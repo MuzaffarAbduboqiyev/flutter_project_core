@@ -1,5 +1,6 @@
 import 'package:delivery_service/controller/app_controller/app_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
+import 'package:delivery_service/controller/order_controller/order_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/controller/search_controller/search_repository.dart';
@@ -53,7 +54,7 @@ void init() {
 
   /// MoorDatabase
   singleton.registerLazySingleton<MoorDatabase>(
-        () => MoorDatabase(),
+    () => MoorDatabase(),
   );
 
   /// Category category
@@ -85,7 +86,6 @@ void init() {
     ),
   );
 
-
   /// Search controller
   singleton.registerLazySingleton<SearchRepository>(
     () => SearchRepositoryImpl(
@@ -115,6 +115,11 @@ void init() {
     ),
   );
 
-
+  /// order controller
+  singleton.registerLazySingleton<OrderRepository>(
+    () => OrderRepositoryImpl(
+      moorDatabase: singleton(),
+    ),
+  );
 
 }

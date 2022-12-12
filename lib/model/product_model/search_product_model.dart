@@ -24,7 +24,8 @@ class SearchProductModel {
         vendor: VendorModel.example(),
       );
 
-  factory SearchProductModel.fromMap(Map<String, dynamic> response) => SearchProductModel(
+  factory SearchProductModel.fromMap(Map<String, dynamic> response) =>
+      SearchProductModel(
         id: parseToInt(response: response, key: "id"),
         name: parseToString(response: response, key: "name"),
         image: parseToString(response: response, key: "image"),
@@ -38,7 +39,8 @@ List<SearchProductModel> parseSearchProductModel(dynamic response) {
 
   if (response is List) {
     for (var element in response) {
-      final SearchProductModel productModel = SearchProductModel.fromMap(element);
+      final SearchProductModel productModel =
+          SearchProductModel.fromMap(element);
       products.add(productModel);
     }
   }

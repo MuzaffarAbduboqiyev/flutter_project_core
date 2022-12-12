@@ -520,6 +520,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   final String name;
   final int price;
   final int count;
+  final String image;
   final bool hasStock;
   final int selectedCount;
   final int variationId;
@@ -528,6 +529,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
       required this.name,
       required this.price,
       required this.count,
+      required this.image,
       required this.hasStock,
       required this.selectedCount,
       required this.variationId});
@@ -544,6 +546,8 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}price'])!,
       count: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}count'])!,
+      image: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}image'])!,
       hasStock: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}has_stock'])!,
       selectedCount: const IntType()
@@ -559,6 +563,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
     map['name'] = Variable<String>(name);
     map['price'] = Variable<int>(price);
     map['count'] = Variable<int>(count);
+    map['image'] = Variable<String>(image);
     map['has_stock'] = Variable<bool>(hasStock);
     map['selected_count'] = Variable<int>(selectedCount);
     map['variation_id'] = Variable<int>(variationId);
@@ -571,6 +576,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
       name: Value(name),
       price: Value(price),
       count: Value(count),
+      image: Value(image),
       hasStock: Value(hasStock),
       selectedCount: Value(selectedCount),
       variationId: Value(variationId),
@@ -585,6 +591,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
       name: serializer.fromJson<String>(json['name']),
       price: serializer.fromJson<int>(json['price']),
       count: serializer.fromJson<int>(json['count']),
+      image: serializer.fromJson<String>(json['image']),
       hasStock: serializer.fromJson<bool>(json['hasStock']),
       selectedCount: serializer.fromJson<int>(json['selectedCount']),
       variationId: serializer.fromJson<int>(json['variationId']),
@@ -598,6 +605,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
       'name': serializer.toJson<String>(name),
       'price': serializer.toJson<int>(price),
       'count': serializer.toJson<int>(count),
+      'image': serializer.toJson<String>(image),
       'hasStock': serializer.toJson<bool>(hasStock),
       'selectedCount': serializer.toJson<int>(selectedCount),
       'variationId': serializer.toJson<int>(variationId),
@@ -609,6 +617,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
           String? name,
           int? price,
           int? count,
+          String? image,
           bool? hasStock,
           int? selectedCount,
           int? variationId}) =>
@@ -617,6 +626,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
         name: name ?? this.name,
         price: price ?? this.price,
         count: count ?? this.count,
+        image: image ?? this.image,
         hasStock: hasStock ?? this.hasStock,
         selectedCount: selectedCount ?? this.selectedCount,
         variationId: variationId ?? this.variationId,
@@ -628,6 +638,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
           ..write('name: $name, ')
           ..write('price: $price, ')
           ..write('count: $count, ')
+          ..write('image: $image, ')
           ..write('hasStock: $hasStock, ')
           ..write('selectedCount: $selectedCount, ')
           ..write('variationId: $variationId')
@@ -636,8 +647,8 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   }
 
   @override
-  int get hashCode => Object.hash(
-      productId, name, price, count, hasStock, selectedCount, variationId);
+  int get hashCode => Object.hash(productId, name, price, count, image,
+      hasStock, selectedCount, variationId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -646,6 +657,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
           other.name == this.name &&
           other.price == this.price &&
           other.count == this.count &&
+          other.image == this.image &&
           other.hasStock == this.hasStock &&
           other.selectedCount == this.selectedCount &&
           other.variationId == this.variationId);
@@ -656,6 +668,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
   final Value<String> name;
   final Value<int> price;
   final Value<int> count;
+  final Value<String> image;
   final Value<bool> hasStock;
   final Value<int> selectedCount;
   final Value<int> variationId;
@@ -664,6 +677,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
     this.name = const Value.absent(),
     this.price = const Value.absent(),
     this.count = const Value.absent(),
+    this.image = const Value.absent(),
     this.hasStock = const Value.absent(),
     this.selectedCount = const Value.absent(),
     this.variationId = const Value.absent(),
@@ -673,6 +687,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
     required String name,
     required int price,
     required int count,
+    required String image,
     required bool hasStock,
     required int selectedCount,
     required int variationId,
@@ -680,6 +695,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
         name = Value(name),
         price = Value(price),
         count = Value(count),
+        image = Value(image),
         hasStock = Value(hasStock),
         selectedCount = Value(selectedCount),
         variationId = Value(variationId);
@@ -688,6 +704,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
     Expression<String>? name,
     Expression<int>? price,
     Expression<int>? count,
+    Expression<String>? image,
     Expression<bool>? hasStock,
     Expression<int>? selectedCount,
     Expression<int>? variationId,
@@ -697,6 +714,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
       if (name != null) 'name': name,
       if (price != null) 'price': price,
       if (count != null) 'count': count,
+      if (image != null) 'image': image,
       if (hasStock != null) 'has_stock': hasStock,
       if (selectedCount != null) 'selected_count': selectedCount,
       if (variationId != null) 'variation_id': variationId,
@@ -708,6 +726,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
       Value<String>? name,
       Value<int>? price,
       Value<int>? count,
+      Value<String>? image,
       Value<bool>? hasStock,
       Value<int>? selectedCount,
       Value<int>? variationId}) {
@@ -716,6 +735,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
       name: name ?? this.name,
       price: price ?? this.price,
       count: count ?? this.count,
+      image: image ?? this.image,
       hasStock: hasStock ?? this.hasStock,
       selectedCount: selectedCount ?? this.selectedCount,
       variationId: variationId ?? this.variationId,
@@ -737,6 +757,9 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
     if (count.present) {
       map['count'] = Variable<int>(count.value);
     }
+    if (image.present) {
+      map['image'] = Variable<String>(image.value);
+    }
     if (hasStock.present) {
       map['has_stock'] = Variable<bool>(hasStock.value);
     }
@@ -756,6 +779,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
           ..write('name: $name, ')
           ..write('price: $price, ')
           ..write('count: $count, ')
+          ..write('image: $image, ')
           ..write('hasStock: $hasStock, ')
           ..write('selectedCount: $selectedCount, ')
           ..write('variationId: $variationId')
@@ -790,6 +814,11 @@ class $ProductCartTable extends ProductCart
   late final GeneratedColumn<int?> count = GeneratedColumn<int?>(
       'count', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _imageMeta = const VerificationMeta('image');
+  @override
+  late final GeneratedColumn<String?> image = GeneratedColumn<String?>(
+      'image', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _hasStockMeta = const VerificationMeta('hasStock');
   @override
   late final GeneratedColumn<bool?> hasStock = GeneratedColumn<bool?>(
@@ -810,8 +839,16 @@ class $ProductCartTable extends ProductCart
       'variation_id', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns =>
-      [productId, name, price, count, hasStock, selectedCount, variationId];
+  List<GeneratedColumn> get $columns => [
+        productId,
+        name,
+        price,
+        count,
+        image,
+        hasStock,
+        selectedCount,
+        variationId
+      ];
   @override
   String get aliasedName => _alias ?? 'product_cart';
   @override
@@ -844,6 +881,12 @@ class $ProductCartTable extends ProductCart
           _countMeta, count.isAcceptableOrUnknown(data['count']!, _countMeta));
     } else if (isInserting) {
       context.missing(_countMeta);
+    }
+    if (data.containsKey('image')) {
+      context.handle(
+          _imageMeta, image.isAcceptableOrUnknown(data['image']!, _imageMeta));
+    } else if (isInserting) {
+      context.missing(_imageMeta);
     }
     if (data.containsKey('has_stock')) {
       context.handle(_hasStockMeta,

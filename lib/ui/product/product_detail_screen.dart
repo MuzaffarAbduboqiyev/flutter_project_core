@@ -6,6 +6,7 @@ import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
 import 'package:delivery_service/ui/widgets/error/connection_error/connection_error.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
+import 'package:delivery_service/ui/widgets/shimmer/product/product_deteil_shimmer.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
@@ -19,9 +20,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final int productId;
+  final int restaurantId;
 
   const ProductDetailScreen({
     required this.productId,
+    required this.restaurantId,
     Key? key,
   }) : super(key: key);
 
@@ -31,9 +34,12 @@ class ProductDetailScreen extends StatelessWidget {
       create: (context) => ProductBloc(
         ProductState.initial(),
         repository: singleton(),
-      )..add(ProductInitialEvent(
-          productId: productId,
-        )),
+      )..add(
+          ProductInitialEvent(
+            productId: productId,
+            restaurantId: restaurantId,
+          ),
+        ),
       child: const ProductDetailPage(),
     );
   }
@@ -49,7 +55,7 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
   List<ProductVariationModel> variationModels = [];
-  num price = 0;
+  num _price = 0;
 
   addCart() {
     context.read<ProductBloc>().add(
@@ -61,6 +67,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         );
   }
 
+  // add qilish
   increaseCount(int index) {
     if (variationModels[index].selectedCount < variationModels[index].count) {
       setState(() {
@@ -68,18 +75,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           selectedCount: variationModels[index].selectedCount + 1,
         );
 
-        price += variationModels[index].price;
+        _price += variationModels[index].price;
       });
     }
   }
 
+  // remove bitta kamaytrish
   decreaseCount(int index) {
     if (variationModels[index].selectedCount > 0) {
       setState(() {
         variationModels[index] = variationModels[index].copyWith(
           selectedCount: variationModels[index].selectedCount - 1,
         );
-        price -= variationModels[index].price;
+        _price -= variationModels[index].price;
       });
     }
   }
@@ -111,22 +119,30 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
           if (state.productDetailModel.variations.isNotEmpty &&
               variationModels.isEmpty) {
-            price = 0;
+            _price = 0;
             variationModels = state.productDetailModel.variations;
             for (var element in variationModels) {
-              price += (element.selectedCount * element.price);
-            }}
+              _price += (element.selectedCount * element.price);
+            }
+          }
         },
         child: BlocBuilder<ProductBloc, ProductState>(
           builder: (context, state) =>
               state.productStatus == ProductStatus.loading
-                  ? imageLoader()
+                  ? const ProductDetailShimmer()
                   : state.productStatus == ProductStatus.error
                       ? ConnectionErrorWidget(refreshFunction: _refresh)
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
+                            Text("${state.productId}  productId"),
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(Icons.arrow_back)),
                             Expanded(
                               child: _body(state),
                             ),
@@ -158,16 +174,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 28,
-            ),
+            const SizedBox(height: 24),
             Text(
               state.productDetailModel.name,
               style: getCurrentTheme(context).textTheme.displayLarge,
             ),
-            const SizedBox(
-              height: 12,
-            ),
+            const SizedBox(height: 12),
             Text(
               state.productDetailModel.description,
               style: getCurrentTheme(context).textTheme.labelLarge,
@@ -324,7 +336,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
             Expanded(
               child: Text(
-                "${moneyFormatter.format(price)} ${translate("sum")}",
+                "${moneyFormatter.format(_price)} ${translate("sum")}",
                 style: getCustomStyle(context: context, color: Colors.black),
                 textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,

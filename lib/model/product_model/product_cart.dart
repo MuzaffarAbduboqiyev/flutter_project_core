@@ -9,6 +9,8 @@ class ProductCart extends Table {
 
   IntColumn get count => integer()();
 
+  TextColumn get image => text()();
+
   BoolColumn get hasStock => boolean()();
 
   IntColumn get selectedCount => integer()();

@@ -1,4 +1,5 @@
 import 'package:delivery_service/model/product_model/product_model.dart';
+import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/ui/product/product_detail_screen.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
@@ -10,9 +11,11 @@ import 'package:flutter/material.dart';
 
 class RestaurantProductItem extends StatefulWidget {
   final ProductModel productModel;
+  final RestaurantModel restaurantModel;
 
   const RestaurantProductItem({
     required this.productModel,
+    required this.restaurantModel,
     Key? key,
   }) : super(key: key);
 
@@ -86,11 +89,16 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
                           borderRadius: 8,
                           fillColor: getCurrentTheme(context).indicatorColor,
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8,),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 8,
+                        ),
                         child: Text(
-                          "${widget.productModel.selectedCount}",
+                          "${widget.productModel.selectedCount}xkhvbsdufh d",
                           style: getCustomStyle(
-                              context: context, color: Colors.black, textSize: 12),
+                              context: context,
+                              color: Colors.black,
+                              textSize: 12),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
@@ -111,8 +119,10 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       context: context,
-      builder: (builderContext) =>
-          ProductDetailScreen(productId: widget.productModel.id),
+      builder: (builderContext) => ProductDetailScreen(
+        productId: widget.productModel.id,
+        restaurantId: widget.restaurantModel.id,
+      ),
     );
   }
 }

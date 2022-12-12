@@ -11,6 +11,7 @@ abstract class ProductNetworkService {
 
   Future<NetworkResponseModel> getProductDetail({
     required int productId,
+    required String productImage,
   });
 }
 
@@ -39,7 +40,7 @@ class ProductNetworkServiceImpl extends ProductNetworkService {
 
   @override
   Future<NetworkResponseModel> getProductDetail(
-      {required int productId}) async {
+      {required int productId, required String productImage}) async {
     final response =
         await networkService.getMethod(url: "$productUrl/$productId");
     return response;

@@ -67,7 +67,7 @@ class RestaurantProductShimmer extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            Container(
+            SizedBox(
               height: 29,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
