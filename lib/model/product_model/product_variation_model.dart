@@ -66,8 +66,9 @@ class ProductVariationModel {
         selectedCount: selectedCount ?? this.selectedCount,
       );
 
-  ProductCartData parseToCartModel(int productId, String productImage) =>
+  ProductCartData parseToCartModel(int restaurantId, int productId, String productImage) =>
       ProductCartData(
+        restaurantId: restaurantId,
         productId: productId,
         name: name,
         price: int.parse("$price"),

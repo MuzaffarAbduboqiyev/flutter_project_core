@@ -13,7 +13,7 @@ enum ProductStatus {
 class ProductState {
   final ProductStatus productStatus;
   final int productId;
-  final RestaurantModel restaurantModel;
+  final int restaurantId;
   final ProductDetailModel productDetailModel;
   final String error;
   final ProductVariationModel selectedVariationModel;
@@ -21,7 +21,7 @@ class ProductState {
   ProductState({
     required this.productStatus,
     required this.productId,
-    required this.restaurantModel,
+    required this.restaurantId,
     required this.productDetailModel,
     required this.selectedVariationModel,
     required this.error,
@@ -30,7 +30,7 @@ class ProductState {
   factory ProductState.initial() => ProductState(
         productStatus: ProductStatus.init,
         productId: 0,
-        restaurantModel: RestaurantModel.example(),
+        restaurantId: 0,
         productDetailModel: ProductDetailModel.example(),
         selectedVariationModel: ProductVariationModel.example(),
         error: "",
@@ -39,7 +39,7 @@ class ProductState {
   ProductState copyWith({
     ProductStatus? productStatus,
     int? productId,
-    RestaurantModel? restaurantModel,
+    int? restaurantId,
     ProductDetailModel? productDetailModel,
     ProductVariationModel? selectedVariationModel,
     String? error,
@@ -47,7 +47,7 @@ class ProductState {
       ProductState(
         productStatus: productStatus ?? this.productStatus,
         productId: productId ?? this.productId,
-        restaurantModel: restaurantModel ?? this.restaurantModel,
+        restaurantId: restaurantId ?? this.restaurantId,
         productDetailModel: productDetailModel ?? this.productDetailModel,
         selectedVariationModel:
             selectedVariationModel ?? this.selectedVariationModel,

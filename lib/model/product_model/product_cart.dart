@@ -1,6 +1,8 @@
 import 'package:moor_flutter/moor_flutter.dart';
 
 class ProductCart extends Table {
+  IntColumn get restaurantId => integer()();
+
   IntColumn get productId => integer()();
 
   TextColumn get name => text()();

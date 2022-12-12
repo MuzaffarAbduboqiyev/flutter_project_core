@@ -11,11 +11,11 @@ import 'package:flutter/material.dart';
 
 class RestaurantProductItem extends StatefulWidget {
   final ProductModel productModel;
-  final RestaurantModel restaurantModel;
+  final int restaurantId;
 
   const RestaurantProductItem({
     required this.productModel,
-    required this.restaurantModel,
+    required this.restaurantId,
     Key? key,
   }) : super(key: key);
 
@@ -94,7 +94,7 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
                           horizontal: 8,
                         ),
                         child: Text(
-                          "${widget.productModel.selectedCount}xkhvbsdufh d",
+                          "${widget.productModel.selectedCount}",
                           style: getCustomStyle(
                               context: context,
                               color: Colors.black,
@@ -121,7 +121,7 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
       context: context,
       builder: (builderContext) => ProductDetailScreen(
         productId: widget.productModel.id,
-        restaurantId: widget.restaurantModel.id,
+        restaurantId: widget.restaurantId,
       ),
     );
   }

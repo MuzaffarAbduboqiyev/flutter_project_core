@@ -5,6 +5,9 @@ import 'package:delivery_service/model/product_model/product_network_service.dar
 import 'package:delivery_service/model/product_model/product_variation_model.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
+import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
+import 'package:delivery_service/util/service/translator/translate_service.dart';
+import 'package:flutter/material.dart';
 
 abstract class ProductRepository {
   Future<DataResponseModel<List<ProductModel>>> getRestaurantProducts({
@@ -20,6 +23,7 @@ abstract class ProductRepository {
   });
 
   Future<SimpleResponseModel> changeProductSelectedDatabase({
+    required BuildContext context,
     required int productId,
     required int restaurantId,
     required String productImage,
@@ -29,6 +33,8 @@ abstract class ProductRepository {
   Stream<List<ProductCartData>> listenCartProducts();
 
   Future<List<ProductCartData>> getCartProducts();
+
+  Future<SimpleResponseModel> clearCartProducts();
 }
 
 class ProductRepositoryImpl extends ProductRepository {
@@ -112,17 +118,38 @@ class ProductRepositoryImpl extends ProductRepository {
 
   @override
   Future<SimpleResponseModel> changeProductSelectedDatabase({
+    required BuildContext context,
     required int productId,
     required int restaurantId,
     required String productImage,
-
     required List<ProductVariationModel> selectedVariations,
   }) async {
     try {
-      await moorDatabase.deleteProduct(productId: productId);
-      for (var element in selectedVariations) {
-        await moorDatabase.insertProductCart(
-            productCartData: element.parseToCartModel(productId, productImage));
+      final databaseProducts = await moorDatabase.getCartProducts();
+      if (databaseProducts.isNotEmpty &&
+          databaseProducts.first.restaurantId != restaurantId) {
+        final response =  await showConfirmDialog(
+          context: context,
+          title: translate("search.clear_title"),
+          content: translate("search.clear_content"),
+          confirm: clearCartProducts,
+        );
+
+        if(response != null && response == true){
+          await moorDatabase.deleteProduct(productId: productId);
+          for (var element in selectedVariations) {
+            await moorDatabase.insertProductCart(
+                productCartData: element.parseToCartModel(
+                    restaurantId, productId, productImage));
+          }
+        }
+      } else {
+        await moorDatabase.deleteProduct(productId: productId);
+        for (var element in selectedVariations) {
+          await moorDatabase.insertProductCart(
+              productCartData: element.parseToCartModel(
+                  restaurantId, productId, productImage));
+        }
       }
 
       return SimpleResponseModel.success();
@@ -138,4 +165,10 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   Future<List<ProductCartData>> getCartProducts() =>
       moorDatabase.getCartProducts();
+
+  @override
+  Future<SimpleResponseModel> clearCartProducts() async {
+    await moorDatabase.clearProductCart();
+    return SimpleResponseModel.success();
+  }
 }

@@ -60,6 +60,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   addCart() {
     context.read<ProductBloc>().add(
           ProductCartEvent(
+            context: context,
             productVariations: variationModels
                 .where((element) => element.selectedCount > 0)
                 .toList(),

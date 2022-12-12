@@ -516,6 +516,7 @@ class $FavoriteTable extends Favorite
 }
 
 class ProductCartData extends DataClass implements Insertable<ProductCartData> {
+  final int restaurantId;
   final int productId;
   final String name;
   final int price;
@@ -525,7 +526,8 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   final int selectedCount;
   final int variationId;
   ProductCartData(
-      {required this.productId,
+      {required this.restaurantId,
+      required this.productId,
       required this.name,
       required this.price,
       required this.count,
@@ -538,6 +540,8 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return ProductCartData(
+      restaurantId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}restaurant_id'])!,
       productId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}product_id'])!,
       name: const StringType()
@@ -559,6 +563,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    map['restaurant_id'] = Variable<int>(restaurantId);
     map['product_id'] = Variable<int>(productId);
     map['name'] = Variable<String>(name);
     map['price'] = Variable<int>(price);
@@ -572,6 +577,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
 
   ProductCartCompanion toCompanion(bool nullToAbsent) {
     return ProductCartCompanion(
+      restaurantId: Value(restaurantId),
       productId: Value(productId),
       name: Value(name),
       price: Value(price),
@@ -587,6 +593,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ProductCartData(
+      restaurantId: serializer.fromJson<int>(json['restaurantId']),
       productId: serializer.fromJson<int>(json['productId']),
       name: serializer.fromJson<String>(json['name']),
       price: serializer.fromJson<int>(json['price']),
@@ -601,6 +608,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'restaurantId': serializer.toJson<int>(restaurantId),
       'productId': serializer.toJson<int>(productId),
       'name': serializer.toJson<String>(name),
       'price': serializer.toJson<int>(price),
@@ -613,7 +621,8 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   }
 
   ProductCartData copyWith(
-          {int? productId,
+          {int? restaurantId,
+          int? productId,
           String? name,
           int? price,
           int? count,
@@ -622,6 +631,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
           int? selectedCount,
           int? variationId}) =>
       ProductCartData(
+        restaurantId: restaurantId ?? this.restaurantId,
         productId: productId ?? this.productId,
         name: name ?? this.name,
         price: price ?? this.price,
@@ -634,6 +644,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   @override
   String toString() {
     return (StringBuffer('ProductCartData(')
+          ..write('restaurantId: $restaurantId, ')
           ..write('productId: $productId, ')
           ..write('name: $name, ')
           ..write('price: $price, ')
@@ -647,12 +658,13 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
   }
 
   @override
-  int get hashCode => Object.hash(productId, name, price, count, image,
-      hasStock, selectedCount, variationId);
+  int get hashCode => Object.hash(restaurantId, productId, name, price, count,
+      image, hasStock, selectedCount, variationId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ProductCartData &&
+          other.restaurantId == this.restaurantId &&
           other.productId == this.productId &&
           other.name == this.name &&
           other.price == this.price &&
@@ -664,6 +676,7 @@ class ProductCartData extends DataClass implements Insertable<ProductCartData> {
 }
 
 class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
+  final Value<int> restaurantId;
   final Value<int> productId;
   final Value<String> name;
   final Value<int> price;
@@ -673,6 +686,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
   final Value<int> selectedCount;
   final Value<int> variationId;
   const ProductCartCompanion({
+    this.restaurantId = const Value.absent(),
     this.productId = const Value.absent(),
     this.name = const Value.absent(),
     this.price = const Value.absent(),
@@ -683,6 +697,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
     this.variationId = const Value.absent(),
   });
   ProductCartCompanion.insert({
+    required int restaurantId,
     required int productId,
     required String name,
     required int price,
@@ -691,7 +706,8 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
     required bool hasStock,
     required int selectedCount,
     required int variationId,
-  })  : productId = Value(productId),
+  })  : restaurantId = Value(restaurantId),
+        productId = Value(productId),
         name = Value(name),
         price = Value(price),
         count = Value(count),
@@ -700,6 +716,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
         selectedCount = Value(selectedCount),
         variationId = Value(variationId);
   static Insertable<ProductCartData> custom({
+    Expression<int>? restaurantId,
     Expression<int>? productId,
     Expression<String>? name,
     Expression<int>? price,
@@ -710,6 +727,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
     Expression<int>? variationId,
   }) {
     return RawValuesInsertable({
+      if (restaurantId != null) 'restaurant_id': restaurantId,
       if (productId != null) 'product_id': productId,
       if (name != null) 'name': name,
       if (price != null) 'price': price,
@@ -722,7 +740,8 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
   }
 
   ProductCartCompanion copyWith(
-      {Value<int>? productId,
+      {Value<int>? restaurantId,
+      Value<int>? productId,
       Value<String>? name,
       Value<int>? price,
       Value<int>? count,
@@ -731,6 +750,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
       Value<int>? selectedCount,
       Value<int>? variationId}) {
     return ProductCartCompanion(
+      restaurantId: restaurantId ?? this.restaurantId,
       productId: productId ?? this.productId,
       name: name ?? this.name,
       price: price ?? this.price,
@@ -745,6 +765,9 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (restaurantId.present) {
+      map['restaurant_id'] = Variable<int>(restaurantId.value);
+    }
     if (productId.present) {
       map['product_id'] = Variable<int>(productId.value);
     }
@@ -775,6 +798,7 @@ class ProductCartCompanion extends UpdateCompanion<ProductCartData> {
   @override
   String toString() {
     return (StringBuffer('ProductCartCompanion(')
+          ..write('restaurantId: $restaurantId, ')
           ..write('productId: $productId, ')
           ..write('name: $name, ')
           ..write('price: $price, ')
@@ -794,6 +818,12 @@ class $ProductCartTable extends ProductCart
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $ProductCartTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _restaurantIdMeta =
+      const VerificationMeta('restaurantId');
+  @override
+  late final GeneratedColumn<int?> restaurantId = GeneratedColumn<int?>(
+      'restaurant_id', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _productIdMeta = const VerificationMeta('productId');
   @override
   late final GeneratedColumn<int?> productId = GeneratedColumn<int?>(
@@ -840,6 +870,7 @@ class $ProductCartTable extends ProductCart
       type: const IntType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
+        restaurantId,
         productId,
         name,
         price,
@@ -858,6 +889,14 @@ class $ProductCartTable extends ProductCart
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('restaurant_id')) {
+      context.handle(
+          _restaurantIdMeta,
+          restaurantId.isAcceptableOrUnknown(
+              data['restaurant_id']!, _restaurantIdMeta));
+    } else if (isInserting) {
+      context.missing(_restaurantIdMeta);
+    }
     if (data.containsKey('product_id')) {
       context.handle(_productIdMeta,
           productId.isAcceptableOrUnknown(data['product_id']!, _productIdMeta));

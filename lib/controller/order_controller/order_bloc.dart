@@ -50,9 +50,17 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   FutureOr<void> _orderCartProduct(
       OrderCartProductEvent event, Emitter<OrderState> emit) {
+
+    int price = 0;
+
+    for (var element in event.products) {
+      price += (element.price * element.selectedCount);
+    }
+
     emit(
       state.copyWith(
         products: event.products,
+        price: price,
       ),
     );
   }
