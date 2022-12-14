@@ -102,6 +102,12 @@ dependencies:
   # Refresh screen
   pull_to_refresh_flutter3: ^2.0.1
 
+  # Get user location
+  geolocator: ^9.0.2
+
+  # Using Google map
+  google_maps_flutter: ^2.1.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

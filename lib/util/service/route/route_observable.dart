@@ -1,5 +1,6 @@
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/ui/dashboard/dashboard_screen.dart';
+import 'package:delivery_service/ui/delivery_location/map_screen.dart';
 import 'package:delivery_service/ui/home/home_screen.dart';
 import 'package:delivery_service/ui/order/order_screen.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_screen.dart';
@@ -69,10 +70,18 @@ Future<bool> pushNewScreen(
     case orderScreen:
       await PersistentNavBarNavigator.pushNewScreen(
         context,
-        screen:const OrderScreen(),
+        screen: const OrderScreen(),
         withNavBar: navbarStatus,
-      );return true;
+      );
+      return true;
 
+    case mapScreen:
+      await PersistentNavBarNavigator.pushNewScreen(
+        context,
+        screen: const MapScreen(),
+        withNavBar: navbarStatus,
+      );
+      return true;
 
     default:
       return true;

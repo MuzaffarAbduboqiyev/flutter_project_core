@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sqbc.uz.delivery_service">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
    <application
         android:label="delivery_service"
         android:name="${applicationName}"
@@ -30,5 +34,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+       <meta-data
+           android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyAJaKaz4zx7fXm1jy8MB24Cxvs_Kx-26Qk"
+           />
     </application>
 </manifest>

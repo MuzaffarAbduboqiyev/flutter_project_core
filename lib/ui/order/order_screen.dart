@@ -9,6 +9,8 @@ import 'package:delivery_service/ui/widgets/order/order_ui.dart';
 import 'package:delivery_service/ui/widgets/appbar/simple_appbar.dart';
 import 'package:delivery_service/ui/widgets/error/connection_error/connection_error.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
+import 'package:delivery_service/util/service/route/route_names.dart';
+import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
@@ -152,7 +154,13 @@ class _OrderPageState extends State<OrderPage> {
 
   _checkout(OrderState state) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        pushNewScreen(
+          context,
+          mapScreen,
+          navbarStatus: false,
+        );
+      },
       child: Container(
         alignment: Alignment.center,
         height: 60,
