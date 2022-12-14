@@ -47,6 +47,9 @@ class MoorDatabase extends _$MoorDatabase {
   /// Hamma saqlangan qidiruvlarni o'chirib tashlaydi
   clearSearchHistory() => (delete(search)).go();
 
+
+  clearOrderHistory() => (delete(productCart)).go();
+
   /// Favorite
   Future insertFavorite(FavoriteData favoriteData) =>
       into(favorite).insert(favoriteData, mode: InsertMode.insertOrReplace);

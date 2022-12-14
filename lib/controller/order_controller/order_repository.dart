@@ -14,6 +14,8 @@ abstract class OrderRepository {
   Future<SimpleResponseModel> deleteCart({
     required ProductCartData deleteCartData,
   });
+
+  Future<bool> clearOrderHistory();
 }
 
 class OrderRepositoryImpl extends OrderRepository {
@@ -49,5 +51,11 @@ class OrderRepositoryImpl extends OrderRepository {
       variationId: deleteCartData.variationId,
     );
     return SimpleResponseModel.success();
+  }
+
+  @override
+  Future<bool> clearOrderHistory() async {
+    await moorDatabase.clearOrderHistory();
+    return true;
   }
 }

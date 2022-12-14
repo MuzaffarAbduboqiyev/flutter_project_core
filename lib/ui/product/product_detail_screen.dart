@@ -137,8 +137,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
-                            Text("${state.productId}  productId"),
                             InkWell(
                                 onTap: () {
                                   Navigator.pop(context);

@@ -34,6 +34,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       _deleteCartProduct,
       transformer: concurrent(),
     );
+    on<OrderClearProductEvent>(
+      _clearProduct,
+      transformer: concurrent(),
+    );
 
     listenerOrderProducts =
         orderRepository.listenCartProducts().listen((event) {
@@ -50,7 +54,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   FutureOr<void> _orderCartProduct(
       OrderCartProductEvent event, Emitter<OrderState> emit) {
-
     int price = 0;
 
     for (var element in event.products) {
@@ -75,5 +78,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       OrderDeleteProductEvent event, Emitter<OrderState> emit) async {
     final response =
         await orderRepository.deleteCart(deleteCartData: event.deleteProduct);
+  }
+
+  FutureOr<void> _clearProduct(
+      OrderClearProductEvent event, Emitter<OrderState> emit) async {
+    await orderRepository.clearOrderHistory();
   }
 }

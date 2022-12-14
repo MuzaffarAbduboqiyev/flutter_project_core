@@ -5,8 +5,8 @@ import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 
-class OrderUi extends StatelessWidget {
-  const OrderUi({Key? key}) : super(key: key);
+class OrderListView extends StatelessWidget {
+  const OrderListView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -12,10 +12,13 @@
   "checkout": "Tekshirib ko'rmoq",
   "no_orders_yet": "Hozircha buyurtmalar yoʻq",
   "discover": "Birinchi buyurtmangizni kashf qiling va joylashtiring",
+  "clear_history": "Oldin qo'shilgan barcha mahsulotlar savatdan olib tashlandi.",
+  "history": "Davom etasizmi ?",
   "error": {
     "unknown_error": "Aniqlanmagan xatolik",
     "refresh": "Yangilash",
-    "no_internet_connection": "Internet aloqasi yo'q"
+    "no_internet_connection": "Internet aloqasi yo'q",
+    "clear": "Savat tozalanadi ?"
   },
   "nav_bar": {
     "home": "Uy",

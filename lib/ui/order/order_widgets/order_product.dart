@@ -23,8 +23,7 @@ class OrderProduct extends StatefulWidget {
 
 class _OrderProductState extends State<OrderProduct> {
   final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
-  List<ProductCartData> productCart = [];
-  num _price = 0;
+  num price = 0;
 
   increaseCount() {
     if (widget.product.count > widget.product.selectedCount) {
@@ -33,11 +32,7 @@ class _OrderProductState extends State<OrderProduct> {
       context
           .read<OrderBloc>()
           .add(OrderUpdateProductEvent(productsCart: product));
-      _price += widget.product.price;
-      _price = 0;
-      for (var element in productCart) {
-        _price += (element.selectedCount * element.price);
-      }
+      price += widget.product.price;
     }
   }
 
@@ -48,7 +43,7 @@ class _OrderProductState extends State<OrderProduct> {
       context
           .read<OrderBloc>()
           .add(OrderUpdateProductEvent(productsCart: product));
-      _price -= widget.product.price;
+      price -= widget.product.price;
     } else {
       removeProduct();
     }

@@ -128,14 +128,14 @@ class ProductRepositoryImpl extends ProductRepository {
       final databaseProducts = await moorDatabase.getCartProducts();
       if (databaseProducts.isNotEmpty &&
           databaseProducts.first.restaurantId != restaurantId) {
-        final response =  await showConfirmDialog(
+        final response = await showConfirmDialog(
           context: context,
-          title: translate("search.clear_title"),
-          content: translate("search.clear_content"),
+          title: translate("clear_history"),
+          content: translate("history"),
           confirm: clearCartProducts,
         );
 
-        if(response != null && response == true){
+        if (response != null && response == true) {
           await moorDatabase.deleteProduct(productId: productId);
           for (var element in selectedVariations) {
             await moorDatabase.insertProductCart(

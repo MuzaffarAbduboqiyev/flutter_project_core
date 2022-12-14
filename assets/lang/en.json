@@ -12,10 +12,13 @@
   "checkout": "Checkout",
   "no_orders_yet": "No Orders Yet",
   "discover": "Discover and place your first order",
+  "clear_history": "All previously added products have been removed from the cart",
+  "history": "Will you continue ?",
   "error": {
     "unknown_error": "Unknown error",
     "refresh": "Refresh",
-    "no_internet_connection": "No internet connection"
+    "no_internet_connection": "No internet connection",
+    "clear": "Basket be cleaned ?"
   },
   "nav_bar": {
     "home": "Home",

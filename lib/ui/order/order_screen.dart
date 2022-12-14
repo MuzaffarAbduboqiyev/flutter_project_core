@@ -1,9 +1,11 @@
 import 'package:delivery_service/controller/order_controller/order_bloc.dart';
 import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
-import 'package:delivery_service/ui/order/order_ui/order_delivery.dart';
-import 'package:delivery_service/ui/order/order_ui/order_product.dart';
-import 'package:delivery_service/ui/order/order_ui/order_ui.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/ui/order/order_widgets/order_delivery.dart';
+import 'package:delivery_service/ui/order/order_widgets/order_product.dart';
+import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
+import 'package:delivery_service/ui/widgets/order/order_ui.dart';
 import 'package:delivery_service/ui/widgets/appbar/simple_appbar.dart';
 import 'package:delivery_service/ui/widgets/error/connection_error/connection_error.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
@@ -12,6 +14,7 @@ import 'package:delivery_service/util/service/translator/translate_service.dart'
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
+import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,16 +43,42 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
+  late ProductCartData productCartData;
 
   _refresh() {
     context.read<OrderBloc>().add(OrderRefreshProductEvent());
+  }
+
+  _showClearConfirm() {
+    return showConfirmDialog(
+      context: context,
+      title: translate("error.clear"),
+      content: "",
+      confirm: _clearHistory,
+    );
+  }
+
+  _clearHistory() {
+    context.read<OrderBloc>().add(OrderClearProductEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: simpleAppBar(context, "Order"),
+        appBar: AppBar(
+          title: Text(
+            "Order",
+            style: getCurrentTheme(context).textTheme.displayLarge,
+          ),
+          actions: [
+            InkWell(
+              onTap: _showClearConfirm,
+              child: const Icon(Icons.delete_outline),
+            ),
+            const SizedBox(width: 8.0),
+          ],
+        ),
         backgroundColor: backgroundColor,
         body: BlocBuilder<OrderBloc, OrderState>(
           builder: (context, state) => state.orderStatus == OrderStatus.loading
@@ -79,7 +108,7 @@ class _OrderPageState extends State<OrderPage> {
                             ],
                           ),
                         )
-                      : const OrderUi(),
+                      : const OrderListView(),
         ),
       ),
     );
@@ -105,7 +134,7 @@ class _OrderPageState extends State<OrderPage> {
             maxLines: 1,
           ),
           Text(
-            "${state.price}",
+            "${moneyFormatter.format(state.price)} ${translate("sum")}",
             style: getCustomStyle(
               context: context,
               color: textColor,
@@ -147,7 +176,7 @@ class _OrderPageState extends State<OrderPage> {
               maxLines: 1,
             ),
             Text(
-              "${state.price}",
+              "${moneyFormatter.format(state.price)} ${translate("sum")}",
               style: getCustomStyle(
                 context: context,
                 color: navSelectedTextColor,

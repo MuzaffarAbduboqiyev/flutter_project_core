@@ -12,10 +12,13 @@
   "checkout": "Проверить",
   "no_orders_yet": "Заказов пока нет",
   "discover": "Откройте для себя и разместите свой первый заказ",
+  "clear_history": "Все ранее добавленные товары удалены из корзины",
+  "history": "Будете ли вы продолжать ?",
   "error": {
     "unknown_error": "Неизвестная ошибка",
     "refresh": "Обновить",
-    "no_internet_connection": "Нет соединения с интернетом"
+    "no_internet_connection": "Нет соединения с интернетом",
+    "clear": "Arava bo'shatiladi ?"
   },
   "nav_bar": {
     "home": "Дом",
