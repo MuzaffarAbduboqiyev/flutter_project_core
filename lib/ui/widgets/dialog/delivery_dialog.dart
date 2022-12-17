@@ -1,5 +1,8 @@
+import 'package:delivery_service/util/service/route/route_names.dart';
+import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
+import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +77,21 @@ class DeliveryDialog extends StatelessWidget {
               )
             ],
           ),
+          const SizedBox(
+            height: 24,
+          ),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 53,
+              width: double.infinity,
+              decoration: getContainerDecoration(
+                context,
+                fillColor: buttonColor,
+              ),
+              child: const Center(child: Text("button")),
+            ),
+          )
         ],
       ),
     );

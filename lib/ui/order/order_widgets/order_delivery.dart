@@ -1,4 +1,5 @@
 import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
+import 'package:delivery_service/ui/widgets/dialog/delivery_dialog.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
@@ -18,14 +19,6 @@ class OrderDeliver extends StatefulWidget {
 
 class _OrderDeliverState extends State<OrderDeliver> {
   final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
-
-  googleMaps() {
-    return pushNewScreen(
-      context,
-      mapScreen,
-      navbarStatus: false,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +69,7 @@ class _OrderDeliverState extends State<OrderDeliver> {
             ),
           ),
           InkWell(
-            onTap: googleMaps,
+            onTap: dialogProduct,
             child: const Icon(
               Icons.keyboard_arrow_down,
               size: 45,
@@ -84,6 +77,15 @@ class _OrderDeliverState extends State<OrderDeliver> {
           ),
         ],
       ),
+    );
+  }
+
+  dialogProduct()  {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: false,
+      context: context,
+      builder: (builderContext) => const DeliveryDialog(),
     );
   }
 }
