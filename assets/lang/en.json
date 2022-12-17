@@ -10,10 +10,19 @@
   "delivery": "Delivery",
   "total": "Total",
   "checkout": "Checkout",
+
+
+
+  "order": {
+    "tracking" : "Order Tracking",
+    "time" : "Delivery Time",
+    "address" : "Delivery Address"
+  },
   "no_orders_yet": "No Orders Yet",
   "discover": "Discover and place your first order",
   "clear_history": "All previously added products have been removed from the cart",
   "history": "Will you continue ?",
+  "confirmation": "Confirmation",
   "error": {
     "unknown_error": "Unknown error",
     "refresh": "Refresh",

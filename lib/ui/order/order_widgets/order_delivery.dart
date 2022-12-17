@@ -1,7 +1,8 @@
-import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
+import 'package:delivery_service/util/service/route/route_names.dart';
+import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/styles.dart';
@@ -17,6 +18,14 @@ class OrderDeliver extends StatefulWidget {
 
 class _OrderDeliverState extends State<OrderDeliver> {
   final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
+
+  googleMaps() {
+    return pushNewScreen(
+      context,
+      mapScreen,
+      navbarStatus: false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,26 +46,40 @@ class _OrderDeliverState extends State<OrderDeliver> {
             ),
           ),
           const SizedBox(width: 16),
-          Text(
-            translate("delivery").toCapitalized(),
-            style: getCustomStyle(
-                context: context, color: textColor, textSize: 15),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
           Expanded(
-            child: Text(
-              "0.00 ${translate("sum")}",
-              style: getCustomStyle(
-                context: context,
-                color: textColor,
-                textSize: 15,
-                weight: FontWeight.w500,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.end,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  translate("delivery").toCapitalized(),
+                  style: getCustomStyle(
+                      context: context, color: textColor, textSize: 18),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "${moneyFormatter.format(0)} ${translate("sum")}",
+                  style: getCustomStyle(
+                    context: context,
+                    color: textColor,
+                    textSize: 15,
+                    weight: FontWeight.w500,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                ),
+              ],
+            ),
+          ),
+          InkWell(
+            onTap: googleMaps,
+            child: const Icon(
+              Icons.keyboard_arrow_down,
+              size: 45,
             ),
           ),
         ],

@@ -154,13 +154,7 @@ class _OrderPageState extends State<OrderPage> {
 
   _checkout(OrderState state) {
     return InkWell(
-      onTap: () {
-        pushNewScreen(
-          context,
-          mapScreen,
-          navbarStatus: false,
-        );
-      },
+      onTap: () {},
       child: Container(
         alignment: Alignment.center,
         height: 60,

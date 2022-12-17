@@ -10,10 +10,16 @@
   "delivery": "Yetkazib berish",
   "total": "Jami sum",
   "checkout": "Tekshirib ko'rmoq",
+  "order": {
+    "tracking": "Buyurtmani kuzatish",
+    "time": "Yetkazib berish vaqti",
+    "address": "Etkazib berish manzili"
+  },
   "no_orders_yet": "Hozircha buyurtmalar yoʻq",
   "discover": "Birinchi buyurtmangizni kashf qiling va joylashtiring",
   "clear_history": "Oldin qo'shilgan barcha mahsulotlar savatdan olib tashlandi.",
   "history": "Davom etasizmi ?",
+  "confirmation": "Tasdiqlash",
   "error": {
     "unknown_error": "Aniqlanmagan xatolik",
     "refresh": "Yangilash",

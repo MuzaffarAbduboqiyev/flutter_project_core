@@ -21,7 +21,6 @@ class ScreenObserver {
       case homeScreen:
         return _buildRoute(settings, const HomeScreen());
 
-
       default:
         return _errorRoute();
     }

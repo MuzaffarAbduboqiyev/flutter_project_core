@@ -1,7 +1,6 @@
 import 'package:delivery_service/controller/product_controller/product_state.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_bloc.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
-import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/ui/widgets/items/product/restaurant_product_item.dart';
 import 'package:delivery_service/ui/widgets/shimmer/product/restaurant_product_shimmer.dart';
 import 'package:flutter/material.dart';
