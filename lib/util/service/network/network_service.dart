@@ -110,3 +110,11 @@ final dioBaseOptions = BaseOptions(
   connectTimeout: 30000,
   receiveTimeout: 30000,
 );
+
+final quramizDioBaseOptions = BaseOptions(
+  baseUrl: quramizBaseUrl,
+  connectTimeout: 30000,
+  receiveTimeout: 30000,
+);
+
+

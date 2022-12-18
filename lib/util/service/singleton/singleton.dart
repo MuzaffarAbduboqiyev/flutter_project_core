@@ -1,5 +1,6 @@
 import 'package:delivery_service/controller/app_controller/app_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
+import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/order_controller/order_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
@@ -7,6 +8,7 @@ import 'package:delivery_service/controller/search_controller/search_repository.
 import 'package:delivery_service/model/category_model/category_network_service.dart';
 import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/model/location_model/location_network_service.dart';
 import 'package:delivery_service/model/product_model/product_network_service.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_network_service.dart';
 import 'package:delivery_service/model/search_model/search_network_service.dart';
@@ -122,4 +124,15 @@ void init() {
     ),
   );
 
+  /// quramiz location
+  singleton.registerLazySingleton<LocationNetworkService>(
+    () => LocationNetworkService.initial(),
+  );
+
+  singleton.registerLazySingleton<LocationRepository>(
+    () => LocationRepositoryImpl(
+      networkService: singleton(),
+      moorDatabase: singleton(),
+    ),
+  );
 }

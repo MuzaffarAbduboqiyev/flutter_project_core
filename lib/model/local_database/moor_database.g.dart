@@ -966,14 +966,269 @@ class $ProductCartTable extends ProductCart
   }
 }
 
+class LocationData extends DataClass implements Insertable<LocationData> {
+  final double lat;
+  final double lng;
+  final bool selectedStatus;
+  final String? name;
+  LocationData(
+      {required this.lat,
+      required this.lng,
+      required this.selectedStatus,
+      this.name});
+  factory LocationData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return LocationData(
+      lat: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}lat'])!,
+      lng: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}lng'])!,
+      selectedStatus: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}selected_status'])!,
+      name: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['lat'] = Variable<double>(lat);
+    map['lng'] = Variable<double>(lng);
+    map['selected_status'] = Variable<bool>(selectedStatus);
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String?>(name);
+    }
+    return map;
+  }
+
+  LocationCompanion toCompanion(bool nullToAbsent) {
+    return LocationCompanion(
+      lat: Value(lat),
+      lng: Value(lng),
+      selectedStatus: Value(selectedStatus),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+    );
+  }
+
+  factory LocationData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return LocationData(
+      lat: serializer.fromJson<double>(json['lat']),
+      lng: serializer.fromJson<double>(json['lng']),
+      selectedStatus: serializer.fromJson<bool>(json['selectedStatus']),
+      name: serializer.fromJson<String?>(json['name']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'lat': serializer.toJson<double>(lat),
+      'lng': serializer.toJson<double>(lng),
+      'selectedStatus': serializer.toJson<bool>(selectedStatus),
+      'name': serializer.toJson<String?>(name),
+    };
+  }
+
+  LocationData copyWith(
+          {double? lat, double? lng, bool? selectedStatus, String? name}) =>
+      LocationData(
+        lat: lat ?? this.lat,
+        lng: lng ?? this.lng,
+        selectedStatus: selectedStatus ?? this.selectedStatus,
+        name: name ?? this.name,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('LocationData(')
+          ..write('lat: $lat, ')
+          ..write('lng: $lng, ')
+          ..write('selectedStatus: $selectedStatus, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(lat, lng, selectedStatus, name);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocationData &&
+          other.lat == this.lat &&
+          other.lng == this.lng &&
+          other.selectedStatus == this.selectedStatus &&
+          other.name == this.name);
+}
+
+class LocationCompanion extends UpdateCompanion<LocationData> {
+  final Value<double> lat;
+  final Value<double> lng;
+  final Value<bool> selectedStatus;
+  final Value<String?> name;
+  const LocationCompanion({
+    this.lat = const Value.absent(),
+    this.lng = const Value.absent(),
+    this.selectedStatus = const Value.absent(),
+    this.name = const Value.absent(),
+  });
+  LocationCompanion.insert({
+    required double lat,
+    required double lng,
+    required bool selectedStatus,
+    this.name = const Value.absent(),
+  })  : lat = Value(lat),
+        lng = Value(lng),
+        selectedStatus = Value(selectedStatus);
+  static Insertable<LocationData> custom({
+    Expression<double>? lat,
+    Expression<double>? lng,
+    Expression<bool>? selectedStatus,
+    Expression<String?>? name,
+  }) {
+    return RawValuesInsertable({
+      if (lat != null) 'lat': lat,
+      if (lng != null) 'lng': lng,
+      if (selectedStatus != null) 'selected_status': selectedStatus,
+      if (name != null) 'name': name,
+    });
+  }
+
+  LocationCompanion copyWith(
+      {Value<double>? lat,
+      Value<double>? lng,
+      Value<bool>? selectedStatus,
+      Value<String?>? name}) {
+    return LocationCompanion(
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+      selectedStatus: selectedStatus ?? this.selectedStatus,
+      name: name ?? this.name,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (lat.present) {
+      map['lat'] = Variable<double>(lat.value);
+    }
+    if (lng.present) {
+      map['lng'] = Variable<double>(lng.value);
+    }
+    if (selectedStatus.present) {
+      map['selected_status'] = Variable<bool>(selectedStatus.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String?>(name.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocationCompanion(')
+          ..write('lat: $lat, ')
+          ..write('lng: $lng, ')
+          ..write('selectedStatus: $selectedStatus, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LocationTable extends Location
+    with TableInfo<$LocationTable, LocationData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocationTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _latMeta = const VerificationMeta('lat');
+  @override
+  late final GeneratedColumn<double?> lat = GeneratedColumn<double?>(
+      'lat', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _lngMeta = const VerificationMeta('lng');
+  @override
+  late final GeneratedColumn<double?> lng = GeneratedColumn<double?>(
+      'lng', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _selectedStatusMeta =
+      const VerificationMeta('selectedStatus');
+  @override
+  late final GeneratedColumn<bool?> selectedStatus = GeneratedColumn<bool?>(
+      'selected_status', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (selected_status IN (0, 1))');
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
+      'name', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [lat, lng, selectedStatus, name];
+  @override
+  String get aliasedName => _alias ?? 'location';
+  @override
+  String get actualTableName => 'location';
+  @override
+  VerificationContext validateIntegrity(Insertable<LocationData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('lat')) {
+      context.handle(
+          _latMeta, lat.isAcceptableOrUnknown(data['lat']!, _latMeta));
+    } else if (isInserting) {
+      context.missing(_latMeta);
+    }
+    if (data.containsKey('lng')) {
+      context.handle(
+          _lngMeta, lng.isAcceptableOrUnknown(data['lng']!, _lngMeta));
+    } else if (isInserting) {
+      context.missing(_lngMeta);
+    }
+    if (data.containsKey('selected_status')) {
+      context.handle(
+          _selectedStatusMeta,
+          selectedStatus.isAcceptableOrUnknown(
+              data['selected_status']!, _selectedStatusMeta));
+    } else if (isInserting) {
+      context.missing(_selectedStatusMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {lat, lng};
+  @override
+  LocationData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return LocationData.fromData(data, attachedDatabase,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $LocationTable createAlias(String alias) {
+    return $LocationTable(attachedDatabase, alias);
+  }
+}
+
 abstract class _$MoorDatabase extends GeneratedDatabase {
   _$MoorDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $SearchTable search = $SearchTable(this);
   late final $FavoriteTable favorite = $FavoriteTable(this);
   late final $ProductCartTable productCart = $ProductCartTable(this);
+  late final $LocationTable location = $LocationTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [search, favorite, productCart];
+      [search, favorite, productCart, location];
 }

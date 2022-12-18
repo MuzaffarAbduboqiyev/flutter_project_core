@@ -1,4 +1,5 @@
 import 'package:delivery_service/model/favorite_model/favorite_%20model.dart';
+import 'package:delivery_service/model/location_model/location_model.dart';
 import 'package:delivery_service/model/product_model/product_cart.dart';
 import 'package:delivery_service/model/search_model/search_model.dart';
 import 'package:moor_flutter/moor_flutter.dart';
@@ -9,6 +10,7 @@ part 'moor_database.g.dart';
   Search,
   Favorite,
   ProductCart,
+  Location,
 ])
 class MoorDatabase extends _$MoorDatabase {
   MoorDatabase()
@@ -16,7 +18,7 @@ class MoorDatabase extends _$MoorDatabase {
             path: 'application_database.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   /// Search history operations
   /// Insert new search name -> Yangi qidiruv nomini kiritish
@@ -105,7 +107,7 @@ class MoorDatabase extends _$MoorDatabase {
                 databaseItem.variationId.equals(variationId)))
           .go();
 
-    deleteProduct({
+  deleteProduct({
     required int productId,
   }) =>
       (delete(productCart)
@@ -113,4 +115,23 @@ class MoorDatabase extends _$MoorDatabase {
           .go();
 
   clearProductCart() => (delete(productCart)).go();
+
+  ///Location
+  Future<List<LocationData>> getLocations() => select(location).get();
+
+  Stream<List<LocationData>> listenLocations() => select(location).watch();
+
+  Future<int> insertOrUpdateLocation({required LocationData locationData}) =>
+      into(location).insert(
+        locationData,
+        mode: InsertMode.insertOrReplace,
+      );
+
+  Future<int> deleteLocation({required LocationData locationData}) => (delete(location)
+        ..where((locationItem) =>
+            locationItem.lat.equals(locationData.lat) &
+            locationItem.lng.equals(locationData.lng)))
+      .go();
+
+  Future<int>  clearLocation() => delete(location).go();
 }

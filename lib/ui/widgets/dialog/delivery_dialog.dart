@@ -14,9 +14,9 @@ class DeliveryDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.vertical(
+      decoration: BoxDecoration(
+        color: getCurrentTheme(context).cardColor,
+        borderRadius: const BorderRadius.vertical(
           top: Radius.circular(20.0),
         ),
       ),
