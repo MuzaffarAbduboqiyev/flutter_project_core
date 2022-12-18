@@ -45,7 +45,7 @@ class _OrderDeliverState extends State<OrderDeliver> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate("delivery").toCapitalized(),
+                  translate("order.delivery").toCapitalized(),
                   style: getCustomStyle(
                       context: context, color: textColor, textSize: 18),
                   maxLines: 1,

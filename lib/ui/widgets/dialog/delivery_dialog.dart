@@ -1,3 +1,4 @@
+import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
@@ -13,7 +14,6 @@ class DeliveryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
         color: getCurrentTheme(context).cardColor,
         borderRadius: const BorderRadius.vertical(
@@ -24,76 +24,101 @@ class DeliveryDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Center(
+              child: Text(
+                translate("order.address").toCapitalized(),
+                style: getCurrentTheme(context).textTheme.displayLarge,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: Container(
+              height: 60,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: 1, color: hintColor),
+                ),
+              ),
+            ),
+          ),
           InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back_rounded),
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            translate("order.tracking"),
-            style: getCurrentTheme(context).textTheme.displayLarge,
-          ),
-          const SizedBox(height: 24),
-          Row(
-            children: [
-              const Icon(Icons.schedule, size: 32),
-              const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    translate("order.time"),
-                    style: getCurrentTheme(context).textTheme.labelLarge,
+            onTap: () => googleMaps(context),
+            child: Container(
+              height: 60,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: 1, color: hintColor),
+                ),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.add),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          translate("order.addMap").toCapitalized(),
+                          style: getCustomStyle(
+                            context: context,
+                            weight: FontWeight.w600,
+                            textSize: 18,
+                            color: textColor,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const Icon(Icons.arrow_forward_ios),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    translate("${0} min - ${0} min"),
-                    style: getCustomStyle(context: context, color: textColor),
-                  ),
-                ],
-              )
-            ],
+                ),
+              ),
+            ),
           ),
-          const SizedBox(height: 24),
-          Row(
-            children: [
-              const Icon(Icons.location_on_outlined, size: 32),
-              const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    translate("order.address"),
-                    style: getCurrentTheme(context).textTheme.labelLarge,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    translate("Atlantic St, Stamford"),
-                    style: getCustomStyle(context: context, color: textColor),
-                  ),
-                ],
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          GestureDetector(
+          InkWell(
             onTap: () {},
             child: Container(
               height: 53,
               width: double.infinity,
+              margin: const EdgeInsets.all(16),
               decoration: getContainerDecoration(
                 context,
                 fillColor: buttonColor,
               ),
-              child: const Center(child: Text("button")),
+              child: Center(
+                child: Text(
+                  translate("order.ready"),
+                  style: getCustomStyle(
+                    context: context,
+                    weight: FontWeight.w500,
+                    textSize: 18,
+                    color: lightTextColor,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ),
-          )
+          ),
         ],
       ),
+    );
+  }
+
+  void googleMaps(context) async {
+    await pushNewScreen(
+      context,
+      mapScreen,
+      navbarStatus: false,
     );
   }
 }

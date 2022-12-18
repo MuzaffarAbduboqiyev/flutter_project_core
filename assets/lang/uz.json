@@ -7,14 +7,15 @@
   "add": "Qo'shish",
   "in_stock": "Sotuvda",
   "view_cart": "Savatni ko'rish",
-  "delivery": "Yetkazib berish",
-  "total": "Jami sum",
-  "checkout": "Tekshirib ko'rmoq",
   "order": {
-    "tracking": "Buyurtmani kuzatish",
-    "time": "Yetkazib berish vaqti",
-    "address": "Etkazib berish manzili"
+    "delivery": "Yetkazib berish",
+    "total": "Jami sum",
+    "checkout": "Tekshirib ko'rmoq",
+    "address": "Mening manzillarim",
+    "ready": "Tayyor",
+    "addMap": "Boshqasini qo'shing"
   },
+
   "no_orders_yet": "Hozircha buyurtmalar yoʻq",
   "discover": "Birinchi buyurtmangizni kashf qiling va joylashtiring",
   "clear_history": "Oldin qo'shilgan barcha mahsulotlar savatdan olib tashlandi.",

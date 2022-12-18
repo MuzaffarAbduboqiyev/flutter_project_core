@@ -7,16 +7,15 @@
   "add": "Add",
   "in_stock": "In stock",
   "view_cart": "View cart",
-  "delivery": "Delivery",
-  "total": "Total",
-  "checkout": "Checkout",
-
-
-
   "order": {
-    "tracking" : "Order Tracking",
-    "time" : "Delivery Time",
-    "address" : "Delivery Address"
+    "delivery": "Delivery",
+    "total": "Total",
+    "checkout": "Checkout",
+    "address": "My addresses",
+    "ready": "Ready",
+    "addMap": "Add another"
+
+
   },
   "no_orders_yet": "No Orders Yet",
   "discover": "Discover and place your first order",

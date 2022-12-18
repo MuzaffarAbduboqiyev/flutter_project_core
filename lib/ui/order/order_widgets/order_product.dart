@@ -118,15 +118,10 @@ class _OrderProductState extends State<OrderProduct> {
                   children: [
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                      onTap: () => decreaseCount(),
-                      child: const Icon(
-                        Icons.remove,
-                        size: 24,
-                      ),
+                      onTap: decreaseCount,
+                      child: const Icon(Icons.remove, size: 24),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         widget.product.selectedCount.toString(),
@@ -136,22 +131,15 @@ class _OrderProductState extends State<OrderProduct> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8),
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                      onTap: () => increaseCount(),
-                      child: const Icon(
-                        Icons.add,
-                        size: 24,
-                      ),
+                      onTap: increaseCount,
+                      child: const Icon(Icons.add, size: 24),
                     ),
                   ],
                 ),
               ),
-
-
             ],
           ),
         ),

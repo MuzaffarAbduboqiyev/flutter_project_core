@@ -125,7 +125,7 @@ class _OrderPageState extends State<OrderPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "${translate("total")}:",
+            "${translate("order.total")}:",
             style: getCustomStyle(
               context: context,
               color: textColor,
@@ -167,7 +167,7 @@ class _OrderPageState extends State<OrderPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${translate("checkout").toUpperCase()}:",
+              "${translate("order.checkout").toUpperCase()}:",
               style: getCustomStyle(
                 context: context,
                 color: navSelectedTextColor,
