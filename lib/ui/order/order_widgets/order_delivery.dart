@@ -2,8 +2,6 @@ import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
 import 'package:delivery_service/ui/widgets/dialog/delivery_dialog.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
-import 'package:delivery_service/util/service/route/route_names.dart';
-import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/styles.dart';
@@ -72,7 +70,7 @@ class _OrderDeliverState extends State<OrderDeliver> {
             onTap: dialogProduct,
             child: const Icon(
               Icons.keyboard_arrow_down,
-              size: 45,
+              size: 34,
             ),
           ),
         ],
@@ -80,7 +78,7 @@ class _OrderDeliverState extends State<OrderDeliver> {
     );
   }
 
-  dialogProduct()  {
+  dialogProduct() {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       isScrollControlled: false,

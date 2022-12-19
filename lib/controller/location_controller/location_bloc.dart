@@ -27,6 +27,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       _save,
       transformer: sequential(),
     );
+
+
   }
 
   FutureOr<void> _init(

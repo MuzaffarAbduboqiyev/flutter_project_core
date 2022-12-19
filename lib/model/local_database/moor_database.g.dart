@@ -971,11 +971,12 @@ class LocationData extends DataClass implements Insertable<LocationData> {
   final double lng;
   final bool selectedStatus;
   final String? name;
-  LocationData(
-      {required this.lat,
-      required this.lng,
-      required this.selectedStatus,
-      this.name});
+  LocationData({
+    required this.lat,
+    required this.lng,
+    required this.selectedStatus,
+    this.name,
+  });
   factory LocationData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';

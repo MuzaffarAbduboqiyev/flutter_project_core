@@ -50,7 +50,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       OrderGetProductEvent event, Emitter<OrderState> emit) {}
 
   FutureOr<void> _orderListenProduct(
-      OrderListenProductEvent event, Emitter<OrderState> emit) {}
+      OrderListenProductEvent event, Emitter<OrderState> emit) {
+
+  }
 
   FutureOr<void> _orderCartProduct(
       OrderCartProductEvent event, Emitter<OrderState> emit) {

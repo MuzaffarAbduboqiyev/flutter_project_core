@@ -25,7 +25,7 @@ class DeliveryDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.only(top: 16),
             child: Center(
               child: Text(
                 translate("order.address").toCapitalized(),
@@ -35,14 +35,26 @@ class DeliveryDialog extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Expanded(
-            child: Container(
-              height: 60,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: 1, color: hintColor),
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) => Container(
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(width: 1, color: hintColor),
+                  ),
+                ),
+                child: const Text(
+                  "",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
                 ),
               ),
             ),
@@ -54,6 +66,7 @@ class DeliveryDialog extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 border: Border(
+                  top: BorderSide(width: 1, color: hintColor),
                   bottom: BorderSide(width: 1, color: hintColor),
                 ),
               ),
