@@ -14,5 +14,6 @@ const searchUrl = "v1/search";
 const productUrl = "products";
 
 /// Quramiz location
-const locationUrl = "geocode";
 const String quramizBaseUrl = "https://quramiz.uz/api/";
+
+const locationUrl = "geocode";

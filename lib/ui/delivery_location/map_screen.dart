@@ -1,6 +1,7 @@
 import 'package:delivery_service/controller/location_controller/location_bloc.dart';
 import 'package:delivery_service/controller/location_controller/location_event.dart';
 import 'package:delivery_service/controller/location_controller/location_state.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
@@ -36,9 +37,9 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  late CameraPosition cameraPosition; // bu bor
-  late GoogleMapController mapController; // bu bor
-  final mapZoom = 17.0; // bu bor
+  late CameraPosition cameraPosition;
+  late GoogleMapController mapController;
+  final mapZoom = 17.0;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -85,107 +86,110 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocListener<LocationBloc, LocationState>(
-  listener: (context, state) {
-    if(state.locationStatus == LocationStatus.closed){
-      Navigator.pop(context);
-    }
-  },
-  child: Stack(
-        children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: cameraPosition,
-            myLocationButtonEnabled: false,
-            myLocationEnabled: true,
-            onCameraMove: (position) {
-              updateCamera(position.target.latitude, position.target.longitude);
-            },
-          ),
-          Positioned(
-            top: 24,
-            right: 16,
-            child: Container(
-              decoration: getContainerDecoration(
-                context,
-                fillColor: getCurrentTheme(context).cardColor,
-              ),
-              padding: const EdgeInsets.all(16),
-              child: GestureDetector(
-                onTap: _getUserLocation,
-                child: const Icon(
-                  Icons.location_searching_outlined,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 32,
-            left: 16,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
+        listener: (context, state) {
+          if (state.locationStatus == LocationStatus.closed) {
+            Navigator.pop(context);
+          }
+        },
+        child: Stack(
+          children: [
+            GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: cameraPosition,
+              myLocationButtonEnabled: false,
+              myLocationEnabled: true,
+              onCameraMove: (position) {
+                updateCamera(
+                    position.target.latitude, position.target.longitude);
               },
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-              ),
             ),
-          ),
-          BlocBuilder<LocationBloc, LocationState>(
-            builder: (context, state) {
-              return Center(
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 60),
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    state.locationData.name ?? "",
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: getCustomStyle(
-                        context: context, color: lightTextColor, textSize: 22),
+            Positioned(
+              top: 24,
+              right: 16,
+              child: Container(
+                decoration: getContainerDecoration(
+                  context,
+                  fillColor: getCurrentTheme(context).cardColor,
+                ),
+                padding: const EdgeInsets.all(16),
+                child: GestureDetector(
+                  onTap: _getUserLocation,
+                  child: const Icon(
+                    Icons.location_searching_outlined,
+                    color: Colors.red,
                   ),
                 ),
-              );
-            },
-          ),
-          const Center(
-            child: Icon(
-              Icons.location_on_sharp,
-              color: Colors.red,
-              size: 32,
+              ),
             ),
-          ),
-          Column(
-            children: [
-              Expanded(child: Container()),
-              GestureDetector(
-                onTap: buttonCart,
-                child: Container(
-                  height: 53,
-                  decoration: getContainerDecoration(context,
-                      fillColor: getCurrentTheme(context).indicatorColor),
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  child: Center(
+            Positioned(
+              top: 32,
+              left: 16,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            BlocBuilder<LocationBloc, LocationState>(
+              builder: (context, state) {
+                return Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 60),
+                    padding: const EdgeInsets.only(bottom: 16),
                     child: Text(
-                      translate("confirmation").toCapitalized(),
+                      state.locationData.name ?? "",
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                       style: getCustomStyle(
-                        context: context,
-                        color: navSelectedTextColor,
-                        textSize: 15,
-                        weight: FontWeight.w500,
+                          context: context,
+                          color: lightTextColor,
+                          textSize: 22),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const Center(
+              child: Icon(
+                Icons.location_on_sharp,
+                color: Colors.red,
+                size: 32,
+              ),
+            ),
+            Column(
+              children: [
+                Expanded(child: Container()),
+                GestureDetector(
+                  onTap: buttonCart,
+                  child: Container(
+                    height: 53,
+                    decoration: getContainerDecoration(context,
+                        fillColor: getCurrentTheme(context).indicatorColor),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: Center(
+                      child: Text(
+                        translate("confirmation").toCapitalized(),
+                        style: getCustomStyle(
+                          context: context,
+                          color: navSelectedTextColor,
+                          textSize: 15,
+                          weight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
-),
     );
   }
 

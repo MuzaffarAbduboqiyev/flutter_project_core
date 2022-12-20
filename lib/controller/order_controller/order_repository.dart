@@ -5,6 +5,8 @@ import '../../model/response_model/network_response_model.dart';
 abstract class OrderRepository {
   Stream<List<ProductCartData>> listenCartProducts();
 
+  Stream<List<LocationData>> listenLocations();
+
   Future<List<ProductCartData>> getCartProducts();
 
   Future<SimpleResponseModel> updateCart({
@@ -25,9 +27,15 @@ class OrderRepositoryImpl extends OrderRepository {
     required this.moorDatabase,
   });
 
+  /// product listen
   @override
   Stream<List<ProductCartData>> listenCartProducts() =>
       moorDatabase.listenCartProducts();
+
+  /// location listen
+  @override
+  Stream<List<LocationData>> listenLocations() =>
+      moorDatabase.listenLocations();
 
   @override
   Future<List<ProductCartData>> getCartProducts() => getCartProducts();

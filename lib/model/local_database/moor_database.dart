@@ -49,7 +49,6 @@ class MoorDatabase extends _$MoorDatabase {
   /// Hamma saqlangan qidiruvlarni o'chirib tashlaydi
   clearSearchHistory() => (delete(search)).go();
 
-
   clearOrderHistory() => (delete(productCart)).go();
 
   /// Favorite
@@ -127,11 +126,12 @@ class MoorDatabase extends _$MoorDatabase {
         mode: InsertMode.insertOrReplace,
       );
 
-  Future<int> deleteLocation({required LocationData locationData}) => (delete(location)
-        ..where((locationItem) =>
-            locationItem.lat.equals(locationData.lat) &
-            locationItem.lng.equals(locationData.lng)))
-      .go();
+  Future<int> deleteLocation({required LocationData locationData}) =>
+      (delete(location)
+            ..where((locationItem) =>
+                locationItem.lat.equals(locationData.lat) &
+                locationItem.lng.equals(locationData.lng)))
+          .go();
 
-  Future<int>  clearLocation() => delete(location).go();
+  Future<int> clearLocation() => delete(location).go();
 }

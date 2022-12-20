@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/controller/order_controller/order_repository.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
@@ -7,9 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   final OrderRepository orderRepository;
+  final LocationRepository locationRepository;
   late StreamSubscription listenerOrderProducts;
 
-  OrderBloc(super.initialState, {required this.orderRepository}) {
+  OrderBloc(super.initialState,
+      {required this.orderRepository, required this.locationRepository}) {
     on<OrderGetProductEvent>(
       _orderGetProduct,
       transformer: concurrent(),
@@ -17,6 +20,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     on<OrderListenProductEvent>(
       _orderListenProduct,
+      transformer: concurrent(),
+    );
+
+    on<OrderListenLocationEvent>(
+      _orderListenLocation,
       transformer: concurrent(),
     );
 
@@ -50,9 +58,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       OrderGetProductEvent event, Emitter<OrderState> emit) {}
 
   FutureOr<void> _orderListenProduct(
-      OrderListenProductEvent event, Emitter<OrderState> emit) {
+      OrderListenProductEvent event, Emitter<OrderState> emit) {}
 
-  }
+  FutureOr<void> _orderListenLocation(
+      OrderListenLocationEvent event, Emitter<OrderState> emit) {}
 
   FutureOr<void> _orderCartProduct(
       OrderCartProductEvent event, Emitter<OrderState> emit) {

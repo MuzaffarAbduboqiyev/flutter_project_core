@@ -26,3 +26,9 @@ class LocationGetInfoEvent extends LocationEvent {
 }
 
 class LocationSaveEvent extends LocationEvent {}
+
+class LocationListenEvent extends LocationEvent {
+  final LocationData locationData;
+
+  LocationListenEvent({required this.locationData});
+}

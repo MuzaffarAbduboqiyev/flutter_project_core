@@ -1,3 +1,4 @@
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
@@ -8,8 +9,15 @@ import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 
-class DeliveryDialog extends StatelessWidget {
+class DeliveryDialog extends StatefulWidget {
   const DeliveryDialog({Key? key}) : super(key: key);
+
+  @override
+  State<DeliveryDialog> createState() => _DeliveryDialogState();
+}
+
+class _DeliveryDialogState extends State<DeliveryDialog> {
+  late LocationData locations;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +55,9 @@ class DeliveryDialog extends StatelessWidget {
                     bottom: BorderSide(width: 1, color: hintColor),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                   ),

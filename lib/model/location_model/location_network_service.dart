@@ -6,9 +6,7 @@ import 'package:dio/dio.dart';
 class LocationNetworkService {
   final Dio dio;
 
-  LocationNetworkService({
-    required this.dio,
-  });
+  LocationNetworkService({required this.dio});
 
   factory LocationNetworkService.initial() => LocationNetworkService(
         dio: Dio(quramizDioBaseOptions),
@@ -23,7 +21,7 @@ class LocationNetworkService {
         locationUrl,
         data: {
           "lat": lat,
-          "lng": lng,
+          "lng": lng
         },
       );
       return NetworkResponseModel.success(response: response);

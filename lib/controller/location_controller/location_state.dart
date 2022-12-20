@@ -1,10 +1,10 @@
 import 'package:delivery_service/model/local_database/moor_database.dart';
 
 enum LocationStatus {
-  init,
-  loading,
-  loaded,
-  closed,
+  init, // boshlang'ich,
+  loading, // yuklash
+  loaded, // yuklangan
+  closed, // yopiq
   error,
 }
 

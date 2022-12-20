@@ -13,22 +13,27 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     super.initialState, {
     required this.repository,
   }) {
+    // init = boshlang'ich
     on<LocationInitialEvent>(
       _init,
       transformer: concurrent(),
     );
+    // getInfo = Ma'lumot olish
 
     on<LocationGetInfoEvent>(
       _getInfo,
       transformer: restartable(),
     );
-
+    // save = Saqlash
     on<LocationSaveEvent>(
       _save,
       transformer: sequential(),
     );
 
-
+    on<LocationListenEvent>(
+      _listen,
+      transformer: sequential(),
+    );
   }
 
   FutureOr<void> _init(
@@ -78,6 +83,15 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     emit(
       state.copyWith(
         locationStatus: LocationStatus.closed,
+      ),
+    );
+  }
+
+  FutureOr<void> _listen(
+      LocationListenEvent event, Emitter<LocationState> emit) {
+    emit(
+      state.copyWith(
+        locationData: event.locationData,
       ),
     );
   }

@@ -27,6 +27,7 @@ class OrderScreen extends StatelessWidget {
       create: (context) => OrderBloc(
         OrderState.initial(),
         orderRepository: singleton(),
+        locationRepository: singleton(),
       ),
       child: const OrderPage(),
     );
@@ -83,31 +84,31 @@ class _OrderPageState extends State<OrderPage> {
           builder: (context, state) => state.orderStatus == OrderStatus.loading
               ? imageLoader()
               : state.orderStatus == OrderStatus.error
-              ? ConnectionErrorWidget(refreshFunction: _refresh)
-              : (state.products.isNotEmpty)
-              ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: state.products.length,
-                    itemBuilder: (context, index) => OrderProduct(
-                        product: state.products[index]),
-                  ),
-                ),
-                if (state.products.isNotEmpty)
-                  const OrderDeliver(),
-                if (state.products.isNotEmpty) _payment(state),
-                const SizedBox(height: 16),
-                if (state.products.isNotEmpty) _checkout(state),
-                const SizedBox(height: 20),
-              ],
-            ),
-          )
-              : const OrderListView(),
+                  ? ConnectionErrorWidget(refreshFunction: _refresh)
+                  : (state.products.isNotEmpty)
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: state.products.length,
+                                  itemBuilder: (context, index) => OrderProduct(
+                                      product: state.products[index]),
+                                ),
+                              ),
+                              if (state.products.isNotEmpty)
+                                const OrderDeliver(),
+                              if (state.products.isNotEmpty) _payment(state),
+                              const SizedBox(height: 16),
+                              if (state.products.isNotEmpty) _checkout(state),
+                              const SizedBox(height: 20),
+                            ],
+                          ),
+                        )
+                      : const OrderListView(),
         ),
       ),
     );
@@ -151,7 +152,7 @@ class _OrderPageState extends State<OrderPage> {
 
   _checkout(OrderState state) {
     return InkWell(
-      onTap: (){},
+      onTap: () {},
       child: Container(
         alignment: Alignment.center,
         height: 60,
@@ -191,6 +192,4 @@ class _OrderPageState extends State<OrderPage> {
       ),
     );
   }
-
-
 }

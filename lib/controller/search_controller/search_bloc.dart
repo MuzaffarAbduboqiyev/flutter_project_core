@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/search_controller/search_event.dart';
 import 'package:delivery_service/controller/search_controller/search_repository.dart';
