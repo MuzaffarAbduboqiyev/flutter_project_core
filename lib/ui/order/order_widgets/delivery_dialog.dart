@@ -1,5 +1,3 @@
-import 'package:delivery_service/controller/order_controller/order_bloc.dart';
-import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
@@ -11,7 +9,6 @@ import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DeliveryDialog extends StatefulWidget {
   final List<LocationData> locations;
