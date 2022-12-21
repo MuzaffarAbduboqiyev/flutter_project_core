@@ -27,7 +27,7 @@ class OrderRepositoryImpl extends OrderRepository {
     required this.moorDatabase,
   });
 
-  /// product listen
+  /// porduct listen
   @override
   Stream<List<ProductCartData>> listenCartProducts() =>
       moorDatabase.listenCartProducts();

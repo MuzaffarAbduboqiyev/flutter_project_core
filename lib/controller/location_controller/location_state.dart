@@ -11,11 +11,13 @@ enum LocationStatus {
 class LocationState {
   final LocationStatus locationStatus;
   final LocationData locationData;
+  List<LocationData> locations;
   final String error;
 
   LocationState({
     required this.locationStatus,
     required this.locationData,
+    required this.locations,
     required this.error,
   });
 
@@ -27,17 +29,20 @@ class LocationState {
           selectedStatus: false,
           name: "",
         ),
+        locations: [],
         error: "",
       );
 
   LocationState copyWith({
     LocationStatus? locationStatus,
     LocationData? locationData,
+    List<LocationData>? locations,
     String? error,
   }) =>
       LocationState(
         locationStatus: locationStatus ?? this.locationStatus,
         locationData: locationData ?? this.locationData,
+        locations: locations ?? this.locations,
         error: error ?? this.error,
       );
 }

@@ -2,6 +2,7 @@ import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/location_model/location_network_service.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 import 'package:delivery_service/util/service/network/parser_service.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class LocationRepository {
   Future<List<LocationData>> getLocations();
@@ -36,8 +37,15 @@ class LocationRepositoryImpl extends LocationRepository {
   @override
   Future<int> insertOrUpdateLocation({
     required LocationData locationData,
-  }) =>
-      moorDatabase.insertOrUpdateLocation(locationData: locationData);
+  })async{
+    final response = await moorDatabase.insertOrUpdateLocation(locationData: locationData);
+    final locations = await getLocations();
+    if (kDebugMode) {
+      print("Inserted $response");
+      print("Lists: ${locations.length}");
+    }
+    return response;
+  }
 
   @override
   Stream<List<LocationData>> listenLocations() =>

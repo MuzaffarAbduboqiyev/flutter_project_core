@@ -1021,6 +1021,7 @@ class LocationData extends DataClass implements Insertable<LocationData> {
   final bool selectedStatus;
   final String? name;
 
+
   LocationData({
     required this.lat,
     required this.lng,

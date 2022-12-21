@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final LocationRepository repository;
+  late StreamSubscription locationRepository;
 
   LocationBloc(
     super.initialState, {
@@ -34,6 +35,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       _listen,
       transformer: sequential(),
     );
+
+
   }
 
   FutureOr<void> _init(
@@ -88,11 +91,5 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   FutureOr<void> _listen(
-      LocationListenEvent event, Emitter<LocationState> emit) {
-    emit(
-      state.copyWith(
-        locationData: event.locationData,
-      ),
-    );
-  }
+      LocationListenEvent event, Emitter<LocationState> emit) {}
 }

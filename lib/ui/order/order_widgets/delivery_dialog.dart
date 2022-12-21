@@ -10,15 +10,15 @@ import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 
 class DeliveryDialog extends StatefulWidget {
-  const DeliveryDialog({Key? key}) : super(key: key);
+  final List<LocationData> locations;
+
+  const DeliveryDialog({required this.locations, Key? key}) : super(key: key);
 
   @override
   State<DeliveryDialog> createState() => _DeliveryDialogState();
 }
 
 class _DeliveryDialogState extends State<DeliveryDialog> {
-  late LocationData locations;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,25 +43,21 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 6),
           Expanded(
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: widget.locations.length,
               itemBuilder: (context, index) => Container(
-                height: 60,
-                width: double.infinity,
+                height: 53,
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(width: 1, color: hintColor),
                   ),
                 ),
                 child: Text(
-                  "",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                  textAlign: TextAlign.center,
+                  widget.locations[index].name ?? "",
+                  style: getCurrentTheme(context).textTheme.bodyLarge,
                   maxLines: 1,
                 ),
               ),

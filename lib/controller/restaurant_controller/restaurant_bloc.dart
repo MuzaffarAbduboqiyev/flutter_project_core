@@ -59,12 +59,11 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
         .listenCartProducts()
         .listen((cartProductVariations) {
       add(
-        RestaurantCartEvent(
-          productVariations: cartProductVariations,
-        ),
+        RestaurantCartEvent(productVariations: cartProductVariations),
       );
     });
   }
+
   // _initial = boshlang'ich
   FutureOr<void> _initial(
       RestaurantInitEvent event, Emitter<RestaurantState> emit) {
@@ -77,6 +76,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       ),
     );
   }
+
   // _getRestaurant = restoran oling
   FutureOr<void> _getRestaurant(
       RestaurantGetEvent event, Emitter<RestaurantState> emit) async {
@@ -103,6 +103,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       ),
     );
   }
+
   // _getCategories = Kategoriyalarni oling
   FutureOr<void> _getCategories(
       RestaurantCategoriesEvent event, Emitter<RestaurantState> emit) async {
@@ -124,6 +125,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       ),
     );
   }
+
   // _changeSelectedCategory = Tanlangan toifani o'zgartirish
   FutureOr<void> _changeSelectedCategory(
     RestaurantSelectedCategoryEvent event,
@@ -154,6 +156,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
 
     add(RestaurantCartUpdateEvent());
   }
+
   // _refreshProducts = Mahsulotlarni yangilash
   FutureOr<void> _refreshProducts(RestaurantRefreshProductsEvent event,
       Emitter<RestaurantState> emit) async {
@@ -178,6 +181,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
 
     add(RestaurantCartUpdateEvent());
   }
+
   // _changeFavorite = Sevimlini o'zgartirish
   FutureOr<void> _changeFavorite(
       RestaurantFavoriteEvent event, Emitter<RestaurantState> emit) async {
@@ -191,6 +195,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       restaurantModel: state.restaurantModel,
     );
   }
+
   // _listenCartProducts = Savat mahsulotlarini tinglang
   FutureOr<void> _listenCartProducts(
       RestaurantCartEvent event, Emitter<RestaurantState> emit) {

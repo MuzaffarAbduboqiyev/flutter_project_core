@@ -6,8 +6,6 @@ class OrderGetProductEvent extends OrderEvent {}
 
 class OrderListenProductEvent extends OrderEvent {}
 
-class OrderListenLocationEvent extends OrderEvent {}
-
 class OrderRefreshProductEvent extends OrderEvent {}
 
 class OrderCartProductEvent extends OrderEvent {
@@ -29,3 +27,11 @@ class OrderDeleteProductEvent extends OrderEvent {
 }
 
 class OrderClearProductEvent extends OrderEvent {}
+
+
+ // listen location
+class OrderListenLocationEvent extends OrderEvent {
+  final List<LocationData> locations;
+
+  OrderListenLocationEvent({required this.locations});
+}

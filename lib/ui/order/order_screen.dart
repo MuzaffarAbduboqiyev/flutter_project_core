@@ -27,7 +27,7 @@ class OrderScreen extends StatelessWidget {
       create: (context) => OrderBloc(
         OrderState.initial(),
         orderRepository: singleton(),
-        locationRepository: singleton(),
+        locationRepository: singleton()
       ),
       child: const OrderPage(),
     );
@@ -44,11 +44,13 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
   late ProductCartData productCartData;
+  late LocationData locationData;
 
   _refresh() {
     context.read<OrderBloc>().add(OrderRefreshProductEvent());
   }
 
+  /// delete
   _showClearConfirm() {
     return showConfirmDialog(
       context: context,
@@ -96,11 +98,12 @@ class _OrderPageState extends State<OrderPage> {
                                 child: ListView.builder(
                                   itemCount: state.products.length,
                                   itemBuilder: (context, index) => OrderProduct(
-                                      product: state.products[index]),
+                                    product: state.products[index],
+                                  ),
                                 ),
                               ),
                               if (state.products.isNotEmpty)
-                                const OrderDeliver(),
+                                const OrderDeliverPage(),
                               if (state.products.isNotEmpty) _payment(state),
                               const SizedBox(height: 16),
                               if (state.products.isNotEmpty) _checkout(state),
