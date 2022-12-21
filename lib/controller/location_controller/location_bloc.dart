@@ -61,6 +61,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     final response = await repository.getLocationInfo(
       lat: event.lat,
       lng: event.lng,
+      name: event.name,
     );
 
     emit(

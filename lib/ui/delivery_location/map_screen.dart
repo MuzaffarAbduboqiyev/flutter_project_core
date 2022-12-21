@@ -64,7 +64,7 @@ class _MapPageState extends State<MapPage> {
   void updateCamera(double latitude, double longitude) {
     context
         .read<LocationBloc>()
-        .add(LocationGetInfoEvent(lat: latitude, lng: longitude));
+        .add(LocationGetInfoEvent(lat: latitude, lng: longitude,name: ''));
     setState(() {
       cameraPosition = CameraPosition(
         target: LatLng(latitude, longitude),

@@ -59,7 +59,11 @@ class DataResponseModel<T> {
   T? data;
   String? message;
 
-  DataResponseModel({required this.status, this.data, this.message});
+  DataResponseModel({
+    required this.status,
+    this.data,
+    this.message,
+  });
 
   factory DataResponseModel.success(
           {required T? model, String? responseMessage}) =>

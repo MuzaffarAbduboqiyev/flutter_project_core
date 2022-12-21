@@ -27,7 +27,7 @@ class OrderScreen extends StatelessWidget {
       create: (context) => OrderBloc(
         OrderState.initial(),
         orderRepository: singleton(),
-        locationRepository: singleton()
+
       ),
       child: const OrderPage(),
     );
@@ -103,7 +103,7 @@ class _OrderPageState extends State<OrderPage> {
                                 ),
                               ),
                               if (state.products.isNotEmpty)
-                                const OrderDeliverPage(),
+                                const OrderDeliver(),
                               if (state.products.isNotEmpty) _payment(state),
                               const SizedBox(height: 16),
                               if (state.products.isNotEmpty) _checkout(state),

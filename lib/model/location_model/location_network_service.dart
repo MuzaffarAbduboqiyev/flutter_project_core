@@ -15,13 +15,15 @@ class LocationNetworkService {
   Future<NetworkResponseModel> locationInfo({
     required double lat,
     required double lng,
+    required String name,
   }) async {
     try {
       final response = await dio.post(
         locationUrl,
         data: {
           "lat": lat,
-          "lng": lng
+          "lng": lng,
+          "name": name,
         },
       );
       return NetworkResponseModel.success(response: response);

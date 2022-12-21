@@ -22,6 +22,7 @@ abstract class LocationRepository {
   Future<DataResponseModel<LocationData>> getLocationInfo({
     required double lat,
     required double lng,
+    required String name,
   });
 }
 
@@ -63,11 +64,12 @@ class LocationRepositoryImpl extends LocationRepository {
 
   @override
   Future<DataResponseModel<LocationData>> getLocationInfo(
-      {required double lat, required double lng}) async {
+      {required double lat, required double lng, required String name}) async {
     try {
       final response = await networkService.locationInfo(
         lat: lat,
         lng: lng,
+        name: name,
       );
       if (response.status == true && response.response != null) {
         if (response.response?.data.containsKey("status") == true &&
@@ -88,6 +90,7 @@ class LocationRepositoryImpl extends LocationRepository {
             model: LocationData(
               lat: lat,
               lng: lng,
+              name: name,
               selectedStatus: true,
             ),
           );
@@ -97,6 +100,7 @@ class LocationRepositoryImpl extends LocationRepository {
           model: LocationData(
             lat: lat,
             lng: lng,
+            name: name,
             selectedStatus: true,
           ),
         );
@@ -106,6 +110,7 @@ class LocationRepositoryImpl extends LocationRepository {
         model: LocationData(
           lat: lat,
           lng: lng,
+          name: name,
           selectedStatus: true,
         ),
       );

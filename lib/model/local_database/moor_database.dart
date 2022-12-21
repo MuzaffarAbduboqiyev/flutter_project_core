@@ -128,9 +128,11 @@ class MoorDatabase extends _$MoorDatabase {
 
   Future<int> deleteLocation({required LocationData locationData}) =>
       (delete(location)
-            ..where((locationItem) =>
-                locationItem.lat.equals(locationData.lat) &
-                locationItem.lng.equals(locationData.lng)))
+            ..where(
+              (locationItem) =>
+                  locationItem.lat.equals(locationData.lat) &
+                  locationItem.lng.equals(locationData.lng),
+            ))
           .go();
 
   Future<int> clearLocation() => delete(location).go();

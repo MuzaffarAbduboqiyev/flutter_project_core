@@ -18,6 +18,8 @@ abstract class OrderRepository {
   });
 
   Future<bool> clearOrderHistory();
+
+  Future<bool> clearLocationHistory();
 }
 
 class OrderRepositoryImpl extends OrderRepository {
@@ -64,6 +66,12 @@ class OrderRepositoryImpl extends OrderRepository {
   @override
   Future<bool> clearOrderHistory() async {
     await moorDatabase.clearOrderHistory();
+    return true;
+  }
+
+  @override
+  Future<bool> clearLocationHistory() async {
+    await moorDatabase.clearLocation();
     return true;
   }
 }

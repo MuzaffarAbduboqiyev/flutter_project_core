@@ -1,5 +1,3 @@
-import 'package:delivery_service/controller/location_controller/location_bloc.dart';
-import 'package:delivery_service/controller/location_controller/location_state.dart';
 import 'package:delivery_service/controller/order_controller/order_bloc.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
@@ -7,7 +5,6 @@ import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
 import 'package:delivery_service/ui/order/order_widgets/delivery_dialog.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
-import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/styles.dart';
@@ -16,14 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-class OrderDeliverPage extends StatefulWidget {
-  const OrderDeliverPage({Key? key}) : super(key: key);
+class OrderDeliver extends StatefulWidget {
+  const OrderDeliver({Key? key}) : super(key: key);
 
   @override
-  State<OrderDeliverPage> createState() => _OrderDeliverPageState();
+  State<OrderDeliver> createState() => _OrderDeliverState();
 }
 
-class _OrderDeliverPageState extends State<OrderDeliverPage> {
+class _OrderDeliverState extends State<OrderDeliver> {
   final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
 
   @override

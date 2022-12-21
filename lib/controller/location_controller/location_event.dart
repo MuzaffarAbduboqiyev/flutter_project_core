@@ -18,10 +18,12 @@ class LocationInitialEvent extends LocationEvent {
 class LocationGetInfoEvent extends LocationEvent {
   final double lat;
   final double lng;
+  final String name;
 
   LocationGetInfoEvent({
     required this.lat,
     required this.lng,
+    required this.name,
   });
 }
 
