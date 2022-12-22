@@ -66,6 +66,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     emit(
       state.copyWith(
+
         locationStatus: LocationStatus.loaded,
         locationData: response.data,
       ),

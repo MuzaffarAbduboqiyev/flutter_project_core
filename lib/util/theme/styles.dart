@@ -9,6 +9,7 @@ TextStyle getLightStyle({
   FontStyle style = FontStyle.normal,
   FontWeight weight = FontWeight.w400,
   Color? color,
+
 }) {
   return GoogleFonts.inter(
     fontSize: textSize,
@@ -21,6 +22,7 @@ TextStyle getLightStyle({
 /// Dark text style uchun
 TextStyle getDarkStyle({
   double textSize = 15.0,
+
   FontStyle style = FontStyle.normal,
   FontWeight weight = FontWeight.w400,
   Color? color,
@@ -41,6 +43,7 @@ TextStyle getCustomStyle({
   FontStyle style = FontStyle.normal,
   FontWeight weight = FontWeight.w400,
   Color? color,
+
 }) {
   return (getDarkThemeState(context))
       ? getDarkStyle(

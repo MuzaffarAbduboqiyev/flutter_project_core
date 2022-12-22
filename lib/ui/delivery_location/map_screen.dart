@@ -1,7 +1,6 @@
 import 'package:delivery_service/controller/location_controller/location_bloc.dart';
 import 'package:delivery_service/controller/location_controller/location_event.dart';
 import 'package:delivery_service/controller/location_controller/location_state.dart';
-import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
@@ -164,26 +163,41 @@ class _MapPageState extends State<MapPage> {
             Column(
               children: [
                 Expanded(child: Container()),
-                GestureDetector(
-                  onTap: buttonCart,
-                  child: Container(
-                    height: 53,
-                    decoration: getContainerDecoration(context,
-                        fillColor: getCurrentTheme(context).indicatorColor),
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
-                    child: Center(
-                      child: Text(
-                        translate("confirmation").toCapitalized(),
-                        style: getCustomStyle(
-                          context: context,
-                          color: navSelectedTextColor,
-                          textSize: 15,
-                          weight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
+                BlocBuilder<LocationBloc, LocationState>(
+                  builder: (context, state) =>
+                      (state.locationStatus == LocationStatus.loading)
+                          ? const Padding(
+                              padding: EdgeInsets.only(bottom: 28),
+                              child: SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: CircularProgressIndicator(
+                                  color: Colors.orange,
+                                ),
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: buttonCart,
+                              child: Container(
+                                height: 53,
+                                decoration: getContainerDecoration(context,
+                                    fillColor: getCurrentTheme(context)
+                                        .indicatorColor),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 16),
+                                child: Center(
+                                  child: Text(
+                                    translate("confirmation").toCapitalized(),
+                                    style: getCustomStyle(
+                                      context: context,
+                                      color: navSelectedTextColor,
+                                      textSize: 15,
+                                      weight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                 ),
               ],
             ),
@@ -197,3 +211,4 @@ class _MapPageState extends State<MapPage> {
     context.read<LocationBloc>().add(LocationSaveEvent());
   }
 }
+

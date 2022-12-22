@@ -149,10 +149,8 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
       context: context,
       title: translate("error.clear"),
       content: "",
-      confirm: _clearHistory,
+      confirm: (){},
     );
   }
-  _clearHistory() {
 
-  }
 }

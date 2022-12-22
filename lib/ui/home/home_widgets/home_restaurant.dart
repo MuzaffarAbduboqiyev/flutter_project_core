@@ -17,7 +17,10 @@ class HomeRestaurant extends StatefulWidget {
 }
 
 class _HomeRestaurantState extends State<HomeRestaurant> {
-  void getRestaurantRefresh() {}
+  void getRestaurantRefresh() {
+    context.read<HomeBloc>().add(HomeGetCategoriesEvent());
+    context.read<HomeBloc>().add(HomeGetRestaurantsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +29,7 @@ class _HomeRestaurantState extends State<HomeRestaurant> {
           (state.restaurantStatus == RestaurantStatus.loading)
               ? const HomeRestaurantShimmer()
               : (state.restaurantStatus == RestaurantStatus.error)
-                  ? ConnectionErrorWidget(
-                      refreshFunction: getRestaurantRefresh,
-                    )
+                  ? ConnectionErrorWidget(refreshFunction: getRestaurantRefresh)
                   : ScrollConfiguration(
                       behavior: CustomScrollBehavior(),
                       child: ListView.builder(

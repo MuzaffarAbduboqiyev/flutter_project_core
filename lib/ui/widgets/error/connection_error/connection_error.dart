@@ -52,10 +52,7 @@ class ConnectionErrorWidget extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: translate("error.refresh"),
-                            style: getCustomStyle(
-                              context: context,
-                              weight: FontWeight.w700,
-                            ),
+                            style: getCurrentTheme(context).textTheme.bodyLarge,
                           ),
                           WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
