@@ -10,16 +10,18 @@ import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 
-class DeliveryDialog extends StatefulWidget {
+class LocationDeliveryDialog extends StatefulWidget {
   final List<LocationData> locations;
 
-  const DeliveryDialog({required this.locations, Key? key}) : super(key: key);
+  const LocationDeliveryDialog({required this.locations, Key? key}) : super(key: key);
 
   @override
-  State<DeliveryDialog> createState() => _DeliveryDialogState();
+  State<LocationDeliveryDialog> createState() => _LocationDeliveryDialogState();
 }
 
-class _DeliveryDialogState extends State<DeliveryDialog> {
+class _LocationDeliveryDialogState extends State<LocationDeliveryDialog> {
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,20 +51,30 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
             child: ListView.builder(
               itemCount: widget.locations.length,
               itemBuilder: (context, index) => InkWell(
+                onTap: () {},
                 onLongPress: _showLocationConfirm,
                 child: Container(
-                  height: 53,
-                  padding: const EdgeInsets.all(16),
+                  height: 50,
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(width: 1, color: hintColor),
                     ),
                   ),
-                  child: Text(
-                    widget.locations[index].name ?? "",
-                    style: getCurrentTheme(context).textTheme.bodyLarge,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.adjust, color: Colors.orange),
+                        const SizedBox(width: 8),
+                        Text(
+                          widget.locations[index].name ?? "",
+                          style: getCurrentTheme(context).textTheme.bodyLarge,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -149,8 +161,7 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
       context: context,
       title: translate("error.clear"),
       content: "",
-      confirm: (){},
+      confirm: () {},
     );
   }
-
 }

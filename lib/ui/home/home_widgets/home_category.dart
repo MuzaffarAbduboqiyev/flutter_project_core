@@ -19,6 +19,7 @@ class HomeCategory extends StatefulWidget {
 class _HomeCategoryState extends State<HomeCategory> {
   void refreshHomeCategory() {
     context.read<HomeBloc>().add(HomeGetCategoriesEvent());
+    context.read<HomeBloc>().add(HomeGetRestaurantsEvent());
   }
 
   @override

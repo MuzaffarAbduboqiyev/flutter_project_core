@@ -61,7 +61,7 @@ class _OrderProductState extends State<OrderProduct> {
       builder: (context, state) => Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: SizedBox(
-          height: 70,
+          height: 75,
           width: double.infinity,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -90,14 +90,14 @@ class _OrderProductState extends State<OrderProduct> {
                     ),
                     Text(
                       "${translate("in_stock")}: ${widget.product.count.toString()} x",
-                      style: getCurrentTheme(context).textTheme.labelMedium,
+                      style: getCurrentTheme(context).textTheme.labelSmall,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                     Text(
                       "${moneyFormatter.format(widget.product.price)} ${translate("sum")}",
-                      style: getCurrentTheme(context).textTheme.labelMedium,
+                      style: getCurrentTheme(context).textTheme.labelSmall,
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,

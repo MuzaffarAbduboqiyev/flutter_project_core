@@ -1,12 +1,21 @@
+import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/ui/home/home_widgets/home_lacation_dialog.dart';
+import 'package:delivery_service/ui/widgets/dialog/location_delivery_dialog.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
+import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class HomeUserWidget extends StatelessWidget {
+class HomeUserWidget extends StatefulWidget {
   const HomeUserWidget({Key? key}) : super(key: key);
 
+  @override
+  State<HomeUserWidget> createState() => _HomeUserWidgetState();
+}
+
+class _HomeUserWidgetState extends State<HomeUserWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -24,17 +33,37 @@ class HomeUserWidget extends StatelessWidget {
           color: getCurrentTheme(context).indicatorColor,
         ),
       ),
-      subtitle: Text(
-        "883 Spring St, San Francisco",
-        style: getCustomStyle(
-          context: context,
-          weight: FontWeight.w400,
-          textSize: 15.0,
-          color: getCurrentTheme(context).indicatorColor,
-        ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+      subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "883 Spring St, San Francisco",
+            style: getCustomStyle(
+              context: context,
+              weight: FontWeight.w400,
+              textSize: 15.0,
+              color: getCurrentTheme(context).hintColor,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+          InkWell(
+            onTap: locationDialog,
+            child: Icon(
+              Icons.expand_more,
+              color: navUnselectedColor,
+            ),
+          )
+        ],
       ),
     );
+  }
+
+  locationDialog() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: false,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) => const HomeLocationDialog());
   }
 }

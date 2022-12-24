@@ -131,7 +131,8 @@ class MoorDatabase extends _$MoorDatabase {
             ..where(
               (locationItem) =>
                   locationItem.lat.equals(locationData.lat) &
-                  locationItem.lng.equals(locationData.lng),
+                  locationItem.lng.equals(locationData.lng) &
+                  locationItem.name.equals(locationData.name),
             ))
           .go();
 
