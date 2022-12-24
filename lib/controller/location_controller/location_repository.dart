@@ -1,7 +1,6 @@
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/location_model/location_network_service.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
-import 'package:delivery_service/util/service/network/parser_service.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class LocationRepository {
@@ -17,7 +16,7 @@ abstract class LocationRepository {
     required LocationData locationData,
   });
 
-  Future<int> clearLocations();
+  Future<bool> clearLocations();
 
   Future<DataResponseModel<LocationData>> getLocationInfo({
     required double lat,
@@ -38,8 +37,9 @@ class LocationRepositoryImpl extends LocationRepository {
   @override
   Future<int> insertOrUpdateLocation({
     required LocationData locationData,
-  })async{
-    final response = await moorDatabase.insertOrUpdateLocation(locationData: locationData);
+  }) async {
+    final response =
+        await moorDatabase.insertOrUpdateLocation(locationData: locationData);
     final locations = await getLocations();
     if (kDebugMode) {
       print("Inserted $response");
@@ -60,11 +60,17 @@ class LocationRepositoryImpl extends LocationRepository {
       moorDatabase.deleteLocation(locationData: locationData);
 
   @override
-  Future<int> clearLocations() => moorDatabase.clearLocation();
+  Future<bool> clearLocations() async{
+    await moorDatabase.clearLocation();
+    return true;
+  }
 
   @override
-  Future<DataResponseModel<LocationData>> getLocationInfo(
-      {required double lat, required double lng, required String name}) async {
+  Future<DataResponseModel<LocationData>> getLocationInfo({
+    required double lat,
+    required double lng,
+    required String name,
+  }) async {
     try {
       final response = await networkService.locationInfo(
         lat: lat,
@@ -78,10 +84,8 @@ class LocationRepositoryImpl extends LocationRepository {
           final address = LocationData(
             lat: lat,
             lng: lng,
-            name: parseToString(
-              response: response.response?.data?["data"],
-              key: "address",
-            ),
+
+            name:name,
             selectedStatus: true,
           );
           return DataResponseModel.success(model: address);

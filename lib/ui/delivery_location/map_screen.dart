@@ -1,6 +1,7 @@
 import 'package:delivery_service/controller/location_controller/location_bloc.dart';
 import 'package:delivery_service/controller/location_controller/location_event.dart';
 import 'package:delivery_service/controller/location_controller/location_state.dart';
+import 'package:delivery_service/ui/delivery_location/location_indicator.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
@@ -63,7 +64,7 @@ class _MapPageState extends State<MapPage> {
   void updateCamera(double latitude, double longitude) {
     context
         .read<LocationBloc>()
-        .add(LocationGetInfoEvent(lat: latitude, lng: longitude,name: ''));
+        .add(LocationGetInfoEvent(lat: latitude, lng: longitude, name: ''));
     setState(() {
       cameraPosition = CameraPosition(
         target: LatLng(latitude, longitude),
@@ -140,14 +141,14 @@ class _MapPageState extends State<MapPage> {
                     margin: const EdgeInsets.only(bottom: 60),
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Text(
-                      state.locationData.name ?? "",
+                      state.locationData.name ?? '',
+                      style: getCustomStyle(
+                        context: context,
+                        color: Colors.black,
+                        textSize: 22,
+                      ),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: getCustomStyle(
-                          context: context,
-                          color: lightTextColor,
-                          textSize: 22),
                     ),
                   ),
                 );
@@ -163,42 +164,7 @@ class _MapPageState extends State<MapPage> {
             Column(
               children: [
                 Expanded(child: Container()),
-                BlocBuilder<LocationBloc, LocationState>(
-                  builder: (context, state) =>
-                      (state.locationStatus == LocationStatus.loading)
-                          ? const Padding(
-                              padding: EdgeInsets.only(bottom: 28),
-                              child: SizedBox(
-                                width: 30,
-                                height: 30,
-                                child: CircularProgressIndicator(
-                                  color: Colors.orange,
-                                ),
-                              ),
-                            )
-                          : GestureDetector(
-                              onTap: buttonCart,
-                              child: Container(
-                                height: 53,
-                                decoration: getContainerDecoration(context,
-                                    fillColor: getCurrentTheme(context)
-                                        .indicatorColor),
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 16),
-                                child: Center(
-                                  child: Text(
-                                    translate("confirmation").toCapitalized(),
-                                    style: getCustomStyle(
-                                      context: context,
-                                      color: navSelectedTextColor,
-                                      textSize: 15,
-                                      weight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                ),
+                const LocationIndicator()
               ],
             ),
           ],
@@ -206,9 +172,4 @@ class _MapPageState extends State<MapPage> {
       ),
     );
   }
-
-  buttonCart() {
-    context.read<LocationBloc>().add(LocationSaveEvent());
-  }
 }
-

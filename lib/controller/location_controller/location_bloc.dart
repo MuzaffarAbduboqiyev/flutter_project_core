@@ -36,7 +36,15 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       transformer: sequential(),
     );
 
+    on<LocationDeleteEvent>(
+      _deleteLocation,
+      transformer: concurrent(),
+    );
 
+    on<LocationClearEvent>(
+      _clearLocation,
+      transformer: concurrent(),
+    );
   }
 
   FutureOr<void> _init(
@@ -94,4 +102,15 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   FutureOr<void> _listen(
       LocationListenEvent event, Emitter<LocationState> emit) {}
+
+  FutureOr<void> _deleteLocation(
+      LocationDeleteEvent event, Emitter<LocationState> emit) async {
+    final response =
+        await repository.deleteLocation(locationData: event.locationData);
+  }
+
+  FutureOr<void> _clearLocation(
+      LocationClearEvent event, Emitter<LocationState> emit) async {
+    await repository.clearLocations();
+  }
 }

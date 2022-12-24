@@ -34,3 +34,11 @@ class LocationListenEvent extends LocationEvent {
 
   LocationListenEvent({required this.locationData});
 }
+
+class LocationDeleteEvent extends LocationEvent {
+  final LocationData locationData;
+
+  LocationDeleteEvent({required this.locationData});
+}
+
+class LocationClearEvent extends LocationEvent {}
