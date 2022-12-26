@@ -1,4 +1,5 @@
 import 'package:delivery_service/util/service/translator/translate_service.dart';
+import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
@@ -24,16 +25,28 @@ class HomeUserWidget extends StatelessWidget {
           color: getCurrentTheme(context).indicatorColor,
         ),
       ),
-      subtitle: Text(
-        "883 Spring St, San Francisco",
-        style: getCustomStyle(
-          context: context,
-          weight: FontWeight.w400,
-          textSize: 15.0,
-          color: getCurrentTheme(context).indicatorColor,
-        ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+      subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "883 Spring St, San Francisco",
+            style: getCustomStyle(
+              context: context,
+              weight: FontWeight.w400,
+              textSize: 15.0,
+              color: getCurrentTheme(context).hintColor,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          InkWell(
+            onTap: () {},
+            child: Icon(
+              Icons.expand_more,
+              color: navUnselectedColor,
+            ),
+          ),
+        ],
       ),
     );
   }
