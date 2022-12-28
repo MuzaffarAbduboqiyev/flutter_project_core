@@ -1,7 +1,4 @@
-import 'package:delivery_service/controller/order_controller/order_bloc.dart';
-import 'package:delivery_service/controller/restaurant_controller/restaurant_event.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
-import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
@@ -11,7 +8,6 @@ import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DeliveryDialog extends StatefulWidget {
   final List<LocationData> locations;
@@ -23,8 +19,6 @@ class DeliveryDialog extends StatefulWidget {
 }
 
 class _DeliveryDialogState extends State<DeliveryDialog> {
-  bool check = false;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,30 +48,19 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
             child: ListView.builder(
               itemCount: widget.locations.length,
               itemBuilder: (context, index) => InkWell(
-                onTap: () {},
-                onLongPress: _showLocationConfirm,
                 child: Container(
-                  height: 50,
-                  alignment: Alignment.center,
+                  height: 53,
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(width: 1, color: hintColor),
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.adjust, color: Colors.orange),
-                        const SizedBox(width: 8),
-                        Text(
-                          widget.locations[index].name ?? "",
-                          style: getCurrentTheme(context).textTheme.bodyLarge,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
+                  child: Text(
+                    widget.locations[index].name ?? "",
+                    style: getCurrentTheme(context).textTheme.bodyLarge,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
               ),
@@ -156,15 +139,6 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
       context,
       mapScreen,
       navbarStatus: false,
-    );
-  }
-
-  _showLocationConfirm() {
-    return showConfirmDialog(
-      context: context,
-      title: translate("error.clear"),
-      content: "",
-      confirm: () {},
     );
   }
 }

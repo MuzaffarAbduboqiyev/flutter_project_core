@@ -2,10 +2,7 @@ import 'package:delivery_service/controller/location_controller/location_bloc.da
 import 'package:delivery_service/controller/location_controller/location_event.dart';
 import 'package:delivery_service/controller/location_controller/location_state.dart';
 import 'package:delivery_service/ui/delivery_location/location_indicator.dart';
-import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
-import 'package:delivery_service/util/service/translator/translate_service.dart';
-import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
