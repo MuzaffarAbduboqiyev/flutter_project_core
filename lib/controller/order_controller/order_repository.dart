@@ -17,8 +17,11 @@ abstract class OrderRepository {
     required ProductCartData deleteCartData,
   });
 
-  Future<bool> clearOrderHistory();
+  Future<SimpleResponseModel> changeSelectedLocation({
+    required LocationData locationData,
+  });
 
+  Future<bool> clearOrderHistory();
 }
 
 class OrderRepositoryImpl extends OrderRepository {
@@ -68,5 +71,30 @@ class OrderRepositoryImpl extends OrderRepository {
     return true;
   }
 
-
+  @override
+  Future<SimpleResponseModel> changeSelectedLocation(
+      {required LocationData locationData}) async {
+    if (locationData.selectedStatus) {
+      await moorDatabase.insertOrUpdateLocation(
+        locationData: locationData.copyWith(
+          selectedStatus: false,
+        ),
+      );
+    } else {
+      final selectedLocation = await moorDatabase.getSelectedLocation();
+      if (selectedLocation != null) {
+        await moorDatabase.insertOrUpdateLocation(
+          locationData: selectedLocation.copyWith(
+            selectedStatus: false,
+          ),
+        );
+      }
+      await moorDatabase.insertOrUpdateLocation(
+        locationData: locationData.copyWith(
+          selectedStatus: true,
+        ),
+      );
+    }
+    return SimpleResponseModel.success();
+  }
 }

@@ -1207,7 +1207,7 @@ class $LocationTable extends Location
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {lat, lng};
   @override
   LocationData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return LocationData.fromData(data, attachedDatabase,

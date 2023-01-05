@@ -90,9 +90,7 @@ class _OrderDeliverState extends State<OrderDeliver> {
       backgroundColor: Colors.transparent,
       isScrollControlled: false,
       context: context,
-      builder: (builderContext) => DeliveryDialog(
-        locations: location,
-      ),
+      builder: (builderContext) => DeliveryDialog(blocContext: context),
     );
   }
 }
