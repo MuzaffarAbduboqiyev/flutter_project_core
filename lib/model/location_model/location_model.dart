@@ -9,5 +9,7 @@ class Location extends Table {
 
   TextColumn get name => text().nullable()();
 
+  @override
+  Set<Column>? get primaryKey => {lat, lng};
 
 }

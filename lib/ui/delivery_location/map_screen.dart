@@ -2,13 +2,11 @@ import 'package:delivery_service/controller/location_controller/location_bloc.da
 import 'package:delivery_service/controller/location_controller/location_event.dart';
 import 'package:delivery_service/controller/location_controller/location_state.dart';
 import 'package:delivery_service/ui/delivery_location/location_indicator.dart';
-import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
-import 'package:delivery_service/util/service/translator/translate_service.dart';
-import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -62,15 +60,24 @@ class _MapPageState extends State<MapPage> {
   }
 
   void updateCamera(double latitude, double longitude) {
-    context
-        .read<LocationBloc>()
-        .add(LocationGetInfoEvent(lat: latitude, lng: longitude, name: ''));
-    setState(() {
-      cameraPosition = CameraPosition(
-        target: LatLng(latitude, longitude),
-        zoom: mapZoom,
-      );
-    });
+    cameraPosition = CameraPosition(
+      target: LatLng(latitude, longitude),
+      zoom: mapZoom,
+    );
+    EasyDebounce.debounce(
+      'get_location_info',
+      const Duration(milliseconds: 500),
+      _getLocationInfo,
+    );
+  }
+
+  void _getLocationInfo() {
+    context.read<LocationBloc>().add(
+      LocationGetInfoEvent(
+        lat: cameraPosition.target.latitude,
+        lng: cameraPosition.target.longitude,
+      ),
+    );
   }
 
   @override
@@ -141,7 +148,7 @@ class _MapPageState extends State<MapPage> {
                     margin: const EdgeInsets.only(bottom: 60),
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Text(
-                      state.locationData.name ?? '',
+                      state.locationData.name ?? "",
                       style: getCustomStyle(
                         context: context,
                         color: Colors.black,

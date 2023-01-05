@@ -2,7 +2,7 @@ import 'package:delivery_service/controller/order_controller/order_bloc.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
-import 'package:delivery_service/ui/widgets/dialog/location_delivery_dialog.dart';
+import 'package:delivery_service/ui/order/order_widgets/delivery_dialog.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
@@ -73,7 +73,7 @@ class _OrderDeliverState extends State<OrderDeliver> {
               ),
             ),
             InkWell(
-              onTap: () => _dialogProduct(state.location),
+              onTap: () => dialogProduct(state.location),
               child: const Icon(
                 Icons.keyboard_arrow_down,
                 size: 34,
@@ -85,14 +85,12 @@ class _OrderDeliverState extends State<OrderDeliver> {
     );
   }
 
-  _dialogProduct(List<LocationData> location) {
+  dialogProduct(List<LocationData> location) {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       isScrollControlled: false,
       context: context,
-      builder: (builderContext) => LocationDeliveryDialog(
-        locations: location,
-      ),
+      builder: (builderContext) => DeliveryDialog(blocContext: context),
     );
   }
 }

@@ -34,3 +34,11 @@ class OrderListenLocationEvent extends OrderEvent {
 
   OrderListenLocationEvent({required this.locations});
 }
+
+class OrderLocationEvent extends OrderEvent {
+  final LocationData locationData;
+
+  OrderLocationEvent({required this.locationData});
+}
+
+

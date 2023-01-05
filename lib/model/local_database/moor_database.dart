@@ -136,5 +136,15 @@ class MoorDatabase extends _$MoorDatabase {
             ))
           .go();
 
+  Future<LocationData?> getSelectedLocation() =>
+      (select(location)
+            ..where(
+              (locationItem) =>
+                  locationItem.selectedStatus.equals(true),
+            ))
+          .getSingleOrNull();
+
+
+
   Future<int> clearLocation() => delete(location).go();
 }

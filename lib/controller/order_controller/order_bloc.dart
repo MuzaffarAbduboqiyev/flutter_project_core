@@ -49,7 +49,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       transformer: concurrent(),
     );
 
-
+    on<OrderLocationEvent>(
+      _changeLocationSelectedStatus,
+      transformer: concurrent(),
+    );
 
     listenerOrderProducts =
         orderRepository.listenCartProducts().listen((event) {
@@ -58,7 +61,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     });
 
     listenerLocation = orderRepository.listenLocations().listen((location) {
-      add(OrderListenLocationEvent(locations: location));
+      final l = location;
+      l.sort((a,b) => a.lat.compareTo(b.lat));
+      add(OrderListenLocationEvent(locations: l));
     });
   }
 
@@ -110,5 +115,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     await orderRepository.clearOrderHistory();
   }
 
-
+  FutureOr<void> _changeLocationSelectedStatus(
+      OrderLocationEvent event, Emitter<OrderState> emit) async {
+    await orderRepository.changeSelectedLocation(
+      locationData: event.locationData,
+    );
+  }
 }
