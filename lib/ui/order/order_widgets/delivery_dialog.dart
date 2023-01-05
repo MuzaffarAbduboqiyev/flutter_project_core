@@ -2,6 +2,7 @@ import 'package:delivery_service/controller/order_controller/order_bloc.dart';
 import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
@@ -27,6 +28,20 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
     widget.blocContext
         .read<OrderBloc>()
         .add(OrderLocationEvent(locationData: locationData));
+  }
+
+  /// delete
+  _showClearLocationConfirm() {
+    return showConfirmDialog(
+      context: context,
+      title: translate("location.delete"),
+      content: "",
+      confirm: _clearLocationHistory,
+    );
+  }
+
+  _clearLocationHistory() {
+    // context.read<OrderBloc>().add(OrderClearProductEvent());
   }
 
   @override
@@ -63,6 +78,7 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
                   itemBuilder: (context, index) => InkWell(
                     onTap: () =>
                         _changeLocationSelectedStatus(state.location[index]),
+                    onLongPress: _showClearLocationConfirm,
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(

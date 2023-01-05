@@ -14,8 +14,9 @@
     "address": "My addresses",
     "ready": "Ready",
     "addMap": "Add another"
-
-
+  },
+  "location": {
+    "delete": "Clean the designated area?"
   },
   "no_orders_yet": "No Orders Yet",
   "discover": "Discover and place your first order",
