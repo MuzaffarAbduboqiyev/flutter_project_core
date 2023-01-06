@@ -45,16 +45,16 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
   }
 
   /// delete
-  _showDeleteLocationConfirm() {
+  _showDeleteLocationConfirm(LocationData locationData) {
     return showConfirmDialog(
       context: context,
       title: translate("location.delete"),
       content: "",
-      confirm: _deleteLocation,
+      confirm: () => _deleteLocation(locationData),
     );
   }
 
-  _deleteLocation() {
+  _deleteLocation(LocationData locationData) {
     context.read<OrderBloc>().add(OrderDeleteLocationEvent());
   }
 
@@ -91,7 +91,7 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                   itemBuilder: (context, index) => InkWell(
                     onTap: () =>
                         _changeLocationSelectedStatus(state.location[index]),
-                    onLongPress: _showDeleteLocationConfirm,
+                    onLongPress: () => _showDeleteLocationConfirm(state.location[index]),
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(

@@ -4,6 +4,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/controller/order_controller/order_repository.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
@@ -66,6 +67,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     });
 
     listenerLocation = orderRepository.listenLocations().listen((location) {
+      final selectedLocation = location.firstWhere(
+        (element) => element.selectedStatus,
+        orElse: () => LocationData(
+          lat: 0.0,
+          lng: 0.0,
+          selectedStatus: false,
+        ),
+      );
       final l = location;
       l.sort((a, b) => a.lat.compareTo(b.lat));
       add(OrderListenLocationEvent(locations: l));
