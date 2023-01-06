@@ -18,6 +18,9 @@
   "location": {
     "delete": "Belgilangan joyni tozalaysizmi?"
   },
+  "account": {
+    "signout": "Tizimdan chiqish"
+  },
   "no_orders_yet": "Hozircha buyurtmalar yoʻq",
   "discover": "Birinchi buyurtmangizni kashf qiling va joylashtiring",
   "clear_history": "Oldin qo'shilgan barcha mahsulotlar savatdan olib tashlandi.",

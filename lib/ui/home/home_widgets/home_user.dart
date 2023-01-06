@@ -1,12 +1,25 @@
+import 'package:delivery_service/controller/home_controller/home_bloc.dart';
+import 'package:delivery_service/controller/home_controller/home_state.dart';
+import 'package:delivery_service/ui/order/order_widgets/delivery_dialog.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_svg/svg.dart';
 
-class HomeUserWidget extends StatelessWidget {
-  const HomeUserWidget({Key? key}) : super(key: key);
+class HomeUserWidget extends StatefulWidget {
+
+
+  const HomeUserWidget({ Key? key}) : super(key: key);
+
+  @override
+  State<HomeUserWidget> createState() => _HomeUserWidgetState();
+}
+
+class _HomeUserWidgetState extends State<HomeUserWidget> {
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +41,23 @@ class HomeUserWidget extends StatelessWidget {
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "883 Spring St, San Francisco",
-            style: getCustomStyle(
-              context: context,
-              weight: FontWeight.w400,
-              textSize: 15.0,
-              color: getCurrentTheme(context).hintColor,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+
+          BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) =>
+                Text(
+                  state.location.name??"",
+                  style: getCustomStyle(
+                    context: context,
+                    weight: FontWeight.w400,
+                    textSize: 15.0,
+                    color: getCurrentTheme(context).hintColor,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: _locationDialog,
             child: Icon(
               Icons.expand_more,
               color: navUnselectedColor,
@@ -48,6 +65,15 @@ class HomeUserWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  _locationDialog() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: false,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const DeliveryDialogScreen(),
     );
   }
 }

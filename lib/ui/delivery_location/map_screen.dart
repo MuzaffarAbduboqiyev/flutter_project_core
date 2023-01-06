@@ -4,7 +4,6 @@ import 'package:delivery_service/controller/location_controller/location_state.d
 import 'package:delivery_service/ui/delivery_location/location_indicator.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
-import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -73,11 +72,11 @@ class _MapPageState extends State<MapPage> {
 
   void _getLocationInfo() {
     context.read<LocationBloc>().add(
-      LocationGetInfoEvent(
-        lat: cameraPosition.target.latitude,
-        lng: cameraPosition.target.longitude,
-      ),
-    );
+          LocationGetInfoEvent(
+            lat: cameraPosition.target.latitude,
+            lng: cameraPosition.target.longitude,
+          ),
+        );
   }
 
   @override
@@ -145,16 +144,17 @@ class _MapPageState extends State<MapPage> {
               builder: (context, state) {
                 return Center(
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 60),
+                    margin: const EdgeInsets.only(bottom: 70),
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Text(
                       state.locationData.name ?? "",
-                      style: getCustomStyle(
-                        context: context,
-                        color: Colors.black,
-                        textSize: 22,
-                      ),
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.none),
                       maxLines: 3,
+                      textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

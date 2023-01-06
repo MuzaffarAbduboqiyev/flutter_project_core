@@ -125,7 +125,7 @@ class MoorDatabase extends _$MoorDatabase {
         locationData,
         mode: InsertMode.insertOrReplace,
       );
-
+/// delete location
   Future<int> deleteLocation({required LocationData locationData}) =>
       (delete(location)
             ..where(
@@ -135,7 +135,7 @@ class MoorDatabase extends _$MoorDatabase {
                   locationItem.name.equals(locationData.name),
             ))
           .go();
-
+/// selected location
   Future<LocationData?> getSelectedLocation() =>
       (select(location)
             ..where(
@@ -145,6 +145,6 @@ class MoorDatabase extends _$MoorDatabase {
           .getSingleOrNull();
 
 
-
-  Future<int> clearLocation() => delete(location).go();
+/// clear location
+  clearLocation() => delete(location).go();
 }

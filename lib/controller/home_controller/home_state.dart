@@ -1,6 +1,7 @@
 import 'package:delivery_service/controller/category_controller/category_state.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 
 /// [HomeScreen] ni umumiy holatini boshqarish va kerakli data(ma'lumotlarni) saqlab turish uchun
@@ -9,6 +10,7 @@ class HomeState {
   final CategoryStatus categoryStatus;
   final RestaurantStatus restaurantStatus;
   final List<CategoryModel> categories;
+  final LocationData location;
   final int selectedCategoryId;
   final List<RestaurantModel> restaurants;
   final String error;
@@ -17,6 +19,7 @@ class HomeState {
     required this.categoryStatus,
     required this.restaurantStatus,
     required this.categories,
+    required this.location,
     required this.selectedCategoryId,
     required this.restaurants,
     required this.error,
@@ -28,6 +31,12 @@ class HomeState {
         categoryStatus: CategoryStatus.init,
         restaurantStatus: RestaurantStatus.init,
         categories: [],
+        location: LocationData(
+          lat: 0,
+          lng: 0,
+          name: "",
+          selectedStatus: false,
+        ),
         selectedCategoryId: -1,
         restaurants: [],
         error: "",
@@ -40,6 +49,7 @@ class HomeState {
     CategoryStatus? categoryStatus,
     RestaurantStatus? restaurantStatus,
     List<CategoryModel>? categories,
+   LocationData? location,
     int? selectedCategoryId,
     List<RestaurantModel>? restaurants,
     String? error,
@@ -48,6 +58,7 @@ class HomeState {
         categoryStatus: categoryStatus ?? this.categoryStatus,
         restaurantStatus: restaurantStatus ?? this.restaurantStatus,
         categories: categories ?? this.categories,
+        location: location ?? this.location,
         selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
         restaurants: restaurants ?? this.restaurants,
         error: error ?? this.error,

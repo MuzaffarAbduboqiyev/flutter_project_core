@@ -49,6 +49,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       transformer: concurrent(),
     );
 
+    on<OrderDeleteLocationEvent>(
+      _deleteLocation,
+      transformer: concurrent(),
+    );
+
     on<OrderLocationEvent>(
       _changeLocationSelectedStatus,
       transformer: concurrent(),
@@ -62,7 +67,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     listenerLocation = orderRepository.listenLocations().listen((location) {
       final l = location;
-      l.sort((a,b) => a.lat.compareTo(b.lat));
+      l.sort((a, b) => a.lat.compareTo(b.lat));
       add(OrderListenLocationEvent(locations: l));
     });
   }
@@ -120,5 +125,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     await orderRepository.changeSelectedLocation(
       locationData: event.locationData,
     );
+  }
+
+  FutureOr<void> _deleteLocation(
+      OrderDeleteLocationEvent event, Emitter<OrderState> emit) async {
+    await orderRepository.deleteLocationHistory();
   }
 }

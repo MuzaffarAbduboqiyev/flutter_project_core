@@ -6,6 +6,7 @@ import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
+import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
@@ -14,40 +15,52 @@ import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DeliveryDialog extends StatefulWidget {
-  final BuildContext blocContext;
-
-  const DeliveryDialog({required this.blocContext, Key? key}) : super(key: key);
+class DeliveryDialogScreen extends StatelessWidget {
+  const DeliveryDialogScreen({Key? key}) : super(key: key);
 
   @override
-  State<DeliveryDialog> createState() => _DeliveryDialogState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => OrderBloc(
+        OrderState.initial(),
+        orderRepository: singleton(),
+      ),
+      child: const DeliveryDialogPage(),
+    );
+  }
 }
 
-class _DeliveryDialogState extends State<DeliveryDialog> {
+class DeliveryDialogPage extends StatefulWidget {
+  const DeliveryDialogPage({Key? key}) : super(key: key);
+
+  @override
+  State<DeliveryDialogPage> createState() => _DeliveryDialogPageState();
+}
+
+class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
   _changeLocationSelectedStatus(LocationData locationData) {
-    widget.blocContext
+    context
         .read<OrderBloc>()
         .add(OrderLocationEvent(locationData: locationData));
   }
 
   /// delete
-  _showClearLocationConfirm() {
+  _showDeleteLocationConfirm() {
     return showConfirmDialog(
       context: context,
       title: translate("location.delete"),
       content: "",
-      confirm: _clearLocationHistory,
+      confirm: _deleteLocation,
     );
   }
 
-  _clearLocationHistory() {
-    // context.read<OrderBloc>().add(OrderClearProductEvent());
+  _deleteLocation() {
+    context.read<OrderBloc>().add(OrderDeleteLocationEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc, OrderState>(
-      bloc: widget.blocContext.read<OrderBloc>(),
       builder: (context, state) {
         return Container(
           decoration: BoxDecoration(
@@ -78,7 +91,7 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
                   itemBuilder: (context, index) => InkWell(
                     onTap: () =>
                         _changeLocationSelectedStatus(state.location[index]),
-                    onLongPress: _showClearLocationConfirm,
+                    onLongPress: _showDeleteLocationConfirm,
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -94,7 +107,9 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
                             state.location[index].selectedStatus
                                 ? Icons.check_box
                                 : Icons.check_box_outline_blank_outlined,
-                            color: getCurrentTheme(context).indicatorColor,
+                            color: state.location[index].selectedStatus
+                                ? getCurrentTheme(context).indicatorColor
+                                : getCurrentTheme(context).iconTheme.color,
                           ),
                           const SizedBox(
                             width: 16,
@@ -117,7 +132,7 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
               InkWell(
                 onTap: () => googleMaps(context),
                 child: Container(
-                  height: 60,
+                  height: 53,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     border: Border(
@@ -153,7 +168,9 @@ class _DeliveryDialogState extends State<DeliveryDialog> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: Container(
                   height: 53,
                   width: double.infinity,

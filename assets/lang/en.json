@@ -18,6 +18,9 @@
   "location": {
     "delete": "Clean the designated area?"
   },
+  "account": {
+    "signout": "Signout"
+  },
   "no_orders_yet": "No Orders Yet",
   "discover": "Discover and place your first order",
   "clear_history": "All previously added products have been removed from the cart",

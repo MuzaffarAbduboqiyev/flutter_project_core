@@ -28,6 +28,9 @@ class OrderDeleteProductEvent extends OrderEvent {
 
 class OrderClearProductEvent extends OrderEvent {}
 
+/// delete location
+class OrderDeleteLocationEvent extends OrderEvent {}
+
 /// listen location
 class OrderListenLocationEvent extends OrderEvent {
   final List<LocationData> locations;
@@ -40,5 +43,3 @@ class OrderLocationEvent extends OrderEvent {
 
   OrderLocationEvent({required this.locationData});
 }
-
-
