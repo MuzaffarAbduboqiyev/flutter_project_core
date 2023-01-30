@@ -13,13 +13,50 @@
     "checkout": "Checkout",
     "address": "My addresses",
     "ready": "Ready",
+    "location": "Location not selected",
     "addMap": "Add another"
   },
   "location": {
+    "location": "Location",
+    "locations": "Location not selected ?",
     "delete": "Clean the designated area?"
   },
   "account": {
-    "signout": "Signout"
+    "signout": "Signo ut",
+    "signoin": "Signo in",
+    "orders": "My Orders",
+    "profile": "My Profile",
+    "favorites": "Favorites",
+    "offers": "Offers & Promos",
+    "payments": "Payments",
+    "location": "Location",
+    "dialog": "Anmelden"
+  },
+  "welcome": {
+    "welcome": "Welcome!",
+    "continue": "Continue",
+    "text": "Sign In or Create Account to quickly manage orders",
+    "number": "Phone Number"
+  },
+  "verification": {
+    "verification": "Verification",
+    "text": "Enter your OTP code here",
+    "verify": "Verify",
+    "otp": "Didn't receive the OTP?",
+    "resend": "Resend"
+  },
+  "profile": {
+    "profile": "Profile",
+    "save": "Save",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "favorites": {
+    "favorites": "Favorites"
+  },
+  "payments": {
+    "payments": "Payments"
   },
   "no_orders_yet": "No Orders Yet",
   "discover": "Discover and place your first order",

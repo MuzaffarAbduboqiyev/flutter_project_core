@@ -10,7 +10,7 @@ class HomeState {
   final CategoryStatus categoryStatus;
   final RestaurantStatus restaurantStatus;
   final List<CategoryModel> categories;
-  final LocationData location;
+  final LocationData locationData;
   final int selectedCategoryId;
   final List<RestaurantModel> restaurants;
   final String error;
@@ -19,7 +19,7 @@ class HomeState {
     required this.categoryStatus,
     required this.restaurantStatus,
     required this.categories,
-    required this.location,
+    required this.locationData,
     required this.selectedCategoryId,
     required this.restaurants,
     required this.error,
@@ -31,7 +31,7 @@ class HomeState {
         categoryStatus: CategoryStatus.init,
         restaurantStatus: RestaurantStatus.init,
         categories: [],
-        location: LocationData(
+        locationData: LocationData(
           lat: 0,
           lng: 0,
           name: "",
@@ -49,7 +49,7 @@ class HomeState {
     CategoryStatus? categoryStatus,
     RestaurantStatus? restaurantStatus,
     List<CategoryModel>? categories,
-   LocationData? location,
+    LocationData? locationData,
     int? selectedCategoryId,
     List<RestaurantModel>? restaurants,
     String? error,
@@ -58,7 +58,7 @@ class HomeState {
         categoryStatus: categoryStatus ?? this.categoryStatus,
         restaurantStatus: restaurantStatus ?? this.restaurantStatus,
         categories: categories ?? this.categories,
-        location: location ?? this.location,
+        locationData: locationData ?? this.locationData,
         selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
         restaurants: restaurants ?? this.restaurants,
         error: error ?? this.error,

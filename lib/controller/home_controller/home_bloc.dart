@@ -5,19 +5,24 @@ import 'package:delivery_service/controller/category_controller/category_reposit
 import 'package:delivery_service/controller/category_controller/category_state.dart';
 import 'package:delivery_service/controller/home_controller/home_event.dart';
 import 'package:delivery_service/controller/home_controller/home_state.dart';
+import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final CategoryRepository categoryRepository;
   final RestaurantRepository restaurantRepository;
+  final LocationRepository locationRepository;
+  late StreamSubscription streamSubscription;
 
   HomeBloc({
     required this.categoryRepository,
     required this.restaurantRepository,
+    required this.locationRepository,
   }) : super(HomeState.initial()) {
     /// Har qanday on<Event> eventTransformer ga murojat qilish uchun, Bloc ga Event ni add qilish kerak
     /// Ya'ni Bloc(context.read<Bloc>()).add(Event); qilinadi
@@ -36,6 +41,33 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeGetRestaurantsEvent>(
       _getRestaurants,
       transformer: restartable(),
+    );
+
+    on<HomeListenLocationEvent>(
+      _listenLocation,
+      transformer: concurrent(),
+    );
+
+    streamSubscription = locationRepository.listenLocation().listen((location) {
+      final selectedLocation = location.firstWhere(
+        (element) => element.selectedStatus,
+        orElse: () => LocationData(
+          lat: 0.0,
+          lng: 0.0,
+          selectedStatus: false,
+        ),
+      );
+
+      add(HomeListenLocationEvent(locationData: selectedLocation));
+    });
+  }
+
+  FutureOr<void> _listenLocation(
+      HomeListenLocationEvent event, Emitter<HomeState> emit) async {
+    emit(
+      state.copyWith(
+        locationData: event.locationData,
+      ),
     );
   }
 

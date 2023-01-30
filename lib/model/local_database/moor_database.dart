@@ -115,17 +115,19 @@ class MoorDatabase extends _$MoorDatabase {
 
   clearProductCart() => (delete(productCart)).go();
 
-  ///Location
+  ///get Location
   Future<List<LocationData>> getLocations() => select(location).get();
 
-  Stream<List<LocationData>> listenLocations() => select(location).watch();
+  /// listen location
+  Stream<List<LocationData>> listenLocation() => select(location).watch();
 
   Future<int> insertOrUpdateLocation({required LocationData locationData}) =>
       into(location).insert(
         locationData,
         mode: InsertMode.insertOrReplace,
       );
-/// delete location
+
+  /// delete location
   Future<int> deleteLocation({required LocationData locationData}) =>
       (delete(location)
             ..where(
@@ -135,16 +137,14 @@ class MoorDatabase extends _$MoorDatabase {
                   locationItem.name.equals(locationData.name),
             ))
           .go();
-/// selected location
-  Future<LocationData?> getSelectedLocation() =>
-      (select(location)
-            ..where(
-              (locationItem) =>
-                  locationItem.selectedStatus.equals(true),
-            ))
-          .getSingleOrNull();
 
+  /// selected location
+  Future<LocationData?> getSelectedLocation() => (select(location)
+        ..where(
+          (locationItem) => locationItem.selectedStatus.equals(true),
+        ))
+      .getSingleOrNull();
 
-/// clear location
-  clearLocation() => delete(location).go();
+  /// clear location
+  Future<int> clearLocation() => delete(location).go();
 }

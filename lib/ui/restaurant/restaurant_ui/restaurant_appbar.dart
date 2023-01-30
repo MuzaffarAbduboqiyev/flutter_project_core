@@ -1,3 +1,5 @@
+import 'package:delivery_service/controller/app_controller/app_bloc.dart';
+import 'package:delivery_service/controller/app_controller/app_event.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_bloc.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_event.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
@@ -28,8 +30,10 @@ getRestaurantAppbar(
                 context.read<RestaurantBloc>().add(RestaurantFavoriteEvent());
               },
               child: Icon(
-                 restaurantFavoriteState ? Icons.favorite : Icons.favorite_border,
-                color: restaurantFavoriteState ? Colors.red : null,
+                restaurantFavoriteState
+                    ? Icons.favorite
+                    : Icons.favorite_border,
+                color: restaurantFavoriteState ? errorTextColor : null,
               ),
             ),
             const SizedBox(width: 24.0),
@@ -39,7 +43,11 @@ getRestaurantAppbar(
           snap: true,
           floating: true,
           flexibleSpace: FlexibleSpaceBar(
-            title: Text(restaurantModel.name, textScaleFactor: 1),
+            centerTitle: true,
+            title: Text(restaurantModel.name,
+                style: getCurrentTheme(context).textTheme.displayLarge,
+                textAlign: TextAlign.center,
+                textScaleFactor: 1),
             background: Stack(children: [
               ImageLoading(
                 imageUrl: restaurantModel.image,
@@ -60,7 +68,9 @@ getRestaurantAppbar(
                             alignment: Alignment.center,
                             decoration: getContainerDecoration(
                               context,
-                              fillColor: backgroundColor,
+                              fillColor: getCurrentTheme(context).dividerColor,
+                              borderColor:
+                                  getCurrentTheme(context).dividerColor,
                             ),
                             child: RichText(
                               maxLines: 1,
@@ -68,15 +78,12 @@ getRestaurantAppbar(
                               textAlign: TextAlign.start,
                               text: TextSpan(
                                 children: [
-                                  WidgetSpan(
+                                  const WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(right: 4),
+                                      padding: EdgeInsets.only(right: 4),
                                       child: Icon(
                                         Icons.star,
-                                        color: getCurrentTheme(context)
-                                            .iconTheme
-                                            .color,
                                         size: 15,
                                       ),
                                     ),
@@ -95,8 +102,12 @@ getRestaurantAppbar(
                           Container(
                             padding: const EdgeInsets.all(12),
                             alignment: Alignment.center,
-                            decoration: getContainerDecoration(context,
-                                fillColor: backgroundColor),
+                            decoration: getContainerDecoration(
+                              context,
+                              fillColor: getCurrentTheme(context).dividerColor,
+                              borderColor:
+                                  getCurrentTheme(context).dividerColor,
+                            ),
                             child: Text(
                               "${restaurantModel.deliveryTime} ${translate("restaurant.minute")}",
                               style:
@@ -112,15 +123,16 @@ getRestaurantAppbar(
                         alignment: Alignment.center,
                         decoration: getContainerDecoration(
                           context,
-                          fillColor: backgroundColor,
+                          fillColor: getCurrentTheme(context).dividerColor,
+                          borderColor: getCurrentTheme(context).dividerColor,
                         ),
-                        child: const Text(
-                          "Delivery - \$8.99",
-                          style: TextStyle(color: Colors.white, fontSize: 14.0),
+                        child: Text(
+                          "Delivery - \$0.00",
+                          style: getCurrentTheme(context).textTheme.bodyMedium,
                         ),
                       ),
                     ]),
-              )
+              ),
             ]),
           ),
         );

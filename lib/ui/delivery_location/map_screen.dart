@@ -19,7 +19,7 @@ class MapScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => LocationBloc(
         LocationState.initial(),
-        repository: singleton(),
+        locationRepository: singleton(),
       ),
       child: const MapPage(),
     );

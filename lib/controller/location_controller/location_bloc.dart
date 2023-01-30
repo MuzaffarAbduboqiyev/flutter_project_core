@@ -7,12 +7,11 @@ import 'package:delivery_service/controller/location_controller/location_state.d
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
-  final LocationRepository repository;
-  late StreamSubscription locationRepository;
+  final LocationRepository locationRepository;
 
   LocationBloc(
     super.initialState, {
-    required this.repository,
+    required this.locationRepository,
   }) {
     // init = boshlang'ich
     on<LocationInitialEvent>(
@@ -32,7 +31,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     );
 
     on<LocationListenEvent>(
-      _listen,
+      _listenLocation,
       transformer: sequential(),
     );
 
@@ -66,7 +65,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       ),
     );
 
-    final response = await repository.getLocationInfo(
+    final response = await locationRepository.getLocationInfo(
       lat: event.lat,
       lng: event.lng,
     );
@@ -87,7 +86,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       ),
     );
 
-    await repository.insertOrUpdateLocation(
+    await locationRepository.insertOrUpdateLocation(
       locationData: state.locationData,
     );
 
@@ -98,17 +97,17 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     );
   }
 
-  FutureOr<void> _listen(
+  FutureOr<void> _listenLocation(
       LocationListenEvent event, Emitter<LocationState> emit) {}
 
   FutureOr<void> _deleteLocation(
       LocationDeleteEvent event, Emitter<LocationState> emit) async {
     final response =
-        await repository.deleteLocation(locationData: event.locationData);
+        await locationRepository.deleteLocation(locationData: event.locationData);
   }
 
   FutureOr<void> _clearLocation(
       LocationClearEvent event, Emitter<LocationState> emit) async {
-    await repository.clearLocations();
+    await locationRepository.clearLocations();
   }
 }

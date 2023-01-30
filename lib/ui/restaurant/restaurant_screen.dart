@@ -18,6 +18,7 @@ import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
+import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
@@ -194,7 +195,12 @@ class _RestaurantPageState extends State<RestaurantPage> {
               ),
               child: Text(
                 "$totalCount",
-                style: getCurrentTheme(context).textTheme.bodyMedium,
+                style: getCustomStyle(
+                  context: context,
+                  textSize: 14,
+                  color: textColor,
+                  weight: FontWeight.w400,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,

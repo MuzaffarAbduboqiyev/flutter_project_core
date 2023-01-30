@@ -81,9 +81,7 @@ class ProductRepositoryImpl extends ProductRepository {
   }) async {
     try {
       final response = await networkService.getProductDetail(
-        productId: productId,
-        productImage: productImage,
-      );
+          productId: productId, productImage: productImage);
       if (response.status &&
           response.response != null &&
           response.response?.data.containsKey("data")) {

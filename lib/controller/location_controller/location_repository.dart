@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 abstract class LocationRepository {
   Future<List<LocationData>> getLocations();
 
-  Stream<List<LocationData>> listenLocations();
+  Stream<List<LocationData>> listenLocation();
 
   Future<int> insertOrUpdateLocation({
     required LocationData locationData,
@@ -59,8 +59,8 @@ class LocationRepositoryImpl extends LocationRepository {
   }
 
   @override
-  Stream<List<LocationData>> listenLocations() =>
-      moorDatabase.listenLocations();
+  Stream<List<LocationData>> listenLocation() =>
+      moorDatabase.listenLocation();
 
   @override
   Future<List<LocationData>> getLocations() => moorDatabase.getLocations();

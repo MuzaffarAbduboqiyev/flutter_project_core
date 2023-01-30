@@ -8,6 +8,8 @@ final lightBackgroundColor = HexColor.fromHex("#FFFFFF");
 
 final textColor = HexColor.fromHex("#FFFFFF");
 final lightTextColor = HexColor.fromHex("#2B2B2B");
+final blueTextColor = HexColor.fromHex("#2F80ED");
+final errorTextColor = HexColor.fromHex("#FF3D57");
 
 final hintColor = HexColor.fromHex("#8D8D91");
 final lightHintColor = HexColor.fromHex("#5E5E5E");
@@ -26,7 +28,6 @@ final lightNavBgColor = HexColor.fromHex("#FFFFFF");
 
 final navSelectedColor = HexColor.fromHex("#FFCC66");
 final lightNavSelectedColor = HexColor.fromHex("#FFCC66");
-
 
 final navSelectedTextColor = HexColor.fromHex("#000000");
 final lightNavSelectedTextColor = HexColor.fromHex("#000000");

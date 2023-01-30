@@ -119,7 +119,7 @@ class _OrderProductState extends State<OrderProduct> {
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: decreaseCount,
-                      child: const Icon(Icons.remove, size: 24),
+                      child: const Icon(Icons.remove),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -135,7 +135,7 @@ class _OrderProductState extends State<OrderProduct> {
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: increaseCount,
-                      child: const Icon(Icons.add, size: 24),
+                      child: const Icon(Icons.add),
                     ),
                   ],
                 ),

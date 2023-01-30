@@ -1,3 +1,5 @@
+import 'package:delivery_service/controller/app_controller/app_bloc.dart';
+import 'package:delivery_service/controller/app_controller/app_event.dart';
 import 'package:delivery_service/controller/home_controller/home_bloc.dart';
 import 'package:delivery_service/controller/home_controller/home_event.dart';
 import 'package:delivery_service/ui/home/home_widgets/home_category.dart';
@@ -18,6 +20,7 @@ class HomeScreen extends StatelessWidget {
       create: (context) => HomeBloc(
         categoryRepository: singleton(),
         restaurantRepository: singleton(),
+        locationRepository: singleton(),
       ),
       child: const HomePage(),
     );
@@ -60,9 +63,9 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const HomeUserWidget(),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 8.0),
               const HomeCategory(),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 8.0),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: Text(

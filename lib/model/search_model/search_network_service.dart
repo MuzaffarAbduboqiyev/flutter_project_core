@@ -12,9 +12,7 @@ class SearchNetworkServiceImpl extends SearchNetworkService {
   SearchNetworkServiceImpl({required this.networkService});
 
   @override
-  Future<NetworkResponseModel> search({
-    required String searchName,
-  }) async {
+  Future<NetworkResponseModel> search({required String searchName}) async {
     final response =
         await networkService.getMethod(url: "$searchUrl?query=$searchName");
     return response;

@@ -13,13 +13,50 @@
     "checkout": "Tekshirib ko'rmoq",
     "address": "Mening manzillarim",
     "ready": "Tayyor",
+    "location": "Manzil tanlanmagan",
     "addMap": "Boshqasini qo'shing"
   },
   "location": {
+    "location": "Manzil",
+    "locations": "Manzil tanlanmagan ?",
     "delete": "Belgilangan joyni tozalaysizmi?"
   },
   "account": {
-    "signout": "Tizimdan chiqish"
+    "signout": "Tizimdan chiqish",
+    "signoin": "Tizimga kiring",
+    "orders": "Mening buyurtmalarim",
+    "profile": "Mening profilim",
+    "favorites": "Sevimlilar",
+    "offers": "Takliflar va promolar",
+    "payments": "To'lovlar",
+    "location": "Manzil",
+    "dialog": "Ro'yxatdan o'tish"
+  },
+  "welcome": {
+    "welcome": "Xush kelibsiz!",
+    "continue": "Davom eting",
+    "text": "Buyurtmalarni tezda boshqarish uchun tizimga kiring yoki Hisob yarating",
+    "number": "Telefon raqami"
+  },
+  "verification": {
+    "verification": "Tekshirish",
+    "text": "Bu yerga OTP kodingizni kiriting",
+    "verify": "Tasdiqlash",
+    "otp": "Bir martalik parol olmaganmisiz?",
+    "resend": "Qayta yuborish"
+  },
+  "profile": {
+    "profile": "Profil",
+    "save": "Saqlash",
+    "name": "Ism",
+    "email": "Elektron pochta",
+    "phone": "Telefon"
+  },
+  "favorites": {
+    "favorites": "Sevimlilar"
+  },
+  "payments": {
+    "payments": "To'lovlar"
   },
   "no_orders_yet": "Hozircha buyurtmalar yoʻq",
   "discover": "Birinchi buyurtmangizni kashf qiling va joylashtiring",

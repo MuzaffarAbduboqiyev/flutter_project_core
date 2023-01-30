@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   final RestaurantRepository restaurantRepository;
-  late StreamSubscription listenerCartProducts;
+  late StreamSubscription streamSubscription;
 
   RestaurantBloc({required this.restaurantRepository})
       : super(RestaurantState.initial()) {
@@ -55,7 +55,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       transformer: concurrent(),
     );
 
-    listenerCartProducts = restaurantRepository
+    streamSubscription = restaurantRepository
         .listenCartProducts()
         .listen((cartProductVariations) {
       add(
@@ -242,7 +242,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
 
   @override
   close() async {
-    listenerCartProducts.cancel();
+    streamSubscription.cancel();
     super.close();
   }
 }

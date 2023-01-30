@@ -33,7 +33,7 @@ class ProductDetailScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProductBloc(
         ProductState.initial(),
-        repository: singleton(),
+        productRepository: singleton(),
       )..add(
           ProductInitialEvent(
             productId: productId,

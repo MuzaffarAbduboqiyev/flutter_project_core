@@ -24,7 +24,7 @@ class OrderState {
   });
 
   factory OrderState.initial() => OrderState(
-    orderStatus: OrderStatus.init,
+        orderStatus: OrderStatus.init,
         products: [],
         location: [],
         price: 0,

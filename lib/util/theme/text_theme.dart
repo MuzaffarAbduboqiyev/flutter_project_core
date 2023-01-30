@@ -22,6 +22,12 @@ import 'package:flutter/material.dart';
 /// Light mode uchun Text Style [getLightStyle] chaqiriladi
 TextTheme lightTextTheme = TextTheme(
   //Registration title
+
+  headlineMedium: getLightStyle(
+    weight: FontWeight.w700,
+    textSize: 32,
+  ),
+
   displayLarge: getLightStyle(
     weight: FontWeight.w600,
     textSize: 24,

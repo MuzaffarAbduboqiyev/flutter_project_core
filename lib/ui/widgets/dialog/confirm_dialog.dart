@@ -11,6 +11,7 @@ Future<bool?> showConfirmDialog({
 }) async {
   return showDialog<bool>(
     context: context,
+    barrierDismissible: false,
     builder: (dialogContext) => CupertinoAlertDialog(
       title: Text(
         title,

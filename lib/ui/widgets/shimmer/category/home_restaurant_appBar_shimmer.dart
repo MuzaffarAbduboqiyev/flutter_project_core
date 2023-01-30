@@ -32,12 +32,12 @@ class RestaurantAppBarShimmer extends StatelessWidget {
             padding: const EdgeInsets.only(top: 16.0,right: 24.0),
             child: Row(mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Shimmer.fromColors(
-                  baseColor: Colors.grey.shade500,
-                  highlightColor: Colors.white,
-                  child: const Icon(Icons.search),
-                ),
-                const SizedBox(width: 20),
+                // Shimmer.fromColors(
+                //   baseColor: Colors.grey.shade500,
+                //   highlightColor: Colors.white,
+                //   child: const Icon(Icons.search),
+                // ),
+                // const SizedBox(width: 20),
                 Shimmer.fromColors(
                   baseColor: Colors.grey.shade500,
                   highlightColor: Colors.white,

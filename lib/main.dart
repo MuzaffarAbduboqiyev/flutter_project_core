@@ -1,6 +1,7 @@
 import 'package:delivery_service/controller/app_controller/app_bloc.dart';
 import 'package:delivery_service/controller/app_controller/app_event.dart';
 import 'package:delivery_service/controller/app_controller/app_state.dart';
+import 'package:delivery_service/ui/widgets/loading/loader_dialog_initial.dart';
 import 'package:delivery_service/util/service/asset_loader/json_asset_loader.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart'
@@ -11,6 +12,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 // Bloc holatini kuzatib turish uchun interface
 class AppBlocObserver extends BlocObserver {
@@ -39,9 +41,11 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-void main() async{
+void main() async {
   // Application ishga tushgan vaqtda Singletonlikni init(ishga tushuramiz) qilamiz
   singleton_service.init();
+
+  initialLoadingDialog();
 
   // Blocdagi o'zgarishlarni eshitib turish uchun, biz yaratgan
   // AppBlocObserver init qilamiz
@@ -65,9 +69,9 @@ void main() async{
 
       /// [supportedLocales] Multi Language => application ishlay oladigan tillar ro'yhati
       supportedLocales: const [
-        Locale('en', 'EN'),
-        Locale('ru', 'RU'),
-        Locale('uz', 'UZ'),
+        Locale.fromSubtags(languageCode: 'en', countryCode: "EN"),
+        Locale.fromSubtags(languageCode: 'ru', countryCode: "RU"),
+        Locale.fromSubtags(languageCode: 'uz', countryCode: "UZ"),
       ],
 
       /// [fallbackLocale] ga berilgan til => Agar [startLocale]ga berilgan til [supportedLocales] list ichidan topilmasa
@@ -84,11 +88,12 @@ void main() async{
 
       /// Application yopilganda Berilgan tilni saqlab qoladi
       saveLocale: true,
+
       /// [BlocProvider] bloc ni create(yaratish) qilish uchun ishlatiladigan widget
       child: BlocProvider(
         create: (context) => AppBloc(
           AppState.initial(),
-          repository: singleton(),
+          appRepository: singleton(),
         )..add(AppGetThemeEvent()),
         child: const MyApp(),
       ),
@@ -140,6 +145,7 @@ class _MyAppState extends State<MyApp> {
         /// [EasyLocalization] dagi [supportedLocales] ga berilgan tillarnini oladi
         supportedLocales: context.supportedLocales,
         debugShowCheckedModeBanner: false,
+        builder: EasyLoading.init(),
       ),
     );
   }

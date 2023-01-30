@@ -82,7 +82,7 @@ class MyTheme {
         ),
       ),
       textTheme: lightTextTheme,
-      dividerColor: lightDividerColor,
+      dividerColor: lightBackgroundColor,
       backgroundColor: lightBackgroundColor,
       indicatorColor: lightButtonColor,
       disabledColor: lightButtonDisableColor,

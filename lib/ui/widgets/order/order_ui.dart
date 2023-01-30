@@ -10,36 +10,45 @@ class OrderListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            "assets/img/Icon.png",
-            width: 111.0,
-            height: 124.0,
-          ),
-          const SizedBox(height: 16.0),
-          Text(
-            "${translate("no_orders_yet").toCapitalized()}!",
-            style: getCurrentTheme(context).textTheme.displayLarge,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            translate("discover").toCapitalized(),
-            style: getCustomStyle(
-              context: context,
-              textSize: 14,
-              color: hintColor,
-              weight: FontWeight.w400,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Order",
+          style: getCurrentTheme(context).textTheme.displayLarge,
+        ),
+      ),
+      backgroundColor: getCurrentTheme(context).backgroundColor,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/img/Icon.png",
+              width: 111.0,
+              height: 124.0,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+            const SizedBox(height: 16.0),
+            Text(
+              "${translate("no_orders_yet").toCapitalized()}!",
+              style: getCurrentTheme(context).textTheme.displayLarge,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+            const SizedBox(height: 8.0),
+            Text(
+              translate("discover").toCapitalized(),
+              style: getCustomStyle(
+                context: context,
+                textSize: 14,
+                color: hintColor,
+                weight: FontWeight.w400,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }

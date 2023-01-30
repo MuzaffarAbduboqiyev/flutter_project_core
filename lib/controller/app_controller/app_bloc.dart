@@ -10,9 +10,12 @@ import 'package:delivery_service/controller/app_controller/app_state.dart';
 /// Blocda [AppEvent] add qilingandan keyin [AppBloc.on] mosh eventni methodi chaqiriladi.
 
 class AppBloc extends Bloc<AppEvent, AppState> {
-  final AppRepository repository;
-  AppBloc(super.initialState, {required this.repository}) {
+  final AppRepository appRepository;
 
+  AppBloc(
+    super.initialState, {
+    required this.appRepository,
+  }) {
     on<AppChangeThemeEvent>(
       _changeTheme,
       transformer: sequential(),
@@ -22,7 +25,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       _getTheme,
       transformer: sequential(),
     );
-
   }
 
   /// [AppBloc] chaqirilib, unga [AppChangeThemeEvent] add qilinganda,
@@ -32,7 +34,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   FutureOr<void> _changeTheme(
       AppChangeThemeEvent event, Emitter<AppState> emit) async {
-    final response = await repository.changeThemeMode();
+    final response = await appRepository.changeThemeMode();
     emit(
       state.copyWith(
         isDarkMode: response,
@@ -47,7 +49,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   FutureOr<void> _getTheme(
       AppGetThemeEvent event, Emitter<AppState> emit) async {
-    final response = await repository.getDarkThemeState();
+    final response = await appRepository.getDarkThemeState();
     emit(
       state.copyWith(
         isDarkMode: response,

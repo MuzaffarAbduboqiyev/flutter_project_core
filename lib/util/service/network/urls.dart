@@ -13,7 +13,17 @@ const searchUrl = "v1/search";
 /// Product urls
 const productUrl = "products";
 
+/// phone number
+const verifyNumberUrl = "verify-number";
+
+/// phone code
+const requestCodeUrl = "request-code";
+
+/// user profile
+const userUrl = "user";
+
 /// Quramiz location
 const String quramizBaseUrl = "https://quramiz.uz/api/";
 
+/// location
 const locationUrl = "geocode";

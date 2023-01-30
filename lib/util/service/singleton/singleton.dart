@@ -1,17 +1,26 @@
+import 'package:delivery_service/controller/account_controller/account_repository.dart';
 import 'package:delivery_service/controller/app_controller/app_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
+import 'package:delivery_service/controller/dialog_controller/dialog_repository.dart';
 import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/order_controller/order_repository.dart';
+import 'package:delivery_service/controller/otp_controller/otp_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
+import 'package:delivery_service/controller/profile_controller/profile_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/controller/search_controller/search_repository.dart';
+import 'package:delivery_service/controller/welcome_controller/welcome_repository.dart';
+import 'package:delivery_service/model/account_controller/account_model.dart';
 import 'package:delivery_service/model/category_model/category_network_service.dart';
 import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/location_model/location_network_service.dart';
+import 'package:delivery_service/model/otp_model/otp_network_service.dart';
 import 'package:delivery_service/model/product_model/product_network_service.dart';
+import 'package:delivery_service/model/profile_model/profile_network_service.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_network_service.dart';
 import 'package:delivery_service/model/search_model/search_network_service.dart';
+import 'package:delivery_service/model/welcome_model/welcome_network_service.dart';
 import 'package:delivery_service/util/service/network/network_service.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -78,6 +87,7 @@ void init() {
       networkService: singleton(),
       categoryRepository: singleton(),
       productRepository: singleton(),
+      locationRepository: singleton(),
       moorDatabase: singleton(),
     ),
   );
@@ -133,6 +143,67 @@ void init() {
     () => LocationRepositoryImpl(
       networkService: singleton(),
       moorDatabase: singleton(),
+    ),
+  );
+
+  /// Dialog controller
+  singleton.registerLazySingleton<DialogRepository>(
+    () => DialogRepositoryImpl(
+      moorDatabase: singleton(),
+    ),
+  );
+
+  /// Welcome controller
+  singleton.registerLazySingleton<WelcomeRepository>(
+    () => WelcomeRepositoryImpl(
+      welcomeNetworkService: singleton(),
+    ),
+  );
+
+  singleton.registerLazySingleton<WelcomeNetworkService>(
+    () => WelcomeNetworkServiceImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  /// Otp controller
+  singleton.registerLazySingleton<OtpRepository>(
+    () => OtpRepositoryImpl(
+      otpNetworkService: singleton(),
+      hiveDatabase: singleton(),
+      welcomeRepository: singleton(),
+    ),
+  );
+
+  singleton.registerLazySingleton<OtpNetworkService>(
+    () => OtpNetworkServiceImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  /// Account controller
+  singleton.registerLazySingleton<AccountRepository>(
+    () => AccountRepositoryImpl(
+      accountNetworkService: singleton(),
+      hiveDatabase: singleton(),
+    ),
+  );
+  singleton.registerLazySingleton<AccountNetworkService>(
+    () => AccountNetworkServiceImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  /// Profile controller
+  singleton.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(
+      profileNetworkService: singleton(),
+      hiveDatabase: singleton(),
+    ),
+  );
+  singleton.registerLazySingleton<ProfileNetworkService>(
+    () => ProfileNetworkServiceImpl(
+      networkService: singleton(),
     ),
   );
 }

@@ -5,7 +5,6 @@ import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
-import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +33,7 @@ class _LocationIndicatorState extends State<LocationIndicator> {
               ),
             )
           : GestureDetector(
-              onTap: buttonCart,
+              onTap: () => _buttonCart(state),
               child: Container(
                 height: 53,
                 decoration: getContainerDecoration(context,
@@ -44,11 +43,11 @@ class _LocationIndicatorState extends State<LocationIndicator> {
                 child: Center(
                   child: Text(
                     translate("confirmation").toCapitalized(),
-                    style: getCustomStyle(
-                      context: context,
-                      color: navSelectedTextColor,
-                      textSize: 15,
-                      weight: FontWeight.w500,
+                    style: TextStyle(
+                      color: lightTextColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                 ),
@@ -57,7 +56,9 @@ class _LocationIndicatorState extends State<LocationIndicator> {
     );
   }
 
-  buttonCart() {
-    context.read<LocationBloc>().add(LocationSaveEvent());
+  _buttonCart(state) {
+    if (state.locationData.selectedStatus) {
+      context.read<LocationBloc>().add(LocationSaveEvent());
+    }
   }
 }

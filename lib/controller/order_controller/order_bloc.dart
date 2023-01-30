@@ -1,16 +1,14 @@
 import 'dart:async';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/controller/order_controller/order_repository.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
-import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   final OrderRepository orderRepository;
-  late StreamSubscription listenerLocation;
-  late StreamSubscription listenerOrderProducts;
+
+  late StreamSubscription streamSubscription;
 
   OrderBloc(
     super.initialState, {
@@ -26,11 +24,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       transformer: concurrent(),
     );
 
-    on<OrderListenLocationEvent>(
-      _orderListenLocation,
-      transformer: concurrent(),
-    );
-
     on<OrderCartProductEvent>(
       _orderCartProduct,
       transformer: concurrent(),
@@ -41,43 +34,19 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       transformer: concurrent(),
     );
 
-    on<OrderDeleteProductEvent>(
-      _deleteCartProduct,
-      transformer: concurrent(),
-    );
     on<OrderClearProductEvent>(
       _clearProduct,
       transformer: concurrent(),
     );
 
-    on<OrderDeleteLocationEvent>(
-      _deleteLocation,
+    on<OrderDeleteProductEvent>(
+      _deleteCartProduct,
       transformer: concurrent(),
     );
 
-    on<OrderLocationEvent>(
-      _changeLocationSelectedStatus,
-      transformer: concurrent(),
-    );
-
-    listenerOrderProducts =
-        orderRepository.listenCartProducts().listen((event) {
+    streamSubscription = orderRepository.listenCartProducts().listen((event) {
       event.sort((a, b) => a.price.compareTo(b.price));
       add(OrderCartProductEvent(products: event));
-    });
-
-    listenerLocation = orderRepository.listenLocations().listen((location) {
-      final selectedLocation = location.firstWhere(
-        (element) => element.selectedStatus,
-        orElse: () => LocationData(
-          lat: 0.0,
-          lng: 0.0,
-          selectedStatus: false,
-        ),
-      );
-      final l = location;
-      l.sort((a, b) => a.lat.compareTo(b.lat));
-      add(OrderListenLocationEvent(locations: l));
     });
   }
 
@@ -86,15 +55,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   FutureOr<void> _orderListenProduct(
       OrderListenProductEvent event, Emitter<OrderState> emit) {}
-
-  FutureOr<void> _orderListenLocation(
-      OrderListenLocationEvent event, Emitter<OrderState> emit) {
-    emit(
-      state.copyWith(
-        location: event.locations,
-      ),
-    );
-  }
 
   FutureOr<void> _orderCartProduct(
       OrderCartProductEvent event, Emitter<OrderState> emit) {
@@ -114,30 +74,16 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   FutureOr<void> _updateCartProduct(
       OrderUpdateProductEvent event, Emitter<OrderState> emit) async {
-    final response =
-        await orderRepository.updateCart(cartData: event.productsCart);
+    await orderRepository.updateCart(cartData: event.productsCart);
   }
 
   FutureOr<void> _deleteCartProduct(
       OrderDeleteProductEvent event, Emitter<OrderState> emit) async {
-    final response =
-        await orderRepository.deleteCart(deleteCartData: event.deleteProduct);
+    await orderRepository.deleteCart(deleteCartData: event.deleteProduct);
   }
 
   FutureOr<void> _clearProduct(
       OrderClearProductEvent event, Emitter<OrderState> emit) async {
     await orderRepository.clearOrderHistory();
-  }
-
-  FutureOr<void> _changeLocationSelectedStatus(
-      OrderLocationEvent event, Emitter<OrderState> emit) async {
-    await orderRepository.changeSelectedLocation(
-      locationData: event.locationData,
-    );
-  }
-
-  FutureOr<void> _deleteLocation(
-      OrderDeleteLocationEvent event, Emitter<OrderState> emit) async {
-    await orderRepository.deleteLocationHistory();
   }
 }

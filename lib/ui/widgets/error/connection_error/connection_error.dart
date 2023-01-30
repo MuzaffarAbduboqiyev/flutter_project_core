@@ -1,5 +1,5 @@
 import 'package:delivery_service/util/service/translator/translate_service.dart';
-import 'package:delivery_service/util/theme/styles.dart';
+import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class ConnectionErrorWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset("assets/img/connection_error.png"),
+              Center(child: Image.asset("assets/img/connection_error.png")),
               const SizedBox(
                 height: 24,
               ),
@@ -35,14 +35,7 @@ class ConnectionErrorWidget extends StatelessWidget {
               InkWell(
                 onTap: () => refreshFunction.call(),
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: getCurrentTheme(context).backgroundColor,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      width: 1,
-                      color: getCurrentTheme(context).primaryColor,
-                    ),
-                  ),
+                  decoration:getContainerDecoration(context),
                   padding: const EdgeInsets.all(16),
                   child: Center(
                     child: RichText(

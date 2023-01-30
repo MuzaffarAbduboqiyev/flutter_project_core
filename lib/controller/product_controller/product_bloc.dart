@@ -8,9 +8,9 @@ import 'package:delivery_service/model/response_model/network_response_model.dar
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  final ProductRepository repository;
+  final ProductRepository productRepository;
 
-  ProductBloc(super.initialState, {required this.repository}) {
+  ProductBloc(super.initialState, {required this.productRepository}) {
     on<ProductInitialEvent>(
       _init,
       transformer: sequential(),
@@ -57,7 +57,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       ),
     );
 
-    final response = await repository.getProductDetail(
+    final response = await productRepository.getProductDetail(
       productId: state.productId,
       restaurantId: state.selectedVariationModel.id,
       productImage: state.productDetailModel.image,
@@ -87,7 +87,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     );
 
     final SimpleResponseModel response =
-        await repository.changeProductSelectedDatabase(
+        await productRepository.changeProductSelectedDatabase(
           context: event.context,
           productId: state.productId,
       restaurantId: state.restaurantId,

@@ -1,0 +1,72 @@
+import 'package:delivery_service/controller/app_controller/app_bloc.dart';
+import 'package:delivery_service/controller/app_controller/app_event.dart';
+import 'package:delivery_service/ui/account/account_widgets/account_language.dart';
+import 'package:delivery_service/util/theme/theme_methods.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+class AccountAppBar extends StatefulWidget {
+  const AccountAppBar({Key? key}) : super(key: key);
+
+  @override
+  State<AccountAppBar> createState() => _AccountAppBarState();
+}
+
+class _AccountAppBarState extends State<AccountAppBar> {
+  bool colour = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          "assets/img/avatar.svg",
+          width: 48.0,
+          height: 48.0,
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            "ArtTemplate",
+            style: getCurrentTheme(context).textTheme.displayLarge,
+          ),
+        ),
+        const SizedBox(width: 8),
+        InkWell(
+          onTap: _buttonColor,
+          child: colour
+              ? Icon(
+                  Icons.wb_sunny_outlined,
+                  color: getCurrentTheme(context).iconTheme.color,
+                )
+              : Icon(
+                  Icons.dark_mode_outlined,
+                  color: getCurrentTheme(context).iconTheme.color,
+                ),
+        ),
+        const SizedBox(width: 12),
+        InkWell(
+          onTap: _buttonLanguage,
+          child: const Icon(Icons.language),
+        ),
+      ],
+    );
+  }
+
+  _buttonColor() {
+    colour = !colour;
+    context.read<AppBloc>().add(AppChangeThemeEvent());
+  }
+
+  _buttonLanguage() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor:
+          getCurrentTheme(context).dialogBackgroundColor.withOpacity(0.6),
+      builder: (context) => const LanguageWidget(),
+    );
+  }
+}

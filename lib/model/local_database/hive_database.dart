@@ -44,9 +44,17 @@ abstract class HiveDatabase {
   Future<String> getName();
 
   Future<bool> setName(String name);
+
+  Stream<BoxEvent> listenToken();
 }
 
 class HiveDatabaseImpl extends HiveDatabase {
+  @override
+  Stream<BoxEvent> listenToken() async* {
+    await generateHiveDatabase();
+    yield* Hive.box(hiveDatabaseName).watch(key: hiveToken);
+  }
+
   @override
   Future<Box> generateHiveDatabase() async {
     final dataDir = await paths.getApplicationDocumentsDirectory();

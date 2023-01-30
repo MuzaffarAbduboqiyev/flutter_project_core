@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 abstract class NetworkService {
   Future<NetworkResponseModel> postMethod({
     required String url,
-    required dynamic body,
+    required Map body,
     bool hasHeader = true,
   });
 
@@ -65,7 +65,7 @@ class NetworkServiceImpl extends NetworkService {
   @override
   Future<NetworkResponseModel> postMethod({
     required String url,
-    required dynamic body,
+    required Map body,
     bool hasHeader = true,
   }) async {
     final header = await _getHeader(hasHeader);
@@ -73,17 +73,24 @@ class NetworkServiceImpl extends NetworkService {
 
     try {
       if (kDebugMode) {
-        print("Url: $url, body: $body");
+        print("Request => Url: $url, body: $body");
       }
       final response = await dio.post(
         url,
         data: body,
       );
+      if (kDebugMode) {
+        print("Response => Url: $url, response: $response");
+      }
       return NetworkResponseModel.success(response: response);
     } on DioError catch (error) {
+      if (kDebugMode) {
+        print("Response => Url: $url, error: $error");
+      }
       if (error.type == DioErrorType.connectTimeout) {
         return NetworkResponseModel.error(
             errorMessage: "Исключение времени ожидания соединения");
+
       } else {
         return NetworkResponseModel.error(errorMessage: error.message);
       }

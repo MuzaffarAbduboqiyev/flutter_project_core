@@ -1,6 +1,6 @@
-import 'package:delivery_service/controller/order_controller/order_bloc.dart';
-import 'package:delivery_service/controller/order_controller/order_event.dart';
-import 'package:delivery_service/controller/order_controller/order_state.dart';
+import 'package:delivery_service/controller/dialog_controller/dialog_bloc.dart';
+import 'package:delivery_service/controller/dialog_controller/dialog_event.dart';
+import 'package:delivery_service/controller/dialog_controller/dialog_state.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
@@ -21,9 +21,9 @@ class DeliveryDialogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OrderBloc(
-        OrderState.initial(),
-        orderRepository: singleton(),
+      create: (context) => DialogBloc(
+        DialogState.initial(),
+        dialogRepository: singleton(),
       ),
       child: const DeliveryDialogPage(),
     );
@@ -40,8 +40,8 @@ class DeliveryDialogPage extends StatefulWidget {
 class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
   _changeLocationSelectedStatus(LocationData locationData) {
     context
-        .read<OrderBloc>()
-        .add(OrderLocationEvent(locationData: locationData));
+        .read<DialogBloc>()
+        .add(DialogLocationSelectedEvent(locationData: locationData));
   }
 
   /// delete
@@ -55,12 +55,14 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
   }
 
   _deleteLocation(LocationData locationData) {
-    context.read<OrderBloc>().add(OrderDeleteLocationEvent());
+    context.read<DialogBloc>().add(
+          DialogLocationDeleteEvent(locationData: locationData),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OrderBloc, OrderState>(
+    return BlocBuilder<DialogBloc, DialogState>(
       builder: (context, state) {
         return Container(
           decoration: BoxDecoration(
@@ -74,24 +76,26 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Center(
                   child: Text(
                     translate("order.address").toCapitalized(),
                     style: getCurrentTheme(context).textTheme.displayLarge,
                     overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
                     maxLines: 1,
                   ),
                 ),
               ),
-              const SizedBox(height: 6),
               Expanded(
                 child: ListView.builder(
                   itemCount: state.location.length,
                   itemBuilder: (context, index) => InkWell(
                     onTap: () =>
                         _changeLocationSelectedStatus(state.location[index]),
-                    onLongPress: () => _showDeleteLocationConfirm(state.location[index]),
+                    onLongPress: () =>
+                        _showDeleteLocationConfirm(state.location[index]),
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -134,42 +138,42 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                 child: Container(
                   height: 53,
                   width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     border: Border(
                       top: BorderSide(width: 1, color: hintColor),
                       bottom: BorderSide(width: 1, color: hintColor),
                     ),
                   ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.add),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Text(
-                              translate("order.addMap").toCapitalized(),
-                              style: getCustomStyle(
-                                context: context,
-                                weight: FontWeight.w600,
-                                textSize: 18,
-                                color: textColor,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          const Icon(Icons.arrow_forward_ios),
-                        ],
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: getCurrentTheme(context).iconTheme.color,
                       ),
-                    ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          translate("order.addMap").toCapitalized(),
+                          style:
+                              getCurrentTheme(context).textTheme.displayMedium,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                      Icon(
+                        Icons.expand_more,
+                        color: getCurrentTheme(context).iconTheme.color,
+                      ),
+                    ],
                   ),
                 ),
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  if (state.location.isNotEmpty) {
+                    Navigator.pop(context);
+                  }
                 },
                 child: Container(
                   height: 53,
@@ -177,19 +181,22 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                   margin: const EdgeInsets.all(16),
                   decoration: getContainerDecoration(
                     context,
-                    fillColor: buttonColor,
+                    fillColor:
+                        (state.location.isNotEmpty) ? buttonColor : hintColor,
                   ),
                   child: Center(
                     child: Text(
-                      translate("order.ready"),
+                      (state.location.isNotEmpty)
+                          ? translate("order.ready")
+                          : translate("order.location"),
                       style: getCustomStyle(
                         context: context,
                         weight: FontWeight.w500,
                         textSize: 18,
                         color: lightTextColor,
                       ),
-                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                 ),

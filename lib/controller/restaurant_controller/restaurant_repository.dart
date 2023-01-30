@@ -1,4 +1,5 @@
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
+import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
@@ -39,26 +40,27 @@ abstract class RestaurantRepository {
   });
 
 
-  // listenCartProducts = Savat mahsulotlarini tinglang
   Stream<List<ProductCartData>> listenCartProducts();
 
 
-  // getCartProducts = Savat mahsulotlarini oling
   Future<List<ProductCartData>> getCartProducts();
 
-
+  /// listen location
+  Stream<List<LocationData>> listenLocationData();
 }
 
 class RestaurantRepositoryImpl extends RestaurantRepository {
   final RestaurantNetworkService networkService;
   final CategoryRepository categoryRepository;
   final ProductRepository productRepository;
+  final LocationRepository locationRepository;
   final MoorDatabase moorDatabase;
 
   RestaurantRepositoryImpl({
     required this.networkService,
     required this.categoryRepository,
     required this.productRepository,
+    required this.locationRepository,
     required this.moorDatabase,
   });
 
@@ -73,7 +75,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
     required int categoryId,
   }) async {
     final response =
-    await networkService.getCategoryRestaurants(categoryId: categoryId);
+        await networkService.getCategoryRestaurants(categoryId: categoryId);
     return _parseRestaurants(response);
   }
 
@@ -105,7 +107,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
 
   @override
   Future<DataResponseModel<List<ProductModel>>> getRestaurantProducts({
-  required int restaurantId,
+    required int restaurantId,
     required int categoryId,
     required String searchName,
   }) async {
@@ -162,5 +164,10 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
       productRepository.listenCartProducts();
 
   @override
-  Future<List<ProductCartData>> getCartProducts() => productRepository.getCartProducts();
+  Future<List<ProductCartData>> getCartProducts() =>
+      productRepository.getCartProducts();
+
+  @override
+  Stream<List<LocationData>> listenLocationData() =>
+      moorDatabase.listenLocation();
 }

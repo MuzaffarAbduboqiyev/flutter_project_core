@@ -2,7 +2,7 @@ import 'package:delivery_service/model/response_model/network_response_model.dar
 import 'package:delivery_service/util/service/network/network_service.dart';
 import 'package:delivery_service/util/service/network/urls.dart';
 
-abstract class ProductNetworkService {
+abstract class  ProductNetworkService {
   Future<NetworkResponseModel> getRestaurantProducts({
     required int restaurantId,
     required int categoryId,

@@ -11,19 +11,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomeUserWidget extends StatefulWidget {
-
-
-  const HomeUserWidget({ Key? key}) : super(key: key);
+  const HomeUserWidget({Key? key}) : super(key: key);
 
   @override
   State<HomeUserWidget> createState() => _HomeUserWidgetState();
 }
 
 class _HomeUserWidgetState extends State<HomeUserWidget> {
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: _locationDialog,
       leading: SvgPicture.asset(
         "assets/img/avatar.svg",
         width: 48.0,
@@ -39,29 +37,33 @@ class _HomeUserWidgetState extends State<HomeUserWidget> {
         ),
       ),
       subtitle: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
           BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) =>
-                Text(
-                  state.location.name??"",
-                  style: getCustomStyle(
-                    context: context,
-                    weight: FontWeight.w400,
-                    textSize: 15.0,
-                    color: getCurrentTheme(context).hintColor,
+            builder: (context, state) => (state.locationData.selectedStatus)
+                ? Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        state.locationData.name ?? "",
+                        style: getCurrentTheme(context).textTheme.bodyMedium,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  )
+                : Expanded(
+                    child: Text(
+                      translate("location.locations"),
+                      style: getCurrentTheme(context).textTheme.bodyMedium,
+                    ),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
           ),
-          InkWell(
-            onTap: _locationDialog,
-            child: Icon(
-              Icons.expand_more,
-              color: navUnselectedColor,
-            ),
+          Icon(
+            Icons.expand_more,
+            color: navUnselectedColor,
+            size: 28,
           ),
         ],
       ),
