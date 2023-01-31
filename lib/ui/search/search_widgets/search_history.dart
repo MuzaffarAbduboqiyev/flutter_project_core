@@ -49,9 +49,7 @@ class _SearchHistoryState extends State<SearchHistory> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const SizedBox(
-                width: 16,
-              ),
+              const SizedBox(width: 16),
               InkWell(
                 onTap: _showClearConfirm,
                 child: Text(

@@ -27,7 +27,7 @@ class RestaurantProducts extends StatelessWidget {
                 ),
                 itemBuilder: (_, index) => RestaurantProductItem(
                   productModel: state.products[index],
-                   restaurantId: state.restaurantId,
+                   restaurantId: state.restaurantId
                 ),
                 itemCount: state.products.length,
               );

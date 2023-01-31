@@ -177,7 +177,7 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  _button(WelcomeState state) {
+  _button(state) {
     context
         .read<WelcomeBloc>()
         .add(WelcomeCheckButtonEvent(phoneNumber: state.phoneNumber));

@@ -36,7 +36,11 @@ class _SearchHistoryItemState extends State<SearchHistoryItem> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: _changeSearchName,
-      leading: Icon(Icons.access_time_outlined, size: 20, color: getCurrentTheme(context).hintColor,),
+      leading: Icon(
+        Icons.access_time_outlined,
+        size: 20,
+        color: getCurrentTheme(context).hintColor,
+      ),
       title: Text(
         widget.searchHistory.searchName,
         style: getCurrentTheme(context).textTheme.labelLarge,
@@ -45,7 +49,11 @@ class _SearchHistoryItemState extends State<SearchHistoryItem> {
       ),
       trailing: InkWell(
         onTap: _deleteCurrentSearch,
-        child: Icon(Icons.clear, size: 20, color: getCurrentTheme(context).hintColor,),
+        child: Icon(
+          Icons.clear,
+          size: 20,
+          color: getCurrentTheme(context).hintColor,
+        ),
       ),
     );
   }

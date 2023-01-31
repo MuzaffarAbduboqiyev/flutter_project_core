@@ -2,6 +2,7 @@ import 'package:delivery_service/controller/otp_controller/otp_bloc.dart';
 import 'package:delivery_service/controller/otp_controller/otp_event.dart';
 import 'package:delivery_service/controller/otp_controller/otp_state.dart';
 import 'package:delivery_service/ui/verification_otp/otp_timer.dart';
+import 'package:delivery_service/ui/widgets/appbar/simple_appbar.dart';
 import 'package:delivery_service/ui/widgets/loading/loader_dialog.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
@@ -59,25 +60,17 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
         }
       },
       child: Scaffold(
+        appBar: simpleAppBar(
+          context,
+          translate("verification.verification").toCapitalized(),
+        ),
         backgroundColor: backgroundColor,
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 105),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 16.0),
-                Center(
-                  child: Text(
-                    translate("verification.verification").toCapitalized(),
-                    style: getCustomStyle(
-                        context: context,
-                        textSize: 32,
-                        color: textColor,
-                        weight: FontWeight.w700),
-                  ),
-                ),
-                const SizedBox(height: 90.0),
                 Text(
                   translate("verification.text"),
                   style: getCustomStyle(
@@ -88,15 +81,13 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                   ),
                 ),
                 const SizedBox(height: 8.0),
-                Center(
-                  child: Text(
-                    "+998${widget.phoneNumber}",
-                    style: getCustomStyle(
-                      context: context,
-                      textSize: 15,
-                      weight: FontWeight.w500,
-                      color: hintColor,
-                    ),
+                Text(
+                  "+998 ${widget.phoneNumber}",
+                  style: getCustomStyle(
+                    context: context,
+                    textSize: 15,
+                    weight: FontWeight.w500,
+                    color: hintColor,
                   ),
                 ),
                 const SizedBox(height: 24.0),
@@ -130,7 +121,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const OtpTimerWidget(),
+                OtpTimerWidget(phoneNumber: widget.phoneNumber),
                 const SizedBox(height: 52.0),
                 _buttonCart(widget),
               ],
@@ -169,7 +160,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     );
   }
 
-  _button(OtpState state) {
+  _button(state) {
     context.read<OtpBloc>().add(OtpCheckButtonEvent(
         phoneNumber: widget.phoneNumber, phoneCode: state.phoneCode));
   }

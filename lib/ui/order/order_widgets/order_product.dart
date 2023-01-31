@@ -64,7 +64,7 @@ class _OrderProductState extends State<OrderProduct> {
           height: 75,
           width: double.infinity,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ImageLoading(
@@ -77,7 +77,6 @@ class _OrderProductState extends State<OrderProduct> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 8.0),
                     Text(
                       widget.product.name,
                       style: getCustomStyle(

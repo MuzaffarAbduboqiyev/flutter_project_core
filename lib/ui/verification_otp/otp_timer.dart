@@ -5,13 +5,14 @@ import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/styles.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timer_builder/timer_builder.dart';
 
 class OtpTimerWidget extends StatefulWidget {
-  const OtpTimerWidget({Key? key}) : super(key: key);
+  final String phoneNumber;
+
+  const OtpTimerWidget({required this.phoneNumber, Key? key}) : super(key: key);
 
   @override
   State<OtpTimerWidget> createState() => _OtpTimerWidgetState();
@@ -23,7 +24,7 @@ class _OtpTimerWidgetState extends State<OtpTimerWidget> {
   @override
   void initState() {
     super.initState();
-    alert = DateTime.now().add(const Duration(seconds: 30));
+    alert = DateTime.now().add(const Duration(seconds: 60));
   }
 
   @override
@@ -47,6 +48,7 @@ class _OtpTimerWidgetState extends State<OtpTimerWidget> {
                     weight: FontWeight.w400,
                     color: reached ? errorTextColor : hintColor,
                   ),
+                  textAlign: TextAlign.end,
                   maxLines: 1,
                 ),
               ),
@@ -87,11 +89,13 @@ class _OtpTimerWidgetState extends State<OtpTimerWidget> {
     );
   }
 
-  _buttonResend(OtpState state) {
-    context.read<OtpBloc>().add(OtpResendEvent(phoneNumber: state.phoneNumber));
+  _buttonResend(state) {
+    context
+        .read<OtpBloc>()
+        .add(OtpResendEvent(phoneNumber: widget.phoneNumber));
     setState(() {
       if (state.otpStatus == OtpStatus.resend) {
-        alert = DateTime.now().add(const Duration(seconds: 30));
+        alert = DateTime.now().add(const Duration(seconds: 60));
       }
     });
   }

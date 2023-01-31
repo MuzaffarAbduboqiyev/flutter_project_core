@@ -21,12 +21,9 @@ class RestaurantCategoryItem extends StatefulWidget {
 }
 
 class _RestaurantCategoryItemState extends State<RestaurantCategoryItem> {
-  void _itemSelected() {
-    context.read<RestaurantBloc>().add(
-          RestaurantSelectedCategoryEvent(
-            selectedCategoryId: widget.categoryModel.id,
-          ),
-        );
+  void _itemSelected() async {
+    context.read<RestaurantBloc>().add(RestaurantSelectedCategoryEvent(
+        selectedCategoryId: widget.categoryModel.id));
   }
 
   @override

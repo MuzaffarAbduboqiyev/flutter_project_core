@@ -23,6 +23,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
       transformer: concurrent(),
     );
 
+    /// Resend
     on<OtpResendEvent>(
       _resendOtp,
       transformer: concurrent(),
@@ -64,12 +65,9 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   /// Otp Resend
   FutureOr<void> _resendOtp(
       OtpResendEvent event, Emitter<OtpState> emit) async {
-
-
     final response = await otpRepository.getPhoneNumberResend(
       phoneNumber: event.phoneNumber,
     );
-
 
     if (response.status == true) {
       emit(

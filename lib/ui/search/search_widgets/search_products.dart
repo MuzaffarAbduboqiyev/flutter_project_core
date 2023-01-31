@@ -75,21 +75,22 @@ class _SearchProductsState extends State<SearchProducts> {
 
   _vendors(List<VendorModel> vendors) {
     return ListView.builder(
+      itemCount: vendors.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => SearchVendorItem(
         vendorModel: vendors[index],
       ),
-      itemCount: vendors.length,
     );
   }
 
+  /// search product
   _products(List<SearchProductModel> products) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => SearchProductItem(
-        productModel: products[index],
+        searchProductModel: products[index],
       ),
       itemCount: products.length,
     );
