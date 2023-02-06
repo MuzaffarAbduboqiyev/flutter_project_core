@@ -1,7 +1,6 @@
 import 'package:delivery_service/controller/search_controller/search_bloc.dart';
 import 'package:delivery_service/controller/search_controller/search_event.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
-import 'package:delivery_service/ui/product/product_detail_screen.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
@@ -58,17 +57,9 @@ class _SearchCategoryItemState extends State<SearchCategoryItem> {
   }
 
   _changeSearchName() async {
+    print("Search GridView Product");
     context
         .read<SearchBloc>()
         .add(SearchNameEvent(searchName: widget.categoryModel.name));
-    await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (builderContext) => ProductDetailScreen(
-        productId: widget.categoryModel.id,
-        restaurantId: widget.categoryModel.id,
-      ),
-    );
   }
 }

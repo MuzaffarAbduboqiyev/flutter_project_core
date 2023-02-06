@@ -1,5 +1,3 @@
-import 'package:delivery_service/controller/app_controller/app_bloc.dart';
-import 'package:delivery_service/controller/app_controller/app_event.dart';
 import 'package:delivery_service/controller/home_controller/home_bloc.dart';
 import 'package:delivery_service/controller/home_controller/home_event.dart';
 import 'package:delivery_service/ui/home/home_widgets/home_category.dart';

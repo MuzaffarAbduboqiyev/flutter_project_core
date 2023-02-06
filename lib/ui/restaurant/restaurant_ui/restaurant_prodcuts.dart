@@ -7,31 +7,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestaurantProducts extends StatelessWidget {
-
-  const RestaurantProducts({ Key? key}) : super(key: key);
+  const RestaurantProducts({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RestaurantBloc, RestaurantState>(
-      builder: (context, state) {
-        return state.productStatus == ProductStatus.loading
-            ? const RestaurantProductShimmer()
-            : GridView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0,),
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio:
-                      (((MediaQuery.of(context).size.width - 32) / 2) / 260),
-                ),
-                itemBuilder: (_, index) => RestaurantProductItem(
-                  productModel: state.products[index],
-                   restaurantId: state.restaurantId
-                ),
-                itemCount: state.products.length,
-              );
-      }
-    );
+        builder: (context, state) {
+      return state.productStatus == ProductStatus.loading
+          ? const RestaurantProductShimmer()
+          : GridView.builder(
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(
+                left: 8.0,
+                right: 8.0,
+                bottom: 8.0,
+              ),
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio:
+                    (((MediaQuery.of(context).size.width - 32) / 2) / 260),
+              ),
+              itemBuilder: (_, index) => RestaurantProductItem(
+                productModel: state.productModel[index],
+                restaurantId: state.restaurantId,
+                productId: state.productId,
+                categoryId: state.categoryId,
+              ),
+              itemCount: state.productModel.length,
+            );
+    });
   }
 }

@@ -49,7 +49,7 @@ class DialogBloc extends Bloc<DialogEvent, DialogState> {
       );
       final l = location;
       l.sort((a, b) => a.lat.compareTo(b.lat));
-      add(DialogListenLocationEvent(locations: l));
+      add(DialogListenLocationEvent(locationData: l));
     });
   }
 
@@ -57,7 +57,7 @@ class DialogBloc extends Bloc<DialogEvent, DialogState> {
       DialogListenLocationEvent event, Emitter<DialogState> emit) async {
     emit(
       state.copyWith(
-        location: event.locations,
+        location: event.locationData,
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:delivery_service/controller/category_controller/category_state.d
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 
 /// [HomeScreen] ni umumiy holatini boshqarish va kerakli data(ma'lumotlarni) saqlab turish uchun
@@ -9,19 +10,21 @@ import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 class HomeState {
   final CategoryStatus categoryStatus;
   final RestaurantStatus restaurantStatus;
-  final List<CategoryModel> categories;
+  final List<CategoryModel> categoryModel;
+  final ProductModel productModel;
   final LocationData locationData;
   final int selectedCategoryId;
-  final List<RestaurantModel> restaurants;
+  final List<RestaurantModel> restaurantModel;
   final String error;
 
   HomeState({
     required this.categoryStatus,
     required this.restaurantStatus,
-    required this.categories,
+    required this.categoryModel,
+    required this.productModel,
     required this.locationData,
     required this.selectedCategoryId,
-    required this.restaurants,
+    required this.restaurantModel,
     required this.error,
   });
 
@@ -30,7 +33,8 @@ class HomeState {
   factory HomeState.initial() => HomeState(
         categoryStatus: CategoryStatus.init,
         restaurantStatus: RestaurantStatus.init,
-        categories: [],
+        categoryModel: [],
+        productModel: ProductModel.example(),
         locationData: LocationData(
           lat: 0,
           lng: 0,
@@ -38,7 +42,7 @@ class HomeState {
           selectedStatus: false,
         ),
         selectedCategoryId: -1,
-        restaurants: [],
+    restaurantModel: [],
         error: "",
       );
 
@@ -48,19 +52,21 @@ class HomeState {
   HomeState copyWith({
     CategoryStatus? categoryStatus,
     RestaurantStatus? restaurantStatus,
-    List<CategoryModel>? categories,
+    List<CategoryModel>? categoryModel,
+    ProductModel? productModel,
     LocationData? locationData,
     int? selectedCategoryId,
-    List<RestaurantModel>? restaurants,
+    List<RestaurantModel>? restaurantModel,
     String? error,
   }) =>
       HomeState(
         categoryStatus: categoryStatus ?? this.categoryStatus,
         restaurantStatus: restaurantStatus ?? this.restaurantStatus,
-        categories: categories ?? this.categories,
+        categoryModel: categoryModel ?? this.categoryModel,
+        productModel: productModel ?? this.productModel,
         locationData: locationData ?? this.locationData,
         selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
-        restaurants: restaurants ?? this.restaurants,
+        restaurantModel: restaurantModel ?? this.restaurantModel,
         error: error ?? this.error,
       );
 }

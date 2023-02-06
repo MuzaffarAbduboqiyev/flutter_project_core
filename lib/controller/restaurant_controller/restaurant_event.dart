@@ -1,21 +1,20 @@
-import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
-import 'package:delivery_service/model/product_model/product_model.dart';
-import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
+import 'package:flutter/material.dart';
 
 abstract class RestaurantEvent {}
 
+/// Restaurant initial
 class RestaurantInitEvent extends RestaurantEvent {
-  final int? restaurantId;
-  final RestaurantModel? restaurantModel;
-  final List<CategoryModel>? categories;
-  final List<ProductModel>? products;
+  final BuildContext context;
+  final int restaurantId;
+  final int? productId;
+  final int categoryId;
 
   RestaurantInitEvent({
+    required this.context,
     required this.restaurantId,
-    required this.restaurantModel,
-    required this.categories,
-    required this.products,
+    required this.productId,
+    required this.categoryId,
   });
 }
 

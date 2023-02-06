@@ -65,9 +65,9 @@ class _SearchHistoryState extends State<SearchHistory> {
         Expanded(
           child: BlocBuilder<SearchBloc, SearchState>(
             builder: (context, state) => ListView.builder(
-              itemCount: state.searchHistory.length,
+              itemCount: state.searchData.length,
               itemBuilder: (context, index) => SearchHistoryItem(
-                searchHistory: state.searchHistory[index],
+                searchHistory: state.searchData[index],
               ),
             ),
           ),

@@ -1,4 +1,3 @@
-import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/ui/account/account_screen.dart';
 import 'package:delivery_service/ui/dashboard/dashboard_screen.dart';
 import 'package:delivery_service/ui/delivery_location/map_screen.dart';
@@ -11,6 +10,7 @@ import 'package:delivery_service/ui/profile/profile_screen.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_screen.dart';
 import 'package:delivery_service/ui/verification_otp/otp_verification_screen.dart';
 import 'package:delivery_service/ui/welcome_number/welcome_screen.dart';
+import 'package:delivery_service/ui/widgets/splash/splash_screen.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -40,6 +40,11 @@ class ScreenObserver {
     );
   }
 
+  static createSplashScreen() => const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
+      );
+
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
@@ -65,10 +70,9 @@ Future<bool> pushNewScreen(
       await PersistentNavBarNavigator.pushNewScreen(
         context,
         screen: RestaurantScreen(
-          restaurantModel: arguments?["restaurant_model"] as RestaurantModel,
           restaurantId: arguments?["restaurant_id"],
-          categories: arguments?["restaurant_categories"],
-          products: arguments?["restaurant_products"],
+          productId: arguments?["product_id"],
+          categoryId: arguments?["category_id"],
         ),
         withNavBar: navbarStatus,
       );
@@ -123,7 +127,7 @@ Future<bool> pushNewScreen(
     case favoritesScreen:
       await PersistentNavBarNavigator.pushNewScreen(
         context,
-        screen: const FavoritesScreen(),
+        screen: const FavoriteScreen(),
         withNavBar: navbarStatus,
       );
       return true;

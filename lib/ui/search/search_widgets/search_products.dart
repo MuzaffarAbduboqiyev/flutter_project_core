@@ -10,14 +10,9 @@ import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchProducts extends StatefulWidget {
+class SearchProducts extends StatelessWidget {
   const SearchProducts({Key? key}) : super(key: key);
 
-  @override
-  State<SearchProducts> createState() => _SearchProductsState();
-}
-
-class _SearchProductsState extends State<SearchProducts> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
@@ -42,7 +37,7 @@ class _SearchProductsState extends State<SearchProducts> {
                 ),
               if (state.searchResponseModel.vendors.isNotEmpty)
                 SliverToBoxAdapter(
-                  child: _vendors(state.searchResponseModel.vendors),
+                  child: _vendors(state.searchResponseModel.vendors, state),
                 ),
               if (state.searchResponseModel.vendors.isNotEmpty)
                 const SliverToBoxAdapter(
@@ -73,26 +68,32 @@ class _SearchProductsState extends State<SearchProducts> {
     );
   }
 
-  _vendors(List<VendorModel> vendors) {
+  /// search restaurant
+  _vendors(List<VendorModel> vendorModel, SearchState state) {
     return ListView.builder(
-      itemCount: vendors.length,
+      itemCount: vendorModel.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => SearchVendorItem(
-        vendorModel: vendors[index],
+        vendorModel: vendorModel[index],
+        restaurantId: vendorModel[index].id,
+        productId: state.productModel.id,
       ),
     );
   }
 
   /// search product
-  _products(List<SearchProductModel> products) {
+  _products(List<SearchProductModel> searchProductModel) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => SearchProductItem(
-        searchProductModel: products[index],
+        searchProductModel: searchProductModel[index],
+        restaurantId: searchProductModel[index].id,
+        productId: searchProductModel[index].id,
+        categoryId: searchProductModel[index].id,
       ),
-      itemCount: products.length,
+      itemCount: searchProductModel.length,
     );
   }
 }

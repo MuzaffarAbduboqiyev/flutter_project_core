@@ -68,7 +68,6 @@ class _AccountPageState extends State<AccountPage> {
             padding: const EdgeInsets.all(16.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(height: 8.0),
               const AccountAppBar(),
               const SizedBox(height: 42.0),
               ListTileWidgetItem(
@@ -76,7 +75,7 @@ class _AccountPageState extends State<AccountPage> {
                 icons: Icons.list_alt_outlined,
                 onTap: () {},
               ),
-              (state.token)
+              (state.token == true)
                   ? ListTileWidgetItem(
                       title: translate("account.profile"),
                       icons: Icons.person_outline,
@@ -114,7 +113,7 @@ class _AccountPageState extends State<AccountPage> {
                   pushNewScreen(context, locationScreen, navbarStatus: false);
                 },
               ),
-              const SizedBox(height: 85),
+              const SizedBox(height: 50),
               InkWell(
                 onTap: () => (state.token)
                     ? _buttonSignoUt(state)

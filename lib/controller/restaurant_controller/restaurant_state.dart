@@ -15,31 +15,31 @@ enum RestaurantStatus {
 class RestaurantState {
   final RestaurantStatus restaurantStatus;
   final RestaurantModel restaurantModel;
+  final List<CategoryModel> categoryModel;
+  final List<ProductModel> productModel;
   final int restaurantId;
-
+  final int productId;
+  final int categoryId;
   final CategoryStatus categoryStatus;
-  final List<CategoryModel> categories;
   final int selectedCategoryId;
-
   final ProductStatus productStatus;
-  final List<ProductModel> products;
-
   final String searchName;
   final bool isFavorite;
   final String error;
-
   final int totalCount;
   final int totalAmount;
 
   RestaurantState({
     required this.restaurantStatus,
     required this.restaurantModel,
+    required this.productModel,
+    required this.categoryModel,
     required this.restaurantId,
+    required this.productId,
+    required this.categoryId,
     required this.categoryStatus,
-    required this.categories,
     required this.selectedCategoryId,
     required this.productStatus,
-    required this.products,
     required this.searchName,
     required this.isFavorite,
     required this.totalCount,
@@ -51,12 +51,14 @@ class RestaurantState {
   factory RestaurantState.initial() => RestaurantState(
         restaurantStatus: RestaurantStatus.init,
         restaurantModel: RestaurantModel.example(),
+        categoryModel: [],
+    productModel: [],
         restaurantId: 0,
-        categoryStatus: CategoryStatus.init,
-        categories: [],
+        productId: 0,
+        categoryId: 0,
         selectedCategoryId: -1,
+        categoryStatus: CategoryStatus.init,
         productStatus: ProductStatus.init,
-        products: [],
         searchName: "",
         isFavorite: false,
         totalCount: 0,
@@ -67,12 +69,14 @@ class RestaurantState {
   RestaurantState copyWith({
     RestaurantStatus? restaurantStatus,
     RestaurantModel? restaurantModel,
+    List<CategoryModel>? categoryModel,
+    List<ProductModel>? productModel,
     int? restaurantId,
+    int? productId,
+    int? categoryId,
     CategoryStatus? categoryStatus,
-    List<CategoryModel>? categories,
     int? selectedCategoryId,
     ProductStatus? productStatus,
-    List<ProductModel>? products,
     String? searchName,
     bool? isFavorite,
     int? totalCount,
@@ -82,12 +86,14 @@ class RestaurantState {
       RestaurantState(
         restaurantStatus: restaurantStatus ?? this.restaurantStatus,
         restaurantModel: restaurantModel ?? this.restaurantModel,
+        categoryModel: categoryModel ?? this.categoryModel,
+        productModel: productModel ?? this.productModel,
         restaurantId: restaurantId ?? this.restaurantId,
+        productId: productId ?? this.productId,
+        categoryId: categoryId ?? this.categoryId,
         categoryStatus: categoryStatus ?? this.categoryStatus,
-        categories: categories ?? this.categories,
         selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
         productStatus: productStatus ?? this.productStatus,
-        products: products ?? this.products,
         searchName: searchName ?? this.searchName,
         isFavorite: isFavorite ?? this.isFavorite,
         totalCount: totalCount ?? this.totalCount,

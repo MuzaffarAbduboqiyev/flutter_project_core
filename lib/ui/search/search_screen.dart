@@ -23,7 +23,7 @@ class SearchScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SearchBloc(
         SearchState.initial(),
-        repository: singleton(),
+        searchRepository: singleton(),
       ),
       child: const SearchPage(),
     );
@@ -120,7 +120,7 @@ class _SearchPageState extends State<SearchPage> {
                   : (state.searchStatus == SearchStatus.loading)
                       ? const SearchLoadingWidget()
                       : (state.searchName.isEmpty)
-                          ? (state.searchHistory.isNotEmpty)
+                          ? (state.searchData.isNotEmpty)
                               ? const SearchHistory()
                               : const SearchCategory()
                           : (state.searchResponseModel.products.isNotEmpty ||

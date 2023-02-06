@@ -44,9 +44,9 @@ class _HomeCategoryState extends State<HomeCategory> {
                         child: ListView.builder(
                           padding: const EdgeInsets.only(left: 12.0),
                           scrollDirection: Axis.horizontal,
-                          itemCount: state.categories.length,
+                          itemCount: state.categoryModel.length,
                           itemBuilder: (context, index) => HomeCategoryItem(
-                            categoryModel: state.categories[index],
+                            categoryModel: state.categoryModel[index],
                             selectedCategoryItemId: state.selectedCategoryId,
                           ),
                         ),

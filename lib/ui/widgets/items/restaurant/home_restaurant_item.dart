@@ -11,9 +11,13 @@ import 'package:flutter/material.dart';
 
 class HomeRestaurantItem extends StatefulWidget {
   final RestaurantModel restaurantModel;
+  final ProductModel productModel;
+  final CategoryModel categoryModel;
 
   const HomeRestaurantItem({
     required this.restaurantModel,
+    required this.productModel,
+    required this.categoryModel,
     Key? key,
   }) : super(key: key);
 
@@ -22,19 +26,6 @@ class HomeRestaurantItem extends StatefulWidget {
 }
 
 class _HomeRestaurantItemState extends State<HomeRestaurantItem> {
-  void _openRestaurantScreen() async {
-    await pushNewScreen(
-      context,
-      restaurantScreen,
-      arguments: {
-        "restaurant_model": widget.restaurantModel,
-        "restaurant_id": widget.restaurantModel.id,
-        "restaurant_categories": <CategoryModel>[],
-        "restaurant_products": <ProductModel>[],
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -125,6 +116,19 @@ class _HomeRestaurantItemState extends State<HomeRestaurantItem> {
           ],
         ),
       ),
+    );
+  }
+
+  /// Home dan restaurant = kirish
+  void _openRestaurantScreen() async {
+    await pushNewScreen(
+      context,
+      restaurantScreen,
+      arguments: {
+        "restaurant_id": widget.restaurantModel.id,
+        "product_id": widget.productModel.id,
+        "category_id": widget.categoryModel.id,
+      },
     );
   }
 }

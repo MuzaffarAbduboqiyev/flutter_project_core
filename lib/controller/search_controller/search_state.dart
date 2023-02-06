@@ -1,5 +1,8 @@
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/model/product_model/product_model.dart';
+import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
+import 'package:delivery_service/model/restaurant_model/vendor_model.dart';
 import 'package:delivery_service/model/search_model/search_response_model.dart';
 
 enum SearchStatus {
@@ -13,16 +16,23 @@ class SearchState {
   final SearchStatus searchStatus;
   final String searchName;
   final SearchResponseModel searchResponseModel;
-  final List<CategoryModel> categories;
-  final List<SearchData> searchHistory;
+  final RestaurantModel restaurantModel;
+  final List<CategoryModel> categoryModel;
+  final List<SearchData> searchData;
+  final ProductModel productModel;
+  final VendorModel vendorModel;
+
   final String error;
 
   SearchState({
     required this.searchStatus,
     required this.searchName,
     required this.searchResponseModel,
-    required this.categories,
-    required this.searchHistory,
+    required this.restaurantModel,
+    required this.categoryModel,
+    required this.searchData,
+    required this.productModel,
+    required this.vendorModel,
     required this.error,
   });
 
@@ -30,8 +40,11 @@ class SearchState {
         searchStatus: SearchStatus.init,
         searchName: "",
         searchResponseModel: SearchResponseModel.example(),
-        categories: [],
-        searchHistory: [],
+        restaurantModel: RestaurantModel.example(),
+        categoryModel: [],
+        searchData: [],
+        productModel: ProductModel.example(),
+        vendorModel: VendorModel.example(),
         error: "",
       );
 
@@ -39,16 +52,22 @@ class SearchState {
     SearchStatus? searchStatus,
     String? searchName,
     SearchResponseModel? searchResponseModel,
-    List<CategoryModel>? categories,
-    List<SearchData>? searchHistory,
+    RestaurantModel? restaurantModel,
+    List<CategoryModel>? categoryModel,
+    List<SearchData>? searchData,
+    ProductModel? productModel,
+    VendorModel? vendorModel,
     String? error,
   }) =>
       SearchState(
         searchStatus: searchStatus ?? this.searchStatus,
         searchName: searchName ?? this.searchName,
         searchResponseModel: searchResponseModel ?? this.searchResponseModel,
-        categories: categories ?? this.categories,
-        searchHistory: searchHistory ?? this.searchHistory,
+        restaurantModel: restaurantModel ?? this.restaurantModel,
+        categoryModel: categoryModel ?? this.categoryModel,
+        searchData: searchData ?? this.searchData,
+        productModel: productModel ?? this.productModel,
+        vendorModel: vendorModel ?? this.vendorModel,
         error: error ?? this.error,
       );
 }

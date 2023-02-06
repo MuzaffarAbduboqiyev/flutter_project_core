@@ -18,6 +18,7 @@
   },
   "location": {
     "location": "Location",
+    "selected": "Location selection",
     "locations": "Location not selected ?",
     "delete": "Clean the designated area?"
   },

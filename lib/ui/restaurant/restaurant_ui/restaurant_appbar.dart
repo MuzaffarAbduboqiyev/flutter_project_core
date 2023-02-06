@@ -1,5 +1,3 @@
-import 'package:delivery_service/controller/app_controller/app_bloc.dart';
-import 'package:delivery_service/controller/app_controller/app_event.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_bloc.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_event.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';

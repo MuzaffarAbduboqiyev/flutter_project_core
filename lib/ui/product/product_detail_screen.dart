@@ -19,12 +19,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  final int productId;
   final int restaurantId;
+  final int productId;
+  final int categoryId;
 
   const ProductDetailScreen({
-    required this.productId,
     required this.restaurantId,
+    required this.productId,
+    required this.categoryId,
     Key? key,
   }) : super(key: key);
 
@@ -38,6 +40,7 @@ class ProductDetailScreen extends StatelessWidget {
           ProductInitialEvent(
             productId: productId,
             restaurantId: restaurantId,
+
           ),
         ),
       child: const ProductDetailPage(),

@@ -7,6 +7,8 @@ import 'package:delivery_service/controller/restaurant_controller/restaurant_eve
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/ui/product/product_detail_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
@@ -66,15 +68,46 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
 
   // _initial = boshlang'ich
   FutureOr<void> _initial(
-      RestaurantInitEvent event, Emitter<RestaurantState> emit) {
+      RestaurantInitEvent event, Emitter<RestaurantState> emit) async {
     emit(
       state.copyWith(
         restaurantId: event.restaurantId,
-        restaurantModel: event.restaurantModel,
-        categories: event.categories,
-        products: event.products,
+        productId: event.productId,
+        categoryId: event.categoryId,
       ),
     );
+
+    final restaurant = await restaurantRepository.getRestaurantDetails(
+        restaurantId: state.restaurantId);
+    final product = await restaurantRepository.getRestaurantProducts(
+      restaurantId: state.restaurantId,
+      categoryId: state.categoryId,
+      searchName: state.searchName,
+    );
+    final category = await restaurantRepository.getRestaurantCategories(
+        restaurantId: state.restaurantId);
+    emit(
+      state.copyWith(
+        restaurantStatus: (restaurant.status & product.status)
+            ? RestaurantStatus.loaded
+            : RestaurantStatus.error,
+        restaurantModel: restaurant.data,
+        categoryModel: category.data,
+      ),
+    );
+
+    if (event.productId != 0) {
+      showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        context: event.context,
+        builder: (builderContext) => ProductDetailScreen(
+          restaurantId: event.restaurantId,
+          productId: event.productId!,
+          categoryId: event.categoryId,
+        ),
+      );
+    }
   }
 
   // _getRestaurant = restoran oling
@@ -121,7 +154,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       state.copyWith(
         categoryStatus:
             (response.status) ? CategoryStatus.loaded : CategoryStatus.error,
-        categories: response.data,
+        categoryModel: response.data,
       ),
     );
   }
@@ -150,7 +183,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       state.copyWith(
         productStatus:
             (response.status) ? ProductStatus.loaded : ProductStatus.error,
-        products: response.data,
+        productModel: response.data,
       ),
     );
 
@@ -175,7 +208,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       state.copyWith(
         productStatus:
             (response.status) ? ProductStatus.loaded : ProductStatus.error,
-        products: response.data,
+        productModel: response.data,
       ),
     );
 
@@ -203,12 +236,13 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     int totalAmount = 0;
     List<int> selectedProductsId = [];
 
-    state.products.asMap().forEach((index, productModel) {
-      state.products[index] = state.products[index].copyWith(selectedCount: 0);
+    state.productModel.asMap().forEach((index, productModel) {
+      state.productModel[index] =
+          state.productModel[index].copyWith(selectedCount: 0);
       for (ProductCartData productVariation in event.productVariations) {
         if (productVariation.productId == productModel.id) {
-          state.products[index] = state.products[index].copyWith(
-            selectedCount: (state.products[index].selectedCount +
+          state.productModel[index] = state.productModel[index].copyWith(
+            selectedCount: (state.productModel[index].selectedCount +
                 productVariation.selectedCount),
           );
 

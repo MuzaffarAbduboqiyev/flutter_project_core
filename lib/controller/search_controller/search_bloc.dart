@@ -8,10 +8,10 @@ import 'package:delivery_service/model/search_model/search_response_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final SearchRepository repository;
+  final SearchRepository searchRepository;
   late StreamSubscription<List<SearchData>> historyListener;
 
-  SearchBloc(super.initialState, {required this.repository}) {
+  SearchBloc(super.initialState, {required this.searchRepository}) {
     on<SearchCategoriesEvent>(
       _categories,
       transformer: concurrent(),
@@ -48,16 +48,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     );
 
     historyListener =
-        repository.listenSearchHistory().listen((searchHistories) {
-      add(
-        SearchHistoryEvent(searchHistories: searchHistories),
-      );
-    });
+        searchRepository.listenSearchHistory().listen((searchHistories) {
+          add(
+            SearchHistoryEvent(searchHistories: searchHistories),
+          );
+        });
   }
 
   FutureOr<void> _categories(
       SearchCategoriesEvent event, Emitter<SearchState> emit) async {
-    if (state.searchHistory.isEmpty) {
+    if (state.searchData.isEmpty) {
       emit(
         state.copyWith(
           searchStatus: SearchStatus.loading,
@@ -65,14 +65,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       );
     }
 
-    final response = await repository.searchCategories();
+    final response = await searchRepository.searchCategories();
 
     emit(
       state.copyWith(
-        searchStatus: (response.status || state.searchHistory.isNotEmpty)
+        searchStatus: (response.status || state.searchData.isNotEmpty)
             ? SearchStatus.loaded
             : SearchStatus.error,
-        categories: response.data,
+        categoryModel: response.data,
         error: response.message,
       ),
     );
@@ -99,12 +99,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     );
 
     if (event.searchName.isNotEmpty) {
-      final response = await repository.search(searchName: event.searchName);
+      final response = await searchRepository.search(searchName: event.searchName);
 
       emit(
         state.copyWith(
           searchStatus:
-              (response.status) ? SearchStatus.loaded : SearchStatus.error,
+          (response.status) ? SearchStatus.loaded : SearchStatus.error,
           searchResponseModel: response.data,
           error: response.message,
         ),
@@ -114,24 +114,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   FutureOr<void> _removeHistory(
       SearchRemoveHistoryEvent event, Emitter<SearchState> emit) async {
-    await repository.removeSearchHistory(searchData: event.historyItem);
+    await searchRepository.removeSearchHistory(searchData: event.historyItem);
   }
 
   FutureOr<void> _clearHistory(
       SearchClearHistoryEvent event, Emitter<SearchState> emit) async {
-    await repository.clearSearchHistory();
+    await searchRepository.clearSearchHistory();
   }
 
   FutureOr<void> _saveHistory(
       SearchSaveHistoryEvent event, Emitter<SearchState> emit) async {
-    await repository.saveSearchHistory(searchName: state.searchName);
+    await searchRepository.saveSearchHistory(searchName: state.searchName);
   }
 
   FutureOr<void> _searchHistory(
       SearchHistoryEvent event, Emitter<SearchState> emit) {
     emit(
       state.copyWith(
-        searchHistory: event.searchHistories,
+        searchData:  event.searchHistories,
       ),
     );
   }

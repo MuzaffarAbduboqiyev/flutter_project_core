@@ -34,13 +34,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       transformer: concurrent(),
     );
 
-    on<OrderClearProductEvent>(
-      _clearProduct,
-      transformer: concurrent(),
-    );
-
     on<OrderDeleteProductEvent>(
       _deleteCartProduct,
+      transformer: concurrent(),
+    );
+    on<OrderClearProductEvent>(
+      _clearProduct,
       transformer: concurrent(),
     );
 

@@ -1,4 +1,5 @@
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
+import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
@@ -31,8 +32,6 @@ class SearchRepositoryImpl extends SearchRepository {
   /// SearchRepository da o'sha fetch va parse qilingan methodni chaqirilamiz
   final CategoryRepository categoryRepository;
 
-  /// Search oynadagi saqlangan search history ni LocalDatabase dan olib kelish uchun
-  /// LocalDatabase(MoorDatabase) objecti kerak bo'ladi
   final MoorDatabase moorDatabase;
 
   SearchRepositoryImpl({

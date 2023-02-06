@@ -22,10 +22,10 @@ class RestaurantCategory extends StatelessWidget {
                 child: ListView.builder(
                   padding: const EdgeInsets.only(left: 8.0),
                   scrollDirection: Axis.horizontal,
-                  itemCount: state.categories.length,
+                  itemCount: state.categoryModel.length,
                   itemBuilder: (context, index) => RestaurantCategoryItem(
                     selectedItemId: state.selectedCategoryId,
-                    categoryModel: state.categories[index],
+                    categoryModel: state.categoryModel[index],
                   ),
                 ),
               ),

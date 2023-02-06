@@ -86,7 +86,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(
         state.copyWith(
           selectedCategoryId: -1,
-          categories: response.data,
+          categoryModel: response.data,
           categoryStatus:
               (response.status) ? CategoryStatus.loaded : CategoryStatus.error,
         ),
@@ -128,7 +128,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         restaurantStatus: (response.status)
             ? RestaurantStatus.loaded
             : RestaurantStatus.error,
-        restaurants: response.data,
+        restaurantModel: response.data,
       ),
     );
   }

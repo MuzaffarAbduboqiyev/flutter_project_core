@@ -11,7 +11,7 @@ class SearchCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
       buildWhen: (prevState, currentState) {
-        return currentState.searchHistory.isEmpty;
+        return currentState.searchData.isEmpty;
       },
       builder: (context, state) => ScrollConfiguration(
         behavior: const CupertinoScrollBehavior(),
@@ -23,9 +23,9 @@ class SearchCategory extends StatelessWidget {
                 (((MediaQuery.of(context).size.width - 48) / 2) / 160),
           ),
           itemBuilder: (_, index) => SearchCategoryItem(
-            categoryModel: state.categories[index],
+            categoryModel: state.categoryModel[index],
           ),
-          itemCount: state.categories.length,
+          itemCount: state.categoryModel.length,
         ),
       ),
     );

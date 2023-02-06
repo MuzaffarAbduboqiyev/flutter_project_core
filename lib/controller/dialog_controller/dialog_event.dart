@@ -4,9 +4,9 @@ abstract class DialogEvent {}
 
 /// location listen
 class DialogListenLocationEvent extends DialogEvent {
-  final List<LocationData> locations;
+  final List<LocationData> locationData;
 
-  DialogListenLocationEvent({required this.locations});
+  DialogListenLocationEvent({required this.locationData});
 }
 
 /// location selected

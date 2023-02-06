@@ -104,6 +104,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       LocationDeleteEvent event, Emitter<LocationState> emit) async {
     final response =
         await locationRepository.deleteLocation(locationData: event.locationData);
+
   }
 
   FutureOr<void> _clearLocation(

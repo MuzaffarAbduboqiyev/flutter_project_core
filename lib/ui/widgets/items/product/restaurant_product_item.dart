@@ -1,5 +1,4 @@
 import 'package:delivery_service/model/product_model/product_model.dart';
-import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/ui/product/product_detail_screen.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
@@ -12,10 +11,14 @@ import 'package:flutter/material.dart';
 class RestaurantProductItem extends StatefulWidget {
   final ProductModel productModel;
   final int restaurantId;
+  final int productId;
+  final int categoryId;
 
   const RestaurantProductItem({
     required this.productModel,
     required this.restaurantId,
+    required this.productId,
+    required this.categoryId,
     Key? key,
   }) : super(key: key);
 
@@ -120,8 +123,9 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
       isScrollControlled: true,
       context: context,
       builder: (builderContext) => ProductDetailScreen(
-        productId: widget.productModel.id,
         restaurantId: widget.restaurantId,
+        productId: widget.productModel.id,
+        categoryId: widget.categoryId,
       ),
     );
   }

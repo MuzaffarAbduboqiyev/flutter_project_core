@@ -39,9 +39,7 @@ abstract class RestaurantRepository {
     required String searchName,
   });
 
-
   Stream<List<ProductCartData>> listenCartProducts();
-
 
   Future<List<ProductCartData>> getCartProducts();
 

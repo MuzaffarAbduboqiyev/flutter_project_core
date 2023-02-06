@@ -33,9 +33,11 @@ class _HomeRestaurantState extends State<HomeRestaurant> {
                   : ScrollConfiguration(
                       behavior: CustomScrollBehavior(),
                       child: ListView.builder(
-                        itemCount: state.restaurants.length,
+                        itemCount: state.restaurantModel.length,
                         itemBuilder: (context, index) => HomeRestaurantItem(
-                          restaurantModel: state.restaurants[index],
+                          restaurantModel: state.restaurantModel[index],
+                          productModel: state.productModel,
+                          categoryModel: state.categoryModel[index],
                         ),
                       ),
                     ),
