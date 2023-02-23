@@ -78,11 +78,24 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   FutureOr<void> _deleteCartProduct(
       OrderDeleteProductEvent event, Emitter<OrderState> emit) async {
-    await orderRepository.deleteCart(deleteCartData: event.deleteProduct);
+    await orderRepository.deleteCart(
+      deleteCartData: event.deleteProduct,
+      variationId: event.variationId,
+      productId: event.productId,
+    );
   }
 
   FutureOr<void> _clearProduct(
       OrderClearProductEvent event, Emitter<OrderState> emit) async {
-    await orderRepository.clearOrderHistory();
+    await orderRepository.clearOrderHistory(
+      productId: event.productId,
+      variationId: event.variationId,
+    );
+  }
+
+  @override
+  Future<void> close() {
+    streamSubscription.cancel();
+    return super.close();
   }
 }

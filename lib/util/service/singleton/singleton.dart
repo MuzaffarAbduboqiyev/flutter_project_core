@@ -2,8 +2,10 @@ import 'package:delivery_service/controller/account_controller/account_repositor
 import 'package:delivery_service/controller/app_controller/app_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_repository.dart';
+import 'package:delivery_service/controller/favorite_controller/favorite_repository.dart';
 import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/order_controller/order_repository.dart';
+import 'package:delivery_service/controller/orders_controller/orders_repository.dart';
 import 'package:delivery_service/controller/otp_controller/otp_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/controller/profile_controller/profile_repository.dart';
@@ -116,8 +118,9 @@ void init() {
   /// Product controller
   singleton.registerLazySingleton<ProductRepository>(
     () => ProductRepositoryImpl(
-      networkService: singleton(),
+      productNetworkService: singleton(),
       moorDatabase: singleton(),
+      hiveDatabase: singleton(),
     ),
   );
 
@@ -130,6 +133,7 @@ void init() {
   /// order controller
   singleton.registerLazySingleton<OrderRepository>(
     () => OrderRepositoryImpl(
+      productRepository: singleton(),
       moorDatabase: singleton(),
     ),
   );
@@ -204,6 +208,13 @@ void init() {
   singleton.registerLazySingleton<ProfileNetworkService>(
     () => ProfileNetworkServiceImpl(
       networkService: singleton(),
+    ),
+  );
+
+  /// Favorite controller
+  singleton.registerLazySingleton<FavoriteRepository>(
+    () => FavoriteRepositoryImpl(
+      moorDatabase: singleton(),
     ),
   );
 }

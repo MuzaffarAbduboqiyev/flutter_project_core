@@ -22,8 +22,22 @@ class OrderUpdateProductEvent extends OrderEvent {
 
 class OrderDeleteProductEvent extends OrderEvent {
   final ProductCartData deleteProduct;
+  final int productId;
+  final int variationId;
 
-  OrderDeleteProductEvent({required this.deleteProduct});
+  OrderDeleteProductEvent({
+    required this.deleteProduct,
+    required this.productId,
+    required this.variationId,
+  });
 }
 
-class OrderClearProductEvent extends OrderEvent {}
+class OrderClearProductEvent extends OrderEvent {
+  final int productId;
+  final int variationId;
+
+  OrderClearProductEvent({
+    required this.productId,
+    required this.variationId,
+  });
+}

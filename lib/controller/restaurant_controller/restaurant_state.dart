@@ -52,7 +52,7 @@ class RestaurantState {
         restaurantStatus: RestaurantStatus.init,
         restaurantModel: RestaurantModel.example(),
         categoryModel: [],
-    productModel: [],
+        productModel: [],
         restaurantId: 0,
         productId: 0,
         categoryId: 0,

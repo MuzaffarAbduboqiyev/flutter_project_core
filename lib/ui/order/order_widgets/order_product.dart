@@ -26,6 +26,7 @@ class _OrderProductState extends State<OrderProduct> {
   num price = 0;
 
   increaseCount() {
+
     if (widget.product.count > widget.product.selectedCount) {
       final ProductCartData product = widget.product
           .copyWith(selectedCount: widget.product.selectedCount + 1);
@@ -50,9 +51,23 @@ class _OrderProductState extends State<OrderProduct> {
   }
 
   removeProduct() {
-    context
-        .read<OrderBloc>()
-        .add(OrderDeleteProductEvent(deleteProduct: widget.product));
+    context.read<OrderBloc>().add(
+          OrderDeleteProductEvent(
+            deleteProduct: widget.product,
+            productId: widget.product.productId,
+            variationId: widget.product.variationId,
+          ),
+        );
+  }
+
+  _deleteProduct() {
+    context.read<OrderBloc>().add(
+          OrderDeleteProductEvent(
+            deleteProduct: widget.product,
+            productId: widget.product.productId,
+            variationId: widget.product.variationId,
+          ),
+        );
   }
 
   @override
@@ -60,86 +75,94 @@ class _OrderProductState extends State<OrderProduct> {
     return BlocBuilder<OrderBloc, OrderState>(
       builder: (context, state) => Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: SizedBox(
-          height: 75,
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ImageLoading(
-                imageUrl: widget.product.image,
-                imageHeight: 70,
-                imageWidth: 70,
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.product.name,
-                      style: getCustomStyle(
-                          context: context,
-                          textSize: 15,
-                          weight: FontWeight.w500,
-                          color: textColor),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                    Text(
-                      "${translate("in_stock")}: ${widget.product.count.toString()} x",
-                      style: getCurrentTheme(context).textTheme.labelSmall,
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    Text(
-                      "${moneyFormatter.format(widget.product.price)} ${translate("sum")}",
-                      style: getCurrentTheme(context).textTheme.labelSmall,
-                      textAlign: TextAlign.end,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ],
+        child: Dismissible(
+          onDismissed: (value) => _deleteProduct(),
+          key: ValueKey(state.products),
+          background: Container(
+            color: errorTextColor,
+            child: const Icon(Icons.delete_outline),
+          ),
+          child: SizedBox(
+            height: 75,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ImageLoading(
+                  imageUrl: widget.product.image,
+                  imageHeight: 70,
+                  imageWidth: 70,
                 ),
-              ),
-              Container(
-                width: 130,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                decoration: getContainerDecoration(
-                  context,
-                  fillColor: getCurrentTheme(context).cardColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: decreaseCount,
-                      child: const Icon(Icons.remove),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        widget.product.selectedCount.toString(),
-                        style: getCurrentTheme(context).textTheme.bodyLarge,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.product.name,
+                        style: getCustomStyle(
+                            context: context,
+                            textSize: 15,
+                            weight: FontWeight.w500,
+                            color: textColor),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                      Text(
+                        "${translate("in_stock")}: ${widget.product.count.toString()} x",
+                        style: getCurrentTheme(context).textTheme.labelSmall,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: increaseCount,
-                      child: const Icon(Icons.add),
-                    ),
-                  ],
+                      Text(
+                        "${moneyFormatter.format(widget.product.price)} ${translate("sum")}",
+                        style: getCurrentTheme(context).textTheme.labelSmall,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Container(
+                  width: 130,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  decoration: getContainerDecoration(
+                    context,
+                    fillColor: getCurrentTheme(context).cardColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: decreaseCount,
+                        child: const Icon(Icons.remove),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          widget.product.selectedCount.toString(),
+                          style: getCurrentTheme(context).textTheme.bodyLarge,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: increaseCount,
+                        child: const Icon(Icons.add),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

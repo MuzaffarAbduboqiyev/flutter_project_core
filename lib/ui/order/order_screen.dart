@@ -8,6 +8,7 @@ import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
 import 'package:delivery_service/ui/widgets/error/connection_error/connection_error.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/ui/widgets/order/order_ui.dart';
+import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
@@ -49,18 +50,18 @@ class _OrderPageState extends State<OrderPage> {
     context.read<OrderBloc>().add(OrderRefreshProductEvent());
   }
 
-  /// delete
-  _showClearConfirm() {
+  /// clear
+  _showClearConfirm(state) {
     return showConfirmDialog(
       context: context,
       title: translate("error.clear"),
       content: "",
-      confirm: _clearHistory,
+      confirm: () => _clearHistory(state),
     );
   }
 
-  _clearHistory() {
-    context.read<OrderBloc>().add(OrderClearProductEvent());
+  _clearHistory(OrderState state) {
+    // context.read<OrderBloc>().add(OrderClearProductEvent());
   }
 
   @override
@@ -85,13 +86,13 @@ class _OrderPageState extends State<OrderPage> {
                             style:
                                 getCurrentTheme(context).textTheme.displayLarge,
                           ),
-                          actions: [
-                            InkWell(
-                              onTap: _showClearConfirm,
-                              child: const Icon(Icons.delete_outline),
-                            ),
-                            const SizedBox(width: 8.0),
-                          ],
+                          // actions: [
+                          //   InkWell(
+                          //     onTap: () => _showClearConfirm(state),
+                          //     child: const Icon(Icons.delete_outline),
+                          //   ),
+                          //   const SizedBox(width: 8.0),
+                          // ],
                           backgroundColor:
                               getCurrentTheme(context).backgroundColor,
                         ),
@@ -104,10 +105,13 @@ class _OrderPageState extends State<OrderPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
-                                child: ListView.builder(
-                                  itemCount: state.products.length,
-                                  itemBuilder: (context, index) => OrderProduct(
-                                    product: state.products[index],
+                                child: ScrollConfiguration(
+                                  behavior: CustomScrollBehavior(),
+                                  child: ListView.builder(
+                                    itemCount: state.products.length,
+                                    itemBuilder: (context, index) =>
+                                        OrderProduct(
+                                            product: state.products[index]),
                                   ),
                                 ),
                               ),

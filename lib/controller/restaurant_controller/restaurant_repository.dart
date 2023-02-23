@@ -45,6 +45,11 @@ abstract class RestaurantRepository {
 
   /// listen location
   Stream<List<LocationData>> listenLocationData();
+
+  /// listen favorite
+  Stream<List<FavoriteData>> listenFavorite();
+
+  Future<List<FavoriteData>> getFavorites();
 }
 
 class RestaurantRepositoryImpl extends RestaurantRepository {
@@ -121,9 +126,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
   DataResponseModel<List<RestaurantModel>> _parseRestaurants(
       NetworkResponseModel response) {
     try {
-      if (response.status &&
-          response.response != null &&
-          response.response?.data.containsKey("data")) {
+      if (response.status && response.response != null && response.response?.data.containsKey("data")) {
         final List<RestaurantModel> restaurants =
             parseRestaurantModel(response.response?.data["data"]);
 
@@ -168,4 +171,10 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
   @override
   Stream<List<LocationData>> listenLocationData() =>
       moorDatabase.listenLocation();
+
+  @override
+  Stream<List<FavoriteData>> listenFavorite() => moorDatabase.listenFavourite();
+
+  @override
+  Future<List<FavoriteData>> getFavorites() => moorDatabase.getFavourite();
 }

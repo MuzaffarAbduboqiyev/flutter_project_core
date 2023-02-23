@@ -59,8 +59,7 @@ class LocationRepositoryImpl extends LocationRepository {
   }
 
   @override
-  Stream<List<LocationData>> listenLocation() =>
-      moorDatabase.listenLocation();
+  Stream<List<LocationData>> listenLocation() => moorDatabase.listenLocation();
 
   @override
   Future<List<LocationData>> getLocations() => moorDatabase.getLocations();
@@ -70,7 +69,7 @@ class LocationRepositoryImpl extends LocationRepository {
       moorDatabase.deleteLocation(locationData: locationData);
 
   @override
-  Future<bool> clearLocations() async{
+  Future<bool> clearLocations() async {
     await moorDatabase.clearLocation();
     return true;
   }
@@ -122,7 +121,7 @@ class LocationRepositoryImpl extends LocationRepository {
     } catch (error) {
       return DataResponseModel.success(
         model: LocationData(
-          lat: lat,
+       lat: lat,
           lng: lng,
           name: "",
           selectedStatus: true,

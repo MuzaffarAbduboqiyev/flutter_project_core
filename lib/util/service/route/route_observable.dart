@@ -5,6 +5,7 @@ import 'package:delivery_service/ui/favorites/favorites_screen.dart';
 import 'package:delivery_service/ui/home/home_screen.dart';
 import 'package:delivery_service/ui/location/location_screen.dart';
 import 'package:delivery_service/ui/order/order_screen.dart';
+import 'package:delivery_service/ui/orders/orders_screen.dart';
 import 'package:delivery_service/ui/payments/payments_screen.dart';
 import 'package:delivery_service/ui/profile/profile_screen.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_screen.dart';
@@ -142,6 +143,13 @@ Future<bool> pushNewScreen(
       await PersistentNavBarNavigator.pushNewScreen(
         context,
         screen: const PaymentsScreen(),
+        withNavBar: navbarStatus,
+      );
+      return true;
+    case ordersScreen:
+      await PersistentNavBarNavigator.pushNewScreen(
+        context,
+        screen: const OrdersScreen(),
         withNavBar: navbarStatus,
       );
       return true;

@@ -79,4 +79,10 @@ class DialogBloc extends Bloc<DialogEvent, DialogState> {
       DialogClearLocationEvent event, Emitter<DialogState> emit) async {
     await dialogRepository.clearLocation();
   }
+
+  @override
+  Future<void> close() {
+    streamSubscription.cancel();
+    return super.close();
+  }
 }

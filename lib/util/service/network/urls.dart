@@ -2,6 +2,7 @@ const baseUrl = "http://185.217.131.109:8081/api/";
 
 /// Category urls
 const allCategoriesUrl = "categories/all";
+
 const String categoriesUrl = "categories";
 
 /// Restaurant urls
@@ -27,3 +28,15 @@ const String quramizBaseUrl = "https://quramiz.uz/api/";
 
 /// location
 const locationUrl = "geocode";
+
+/// orders product
+const cartUrl = "cart";
+
+/// delete product
+const deleteCartUrl = "cart";
+
+/// locationUrl
+const locationAddressesUrl = "addresses";
+
+/// delete location
+const deleteAddressesUrl = "addresses";

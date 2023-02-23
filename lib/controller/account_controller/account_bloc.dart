@@ -29,7 +29,9 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
     streamSubscription = accountRepository.listenToken().listen((variations) {
       add(
-        AccountListenEvent(token: variations.value.toString().isNotEmpty),
+        AccountListenEvent(
+          token: variations.value.toString().isNotEmpty,
+        ),
       );
     });
   }

@@ -1,3 +1,4 @@
+import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/product_model/product_detail_model.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
@@ -6,6 +7,7 @@ import 'package:delivery_service/model/product_model/product_variation_model.dar
 import 'package:delivery_service/model/response_model/error_handler.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
+import 'package:delivery_service/util/service/network/parser_service.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +24,7 @@ abstract class ProductRepository {
     required String productImage,
   });
 
+  /// shu joyda Funksiya ishlaydi
   Future<SimpleResponseModel> changeProductSelectedDatabase({
     required BuildContext context,
     required int productId,
@@ -35,15 +38,23 @@ abstract class ProductRepository {
   Future<List<ProductCartData>> getCartProducts();
 
   Future<SimpleResponseModel> clearCartProducts();
+
+  /// delete Products
+  Future<SimpleResponseModel> deleteProducts({
+    required int productId,
+    required int variationId,
+  });
 }
 
 class ProductRepositoryImpl extends ProductRepository {
-  final ProductNetworkService networkService;
+  final ProductNetworkService productNetworkService;
   final MoorDatabase moorDatabase;
+  final HiveDatabase hiveDatabase;
 
   ProductRepositoryImpl({
-    required this.networkService,
+    required this.productNetworkService,
     required this.moorDatabase,
+    required this.hiveDatabase,
   });
 
   @override
@@ -53,7 +64,7 @@ class ProductRepositoryImpl extends ProductRepository {
     required String searchName,
   }) async {
     try {
-      final response = await networkService.getRestaurantProducts(
+      final response = await productNetworkService.getRestaurantProducts(
         restaurantId: restaurantId,
         categoryId: categoryId,
         searchName: searchName,
@@ -80,7 +91,7 @@ class ProductRepositoryImpl extends ProductRepository {
     required String productImage,
   }) async {
     try {
-      final response = await networkService.getProductDetail(
+      final response = await productNetworkService.getProductDetail(
           productId: productId, productImage: productImage);
       if (response.status &&
           response.response != null &&
@@ -114,6 +125,7 @@ class ProductRepositoryImpl extends ProductRepository {
     }
   }
 
+  /// shu joyda Funksiya ishlaydi
   @override
   Future<SimpleResponseModel> changeProductSelectedDatabase({
     required BuildContext context,
@@ -123,17 +135,77 @@ class ProductRepositoryImpl extends ProductRepository {
     required List<ProductVariationModel> selectedVariations,
   }) async {
     try {
+      final getToken = await hiveDatabase.getToken();
       final databaseProducts = await moorDatabase.getCartProducts();
-      if (databaseProducts.isNotEmpty &&
-          databaseProducts.first.restaurantId != restaurantId) {
-        final response = await showConfirmDialog(
-          context: context,
-          title: translate("clear_history"),
-          content: translate("history"),
-          confirm: clearCartProducts,
-        );
+      final List<Map<String, int>> products = [];
+      print("get_token: ${getToken.isNotEmpty}");
+      for (var variationElement in selectedVariations) {
+        final cartProduct = {
+          "id": variationElement.id,
+          "quantity": variationElement.selectedCount,
+        };
+        products.add(cartProduct);
+      }
 
-        if (response != null && response == true) {
+      /// if qismi
+      if (getToken.isNotEmpty) {
+        final body = {"products": products};
+        final response = await productNetworkService.checkInfo(body: body);
+        if (response.status == true && response.response != null) {
+          if (response.response?.data.containsKey("data")) {
+            List<ProductCartData> productData = [];
+            response.response?.data["data"].forEach((element) {
+              final productCartData = ProductCartData(
+                restaurantId: restaurantId,
+                price: parseToInt(response: element, key: "price"),
+                count: parseToInt(response: element, key: "quantity"),
+                productId: parseToInt(response: element["product"], key: "id"),
+                name: parseToString(response: element["product"], key: "name"),
+                image:
+                    parseToString(response: element["product"], key: "image"),
+                hasStock:
+                    parseToBool(response: element["product"], key: "in_stock"),
+                variationId: parseToInt(response: element, key: "id"),
+                selectedCount: parseToInt(response: element, key: "quantity"),
+              );
+
+              productData.add(productCartData);
+            });
+
+            await moorDatabase.clearProductCart();
+            for (var element in productData) {
+              await moorDatabase.insertProductCart(productCartData: element);
+            }
+            return SimpleResponseModel.success();
+          } else {
+            return getSimpleResponseErrorHandler(response);
+          }
+        } else {
+          return getSimpleResponseErrorHandler(response);
+        }
+      }
+
+      /// else qismi
+      else {
+        if (databaseProducts.isNotEmpty &&
+            databaseProducts.first.restaurantId != restaurantId) {
+          // ignore: use_build_context_synchronously
+          final response = await showConfirmDialog(
+            context: context,
+            title: translate("clear_history"),
+            content: translate("history"),
+            confirm: clearCartProducts,
+          );
+
+          if (response != null && response == true) {
+            await moorDatabase.deleteProduct(productId: productId);
+            for (var element in selectedVariations) {
+              await moorDatabase.insertProductCart(
+                  productCartData: element.parseToCartModel(
+                      restaurantId, productId, productImage));
+            }
+          }
+        } else {
           await moorDatabase.deleteProduct(productId: productId);
           for (var element in selectedVariations) {
             await moorDatabase.insertProductCart(
@@ -141,15 +213,7 @@ class ProductRepositoryImpl extends ProductRepository {
                     restaurantId, productId, productImage));
           }
         }
-      } else {
-        await moorDatabase.deleteProduct(productId: productId);
-        for (var element in selectedVariations) {
-          await moorDatabase.insertProductCart(
-              productCartData: element.parseToCartModel(
-                  restaurantId, productId, productImage));
-        }
       }
-
       return SimpleResponseModel.success();
     } catch (error) {
       return SimpleResponseModel.error(responseMessage: error.toString());
@@ -168,5 +232,52 @@ class ProductRepositoryImpl extends ProductRepository {
   Future<SimpleResponseModel> clearCartProducts() async {
     await moorDatabase.clearProductCart();
     return SimpleResponseModel.success();
+  }
+
+  /// delete products
+
+  @override
+  Future<SimpleResponseModel> deleteProducts({
+    required int productId,
+    required int variationId,
+  }) async {
+    try {
+      final getToken = await hiveDatabase.getToken();
+      print("getToken: ${getToken.isNotEmpty}");
+      if (getToken.isNotEmpty) {
+        final response =
+            await productNetworkService.deleteCart(variationId: variationId);
+
+        if (response.status == true && response.response != null) {
+          if (response.response?.data.containsKey("data")) {
+
+            await moorDatabase.deleteProductVariation(
+                productId: productId, variationId: variationId);
+            return SimpleResponseModel.success();
+          } else {
+            return getSimpleResponseErrorHandler(response);
+          }
+        } else {
+          return getSimpleResponseErrorHandler(response);
+        }
+      } else {
+        final response =
+            await productNetworkService.deleteCart(variationId: variationId);
+
+        if (response.status == true && response.response != null) {
+          if (response.response?.data.containsKey("data")) {
+            await moorDatabase.deleteProductVariation(
+                productId: productId, variationId: variationId);
+            return SimpleResponseModel.success();
+          } else {
+            return getSimpleResponseErrorHandler(response);
+          }
+        } else {
+          return getSimpleResponseErrorHandler(response);
+        }
+      }
+    } catch (error) {
+      return SimpleResponseModel.error(responseMessage: error.toString());
+    }
   }
 }

@@ -28,6 +28,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     /// Ya'ni Bloc(context.read<Bloc>()).add(Event); qilinadi
     /// Misol: context.read<HomeBloc>.add(HomeGetCategoriesEvent());
     /// bu misolda on<HomeGetCategoriesEvent> eventTransformer ga murojat qilinadi
+
     on<HomeGetCategoriesEvent>(
       _getAllCategories,
       transformer: concurrent(),
@@ -47,7 +48,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _listenLocation,
       transformer: concurrent(),
     );
-
+    on<HomeListenFavoriteEvent>(
+      _listenFavorite,
+      transformer: concurrent(),
+    );
+    on<HomeChangeFavoriteEvent>(
+      _changeFavorite,
+      transformer: concurrent(),
+    );
     streamSubscription = locationRepository.listenLocation().listen((location) {
       final selectedLocation = location.firstWhere(
         (element) => element.selectedStatus,
@@ -60,8 +68,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       add(HomeListenLocationEvent(locationData: selectedLocation));
     });
+    streamSubscription =
+        restaurantRepository.listenFavorite().listen((favorite) {
+      add(HomeListenFavoriteEvent(favoriteData: favorite));
+    });
   }
 
+  /// listen favorite
+  FutureOr<void> _listenFavorite(
+      HomeListenFavoriteEvent event, Emitter<HomeState> emit) async {
+    state.restaurantModel.asMap().forEach((index, element) {
+      state.restaurantModel[index] =
+          state.restaurantModel[index].copyWith(isFavorite: false);
+
+      for (var favoriteData in event.favoriteData) {
+        if (element.id == favoriteData.id) {
+          state.restaurantModel[index] =
+              state.restaurantModel[index].copyWith(isFavorite: true);
+        }
+      }
+    });
+
+    emit(
+      state.copyWith(
+        restaurantModel: state.restaurantModel,
+      ),
+    );
+  }
+
+  /// listen location
   FutureOr<void> _listenLocation(
       HomeListenLocationEvent event, Emitter<HomeState> emit) async {
     emit(
@@ -117,19 +152,47 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ),
     );
 
-    final response = (state.selectedCategoryId != -1)
-        ? await restaurantRepository.getCategoryRestaurants(
-            categoryId: state.selectedCategoryId,
-          )
-        : await restaurantRepository.getAllRestaurants();
+    final response = await restaurantRepository.getAllRestaurants();
+    final databaseResponse = await restaurantRepository.getFavorites();
 
-    emit(
-      state.copyWith(
-        restaurantStatus: (response.status)
-            ? RestaurantStatus.loaded
-            : RestaurantStatus.error,
-        restaurantModel: response.data,
-      ),
-    );
+    if (response.status && response.data != null) {
+      response.data?.asMap().forEach((index, element) {
+        response.data?[index] =
+            response.data![index].copyWith(isFavorite: false);
+
+        for (var favoriteRestaurant in databaseResponse) {
+          if (favoriteRestaurant.id == element.id) {
+            response.data![index] =
+                response.data![index].copyWith(isFavorite: true);
+          }
+        }
+      });
+
+      emit(
+        state.copyWith(
+          restaurantModel: response.data,
+          restaurantStatus: RestaurantStatus.loaded,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          restaurantStatus: RestaurantStatus.error,
+        ),
+      );
+    }
+  }
+
+  /// change favorite
+  FutureOr<void> _changeFavorite(
+      HomeChangeFavoriteEvent event, Emitter<HomeState> emit) async {
+    await restaurantRepository.changeRestaurantFavoriteState(
+        restaurantModel: event.restaurantModel);
+  }
+
+  @override
+  Future<void> close() {
+    streamSubscription.cancel();
+    return super.close();
   }
 }

@@ -18,6 +18,13 @@ abstract class NetworkService {
     required String url,
     bool hasHeader = true,
   });
+
+  Future<NetworkResponseModel> deleteMethod({
+    required String url,
+    bool hasHeader = true,
+  });
+
+
 }
 
 class NetworkServiceImpl extends NetworkService {
@@ -109,6 +116,28 @@ class NetworkServiceImpl extends NetworkService {
       if (token.isNotEmpty) headers["Authorization"] = "Bearer $token";
     }
     return headers;
+  }
+
+  @override
+  Future<NetworkResponseModel> deleteMethod({required String url, bool hasHeader = true})async {
+    final header = await _getHeader(hasHeader);
+    dio.options.headers = header;
+    try {
+      if (kDebugMode) {
+        print("Url: $url");
+      }
+      final response = await dio.delete(url);
+      return NetworkResponseModel.success(response: response);
+    } on DioError catch (error) {
+      /// Get request [dioBaseOptions] da ko'rsatilgan vaqtda response kelmasa [DioErrorType.connectTimeout] error beradi
+
+      if (error.type == DioErrorType.connectTimeout) {
+        return NetworkResponseModel.error(
+            errorMessage: "Исключение времени ожидания соединения");
+      } else {
+        return NetworkResponseModel.error(errorMessage: error.message);
+      }
+    }
   }
 }
 

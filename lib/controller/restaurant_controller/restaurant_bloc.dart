@@ -97,6 +97,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     );
 
     if (event.productId != 0) {
+      // ignore: use_build_context_synchronously
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
@@ -105,6 +106,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
           restaurantId: event.restaurantId,
           productId: event.productId!,
           categoryId: event.categoryId,
+
         ),
       );
     }
@@ -215,7 +217,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     add(RestaurantCartUpdateEvent());
   }
 
-  // _changeFavorite = Sevimlini o'zgartirish
+  /// _changeFavorite = Sevimlini o'zgartirish
   FutureOr<void> _changeFavorite(
       RestaurantFavoriteEvent event, Emitter<RestaurantState> emit) async {
     emit(
@@ -275,8 +277,8 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   }
 
   @override
-  close() async {
+  Future<void> close() {
     streamSubscription.cancel();
-    super.close();
+    return super.close();
   }
 }

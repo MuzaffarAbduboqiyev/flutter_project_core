@@ -54,7 +54,14 @@
     "phone": "Telefon"
   },
   "favorites": {
-    "favorites": "Sevimlilar"
+    "appbar": "Sevimlilar",
+    "null": "Restoran tanlanmagan",
+    "minute": "min",
+    "delete": "Belgilangan joyni tozalaysizmi?",
+    "clear": "Restoranlarni tozalashni xohlaysizmi ?"
+  },
+  "orders": {
+    "appbar": "Buyurtmalar"
   },
   "payments": {
     "payments": "To'lovlar"

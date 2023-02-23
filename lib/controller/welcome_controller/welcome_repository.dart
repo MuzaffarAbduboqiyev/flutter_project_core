@@ -21,7 +21,7 @@ class WelcomeRepositoryImpl extends WelcomeRepository {
         "phone_number": "998$phoneNumber",
       };
       final response = await welcomeNetworkService.getPhoneNumber(body: body);
-      print("Inserted phone_number:  $response");
+
       if (response.status == true && response.response != null) {
         if (response.response?.data.containsKey("data")) {
           return SimpleResponseModel.success();

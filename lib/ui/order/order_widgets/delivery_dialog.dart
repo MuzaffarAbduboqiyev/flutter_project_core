@@ -3,6 +3,7 @@ import 'package:delivery_service/controller/dialog_controller/dialog_event.dart'
 import 'package:delivery_service/controller/dialog_controller/dialog_state.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
+import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
@@ -89,45 +90,49 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: state.location.length,
-                  itemBuilder: (context, index) => InkWell(
-                    onTap: () =>
-                        _changeLocationSelectedStatus(state.location[index]),
-                    onLongPress: () =>
-                        _showDeleteLocationConfirm(state.location[index]),
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(width: 1, color: hintColor),
+                child: ScrollConfiguration(
+                  behavior: CustomScrollBehavior(),
+                  child: ListView.builder(
+                    itemCount: state.location.length,
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () =>
+                          _changeLocationSelectedStatus(state.location[index]),
+                      onLongPress: () =>
+                          _showDeleteLocationConfirm(state.location[index]),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(width: 1, color: hintColor),
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            state.location[index].selectedStatus
-                                ? Icons.check_box
-                                : Icons.check_box_outline_blank_outlined,
-                            color: state.location[index].selectedStatus
-                                ? getCurrentTheme(context).indicatorColor
-                                : getCurrentTheme(context).iconTheme.color,
-                          ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Expanded(
-                            child: Text(
-                              state.location[index].name ?? "",
-                              style:
-                                  getCurrentTheme(context).textTheme.bodyLarge,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              state.location[index].selectedStatus
+                                  ? Icons.check_box
+                                  : Icons.check_box_outline_blank_outlined,
+                              color: state.location[index].selectedStatus
+                                  ? getCurrentTheme(context).indicatorColor
+                                  : getCurrentTheme(context).iconTheme.color,
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Expanded(
+                              child: Text(
+                                state.location[index].name ?? "",
+                                style: getCurrentTheme(context)
+                                    .textTheme
+                                    .bodyLarge,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -90,12 +90,17 @@ void main() async {
       saveLocale: true,
 
       /// [BlocProvider] bloc ni create(yaratish) qilish uchun ishlatiladigan widget
-      child: BlocProvider(
-        create: (context) => AppBloc(
-          AppState.initial(),
-          appRepository: singleton(),
-        )..add(AppGetThemeEvent()),
-        child: const MyApp(),
+      child: FutureBuilder(
+        future: singleton.allReady(),
+        builder: (context, snapshot) => (snapshot.hasData)
+            ? BlocProvider(
+                create: (context) => AppBloc(
+                  AppState.initial(),
+                  appRepository: singleton(),
+                )..add(AppGetThemeEvent()),
+                child: const MyApp(),
+              )
+            : ScreenObserver.createSplashScreen(),
       ),
     ),
   );

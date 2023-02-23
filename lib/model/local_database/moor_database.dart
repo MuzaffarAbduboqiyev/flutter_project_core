@@ -79,6 +79,8 @@ class MoorDatabase extends _$MoorDatabase {
       (delete(favorite)..where((dbItem) => dbItem.id.equals(restaurantId)))
           .go();
 
+  clearFavorite() => (delete(favorite)).go();
+
   /// Product
   Future<List<ProductCartData>> getProductVariations({required int productId}) {
     return (select(productCart)
@@ -106,12 +108,9 @@ class MoorDatabase extends _$MoorDatabase {
                 databaseItem.variationId.equals(variationId)))
           .go();
 
-  deleteProduct({
-    required int productId,
-  }) =>
-      (delete(productCart)
-            ..where((databaseItem) => databaseItem.productId.equals(productId)))
-          .go();
+  deleteProduct({required int productId}) => (delete(productCart)
+        ..where((databaseItem) => databaseItem.productId.equals(productId)))
+      .go();
 
   clearProductCart() => (delete(productCart)).go();
 

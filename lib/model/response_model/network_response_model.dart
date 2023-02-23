@@ -26,6 +26,8 @@ class NetworkResponseModel {
         response: null,
         errorMessage: errorMessage,
       );
+
+
 }
 
 /// SimpleResponseModel = OddiyJavobModel

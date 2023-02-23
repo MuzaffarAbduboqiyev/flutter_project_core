@@ -65,13 +65,13 @@ class ProductVariationModel {
         available: available ?? this.available,
         selectedCount: selectedCount ?? this.selectedCount,
       );
-
-  ProductCartData parseToCartModel(int restaurantId, int productId, String productImage) =>
+/// parse To Cart Model
+    ProductCartData parseToCartModel(int restaurantId, int productId, String productImage) =>
       ProductCartData(
         restaurantId: restaurantId,
         productId: productId,
         name: name,
-        price: int.parse("$price"),
+        price: price,
         count: count,
         image: productImage,
         hasStock: hasStock,

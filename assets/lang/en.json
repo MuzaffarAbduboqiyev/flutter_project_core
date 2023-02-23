@@ -54,7 +54,14 @@
     "phone": "Phone"
   },
   "favorites": {
-    "favorites": "Favorites"
+    "appbar": "Favorites",
+    "null": "No restaurant selected",
+    "minute": "min",
+    "delete": "Clean the designated area ?",
+    "clear": "Want to clean restaurants ?"
+  },
+  "orders": {
+    "appbar": "Orders"
   },
   "payments": {
     "payments": "Payments"

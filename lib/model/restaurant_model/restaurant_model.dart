@@ -8,6 +8,7 @@ class RestaurantModel {
   final String affordability;
   final int deliveryTime;
   final bool available;
+  final bool isFavorite;
 
   RestaurantModel({
     required this.id,
@@ -17,6 +18,7 @@ class RestaurantModel {
     required this.affordability,
     required this.deliveryTime,
     required this.available,
+    required this.isFavorite,
   });
 
   factory RestaurantModel.example() => RestaurantModel(
@@ -27,6 +29,7 @@ class RestaurantModel {
         affordability: "",
         deliveryTime: 0,
         available: false,
+        isFavorite: false,
       );
 
   factory RestaurantModel.fromMap(Map<String, dynamic> response) =>
@@ -39,6 +42,28 @@ class RestaurantModel {
         deliveryTime: parseToInt(
             response: response, key: "average_delivery_time_in_minutes"),
         available: parseToBool(response: response, key: "is_available"),
+        isFavorite: parseToBool(response: response, key: "is_favorite"),
+      );
+
+  RestaurantModel copyWith({
+    int? id,
+    String? name,
+    String? image,
+    double? rating,
+    String? affordability,
+    int? deliveryTime,
+    bool? available,
+    bool? isFavorite,
+  }) =>
+      RestaurantModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        image: image ?? this.image,
+        rating: rating ?? this.rating,
+        affordability: affordability ?? this.affordability,
+        deliveryTime: deliveryTime ?? this.deliveryTime,
+        available: available ?? this.available,
+        isFavorite: isFavorite ?? this.isFavorite,
       );
 }
 
@@ -50,7 +75,7 @@ List<RestaurantModel> parseRestaurantModel(dynamic response) {
       final RestaurantModel restaurantModel = RestaurantModel.fromMap(element);
       restaurants.add(restaurantModel);
     }
-  }else if(response is Map<String, dynamic>){
+  } else if (response is Map<String, dynamic>) {
     final RestaurantModel restaurantModel = RestaurantModel.fromMap(response);
     restaurants.add(restaurantModel);
   }

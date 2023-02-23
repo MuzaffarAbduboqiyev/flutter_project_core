@@ -73,7 +73,9 @@ class _AccountPageState extends State<AccountPage> {
               ListTileWidgetItem(
                 title: translate("account.orders"),
                 icons: Icons.list_alt_outlined,
-                onTap: () {},
+                onTap: () {
+                  pushNewScreen(context, ordersScreen, navbarStatus: false);
+                },
               ),
               (state.token == true)
                   ? ListTileWidgetItem(

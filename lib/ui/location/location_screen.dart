@@ -4,6 +4,7 @@ import 'package:delivery_service/controller/dialog_controller/dialog_state.dart'
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/ui/location/location_widget/location_null.dart';
 import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
+import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
@@ -39,16 +40,7 @@ class LocationPage extends StatefulWidget {
 
 class _LocationPageState extends State<LocationPage> {
   /// delete
-  _showDeleteLocationConfirm(LocationData locationData) {
-    return showConfirmDialog(
-      context: context,
-      title: translate("location.delete"),
-      content: "",
-      confirm: () => _deleteLocation(locationData),
-    );
-  }
-
-  _deleteLocation(LocationData locationData) {
+  _deleteLocation(locationData) {
     context.read<DialogBloc>().add(
           DialogLocationDeleteEvent(locationData: locationData),
         );
@@ -91,30 +83,38 @@ class _LocationPageState extends State<LocationPage> {
             ? Column(
                 children: [
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: state.location.length,
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () {},
-                        onLongPress: () =>
-                            _showDeleteLocationConfirm(state.location[index]),
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(width: 0.4, color: hintColor),
-                            ),
+                    child: ScrollConfiguration(
+                      behavior: CustomScrollBehavior(),
+                      child: ListView.builder(
+                        itemCount: state.location.length,
+                        itemBuilder: (context, index) => Dismissible(
+                          onDismissed: (value) =>
+                              _deleteLocation(state.location[index]),
+                          key: ValueKey(state.location[index]),
+                          background: Container(
+                            color: errorTextColor,
+                            child: const Icon(Icons.delete_outline),
                           ),
-                          child: Column(
-                            children: [
-                              Text(
-                                state.location[index].name ?? "",
-                                style: getCurrentTheme(context)
-                                    .textTheme
-                                    .bodyLarge,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom:
+                                    BorderSide(width: 0.4, color: hintColor),
                               ),
-                            ],
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  state.location[index].name ?? "",
+                                  style: getCurrentTheme(context)
+                                      .textTheme
+                                      .bodyLarge,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

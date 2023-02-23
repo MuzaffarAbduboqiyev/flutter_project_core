@@ -25,12 +25,16 @@ class ProductCartEvent extends ProductEvent {
 
   final List<ProductVariationModel> productVariations;
 
-  ProductCartEvent(
-      {required this.context, required this.productVariations});
+  ProductCartEvent({
+    required this.context,
+    required this.productVariations,
+  });
 }
 
 class ProductVariationEvent extends ProductEvent {
   final ProductVariationModel selectedVariationModel;
 
-  ProductVariationEvent({required this.selectedVariationModel});
+  ProductVariationEvent({
+    required this.selectedVariationModel,
+  });
 }

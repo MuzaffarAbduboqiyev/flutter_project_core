@@ -15,6 +15,7 @@ class HomeState {
   final LocationData locationData;
   final int selectedCategoryId;
   final List<RestaurantModel> restaurantModel;
+  final List<FavoriteData> favoriteData;
   final String error;
 
   HomeState({
@@ -25,6 +26,7 @@ class HomeState {
     required this.locationData,
     required this.selectedCategoryId,
     required this.restaurantModel,
+    required this.favoriteData,
     required this.error,
   });
 
@@ -42,7 +44,8 @@ class HomeState {
           selectedStatus: false,
         ),
         selectedCategoryId: -1,
-    restaurantModel: [],
+        restaurantModel: [],
+        favoriteData: [],
         error: "",
       );
 
@@ -57,6 +60,7 @@ class HomeState {
     LocationData? locationData,
     int? selectedCategoryId,
     List<RestaurantModel>? restaurantModel,
+    List<FavoriteData>? favoriteData,
     String? error,
   }) =>
       HomeState(
@@ -67,6 +71,7 @@ class HomeState {
         locationData: locationData ?? this.locationData,
         selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
         restaurantModel: restaurantModel ?? this.restaurantModel,
+        favoriteData: favoriteData ?? this.favoriteData,
         error: error ?? this.error,
       );
 }
