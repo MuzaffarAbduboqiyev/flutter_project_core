@@ -1,6 +1,5 @@
 import 'package:delivery_service/model/product_model/product_detail_model.dart';
 import 'package:delivery_service/model/product_model/product_variation_model.dart';
-import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 
 enum ProductStatus {
   init,

@@ -10,6 +10,7 @@ import 'package:delivery_service/util/service/translator/translate_service.dart'
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
+import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otp_text_field/otp_text_field.dart';
@@ -64,7 +65,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
           context,
           translate("verification.verification").toCapitalized(),
         ),
-        backgroundColor: backgroundColor,
+        backgroundColor: getCurrentTheme(context).backgroundColor,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 105),
@@ -113,12 +114,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                     focusBorderColor: buttonColor,
                     enabledBorderColor: hintColor,
                   ),
-                  style: getCustomStyle(
-                    context: context,
-                    textSize: 30,
-                    color: textColor,
-                    weight: FontWeight.w500,
-                  ),
+                  style: const TextStyle(
+                      fontSize: 28, fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 16),
                 OtpTimerWidget(phoneNumber: widget.phoneNumber),

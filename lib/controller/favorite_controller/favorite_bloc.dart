@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/favorite_controller/favorite_event.dart';
 import 'package:delivery_service/controller/favorite_controller/favorite_repository.dart';
 import 'package:delivery_service/controller/favorite_controller/favorite_state.dart';
-import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   final FavoriteRepository favoriteRepository;

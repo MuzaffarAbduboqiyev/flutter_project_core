@@ -1,9 +1,8 @@
 import 'package:delivery_service/controller/dialog_controller/dialog_bloc.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_event.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_state.dart';
-import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/ui/location/location_widget/location_null.dart';
-import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
+import 'package:delivery_service/ui/widgets/appbar/simple_appbar.dart';
 import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
@@ -25,7 +24,7 @@ class LocationScreen extends StatelessWidget {
       create: (context) => DialogBloc(
         DialogState.initial(),
         dialogRepository: singleton(),
-      ),
+      )..add(DialogGetTokenEvent()),
       child: const LocationPage(),
     );
   }
@@ -46,38 +45,11 @@ class _LocationPageState extends State<LocationPage> {
         );
   }
 
-  /// clear
-  _showClearConfirm() {
-    return showConfirmDialog(
-      context: context,
-      title: translate("error.clear"),
-      content: "",
-      confirm: _clearHistory,
-    );
-  }
-
-  _clearHistory() {
-    context.read<DialogBloc>().add(DialogClearLocationEvent());
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DialogBloc, DialogState>(
       builder: (context, state) => Scaffold(
-        appBar: AppBar(
-          title: Text(
-            translate("location.location"),
-            style: getCurrentTheme(context).textTheme.displayLarge,
-          ),
-          actions: [
-            (state.location.isNotEmpty)
-                ? InkWell(
-                    onTap: () => _showClearConfirm(),
-                    child: const Icon(Icons.delete_outline))
-                : Container(),
-            const SizedBox(width: 12),
-          ],
-        ),
+        appBar: simpleAppBar(context, translate("location.location")),
         backgroundColor: getCurrentTheme(context).backgroundColor,
         body: (state.location.isNotEmpty)
             ? Column(
@@ -103,17 +75,12 @@ class _LocationPageState extends State<LocationPage> {
                                     BorderSide(width: 0.4, color: hintColor),
                               ),
                             ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  state.location[index].name ?? "",
-                                  style: getCurrentTheme(context)
-                                      .textTheme
-                                      .bodyLarge,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
-                                ),
-                              ],
+                            child: Text(
+                              state.location[index].address ?? "",
+                              style:
+                                  getCurrentTheme(context).textTheme.bodyLarge,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
                             ),
                           ),
                         ),
@@ -121,7 +88,8 @@ class _LocationPageState extends State<LocationPage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () => googleMaps(context),
+                    onTap: () =>
+                        (state.token) ? googleMaps(context) : _pushButton(),
                     child: Container(
                       height: 53,
                       width: double.infinity,
@@ -130,20 +98,30 @@ class _LocationPageState extends State<LocationPage> {
                       decoration:
                           getContainerDecoration(context, borderRadius: 25),
                       child: Center(
-                        child: Text(
-                          translate("location.selected").toCapitalized(),
-                          style:
-                              getCurrentTheme(context).textTheme.displayMedium,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
+                        child: (state.token)
+                            ? Text(
+                                translate("location.selected").toCapitalized(),
+                                style: getCurrentTheme(context)
+                                    .textTheme
+                                    .displayMedium,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              )
+                            : Text(
+                                translate("location.list").toCapitalized(),
+                                style: getCurrentTheme(context)
+                                    .textTheme
+                                    .displayMedium,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
                 ],
               )
-            : const LocationNull(),
+            : LocationNull(state: state),
       ),
     );
   }
@@ -154,5 +132,9 @@ class _LocationPageState extends State<LocationPage> {
       mapScreen,
       navbarStatus: false,
     );
+  }
+
+  _pushButton() {
+    pushNewScreen(context, welcomeScreen, navbarStatus: false);
   }
 }

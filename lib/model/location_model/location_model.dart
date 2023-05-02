@@ -1,15 +1,24 @@
 import 'package:moor_flutter/moor_flutter.dart';
 
 class Location extends Table {
-  RealColumn get lat => real()();
+  IntColumn get id => integer()();
 
-  RealColumn get lng => real()();
+  TextColumn get lat => text()();
+
+  TextColumn get lng => text()();
+
+  BoolColumn get defaults => boolean()();
+
+  TextColumn get address => text()();
+
+  TextColumn get comment => text()();
+
+  TextColumn get created => text()();
+
+  TextColumn get updated => text()();
 
   BoolColumn get selectedStatus => boolean()();
 
-  TextColumn get name => text().nullable()();
-
   @override
-  Set<Column>? get primaryKey => {lat, lng};
-
+  Set<Column>? get primaryKey => {id, lat, lng};
 }

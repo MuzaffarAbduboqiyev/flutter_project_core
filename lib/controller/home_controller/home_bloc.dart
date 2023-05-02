@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_state.dart';
 import 'package:delivery_service/controller/home_controller/home_event.dart';
+import 'package:delivery_service/controller/home_controller/home_repository.dart';
 import 'package:delivery_service/controller/home_controller/home_state.dart';
 import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
@@ -17,10 +17,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final CategoryRepository categoryRepository;
   final RestaurantRepository restaurantRepository;
   final LocationRepository locationRepository;
+  final HomeRepository homeRepository;
   late StreamSubscription streamSubscription;
 
   HomeBloc({
     required this.categoryRepository,
+    required this.homeRepository,
     required this.restaurantRepository,
     required this.locationRepository,
   }) : super(HomeState.initial()) {
@@ -37,6 +39,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeChangeSelectedCategoryEvent>(
       _changeSelectedCategory,
       transformer: sequential(),
+    );
+    on<HomeGetTokenEvent>(
+      _getToken,
+      transformer: concurrent(),
     );
 
     on<HomeGetRestaurantsEvent>(
@@ -56,12 +62,32 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _changeFavorite,
       transformer: concurrent(),
     );
+
+    /// listen token
+    on<HomeListenTokenEvent>(
+      _listenToken,
+      transformer: concurrent(),
+    );
+
+    streamSubscription = homeRepository.listenToken().listen((listenToken) {
+      add(
+        HomeListenTokenEvent(
+          token: listenToken.value.toString().isNotEmpty,
+        ),
+      );
+    });
     streamSubscription = locationRepository.listenLocation().listen((location) {
       final selectedLocation = location.firstWhere(
         (element) => element.selectedStatus,
         orElse: () => LocationData(
-          lat: 0.0,
-          lng: 0.0,
+          id: 0,
+          lat: "",
+          lng: "",
+          address: "",
+          comment: "",
+          updated: "",
+          created: "",
+          defaults: false,
           selectedStatus: false,
         ),
       );
@@ -72,6 +98,37 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         restaurantRepository.listenFavorite().listen((favorite) {
       add(HomeListenFavoriteEvent(favoriteData: favorite));
     });
+  }
+
+  /// listen token
+  FutureOr<void> _listenToken(
+      HomeListenTokenEvent event, Emitter<HomeState> emit) async {
+    emit(
+      state.copyWith(
+        token: event.token,
+      ),
+    );
+  }
+
+  /// get token
+  FutureOr<void> _getToken(
+      HomeGetTokenEvent event, Emitter<HomeState> emit) async {
+    final hasToken = await homeRepository.getTokenInfo();
+    emit(
+      state.copyWith(
+        token: hasToken,
+      ),
+    );
+  }
+
+  /// listen location
+  FutureOr<void> _listenLocation(
+      HomeListenLocationEvent event, Emitter<HomeState> emit) async {
+    emit(
+      state.copyWith(
+        locationData: event.locationData,
+      ),
+    );
   }
 
   /// listen favorite
@@ -92,16 +149,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(
       state.copyWith(
         restaurantModel: state.restaurantModel,
-      ),
-    );
-  }
-
-  /// listen location
-  FutureOr<void> _listenLocation(
-      HomeListenLocationEvent event, Emitter<HomeState> emit) async {
-    emit(
-      state.copyWith(
-        locationData: event.locationData,
       ),
     );
   }

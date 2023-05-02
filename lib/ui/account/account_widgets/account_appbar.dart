@@ -38,11 +38,11 @@ class _AccountAppBarState extends State<AccountAppBar> {
           onTap: _buttonColor,
           child: colour
               ? Icon(
-                  Icons.wb_sunny_outlined,
+                  Icons.dark_mode_outlined,
                   color: getCurrentTheme(context).iconTheme.color,
                 )
               : Icon(
-                  Icons.dark_mode_outlined,
+                  Icons.wb_sunny_outlined,
                   color: getCurrentTheme(context).iconTheme.color,
                 ),
         ),

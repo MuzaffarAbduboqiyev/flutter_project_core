@@ -62,7 +62,7 @@ getRestaurantAppbar(
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(15),
                             alignment: Alignment.center,
                             decoration: getContainerDecoration(
                               context,
@@ -116,8 +116,8 @@ getRestaurantAppbar(
                       ),
                       const SizedBox(height: 8.0),
                       Container(
-                        width: 135.0,
-                        height: 40,
+                        width: 145.0,
+                        padding: const EdgeInsets.all(12),
                         alignment: Alignment.center,
                         decoration: getContainerDecoration(
                           context,
@@ -127,6 +127,8 @@ getRestaurantAppbar(
                         child: Text(
                           "Delivery - \$0.00",
                           style: getCurrentTheme(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
                         ),
                       ),
                     ]),

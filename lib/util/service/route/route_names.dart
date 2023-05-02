@@ -11,3 +11,4 @@ const favoritesScreen = "/favorites_screen";
 const locationScreen = "/location_screen";
 const paymentsScreen = "/payments_screen";
 const ordersScreen = "/orders_screen";
+const reorderScreen = "/reorder_screen";

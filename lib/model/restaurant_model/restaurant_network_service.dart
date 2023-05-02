@@ -3,13 +3,13 @@ import 'package:delivery_service/util/service/network/network_service.dart';
 import 'package:delivery_service/util/service/network/urls.dart';
 
 abstract class RestaurantNetworkService {
-  Future<NetworkResponseModel> getAllRestaurants();// Barcha restoranlarni oling
+  Future<NetworkResponseModel> getAllRestaurants();
 
-  Future<NetworkResponseModel> getCategoryRestaurants({ // Kategoriyali restoranlarni oling
+  Future<NetworkResponseModel> getCategoryRestaurants({
     required int categoryId,
   });
 
-  Future<NetworkResponseModel> getRestaurantDetails({ // Restoran tafsilotlarini oling
+  Future<NetworkResponseModel> getRestaurantDetails({
     required int restaurantId,
   });
 }

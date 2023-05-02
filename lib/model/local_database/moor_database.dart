@@ -18,7 +18,7 @@ class MoorDatabase extends _$MoorDatabase {
             path: 'application_database.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   /// Search history operations
   /// Insert new search name -> Yangi qidiruv nomini kiritish
@@ -133,7 +133,7 @@ class MoorDatabase extends _$MoorDatabase {
               (locationItem) =>
                   locationItem.lat.equals(locationData.lat) &
                   locationItem.lng.equals(locationData.lng) &
-                  locationItem.name.equals(locationData.name),
+                  locationItem.address.equals(locationData.address),
             ))
           .go();
 

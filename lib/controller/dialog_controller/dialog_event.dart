@@ -23,4 +23,12 @@ class DialogLocationDeleteEvent extends DialogEvent {
   DialogLocationDeleteEvent({required this.locationData});
 }
 
-class DialogClearLocationEvent extends DialogEvent{}
+/// listen token
+class DialogListenTokenEvent extends DialogEvent {
+  final bool token;
+
+  DialogListenTokenEvent({required this.token});
+}
+
+/// get token
+class DialogGetTokenEvent extends DialogEvent {}

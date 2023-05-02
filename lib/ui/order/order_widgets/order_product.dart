@@ -6,7 +6,6 @@ import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
-import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,6 @@ class _OrderProductState extends State<OrderProduct> {
   num price = 0;
 
   increaseCount() {
-
     if (widget.product.count > widget.product.selectedCount) {
       final ProductCartData product = widget.product
           .copyWith(selectedCount: widget.product.selectedCount + 1);
@@ -83,7 +81,6 @@ class _OrderProductState extends State<OrderProduct> {
             child: const Icon(Icons.delete_outline),
           ),
           child: SizedBox(
-            height: 75,
             width: double.infinity,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -101,12 +98,8 @@ class _OrderProductState extends State<OrderProduct> {
                     children: [
                       Text(
                         widget.product.name,
-                        style: getCustomStyle(
-                            context: context,
-                            textSize: 15,
-                            weight: FontWeight.w500,
-                            color: textColor),
-                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
                         maxLines: 2,
                       ),
                       Text(

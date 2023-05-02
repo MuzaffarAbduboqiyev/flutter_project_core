@@ -14,13 +14,17 @@
     "address": "Mening manzillarim",
     "ready": "Tayyor",
     "location": "Manzil tanlanmagan",
-    "addMap": "Boshqasini qo'shing"
+    "addMap": "Boshqasini qo'shing",
+    "restaurant": "Restoran tanlanmagan"
   },
   "location": {
     "location": "Manzil",
+    "list": "Roʻyxatdan oʻtish",
     "selected": "Manzil tanlash",
     "locations": "Manzil tanlanmagan ?",
-    "delete": "Belgilangan joyni tozalaysizmi?"
+    "delete": "Belgilangan joyni tozalaysizmi?",
+    "search": "Qidiruv...",
+    "error": "Uzur biz hozirda faqat Namangan xududiga hizmat kursata olamiz"
   },
   "account": {
     "signout": "Tizimdan chiqish",
@@ -61,10 +65,17 @@
     "clear": "Restoranlarni tozalashni xohlaysizmi ?"
   },
   "orders": {
-    "appbar": "Buyurtmalar"
+    "appbar": "Buyurtmalar",
+    "error": "Ro'yxatdan o'tmaganmisiz ?",
+    "nullButton": "Ro'yxatdan o'tish",
+    "reorder": "Qayta tartiblash"
   },
   "payments": {
     "payments": "To'lovlar"
+  },
+  "shipping": {
+    "shipping": "Yuk tashish",
+    "button": "Tasdiqlash"
   },
   "no_orders_yet": "Hozircha buyurtmalar yoʻq",
   "discover": "Birinchi buyurtmangizni kashf qiling va joylashtiring",

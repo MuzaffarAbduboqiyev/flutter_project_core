@@ -126,7 +126,9 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
   DataResponseModel<List<RestaurantModel>> _parseRestaurants(
       NetworkResponseModel response) {
     try {
-      if (response.status && response.response != null && response.response?.data.containsKey("data")) {
+      if (response.status &&
+          response.response != null &&
+          response.response?.data.containsKey("data")) {
         final List<RestaurantModel> restaurants =
             parseRestaurantModel(response.response?.data["data"]);
 
@@ -135,9 +137,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
         return getDataResponseErrorHandler<List<RestaurantModel>>(response);
       }
     } catch (error) {
-      return DataResponseModel.error(
-        responseMessage: error.toString(),
-      );
+      return DataResponseModel.error(responseMessage: error.toString());
     }
   }
 

@@ -14,13 +14,17 @@
     "address": "My addresses",
     "ready": "Ready",
     "location": "Location not selected",
-    "addMap": "Add another"
+    "addMap": "Add another",
+    "restaurant": "Restaurant not selected"
   },
   "location": {
     "location": "Location",
+    "list": "Sign up",
     "selected": "Location selection",
     "locations": "Location not selected ?",
-    "delete": "Clean the designated area?"
+    "delete": "Clean the designated area?",
+    "search": "Search...",
+    "error": "Sorry, we can only serve Namangan region at the moment"
   },
   "account": {
     "signout": "Signo ut",
@@ -61,10 +65,17 @@
     "clear": "Want to clean restaurants ?"
   },
   "orders": {
-    "appbar": "Orders"
+    "appbar": "Orders",
+    "error": "Not registered ?",
+    "nullButton": "Sign up",
+    "reorder": "Reorder"
   },
   "payments": {
     "payments": "Payments"
+  },
+  "shipping": {
+    "shipping": "Shipping",
+    "button": "Confirmation"
   },
   "no_orders_yet": "No Orders Yet",
   "discover": "Discover and place your first order",

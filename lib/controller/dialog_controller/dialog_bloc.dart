@@ -4,7 +4,6 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_event.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_repository.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_state.dart';
-import 'package:delivery_service/model/local_database/moor_database.dart';
 
 class DialogBloc extends Bloc<DialogEvent, DialogState> {
   final DialogRepository dialogRepository;
@@ -32,27 +31,31 @@ class DialogBloc extends Bloc<DialogEvent, DialogState> {
       transformer: concurrent(),
     );
 
-    /// delete location
-    on<DialogClearLocationEvent>(
-      _clearLocation,
+    /// listen token
+    on<DialogListenTokenEvent>(
+      _listenToken,
+      transformer: concurrent(),
+    );
+
+    /// listen token
+    on<DialogGetTokenEvent>(
+      _getToken,
       transformer: concurrent(),
     );
 
     streamSubscription = dialogRepository.listenLocation().listen((location) {
-      final selectedLocation = location.firstWhere(
-        (element) => element.selectedStatus,
-        orElse: () => LocationData(
-          lat: 0.0,
-          lng: 0.0,
-          selectedStatus: false,
-        ),
-      );
       final l = location;
       l.sort((a, b) => a.lat.compareTo(b.lat));
       add(DialogListenLocationEvent(locationData: l));
     });
+    streamSubscription = dialogRepository.listenToken().listen((event) {
+      add(
+        DialogListenTokenEvent(token: event.value),
+      );
+    });
   }
 
+  /// listen location
   FutureOr<void> _listenLocation(
       DialogListenLocationEvent event, Emitter<DialogState> emit) async {
     emit(
@@ -62,22 +65,52 @@ class DialogBloc extends Bloc<DialogEvent, DialogState> {
     );
   }
 
-  FutureOr<void> _changeLocationSelectedStatus(
-      DialogLocationSelectedEvent event, Emitter<DialogState> emit) async {
-    await dialogRepository.changeSelectedLocation(
-        locationData: event.locationData);
-  }
-
-  FutureOr<void> _deleteLocation(
-      DialogLocationDeleteEvent event, Emitter<DialogState> emit) async {
-    await dialogRepository.deleteLocation(
-      deleteLocationData: event.locationData,
+  /// listen token
+  FutureOr<void> _listenToken(
+      DialogListenTokenEvent event, Emitter<DialogState> emit) async {
+    emit(
+      state.copyWith(
+        token: event.token,
+      ),
     );
   }
 
-  FutureOr<void> _clearLocation(
-      DialogClearLocationEvent event, Emitter<DialogState> emit) async {
-    await dialogRepository.clearLocation();
+  /// get token
+  FutureOr<void> _getToken(
+      DialogGetTokenEvent event, Emitter<DialogState> emit) async {
+    final response = await dialogRepository.getTokenInfo();
+    emit(
+      state.copyWith(
+        token: response,
+      ),
+    );
+  }
+
+  FutureOr<void> _changeLocationSelectedStatus(
+      DialogLocationSelectedEvent event, Emitter<DialogState> emit) async {
+    emit(
+      state.copyWith(
+        dialogStatus: DialogStatus.loading,
+      ),
+    );
+    final response = await dialogRepository.changeSelectedLocation(
+        locationData: event.locationData);
+
+    emit(
+      state.copyWith(
+        dialogStatus:
+            (response.status) ? DialogStatus.loaded : DialogStatus.error,
+        error: response.message,
+      ),
+    );
+  }
+
+  /// delete location
+  FutureOr<void> _deleteLocation(
+      DialogLocationDeleteEvent event, Emitter<DialogState> emit) async {
+    await dialogRepository.deleteLocation(
+      locationData: event.locationData,
+    );
   }
 
   @override

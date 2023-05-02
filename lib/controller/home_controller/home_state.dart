@@ -16,6 +16,7 @@ class HomeState {
   final int selectedCategoryId;
   final List<RestaurantModel> restaurantModel;
   final List<FavoriteData> favoriteData;
+  final bool token;
   final String error;
 
   HomeState({
@@ -27,6 +28,7 @@ class HomeState {
     required this.selectedCategoryId,
     required this.restaurantModel,
     required this.favoriteData,
+    required this.token,
     required this.error,
   });
 
@@ -38,14 +40,20 @@ class HomeState {
         categoryModel: [],
         productModel: ProductModel.example(),
         locationData: LocationData(
-          lat: 0,
-          lng: 0,
-          name: "",
+          id: 0,
+          lat: "",
+          lng: "",
+          address: "",
+          comment: "",
+          updated: "",
+          created: "",
+          defaults: false,
           selectedStatus: false,
         ),
         selectedCategoryId: -1,
         restaurantModel: [],
         favoriteData: [],
+        token: false,
         error: "",
       );
 
@@ -61,6 +69,7 @@ class HomeState {
     int? selectedCategoryId,
     List<RestaurantModel>? restaurantModel,
     List<FavoriteData>? favoriteData,
+    bool? token,
     String? error,
   }) =>
       HomeState(
@@ -72,6 +81,7 @@ class HomeState {
         selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
         restaurantModel: restaurantModel ?? this.restaurantModel,
         favoriteData: favoriteData ?? this.favoriteData,
+        token: token ?? this.token,
         error: error ?? this.error,
       );
 }

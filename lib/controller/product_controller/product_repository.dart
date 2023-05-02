@@ -138,7 +138,7 @@ class ProductRepositoryImpl extends ProductRepository {
       final getToken = await hiveDatabase.getToken();
       final databaseProducts = await moorDatabase.getCartProducts();
       final List<Map<String, int>> products = [];
-      print("get_token: ${getToken.isNotEmpty}");
+
       for (var variationElement in selectedVariations) {
         final cartProduct = {
           "id": variationElement.id,
@@ -250,7 +250,6 @@ class ProductRepositoryImpl extends ProductRepository {
 
         if (response.status == true && response.response != null) {
           if (response.response?.data.containsKey("data")) {
-
             await moorDatabase.deleteProductVariation(
                 productId: productId, variationId: variationId);
             return SimpleResponseModel.success();
@@ -260,7 +259,10 @@ class ProductRepositoryImpl extends ProductRepository {
         } else {
           return getSimpleResponseErrorHandler(response);
         }
-      } else {
+      }
+
+      /// else qismi
+      else {
         final response =
             await productNetworkService.deleteCart(variationId: variationId);
 

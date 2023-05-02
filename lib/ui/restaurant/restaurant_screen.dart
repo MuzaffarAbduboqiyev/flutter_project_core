@@ -3,7 +3,6 @@ import 'package:delivery_service/controller/product_controller/product_state.dar
 import 'package:delivery_service/controller/restaurant_controller/restaurant_bloc.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_event.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
-import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_appbar.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_category.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_ui/restaurant_prodcuts.dart';

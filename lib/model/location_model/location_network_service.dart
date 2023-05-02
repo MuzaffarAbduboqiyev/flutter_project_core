@@ -13,8 +13,8 @@ class LocationNetworkService {
       );
 
   Future<NetworkResponseModel> locationInfo({
-    required double lat,
-    required double lng,
+    required String lat,
+    required String lng,
   }) async {
     try {
       final response = await dio.post(

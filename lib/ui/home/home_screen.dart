@@ -19,7 +19,8 @@ class HomeScreen extends StatelessWidget {
         categoryRepository: singleton(),
         restaurantRepository: singleton(),
         locationRepository: singleton(),
-      ),
+        homeRepository: singleton(),
+      )..add(HomeGetTokenEvent()),
       child: const HomePage(),
     );
   }

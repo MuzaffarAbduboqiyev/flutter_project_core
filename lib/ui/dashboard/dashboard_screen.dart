@@ -22,9 +22,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const SearchScreen(),
-    const OrderScreen(),
+    const OrderScreen(
+      // goBack: () {},
+    ),
     const AccountScreen(),
   ];
+
+  goBack(int value) {
+    _tabController.index = value;
+  }
 
   @override
   initState() {
@@ -40,6 +46,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           context,
           screens: _screens,
           controller: _tabController,
+          onItemSelected: goBack,
           items: _navBarsItems(),
           backgroundColor: getCurrentTheme(context)
                   .bottomNavigationBarTheme

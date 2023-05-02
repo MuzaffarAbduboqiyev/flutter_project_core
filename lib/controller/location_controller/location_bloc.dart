@@ -1,9 +1,10 @@
 import 'dart:async';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/location_controller/location_event.dart';
 import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/location_controller/location_state.dart';
+import 'package:delivery_service/ui/widgets/loading/loader_dialog.dart';
+import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
@@ -39,11 +40,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       _deleteLocation,
       transformer: concurrent(),
     );
-
-    on<LocationClearEvent>(
-      _clearLocation,
-      transformer: concurrent(),
-    );
   }
 
   FutureOr<void> _init(
@@ -64,18 +60,58 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         locationStatus: LocationStatus.loading,
       ),
     );
+    List<String> region = [
+      "Chartak District",
+      "Chust District",
+      "Kasansay District",
+      "Mingbulak District",
+      "Namangan District",
+      "Yangi Namangan District",
+      "Naryn District",
+      "Pap District",
+      "Turakurgan District",
+      "Uchkurgan District",
+      "Uychi District",
+      "Yangikurgan District",
+      "Chartak",
+      "Chust",
+      "Kasansay",
+      "Mingbulak",
+      "Namangan",
+      "Yangi Namangan",
+      "Naryn",
+      "Pap",
+      "Turakurgan",
+      "Uchkurgan",
+      "Uychi",
+      "Yangikurgan",
+      "Namangan",
+    ];
 
     final response = await locationRepository.getLocationInfo(
       lat: event.lat,
       lng: event.lng,
     );
 
-    emit(
-      state.copyWith(
-        locationStatus: LocationStatus.loaded,
-        locationData: response.data,
-      ),
-    );
+    bool hasLocation = false;
+    for (var element in region) {
+      if (response.data?.address.contains(element) == true) {
+        hasLocation = true;
+      }
+    }
+
+    if (hasLocation) {
+      emit(
+        state.copyWith(
+          locationStatus: LocationStatus.loaded,
+          locationData: response.data,
+        ),
+      );
+    } else {
+      showErrorDialog(
+        errorMessage: translate("location.error"),
+      );
+    }
   }
 
   FutureOr<void> _save(
@@ -86,7 +122,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       ),
     );
 
-    await locationRepository.insertOrUpdateLocation(
+    locationRepository.insertOrUpdateLocation(
       locationData: state.locationData,
     );
 
@@ -98,16 +134,18 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   FutureOr<void> _listenLocation(
-      LocationListenEvent event, Emitter<LocationState> emit) {}
+      LocationListenEvent event, Emitter<LocationState> emit) {
+    emit(
+      state.copyWith(
+        locationData: event.locationData,
+      ),
+    );
+  }
 
   FutureOr<void> _deleteLocation(
       LocationDeleteEvent event, Emitter<LocationState> emit) async {
-    final response = await locationRepository.deleteLocation(
-        locationData: event.locationData);
-  }
-
-  FutureOr<void> _clearLocation(
-      LocationClearEvent event, Emitter<LocationState> emit) async {
-    await locationRepository.clearLocations();
+    await locationRepository.deleteLocations(
+      locationData: event.locationData,
+    );
   }
 }

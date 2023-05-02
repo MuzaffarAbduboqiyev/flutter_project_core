@@ -22,13 +22,20 @@ class _LocationIndicatorState extends State<LocationIndicator> {
     return BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) => (state.locationStatus ==
               LocationStatus.loading)
-          ? const Padding(
-              padding: EdgeInsets.only(bottom: 24),
-              child: SizedBox(
-                width: 30,
-                height: 30,
-                child: CircularProgressIndicator(
-                  color: Colors.orange,
+          ? Container(
+              height: 53,
+              decoration: getContainerDecoration(context,
+                  fillColor: getCurrentTheme(context).hintColor),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Center(
+                child: Text(
+                  translate("confirmation").toCapitalized(),
+                  style: TextStyle(
+                    color: lightTextColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    decoration: TextDecoration.none,
+                  ),
                 ),
               ),
             )
@@ -37,7 +44,9 @@ class _LocationIndicatorState extends State<LocationIndicator> {
               child: Container(
                 height: 53,
                 decoration: getContainerDecoration(context,
-                    fillColor: getCurrentTheme(context).indicatorColor),
+                    fillColor: (state.locationData.address.isNotEmpty)
+                        ? getCurrentTheme(context).indicatorColor
+                        : getCurrentTheme(context).hintColor),
                 margin:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Center(

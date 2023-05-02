@@ -3,21 +3,26 @@ import 'package:delivery_service/controller/app_controller/app_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_repository.dart';
 import 'package:delivery_service/controller/favorite_controller/favorite_repository.dart';
+import 'package:delivery_service/controller/home_controller/home_repository.dart';
 import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/order_controller/order_repository.dart';
 import 'package:delivery_service/controller/orders_controller/orders_repository.dart';
 import 'package:delivery_service/controller/otp_controller/otp_repository.dart';
+import 'package:delivery_service/controller/payment_controller/payment_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/controller/profile_controller/profile_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/controller/search_controller/search_repository.dart';
 import 'package:delivery_service/controller/welcome_controller/welcome_repository.dart';
-import 'package:delivery_service/model/account_controller/account_model.dart';
 import 'package:delivery_service/model/category_model/category_network_service.dart';
 import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/location_model/location_network_service.dart';
+import 'package:delivery_service/model/location_model/map_location_network_service.dart';
+import 'package:delivery_service/model/order_model/order_network_service.dart';
+import 'package:delivery_service/model/orders_model/orders_network_service.dart';
 import 'package:delivery_service/model/otp_model/otp_network_service.dart';
+import 'package:delivery_service/model/payment_model/payment_network_service.dart';
 import 'package:delivery_service/model/product_model/product_network_service.dart';
 import 'package:delivery_service/model/profile_model/profile_network_service.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_network_service.dart';
@@ -130,14 +135,6 @@ void init() {
     ),
   );
 
-  /// order controller
-  singleton.registerLazySingleton<OrderRepository>(
-    () => OrderRepositoryImpl(
-      productRepository: singleton(),
-      moorDatabase: singleton(),
-    ),
-  );
-
   /// quramiz location
   singleton.registerLazySingleton<LocationNetworkService>(
     () => LocationNetworkService.initial(),
@@ -145,15 +142,32 @@ void init() {
 
   singleton.registerLazySingleton<LocationRepository>(
     () => LocationRepositoryImpl(
-      networkService: singleton(),
+      mapLocationNetworkService: singleton(),
+      locationNetworkService: singleton(),
       moorDatabase: singleton(),
+      hiveDatabase: singleton(),
+    ),
+  );
+  ///////////////////////////////////////////////////////////
+  singleton.registerLazySingleton<MapLocationNetworkService>(
+    () => MapLocationNetworkServiceImpl(
+      networkService: singleton(),
     ),
   );
 
   /// Dialog controller
   singleton.registerLazySingleton<DialogRepository>(
     () => DialogRepositoryImpl(
+      mapLocationNetworkService: singleton(),
+      hiveDatabase: singleton(),
       moorDatabase: singleton(),
+    ),
+  );
+
+  /// home controller
+  singleton.registerLazySingleton<HomeRepository>(
+    () => HomeRepositoryImpl(
+      hiveDatabase: singleton(),
     ),
   );
 
@@ -188,13 +202,7 @@ void init() {
   /// Account controller
   singleton.registerLazySingleton<AccountRepository>(
     () => AccountRepositoryImpl(
-      accountNetworkService: singleton(),
       hiveDatabase: singleton(),
-    ),
-  );
-  singleton.registerLazySingleton<AccountNetworkService>(
-    () => AccountNetworkServiceImpl(
-      networkService: singleton(),
     ),
   );
 
@@ -215,6 +223,47 @@ void init() {
   singleton.registerLazySingleton<FavoriteRepository>(
     () => FavoriteRepositoryImpl(
       moorDatabase: singleton(),
+    ),
+  );
+
+  /// order controller
+  singleton.registerLazySingleton<OrderRepository>(
+    () => OrderRepositoryImpl(
+      orderNetworkService: singleton(),
+      productRepository: singleton(),
+      moorDatabase: singleton(),
+      hiveDatabase: singleton(),
+    ),
+  );
+  singleton.registerLazySingleton<OrderNetworkService>(
+    () => OrderNetworkServiceImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  /// payment controller
+  singleton.registerLazySingleton<PaymentRepository>(
+    () => PaymentRepositoryImpl(
+      paymentNetworkService: singleton(),
+      moorDatabase: singleton(),
+    ),
+  );
+  singleton.registerLazySingleton<PaymentNetworkService>(
+    () => PaymentNetworkServiceImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  /// orders controller
+  singleton.registerLazySingleton<OrdersRepository>(
+    () => OrdersRepositoryImpl(
+      ordersNetworkService: singleton(),
+      hiveDatabase: singleton(),
+    ),
+  );
+  singleton.registerLazySingleton<OrdersNetworkService>(
+    () => OrdersNetworkServiceImpl(
+      networkService: singleton(),
     ),
   );
 }

@@ -32,9 +32,19 @@ class HomeChangeSelectedCategoryEvent extends HomeEvent {
   HomeChangeSelectedCategoryEvent({required this.categoryModel});
 }
 
-/// location
+/// listen location
 class HomeListenLocationEvent extends HomeEvent {
   final LocationData locationData;
 
   HomeListenLocationEvent({required this.locationData});
 }
+
+/// listen Token
+class HomeListenTokenEvent extends HomeEvent {
+  final bool token;
+
+  HomeListenTokenEvent({required this.token});
+}
+
+/// get token
+class HomeGetTokenEvent extends HomeEvent {}

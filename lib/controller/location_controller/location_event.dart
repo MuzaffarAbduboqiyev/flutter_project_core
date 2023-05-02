@@ -3,6 +3,7 @@ import 'package:delivery_service/model/local_database/moor_database.dart';
 
 abstract class LocationEvent {}
 
+/// init location
 class LocationInitialEvent extends LocationEvent {
   final LocationStatus? locationStatus;
   final LocationData? locationData;
@@ -15,9 +16,10 @@ class LocationInitialEvent extends LocationEvent {
   });
 }
 
+/// get location
 class LocationGetInfoEvent extends LocationEvent {
-  final double lat;
-  final double lng;
+  final String lat;
+  final String lng;
 
   LocationGetInfoEvent({
     required this.lat,
@@ -25,18 +27,21 @@ class LocationGetInfoEvent extends LocationEvent {
   });
 }
 
+/// save location
 class LocationSaveEvent extends LocationEvent {}
 
+/// listen location
 class LocationListenEvent extends LocationEvent {
   final LocationData locationData;
 
   LocationListenEvent({required this.locationData});
 }
 
+
+
+/// delete location
 class LocationDeleteEvent extends LocationEvent {
   final LocationData locationData;
 
   LocationDeleteEvent({required this.locationData});
 }
-
-class LocationClearEvent extends LocationEvent {}

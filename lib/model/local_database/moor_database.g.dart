@@ -967,47 +967,75 @@ class $ProductCartTable extends ProductCart
 }
 
 class LocationData extends DataClass implements Insertable<LocationData> {
-  final double lat;
-  final double lng;
+  final int id;
+  final String lat;
+  final String lng;
+  final bool defaults;
+  final String address;
+  final String comment;
+  final String created;
+  final String updated;
   final bool selectedStatus;
-  final String? name;
   LocationData(
-      {required this.lat,
+      {required this.id,
+      required this.lat,
       required this.lng,
-      required this.selectedStatus,
-      this.name});
+      required this.defaults,
+      required this.address,
+      required this.comment,
+      required this.created,
+      required this.updated,
+      required this.selectedStatus});
   factory LocationData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return LocationData(
-      lat: const RealType()
+      id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      lat: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}lat'])!,
-      lng: const RealType()
+      lng: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}lng'])!,
+      defaults: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}defaults'])!,
+      address: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}address'])!,
+      comment: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}comment'])!,
+      created: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}created'])!,
+      updated: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}updated'])!,
       selectedStatus: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}selected_status'])!,
-      name: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}name']),
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['lat'] = Variable<double>(lat);
-    map['lng'] = Variable<double>(lng);
+    map['id'] = Variable<int>(id);
+    map['lat'] = Variable<String>(lat);
+    map['lng'] = Variable<String>(lng);
+    map['defaults'] = Variable<bool>(defaults);
+    map['address'] = Variable<String>(address);
+    map['comment'] = Variable<String>(comment);
+    map['created'] = Variable<String>(created);
+    map['updated'] = Variable<String>(updated);
     map['selected_status'] = Variable<bool>(selectedStatus);
-    if (!nullToAbsent || name != null) {
-      map['name'] = Variable<String?>(name);
-    }
     return map;
   }
 
   LocationCompanion toCompanion(bool nullToAbsent) {
     return LocationCompanion(
+      id: Value(id),
       lat: Value(lat),
       lng: Value(lng),
+      defaults: Value(defaults),
+      address: Value(address),
+      comment: Value(comment),
+      created: Value(created),
+      updated: Value(updated),
       selectedStatus: Value(selectedStatus),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
     );
   }
 
@@ -1015,114 +1043,204 @@ class LocationData extends DataClass implements Insertable<LocationData> {
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return LocationData(
-      lat: serializer.fromJson<double>(json['lat']),
-      lng: serializer.fromJson<double>(json['lng']),
+      id: serializer.fromJson<int>(json['id']),
+      lat: serializer.fromJson<String>(json['lat']),
+      lng: serializer.fromJson<String>(json['lng']),
+      defaults: serializer.fromJson<bool>(json['defaults']),
+      address: serializer.fromJson<String>(json['address']),
+      comment: serializer.fromJson<String>(json['comment']),
+      created: serializer.fromJson<String>(json['created']),
+      updated: serializer.fromJson<String>(json['updated']),
       selectedStatus: serializer.fromJson<bool>(json['selectedStatus']),
-      name: serializer.fromJson<String?>(json['name']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'lat': serializer.toJson<double>(lat),
-      'lng': serializer.toJson<double>(lng),
+      'id': serializer.toJson<int>(id),
+      'lat': serializer.toJson<String>(lat),
+      'lng': serializer.toJson<String>(lng),
+      'defaults': serializer.toJson<bool>(defaults),
+      'address': serializer.toJson<String>(address),
+      'comment': serializer.toJson<String>(comment),
+      'created': serializer.toJson<String>(created),
+      'updated': serializer.toJson<String>(updated),
       'selectedStatus': serializer.toJson<bool>(selectedStatus),
-      'name': serializer.toJson<String?>(name),
     };
   }
 
   LocationData copyWith(
-          {double? lat, double? lng, bool? selectedStatus, String? name}) =>
+          {int? id,
+          String? lat,
+          String? lng,
+          bool? defaults,
+          String? address,
+          String? comment,
+          String? created,
+          String? updated,
+          bool? selectedStatus}) =>
       LocationData(
+        id: id ?? this.id,
         lat: lat ?? this.lat,
         lng: lng ?? this.lng,
+        defaults: defaults ?? this.defaults,
+        address: address ?? this.address,
+        comment: comment ?? this.comment,
+        created: created ?? this.created,
+        updated: updated ?? this.updated,
         selectedStatus: selectedStatus ?? this.selectedStatus,
-        name: name ?? this.name,
       );
   @override
   String toString() {
     return (StringBuffer('LocationData(')
+          ..write('id: $id, ')
           ..write('lat: $lat, ')
           ..write('lng: $lng, ')
-          ..write('selectedStatus: $selectedStatus, ')
-          ..write('name: $name')
+          ..write('defaults: $defaults, ')
+          ..write('address: $address, ')
+          ..write('comment: $comment, ')
+          ..write('created: $created, ')
+          ..write('updated: $updated, ')
+          ..write('selectedStatus: $selectedStatus')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(lat, lng, selectedStatus, name);
+  int get hashCode => Object.hash(id, lat, lng, defaults, address, comment,
+      created, updated, selectedStatus);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is LocationData &&
+          other.id == this.id &&
           other.lat == this.lat &&
           other.lng == this.lng &&
-          other.selectedStatus == this.selectedStatus &&
-          other.name == this.name);
+          other.defaults == this.defaults &&
+          other.address == this.address &&
+          other.comment == this.comment &&
+          other.created == this.created &&
+          other.updated == this.updated &&
+          other.selectedStatus == this.selectedStatus);
 }
 
 class LocationCompanion extends UpdateCompanion<LocationData> {
-  final Value<double> lat;
-  final Value<double> lng;
+  final Value<int> id;
+  final Value<String> lat;
+  final Value<String> lng;
+  final Value<bool> defaults;
+  final Value<String> address;
+  final Value<String> comment;
+  final Value<String> created;
+  final Value<String> updated;
   final Value<bool> selectedStatus;
-  final Value<String?> name;
   const LocationCompanion({
+    this.id = const Value.absent(),
     this.lat = const Value.absent(),
     this.lng = const Value.absent(),
+    this.defaults = const Value.absent(),
+    this.address = const Value.absent(),
+    this.comment = const Value.absent(),
+    this.created = const Value.absent(),
+    this.updated = const Value.absent(),
     this.selectedStatus = const Value.absent(),
-    this.name = const Value.absent(),
   });
   LocationCompanion.insert({
-    required double lat,
-    required double lng,
+    required int id,
+    required String lat,
+    required String lng,
+    required bool defaults,
+    required String address,
+    required String comment,
+    required String created,
+    required String updated,
     required bool selectedStatus,
-    this.name = const Value.absent(),
-  })  : lat = Value(lat),
+  })  : id = Value(id),
+        lat = Value(lat),
         lng = Value(lng),
+        defaults = Value(defaults),
+        address = Value(address),
+        comment = Value(comment),
+        created = Value(created),
+        updated = Value(updated),
         selectedStatus = Value(selectedStatus);
   static Insertable<LocationData> custom({
-    Expression<double>? lat,
-    Expression<double>? lng,
+    Expression<int>? id,
+    Expression<String>? lat,
+    Expression<String>? lng,
+    Expression<bool>? defaults,
+    Expression<String>? address,
+    Expression<String>? comment,
+    Expression<String>? created,
+    Expression<String>? updated,
     Expression<bool>? selectedStatus,
-    Expression<String?>? name,
   }) {
     return RawValuesInsertable({
+      if (id != null) 'id': id,
       if (lat != null) 'lat': lat,
       if (lng != null) 'lng': lng,
+      if (defaults != null) 'defaults': defaults,
+      if (address != null) 'address': address,
+      if (comment != null) 'comment': comment,
+      if (created != null) 'created': created,
+      if (updated != null) 'updated': updated,
       if (selectedStatus != null) 'selected_status': selectedStatus,
-      if (name != null) 'name': name,
     });
   }
 
   LocationCompanion copyWith(
-      {Value<double>? lat,
-      Value<double>? lng,
-      Value<bool>? selectedStatus,
-      Value<String?>? name}) {
+      {Value<int>? id,
+      Value<String>? lat,
+      Value<String>? lng,
+      Value<bool>? defaults,
+      Value<String>? address,
+      Value<String>? comment,
+      Value<String>? created,
+      Value<String>? updated,
+      Value<bool>? selectedStatus}) {
     return LocationCompanion(
+      id: id ?? this.id,
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
+      defaults: defaults ?? this.defaults,
+      address: address ?? this.address,
+      comment: comment ?? this.comment,
+      created: created ?? this.created,
+      updated: updated ?? this.updated,
       selectedStatus: selectedStatus ?? this.selectedStatus,
-      name: name ?? this.name,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
     if (lat.present) {
-      map['lat'] = Variable<double>(lat.value);
+      map['lat'] = Variable<String>(lat.value);
     }
     if (lng.present) {
-      map['lng'] = Variable<double>(lng.value);
+      map['lng'] = Variable<String>(lng.value);
+    }
+    if (defaults.present) {
+      map['defaults'] = Variable<bool>(defaults.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (comment.present) {
+      map['comment'] = Variable<String>(comment.value);
+    }
+    if (created.present) {
+      map['created'] = Variable<String>(created.value);
+    }
+    if (updated.present) {
+      map['updated'] = Variable<String>(updated.value);
     }
     if (selectedStatus.present) {
       map['selected_status'] = Variable<bool>(selectedStatus.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String?>(name.value);
     }
     return map;
   }
@@ -1130,10 +1248,15 @@ class LocationCompanion extends UpdateCompanion<LocationData> {
   @override
   String toString() {
     return (StringBuffer('LocationCompanion(')
+          ..write('id: $id, ')
           ..write('lat: $lat, ')
           ..write('lng: $lng, ')
-          ..write('selectedStatus: $selectedStatus, ')
-          ..write('name: $name')
+          ..write('defaults: $defaults, ')
+          ..write('address: $address, ')
+          ..write('comment: $comment, ')
+          ..write('created: $created, ')
+          ..write('updated: $updated, ')
+          ..write('selectedStatus: $selectedStatus')
           ..write(')'))
         .toString();
   }
@@ -1145,16 +1268,48 @@ class $LocationTable extends Location
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $LocationTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _latMeta = const VerificationMeta('lat');
   @override
-  late final GeneratedColumn<double?> lat = GeneratedColumn<double?>(
+  late final GeneratedColumn<String?> lat = GeneratedColumn<String?>(
       'lat', aliasedName, false,
-      type: const RealType(), requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _lngMeta = const VerificationMeta('lng');
   @override
-  late final GeneratedColumn<double?> lng = GeneratedColumn<double?>(
+  late final GeneratedColumn<String?> lng = GeneratedColumn<String?>(
       'lng', aliasedName, false,
-      type: const RealType(), requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _defaultsMeta = const VerificationMeta('defaults');
+  @override
+  late final GeneratedColumn<bool?> defaults = GeneratedColumn<bool?>(
+      'defaults', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (defaults IN (0, 1))');
+  final VerificationMeta _addressMeta = const VerificationMeta('address');
+  @override
+  late final GeneratedColumn<String?> address = GeneratedColumn<String?>(
+      'address', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _commentMeta = const VerificationMeta('comment');
+  @override
+  late final GeneratedColumn<String?> comment = GeneratedColumn<String?>(
+      'comment', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _createdMeta = const VerificationMeta('created');
+  @override
+  late final GeneratedColumn<String?> created = GeneratedColumn<String?>(
+      'created', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _updatedMeta = const VerificationMeta('updated');
+  @override
+  late final GeneratedColumn<String?> updated = GeneratedColumn<String?>(
+      'updated', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _selectedStatusMeta =
       const VerificationMeta('selectedStatus');
   @override
@@ -1163,13 +1318,18 @@ class $LocationTable extends Location
       type: const BoolType(),
       requiredDuringInsert: true,
       defaultConstraints: 'CHECK (selected_status IN (0, 1))');
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
-      'name', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
-  @override
-  List<GeneratedColumn> get $columns => [lat, lng, selectedStatus, name];
+  List<GeneratedColumn> get $columns => [
+        id,
+        lat,
+        lng,
+        defaults,
+        address,
+        comment,
+        created,
+        updated,
+        selectedStatus
+      ];
   @override
   String get aliasedName => _alias ?? 'location';
   @override
@@ -1179,6 +1339,11 @@ class $LocationTable extends Location
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
     if (data.containsKey('lat')) {
       context.handle(
           _latMeta, lat.isAcceptableOrUnknown(data['lat']!, _latMeta));
@@ -1191,6 +1356,36 @@ class $LocationTable extends Location
     } else if (isInserting) {
       context.missing(_lngMeta);
     }
+    if (data.containsKey('defaults')) {
+      context.handle(_defaultsMeta,
+          defaults.isAcceptableOrUnknown(data['defaults']!, _defaultsMeta));
+    } else if (isInserting) {
+      context.missing(_defaultsMeta);
+    }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+    } else if (isInserting) {
+      context.missing(_addressMeta);
+    }
+    if (data.containsKey('comment')) {
+      context.handle(_commentMeta,
+          comment.isAcceptableOrUnknown(data['comment']!, _commentMeta));
+    } else if (isInserting) {
+      context.missing(_commentMeta);
+    }
+    if (data.containsKey('created')) {
+      context.handle(_createdMeta,
+          created.isAcceptableOrUnknown(data['created']!, _createdMeta));
+    } else if (isInserting) {
+      context.missing(_createdMeta);
+    }
+    if (data.containsKey('updated')) {
+      context.handle(_updatedMeta,
+          updated.isAcceptableOrUnknown(data['updated']!, _updatedMeta));
+    } else if (isInserting) {
+      context.missing(_updatedMeta);
+    }
     if (data.containsKey('selected_status')) {
       context.handle(
           _selectedStatusMeta,
@@ -1199,15 +1394,11 @@ class $LocationTable extends Location
     } else if (isInserting) {
       context.missing(_selectedStatusMeta);
     }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {lat, lng};
+  Set<GeneratedColumn> get $primaryKey => {id, lat, lng};
   @override
   LocationData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return LocationData.fromData(data, attachedDatabase,

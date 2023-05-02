@@ -1,13 +1,11 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:delivery_service/controller/product_controller/product_event.dart';
 import 'package:delivery_service/controller/profile_controller/profile_event.dart';
 import 'package:delivery_service/controller/profile_controller/profile_repository.dart';
 import 'package:delivery_service/controller/profile_controller/profile_state.dart';
 
-class ProfileBloc extends Bloc<ProductEvent, ProfileState> {
+class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepository profileRepository;
 
   ProfileBloc(
@@ -32,24 +30,24 @@ class ProfileBloc extends Bloc<ProductEvent, ProfileState> {
         profileModel: event.profileModel,
       ),
     );
-
-
   }
 
   FutureOr<void> _getUser(
-      ProfileGetUserEvent event, Emitter<ProfileState> emit)async {
+      ProfileGetUserEvent event, Emitter<ProfileState> emit) async {
     emit(
       state.copyWith(
-        profileStatus: ProfileStatus.loading
+        profileStatus: ProfileStatus.loading,
       ),
     );
     final response = await profileRepository.getAllUserData();
     emit(
       state.copyWith(
         profileStatus:
-        (response.status) ? ProfileStatus.loaded : ProfileStatus.error,
+            (response.status) ? ProfileStatus.loaded : ProfileStatus.error,
         error: response.message,
       ),
     );
   }
+
+
 }

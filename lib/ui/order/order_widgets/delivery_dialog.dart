@@ -1,8 +1,6 @@
 import 'package:delivery_service/controller/dialog_controller/dialog_bloc.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_event.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_state.dart';
-import 'package:delivery_service/model/local_database/moor_database.dart';
-import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
 import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
@@ -39,23 +37,14 @@ class DeliveryDialogPage extends StatefulWidget {
 }
 
 class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
-  _changeLocationSelectedStatus(LocationData locationData) {
+  _changeLocationSelectedStatus(locationData) {
     context
         .read<DialogBloc>()
         .add(DialogLocationSelectedEvent(locationData: locationData));
   }
 
   /// delete
-  _showDeleteLocationConfirm(LocationData locationData) {
-    return showConfirmDialog(
-      context: context,
-      title: translate("location.delete"),
-      content: "",
-      confirm: () => _deleteLocation(locationData),
-    );
-  }
-
-  _deleteLocation(LocationData locationData) {
+  _deleteLocation(locationData) {
     context.read<DialogBloc>().add(
           DialogLocationDeleteEvent(locationData: locationData),
         );
@@ -94,23 +83,12 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                   behavior: CustomScrollBehavior(),
                   child: ListView.builder(
                     itemCount: state.location.length,
-                    itemBuilder: (context, index) => InkWell(
-                      onTap: () =>
-                          _changeLocationSelectedStatus(state.location[index]),
-                      onLongPress: () =>
-                          _showDeleteLocationConfirm(state.location[index]),
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(width: 1, color: hintColor),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
+                    itemBuilder: (context, index) => (state
+                            .location[index].selectedStatus)
+                        ? ListTile(
+                            onTap: () => _changeLocationSelectedStatus(
+                                state.location[index]),
+                            leading: Icon(
                               state.location[index].selectedStatus
                                   ? Icons.check_box
                                   : Icons.check_box_outline_blank_outlined,
@@ -118,12 +96,43 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                                   ? getCurrentTheme(context).indicatorColor
                                   : getCurrentTheme(context).iconTheme.color,
                             ),
-                            const SizedBox(
-                              width: 16,
+                            title: Text(
+                              state.location[index].address ?? "",
+                              style:
+                                  getCurrentTheme(context).textTheme.bodyLarge,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
                             ),
-                            Expanded(
-                              child: Text(
-                                state.location[index].name ?? "",
+                          )
+                        : Dismissible(
+                            onDismissed: (value) =>
+                                _deleteLocation(state.location[index]),
+                            secondaryBackground: Container(
+                              color: errorTextColor,
+                              child: const Center(
+                                child: Icon(Icons.delete_outline),
+                              ),
+                            ),
+                            background: Container(),
+                            key: UniqueKey(),
+                            direction: DismissDirection.endToStart,
+                            child: ListTile(
+                              leading: GestureDetector(
+                                onTap: () => _changeLocationSelectedStatus(
+                                    state.location[index]),
+                                child: Icon(
+                                  state.location[index].selectedStatus
+                                      ? Icons.check_box
+                                      : Icons.check_box_outline_blank_outlined,
+                                  color: state.location[index].selectedStatus
+                                      ? getCurrentTheme(context).indicatorColor
+                                      : getCurrentTheme(context)
+                                          .iconTheme
+                                          .color,
+                                ),
+                              ),
+                              title: Text(
+                                state.location[index].address ?? "",
                                 style: getCurrentTheme(context)
                                     .textTheme
                                     .bodyLarge,
@@ -131,10 +140,7 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                                 maxLines: 3,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
                   ),
                 ),
               ),

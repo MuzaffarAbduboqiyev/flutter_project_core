@@ -120,6 +120,15 @@ dependencies:
   # timer
   timer_builder: ^2.0.0
 
+  # location search
+  flutter_typeahead: ^4.3.7
+  flutter_google_places_hoc081098: ^1.2.0
+
+  # url ni olish uchun
+  url_launcher: ^6.1.10
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

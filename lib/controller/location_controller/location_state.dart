@@ -24,10 +24,15 @@ class LocationState {
   factory LocationState.initial() => LocationState(
         locationStatus: LocationStatus.init,
         locationData: LocationData(
-          lat: 0,
-          lng: 0,
+          id: 0,
+          lat: "",
+          lng: "",
+          address: "",
+          comment: "",
+          updated: "",
+          created: "",
+          defaults: false,
           selectedStatus: false,
-          name: "",
         ),
         locations: [],
         error: "",

@@ -22,35 +22,33 @@ class SearchCategoryItem extends StatefulWidget {
 class _SearchCategoryItemState extends State<SearchCategoryItem> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: InkWell(
-        onTap: _changeSearchName,
-        child: Container(
-          decoration: getContainerDecoration(context),
-          height: 160,
-          margin: const EdgeInsets.all(8),
-          padding: const EdgeInsets.all(16),
-          width: double.maxFinite,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ImageLoading(
-                imageUrl: widget.categoryModel.image,
-                imageWidth: 62,
-                imageHeight: 70,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Text(
-                widget.categoryModel.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: getCurrentTheme(context).textTheme.bodyLarge,
-              ),
-            ],
-          ),
+    return InkWell(
+      onTap: _changeSearchName,
+      child: Container(
+        decoration: getContainerDecoration(context),
+        height: 160,
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(16),
+        width: double.maxFinite,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ImageLoading(
+              imageUrl: widget.categoryModel.image,
+              imageWidth: 62,
+              imageHeight: 70,
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            Text(
+              widget.categoryModel.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: getCurrentTheme(context).textTheme.bodyLarge,
+            ),
+          ],
         ),
       ),
     );

@@ -1,7 +1,11 @@
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
+import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
-
-import '../../model/response_model/network_response_model.dart';
+import 'package:delivery_service/model/payment_model/order_model.dart';
+import 'package:delivery_service/model/order_model/order_network_service.dart';
+import 'package:delivery_service/model/response_model/error_handler.dart';
+import 'package:delivery_service/model/response_model/network_response_model.dart';
+import 'package:hive/hive.dart';
 
 abstract class OrderRepository {
   Stream<List<ProductCartData>> listenCartProducts();
@@ -22,15 +26,29 @@ abstract class OrderRepository {
     required int productId,
     required int variationId,
   });
+
+  /// order shipping
+  Future<DataResponseModel<List<OrderShippingModel>>> getOrderShipping(
+      {required int addressId});
+
+  /// listen token
+  Stream<BoxEvent> listenToken();
+
+  /// get Token
+  Future<bool> getTokenInfo();
 }
 
 class OrderRepositoryImpl extends OrderRepository {
   final ProductRepository productRepository;
+  final OrderNetworkService orderNetworkService;
   final MoorDatabase moorDatabase;
+  final HiveDatabase hiveDatabase;
 
   OrderRepositoryImpl({
     required this.productRepository,
+    required this.orderNetworkService,
     required this.moorDatabase,
+    required this.hiveDatabase,
   });
 
   /// product listen
@@ -81,5 +99,40 @@ class OrderRepositoryImpl extends OrderRepository {
   }) async {
     await moorDatabase.clearOrderHistory();
     return true;
+  }
+
+  @override
+  Future<DataResponseModel<List<OrderShippingModel>>> getOrderShipping(
+      {required int addressId}) async {
+    try {
+      final response =
+          await orderNetworkService.getShippingUrl(addressId: addressId);
+      print("OrderNetworkService addressId: $addressId");
+      if (response.status && response.response != null) {
+        if (response.response?.data.containsKey("data") == true) {
+          final List<OrderShippingModel> orderModel =
+              parseShippingModel(response.response?.data["data"]);
+          return DataResponseModel.success(model: orderModel);
+        } else {
+          return getDataResponseErrorHandler<List<OrderShippingModel>>(
+              response);
+        }
+      } else {
+        return getDataResponseErrorHandler<List<OrderShippingModel>>(response);
+      }
+    } catch (error) {
+      return DataResponseModel.error(responseMessage: error.toString());
+    }
+  }
+
+  /// listen token
+  @override
+  Stream<BoxEvent> listenToken() => hiveDatabase.listenToken();
+
+  /// get Token
+  @override
+  Future<bool> getTokenInfo() async {
+    final response = await hiveDatabase.getToken();
+    return response.isNotEmpty;
   }
 }

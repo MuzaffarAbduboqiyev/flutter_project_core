@@ -40,7 +40,6 @@ class ProductDetailScreen extends StatelessWidget {
           ProductInitialEvent(
             productId: productId,
             restaurantId: restaurantId,
-
           ),
         ),
       child: const ProductDetailPage(),
@@ -140,11 +139,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Icon(Icons.arrow_back)),
                             Expanded(
                               child: _body(state),
                             ),

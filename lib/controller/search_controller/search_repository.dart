@@ -1,5 +1,4 @@
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
-import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';

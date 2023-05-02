@@ -51,7 +51,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 const ProfileImage(),
                 const SizedBox(height: 30),
                 TextField(
-                  onChanged: (onChanged) {},
+                  onChanged: (userName) {
+                    context
+                        .read<ProfileBloc>()
+                        .add(ProfileUserNameEvent(userName: userName));
+                  },
                   cursorColor: textColor,
                   decoration: InputDecoration(
                     suffixIcon: const Padding(
@@ -75,7 +79,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 16),
                 TextField(
-                  onChanged: (onChanged) {},
+                  onChanged: (userEmail) {
+                    context.read<ProfileBloc>().add(ProfileUserEmailEvent(
+                          userEmail: userEmail,
+                        ));
+                  },
                   cursorColor: textColor,
                   decoration: InputDecoration(
                     suffixIcon: const Padding(
@@ -99,7 +107,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 16),
                 TextField(
-                  onChanged: (onChanged) {},
+                  onChanged: (userPhone) {
+                    context.read<ProfileBloc>().add(ProfileUserPhoneEvent(
+                          userPhone: userPhone,
+                        ));
+                  },
                   cursorColor: textColor,
                   decoration: InputDecoration(
                     suffixIcon: const Padding(
@@ -131,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     alignment: Alignment.center,
                     decoration: getContainerDecoration(
                       context,
-                      fillColor: getCurrentTheme(context).indicatorColor,
+                      fillColor: getCurrentTheme(context).buttonColor,
                     ),
                     child: Text(translate("profile.save").toUpperCase(),
                         style: getCustomStyle(

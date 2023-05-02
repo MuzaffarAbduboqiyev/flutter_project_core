@@ -8,14 +8,13 @@ import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
+import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
-import '../../util/theme/colors.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -55,9 +54,9 @@ class _WelcomePageState extends State<WelcomePage> {
     return BlocListener<WelcomeBloc, WelcomeState>(
       listener: (context, state) {
         if (state.welcomeStatus == WelcomeStatus.loading) {
-          showLoadingDialog();
-        } else {
-          hideLoadingDialog();
+            showLoadingDialog();
+          } else {
+        hideLoadingDialog();
           if (state.welcomeStatus == WelcomeStatus.loaded) {
             pushNewScreen(context, otpVerificationScreen,
                 navbarStatus: false,

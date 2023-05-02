@@ -1,7 +1,13 @@
 abstract class OrdersEvent {}
 
-/// orders listen
-class OrdersInitialEvent extends OrdersEvent {}
+/// orders product get
+class OrdersProductsGetEvent extends OrdersEvent {}
 
-/// orders delete
-class OrdersDeleteEvent extends OrdersEvent {}
+/// orders listen token
+class OrdersListenTokenEvent extends OrdersEvent {
+  final bool token;
+
+  OrdersListenTokenEvent({required this.token});
+}
+/// orders get token
+class OrdersGetTokenEvent extends OrdersEvent{}

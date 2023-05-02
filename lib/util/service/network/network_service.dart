@@ -23,8 +23,6 @@ abstract class NetworkService {
     required String url,
     bool hasHeader = true,
   });
-
-
 }
 
 class NetworkServiceImpl extends NetworkService {
@@ -82,10 +80,7 @@ class NetworkServiceImpl extends NetworkService {
       if (kDebugMode) {
         print("Request => Url: $url, body: $body");
       }
-      final response = await dio.post(
-        url,
-        data: body,
-      );
+      final response = await dio.post(url, data: body);
       if (kDebugMode) {
         print("Response => Url: $url, response: $response");
       }
@@ -97,7 +92,6 @@ class NetworkServiceImpl extends NetworkService {
       if (error.type == DioErrorType.connectTimeout) {
         return NetworkResponseModel.error(
             errorMessage: "Исключение времени ожидания соединения");
-
       } else {
         return NetworkResponseModel.error(errorMessage: error.message);
       }
@@ -119,7 +113,8 @@ class NetworkServiceImpl extends NetworkService {
   }
 
   @override
-  Future<NetworkResponseModel> deleteMethod({required String url, bool hasHeader = true})async {
+  Future<NetworkResponseModel> deleteMethod(
+      {required String url, bool hasHeader = true}) async {
     final header = await _getHeader(hasHeader);
     dio.options.headers = header;
     try {
@@ -152,5 +147,3 @@ final quramizDioBaseOptions = BaseOptions(
   connectTimeout: 30000,
   receiveTimeout: 30000,
 );
-
-

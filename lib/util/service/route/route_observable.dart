@@ -6,6 +6,7 @@ import 'package:delivery_service/ui/home/home_screen.dart';
 import 'package:delivery_service/ui/location/location_screen.dart';
 import 'package:delivery_service/ui/order/order_screen.dart';
 import 'package:delivery_service/ui/orders/orders_screen.dart';
+import 'package:delivery_service/ui/orders/reorder_screen/reorder_screen.dart';
 import 'package:delivery_service/ui/payments/payments_screen.dart';
 import 'package:delivery_service/ui/profile/profile_screen.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_screen.dart';
@@ -81,7 +82,9 @@ Future<bool> pushNewScreen(
     case orderScreen:
       await PersistentNavBarNavigator.pushNewScreen(
         context,
-        screen: const OrderScreen(),
+        screen: OrderScreen(
+          // goBack: arguments?[""],
+        ),
         withNavBar: navbarStatus,
       );
       return true;
@@ -150,6 +153,13 @@ Future<bool> pushNewScreen(
       await PersistentNavBarNavigator.pushNewScreen(
         context,
         screen: const OrdersScreen(),
+        withNavBar: navbarStatus,
+      );
+      return true;
+    case reorderScreen:
+      await PersistentNavBarNavigator.pushNewScreen(
+        context,
+        screen: const ReorderScreen(),
         withNavBar: navbarStatus,
       );
       return true;

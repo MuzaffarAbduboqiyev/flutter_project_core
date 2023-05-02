@@ -29,14 +29,23 @@ const String quramizBaseUrl = "https://quramiz.uz/api/";
 /// location
 const locationUrl = "geocode";
 
-/// orders product
+/// cart product
 const cartUrl = "cart";
 
 /// delete product
 const deleteCartUrl = "cart";
 
 /// locationUrl
-const locationAddressesUrl = "addresses";
+const addressesUrl = "addresses";
 
 /// delete location
 const deleteAddressesUrl = "addresses";
+
+/// shipping
+const shippingUrl = "addresses/72/shipping";
+
+/// payment
+const paymentUrl = "payment-methods";
+
+/// orders
+const ordersUrl = "orders";
