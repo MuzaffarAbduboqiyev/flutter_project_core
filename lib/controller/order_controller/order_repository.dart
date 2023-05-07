@@ -1,3 +1,4 @@
+import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
@@ -5,12 +6,11 @@ import 'package:delivery_service/model/payment_model/order_model.dart';
 import 'package:delivery_service/model/order_model/order_network_service.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
+import 'package:delivery_service/util/service/network/parser_service.dart';
 import 'package:hive/hive.dart';
 
 abstract class OrderRepository {
   Stream<List<ProductCartData>> listenCartProducts();
-
-  Future<List<ProductCartData>> getCartProducts();
 
   Future<SimpleResponseModel> updateCart({
     required ProductCartData cartData,
@@ -36,6 +36,9 @@ abstract class OrderRepository {
 
   /// get Token
   Future<bool> getTokenInfo();
+
+  /// restaurant search
+  Future<SimpleResponseModel> refreshProducts();
 }
 
 class OrderRepositoryImpl extends OrderRepository {
@@ -56,7 +59,6 @@ class OrderRepositoryImpl extends OrderRepository {
   Stream<List<ProductCartData>> listenCartProducts() =>
       moorDatabase.listenCartProducts();
 
-  @override
   Future<List<ProductCartData>> getCartProducts() => getCartProducts();
 
   @override
@@ -102,12 +104,12 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<DataResponseModel<List<OrderShippingModel>>> getOrderShipping(
-      {required int addressId}) async {
+  Future<DataResponseModel<List<OrderShippingModel>>> getOrderShipping({
+    required int addressId,
+  }) async {
     try {
       final response =
           await orderNetworkService.getShippingUrl(addressId: addressId);
-      print("OrderNetworkService addressId: $addressId");
       if (response.status && response.response != null) {
         if (response.response?.data.containsKey("data") == true) {
           final List<OrderShippingModel> orderModel =
@@ -135,4 +137,150 @@ class OrderRepositoryImpl extends OrderRepository {
     final response = await hiveDatabase.getToken();
     return response.isNotEmpty;
   }
+
+  /// refresh product
+  @override
+  Future<SimpleResponseModel> refreshProducts() async {
+    try {
+      final responseGet = await orderNetworkService.refreshGetMethodUrl();
+
+      if (responseGet.status == true && responseGet.response != null) {
+        if (responseGet.response?.data.containsKey("data")) {
+          List<ProductCartData> productData = [];
+          responseGet.response?.data["data"].forEach((element) {
+            final productCartData = ProductCartData(
+              restaurantId: parseToInt(
+                  response: element["product"], key: "restaurant_id"),
+              price: parseToInt(response: element, key: "price"),
+              count: parseToInt(response: element, key: "quantity"),
+              productId: parseToInt(response: element["product"], key: "id"),
+              name: parseToString(response: element["product"], key: "name"),
+              image: parseToString(response: element["product"], key: "image"),
+              hasStock:
+                  parseToBool(response: element["product"], key: "in_stock"),
+              variationId: parseToInt(response: element, key: "id"),
+              selectedCount: parseToInt(response: element, key: "quantity"),
+            );
+
+            productData.add(productCartData);
+          });
+
+          for (var element in productData) {
+            await moorDatabase.insertProductCart(productCartData: element);
+          }
+
+          return SimpleResponseModel.success();
+        } else {
+          return getSimpleResponseErrorHandler(responseGet);
+        }
+      } else {
+        return getSimpleResponseErrorHandler(responseGet);
+      }
+    } catch (error) {
+      return SimpleResponseModel.error(responseMessage: error.toString());
+    }
+  }
 }
+
+/*
+  /// refresh product
+  @override
+  Future<SimpleResponseModel> refreshProducts() async {
+    try {
+      final getToken = await hiveDatabase.getToken();
+      final databaseProducts = await moorDatabase.getCartProducts();
+      final List<Map<String, int>> products = [];
+
+      for (var variationElement in databaseProducts) {
+        final cartProduct = {
+          "id": variationElement.productId,
+          "quantity": variationElement.selectedCount,
+        };
+        products.add(cartProduct);
+      }
+
+      if (getToken.isNotEmpty) {
+        final responseGet = await orderNetworkService.refreshGetMethodUrl();
+
+        if (responseGet.status == true && responseGet.response != null) {
+          if (responseGet.response?.data.containsKey("data")) {
+            List<ProductCartData> productData = [];
+            responseGet.response?.data["data"].forEach((element) {
+              final productCartData = ProductCartData(
+                restaurantId: parseToInt(
+                    response: element["product"], key: "restaurant_id"),
+                price: parseToInt(response: element, key: "price"),
+                count: parseToInt(response: element, key: "quantity"),
+                productId: parseToInt(response: element["product"], key: "id"),
+                name: parseToString(response: element["product"], key: "name"),
+                image:
+                    parseToString(response: element["product"], key: "image"),
+                hasStock:
+                    parseToBool(response: element["product"], key: "in_stock"),
+                variationId: parseToInt(response: element, key: "id"),
+                selectedCount: parseToInt(response: element, key: "quantity"),
+              );
+
+              productData.add(productCartData);
+            });
+
+            for (var element in productData) {
+              await moorDatabase.insertProductCart(productCartData: element);
+            }
+            return SimpleResponseModel.success();
+          } else {
+            return getSimpleResponseErrorHandler(responseGet);
+          }
+        } else {
+          return getSimpleResponseErrorHandler(responseGet);
+        }
+      }
+
+      /// refresh else qismi
+      else {
+        final body = {"products": products};
+        // final response =
+        //     await orderNetworkService.refreshPostMethodUrl(body: body);
+
+        final response = await orderNetworkService.refreshGetMethodUrl();
+        if (response.status == true && response.response != null) {
+          if (response.response?.data.containsKey("data")) {
+            List<ProductCartData> productData = [];
+            response.response?.data["data"].forEach((element) {
+              final productCartData = ProductCartData(
+                restaurantId: parseToInt(
+                    response: element["product"], key: "restaurant_id"),
+                price: parseToInt(response: element, key: "price"),
+                count: parseToInt(response: element, key: "quantity"),
+                productId: parseToInt(response: element["product"], key: "id"),
+                name: parseToString(response: element["product"], key: "name"),
+                image:
+                    parseToString(response: element["product"], key: "image"),
+                hasStock:
+                    parseToBool(response: element["product"], key: "in_stock"),
+                variationId: parseToInt(response: element, key: "id"),
+                selectedCount: parseToInt(response: element, key: "quantity"),
+              );
+
+              productData.add(productCartData);
+            });
+
+            for (var element in productData) {
+              await moorDatabase.insertProductCart(productCartData: element);
+            }
+
+            print(
+                "lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll ${response.response?.data}");
+            return SimpleResponseModel.success();
+          } else {
+            return getSimpleResponseErrorHandler(response);
+          }
+        } else {
+          return getSimpleResponseErrorHandler(response);
+        }
+      }
+    } catch (error) {
+      return SimpleResponseModel.error(responseMessage: error.toString());
+    }
+  }
+ */

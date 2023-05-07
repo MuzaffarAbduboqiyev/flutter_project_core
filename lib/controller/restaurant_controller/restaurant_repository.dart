@@ -53,14 +53,14 @@ abstract class RestaurantRepository {
 }
 
 class RestaurantRepositoryImpl extends RestaurantRepository {
-  final RestaurantNetworkService networkService;
+  final RestaurantNetworkService restaurantNetworkService;
   final CategoryRepository categoryRepository;
   final ProductRepository productRepository;
   final LocationRepository locationRepository;
   final MoorDatabase moorDatabase;
 
   RestaurantRepositoryImpl({
-    required this.networkService,
+    required this.restaurantNetworkService,
     required this.categoryRepository,
     required this.productRepository,
     required this.locationRepository,
@@ -69,7 +69,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
 
   @override
   Future<DataResponseModel<List<RestaurantModel>>> getAllRestaurants() async {
-    final response = await networkService.getAllRestaurants();
+    final response = await restaurantNetworkService.getAllRestaurants();
     return _parseRestaurants(response);
   }
 
@@ -78,7 +78,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
     required int categoryId,
   }) async {
     final response =
-        await networkService.getCategoryRestaurants(categoryId: categoryId);
+        await restaurantNetworkService.getCategoryRestaurants(categoryId: categoryId);
     return _parseRestaurants(response);
   }
 
@@ -87,7 +87,7 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
     required int restaurantId,
   }) async {
     final response =
-        await networkService.getRestaurantDetails(restaurantId: restaurantId);
+        await restaurantNetworkService.getRestaurantDetails(restaurantId: restaurantId);
     final parsedModel = _parseRestaurants(response);
     if (parsedModel.status &&
         parsedModel.data != null &&

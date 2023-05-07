@@ -14,8 +14,8 @@ class ProductState {
   final int productId;
   final int restaurantId;
   final ProductDetailModel productDetailModel;
-  final String error;
   final ProductVariationModel selectedVariationModel;
+  final String error;
 
   ProductState({
     required this.productStatus,

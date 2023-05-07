@@ -26,11 +26,12 @@ class OrdersRepositoryImpl extends OrdersRepository {
   Future<DataResponseModel<List<OrdersModel>>> getOrders() async {
     try {
       final response = await ordersNetworkService.getOrdersUrl();
+
       if (response.status && response.response != null) {
         if (response.response?.data.containsKey("data") == true) {
           final List<OrdersModel> ordersModel =
               parseOrdersModel(response.response?.data["data"]);
-          print("OrdersRepository ordersRepository: $ordersModel");
+
           return DataResponseModel.success(model: ordersModel);
         } else {
           return getDataResponseErrorHandler<List<OrdersModel>>(response);

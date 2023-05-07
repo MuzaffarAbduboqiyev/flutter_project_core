@@ -7,14 +7,17 @@ import 'package:delivery_service/model/response_model/network_response_model.dar
 import 'package:delivery_service/util/service/network/parser_service.dart';
 
 abstract class LocationRepository {
+  /// location listen
   Stream<List<LocationData>> listenLocation();
 
+  /// moorDatabase location olish
   Future<List<LocationData>> getLocations();
 
   Future<SimpleResponseModel> insertOrUpdateLocation({
     required LocationData locationData,
   });
 
+  /// location delete
   Future<SimpleResponseModel> deleteLocations({
     required LocationData locationData,
   });

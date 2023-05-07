@@ -8,6 +8,7 @@
   "in_stock": "Sotuvda",
   "view_cart": "Savatni ko'rish",
   "order": {
+    "basket": "Savat",
     "delivery": "Yetkazib berish",
     "total": "Jami sum",
     "checkout": "Tekshirib ko'rmoq",
@@ -68,7 +69,9 @@
     "appbar": "Buyurtmalar",
     "error": "Ro'yxatdan o'tmaganmisiz ?",
     "nullButton": "Ro'yxatdan o'tish",
-    "reorder": "Qayta tartiblash"
+    "reorder": "Qayta tartiblash",
+    "delivered": "Yetkazib berildi",
+    "processing": "Qayta ishlash"
   },
   "payments": {
     "payments": "To'lovlar"
@@ -91,7 +94,7 @@
   "nav_bar": {
     "home": "Uy",
     "search": "Qidiruv",
-    "order": "Buyurtma",
+    "basket": "Savat",
     "account": "Hisob"
   },
   "home": {
@@ -119,5 +122,8 @@
     "failed": "Muvaffaqiyatsiz",
     "release": "Release",
     "idle": "Yuklanmoqda"
+  },
+  "offers": {
+    "offers": "Promolar taklif qiladi"
   }
 }

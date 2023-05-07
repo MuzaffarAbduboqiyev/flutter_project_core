@@ -8,6 +8,7 @@
   "in_stock": "In stock",
   "view_cart": "View cart",
   "order": {
+    "basket": "Basket",
     "delivery": "Delivery",
     "total": "Total",
     "checkout": "Checkout",
@@ -68,7 +69,9 @@
     "appbar": "Orders",
     "error": "Not registered ?",
     "nullButton": "Sign up",
-    "reorder": "Reorder"
+    "reorder": "Reorder",
+    "delivered": "Delivered",
+    "processing": "Processing"
   },
   "payments": {
     "payments": "Payments"
@@ -91,7 +94,7 @@
   "nav_bar": {
     "home": "Home",
     "search": "Search",
-    "order": "Order",
+    "basket": "Basket",
     "account": "Account"
   },
   "home": {
@@ -119,5 +122,8 @@
     "failed": "Failed",
     "release": "Release",
     "idle": "Loading"
+  },
+  "offers": {
+    "offers": "Offers Promos"
   }
 }

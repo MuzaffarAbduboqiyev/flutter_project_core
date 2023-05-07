@@ -60,7 +60,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     final response = await productRepository.getProductDetail(
       productId: state.productId,
       restaurantId: state.selectedVariationModel.id,
-      productImage: state.productDetailModel.image,
+
     );
 
     emit(

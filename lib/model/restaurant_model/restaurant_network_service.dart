@@ -19,15 +19,15 @@ class RestaurantNetworkServiceImpl extends RestaurantNetworkService {
 
   RestaurantNetworkServiceImpl({required this.networkService});
 
+  /// getAllRestaurants
   @override
-  // getAllRestaurants =  Barcha restoranlarni oling
   Future<NetworkResponseModel> getAllRestaurants() async {
     final response = await networkService.getMethod(url: allRestaurantsUrl);
     return response;
   }
 
+  /// getCategoryRestaurants
   @override
-  // getCategoryRestaurants = Kategoriyali restoranlarni oling
   Future<NetworkResponseModel> getCategoryRestaurants({
     required int categoryId,
   }) async {
@@ -36,8 +36,8 @@ class RestaurantNetworkServiceImpl extends RestaurantNetworkService {
     return response;
   }
 
+  /// getRestaurantDetails
   @override
-  // getRestaurantDetails = Restoran tafsilotlarini oling
   Future<NetworkResponseModel> getRestaurantDetails({
     required int restaurantId,
   }) async {

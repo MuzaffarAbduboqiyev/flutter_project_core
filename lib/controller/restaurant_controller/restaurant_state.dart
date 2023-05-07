@@ -1,6 +1,7 @@
 import 'package:delivery_service/controller/category_controller/category_state.dart';
 import 'package:delivery_service/controller/product_controller/product_state.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
 
@@ -14,6 +15,7 @@ enum RestaurantStatus {
 
 class RestaurantState {
   final RestaurantStatus restaurantStatus;
+  final ProductStatus productStatus;
   final RestaurantModel restaurantModel;
   final List<CategoryModel> categoryModel;
   final List<ProductModel> productModel;
@@ -22,7 +24,6 @@ class RestaurantState {
   final int categoryId;
   final CategoryStatus categoryStatus;
   final int selectedCategoryId;
-  final ProductStatus productStatus;
   final String searchName;
   final bool isFavorite;
   final String error;

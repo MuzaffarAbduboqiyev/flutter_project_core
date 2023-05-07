@@ -17,11 +17,13 @@ class HomeRestaurantItem extends StatefulWidget {
   final RestaurantModel restaurantModel;
   final ProductModel productModel;
   final CategoryModel categoryModel;
+  final Function goBack;
 
   const HomeRestaurantItem({
     required this.restaurantModel,
     required this.productModel,
     required this.categoryModel,
+    required this.goBack,
     Key? key,
   }) : super(key: key);
 
@@ -150,10 +152,12 @@ class _HomeRestaurantItemState extends State<HomeRestaurantItem> {
     await pushNewScreen(
       context,
       restaurantScreen,
+      navbarStatus: false,
       arguments: {
         "restaurant_id": widget.restaurantModel.id,
         "product_id": widget.productModel.id,
         "category_id": widget.categoryModel.id,
+        "go_back": widget.goBack,
       },
     );
   }

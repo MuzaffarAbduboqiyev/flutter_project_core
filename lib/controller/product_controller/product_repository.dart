@@ -21,7 +21,6 @@ abstract class ProductRepository {
   Future<DataResponseModel<ProductDetailModel>> getProductDetail({
     required int productId,
     required int restaurantId,
-    required String productImage,
   });
 
   /// shu joyda Funksiya ishlaydi
@@ -88,11 +87,10 @@ class ProductRepositoryImpl extends ProductRepository {
   Future<DataResponseModel<ProductDetailModel>> getProductDetail({
     required int productId,
     required int restaurantId,
-    required String productImage,
   }) async {
     try {
-      final response = await productNetworkService.getProductDetail(
-          productId: productId, productImage: productImage);
+      final response =
+          await productNetworkService.getProductDetail(productId: productId);
       if (response.status &&
           response.response != null &&
           response.response?.data.containsKey("data")) {
@@ -146,8 +144,7 @@ class ProductRepositoryImpl extends ProductRepository {
         };
         products.add(cartProduct);
       }
-
-      /// if qismi
+      /// if qismiz
       if (getToken.isNotEmpty) {
         final body = {"products": products};
         final response = await productNetworkService.checkInfo(body: body);

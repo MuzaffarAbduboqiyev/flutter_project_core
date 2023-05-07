@@ -17,16 +17,15 @@ class RestaurantProducts extends StatelessWidget {
           ? const RestaurantProductShimmer()
           : GridView.builder(
               shrinkWrap: true,
-              padding: const EdgeInsets.only(
-                left: 8.0,
-                right: 8.0,
-                bottom: 8.0,
-              ),
+               padding: const EdgeInsets.symmetric(horizontal: 14),
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisExtent: 264,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
                 crossAxisCount: 2,
                 childAspectRatio:
-                    (((MediaQuery.of(context).size.width - 32) / 2) / 260),
+                    (((MediaQuery.of(context).size.width - 32) / 2) / 264),
               ),
               itemBuilder: (_, index) => RestaurantProductItem(
                 productModel: state.productModel[index],

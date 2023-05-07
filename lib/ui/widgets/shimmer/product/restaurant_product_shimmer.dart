@@ -8,11 +8,12 @@ class RestaurantProductShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true,
       itemCount: 12,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        height: 250,
+        height: 260,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,8 +35,8 @@ class RestaurantProductShimmer extends StatelessWidget {
       baseColor: Colors.grey.shade400,
       highlightColor: Colors.white,
       child: Container(
-        width: double.maxFinite,
         height: 250,
+        width: double.maxFinite,
         margin: const EdgeInsets.symmetric(horizontal: 8),
         padding: const EdgeInsets.all(8),
         decoration: getContainerDecoration(

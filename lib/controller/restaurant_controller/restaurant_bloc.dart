@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/category_controller/category_state.dart';
 import 'package:delivery_service/controller/product_controller/product_state.dart';
@@ -97,7 +96,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     );
 
     if (event.productId != 0) {
-      // ignore: use_build_context_synchronously
+      /// ignore: use_build_context_synchronously
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
@@ -106,13 +105,12 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
           restaurantId: event.restaurantId,
           productId: event.productId!,
           categoryId: event.categoryId,
-
         ),
       );
     }
   }
 
-  // _getRestaurant = restoran oling
+  /// _getRestaurant = restoran oling
   FutureOr<void> _getRestaurant(
       RestaurantGetEvent event, Emitter<RestaurantState> emit) async {
     emit(
@@ -139,7 +137,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     );
   }
 
-  // _getCategories = Kategoriyalarni oling
+  /// _getCategories = Kategoriyalarni oling
   FutureOr<void> _getCategories(
       RestaurantCategoriesEvent event, Emitter<RestaurantState> emit) async {
     emit(
@@ -161,7 +159,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     );
   }
 
-  // _changeSelectedCategory = Tanlangan toifani o'zgartirish
+  /// _changeSelectedCategory = Tanlangan toifani o'zgartirish
   FutureOr<void> _changeSelectedCategory(
     RestaurantSelectedCategoryEvent event,
     Emitter<RestaurantState> emit,
@@ -192,7 +190,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     add(RestaurantCartUpdateEvent());
   }
 
-  // _refreshProducts = Mahsulotlarni yangilash
+  /// _refreshProducts = Mahsulotlarni yangilash
   FutureOr<void> _refreshProducts(RestaurantRefreshProductsEvent event,
       Emitter<RestaurantState> emit) async {
     emit(
@@ -231,7 +229,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     );
   }
 
-  // _listenCartProducts = Savat mahsulotlarini tinglang
+  /// _listenCartProducts = Savat mahsulotlarini tinglang
   FutureOr<void> _listenCartProducts(
       RestaurantCartEvent event, Emitter<RestaurantState> emit) {
     int totalCount = 0;

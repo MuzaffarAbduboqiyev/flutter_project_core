@@ -2,7 +2,7 @@ import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
-import 'package:delivery_service/model/restaurant_model/vendor_model.dart';
+import 'package:delivery_service/model/search_model/vendor_model.dart';
 import 'package:delivery_service/model/search_model/search_response_model.dart';
 
 enum SearchStatus {
@@ -21,7 +21,7 @@ class SearchState {
   final List<SearchData> searchData;
   final ProductModel productModel;
   final VendorModel vendorModel;
-
+  final int categoryId;
   final String error;
 
   SearchState({
@@ -33,6 +33,7 @@ class SearchState {
     required this.searchData,
     required this.productModel,
     required this.vendorModel,
+    required this.categoryId,
     required this.error,
   });
 
@@ -45,6 +46,7 @@ class SearchState {
         searchData: [],
         productModel: ProductModel.example(),
         vendorModel: VendorModel.example(),
+        categoryId: 0,
         error: "",
       );
 
@@ -57,6 +59,7 @@ class SearchState {
     List<SearchData>? searchData,
     ProductModel? productModel,
     VendorModel? vendorModel,
+    int? categoryId,
     String? error,
   }) =>
       SearchState(
@@ -68,6 +71,7 @@ class SearchState {
         searchData: searchData ?? this.searchData,
         productModel: productModel ?? this.productModel,
         vendorModel: vendorModel ?? this.vendorModel,
+        categoryId: categoryId ?? this.categoryId,
         error: error ?? this.error,
       );
 }

@@ -102,8 +102,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 48),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(top: 80),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
       decoration: BoxDecoration(
         color: getCurrentTheme(context).backgroundColor,
         borderRadius: const BorderRadius.only(
@@ -151,161 +151,176 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  _body(ProductState state) {
+  _body(state) {
     return ScrollConfiguration(
       behavior: CustomScrollBehavior(),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: getClipRReact(
-                borderRadius: 32,
-                child: ImageLoading(
-                  imageUrl: state.productDetailModel.image,
-                  imageWidth: double.maxFinite,
-                  imageHeight: 304,
-                ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: getClipRReact(
+              borderRadius: 32,
+              child: ImageLoading(
+                imageUrl: state.productDetailModel.image,
+                imageWidth: double.maxFinite,
+                imageHeight: 304,
               ),
             ),
-            const SizedBox(height: 24),
-            Text(
-              state.productDetailModel.name,
-              style: getCurrentTheme(context).textTheme.displayLarge,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              state.productDetailModel.description,
-              style: getCurrentTheme(context).textTheme.labelLarge,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: variationModels
-                  .asMap()
-                  .map((index, variationModel) {
-                    return MapEntry(
-                        index,
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Column(
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    state.productDetailModel.name,
+                    style: getCurrentTheme(context).textTheme.displayLarge,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    state.productDetailModel.description,
+                    style: getCurrentTheme(context).textTheme.labelLarge,
+                  ),
+                  const SizedBox(height: 12),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: variationModels
+                        .asMap()
+                        .map((index, variationModel) {
+                          return MapEntry(
+                              index,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      variationModel.name.toCapitalized(),
-                                      style: getCurrentTheme(context)
-                                          .textTheme
-                                          .bodyLarge,
-                                      textAlign: TextAlign.start,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            variationModel.name.toCapitalized(),
+                                            style: getCurrentTheme(context)
+                                                .textTheme
+                                                .bodyLarge,
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                            "${moneyFormatter.format(variationModel.price)} ${translate("sum")}",
+                                            style: getCurrentTheme(context)
+                                                .textTheme
+                                                .labelMedium,
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                          const SizedBox(
+                                            height: 6,
+                                          ),
+                                          Text(
+                                            "${translate("in_stock")}: ${variationModel.count}",
+                                            style: getCurrentTheme(context)
+                                                .textTheme
+                                                .labelMedium,
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     const SizedBox(
-                                      height: 8,
+                                      width: 8,
                                     ),
-                                    Text(
-                                      "${moneyFormatter.format(variationModel.price)} ${translate("sum")}",
-                                      style: getCurrentTheme(context)
-                                          .textTheme
-                                          .labelMedium,
-                                      textAlign: TextAlign.start,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                    const SizedBox(
-                                      height: 6,
-                                    ),
-                                    Text(
-                                      "${translate("in_stock")}: ${variationModel.count}",
-                                      style: getCurrentTheme(context)
-                                          .textTheme
-                                          .labelMedium,
-                                      textAlign: TextAlign.start,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 130,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 8),
-                                    decoration: getContainerDecoration(
-                                      context,
-                                      fillColor:
-                                          getCurrentTheme(context).cardColor,
-                                    ),
-                                    child: Row(
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        InkWell(
-                                          onTap: () => decreaseCount(index),
-                                          child: const Icon(
-                                            Icons.remove,
-                                            size: 24,
+                                        Container(
+                                          width: 130,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 8),
+                                          decoration: getContainerDecoration(
+                                            context,
+                                            fillColor: getCurrentTheme(context)
+                                                .cardColor,
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            variationModel.selectedCount
-                                                .toString(),
-                                            style: getCurrentTheme(context)
-                                                .textTheme
-                                                .bodyLarge,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        InkWell(
-                                          onTap: () => increaseCount(index),
-                                          child: const Icon(
-                                            Icons.add,
-                                            size: 24,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              InkWell(
+                                                onTap: () =>
+                                                    decreaseCount(index),
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 8,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  variationModel.selectedCount
+                                                      .toString(),
+                                                  style:
+                                                      getCurrentTheme(context)
+                                                          .textTheme
+                                                          .bodyLarge,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 8,
+                                              ),
+                                              InkWell(
+                                                onTap: () =>
+                                                    increaseCount(index),
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ));
-                  })
-                  .values
-                  .toList(),
+                                  ],
+                                ),
+                              ));
+                        })
+                        .values
+                        .toList(),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

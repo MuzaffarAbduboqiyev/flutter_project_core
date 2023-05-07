@@ -28,11 +28,13 @@ class RestaurantScreen extends StatelessWidget {
   final int restaurantId;
   final int? productId;
   final int categoryId;
+  final Function goBack;
 
   const RestaurantScreen({
     required this.restaurantId,
     required this.productId,
     required this.categoryId,
+    required this.goBack,
     Key? key,
   }) : super(key: key);
 
@@ -49,13 +51,20 @@ class RestaurantScreen extends StatelessWidget {
             categoryId: categoryId,
           ),
         ),
-      child: const RestaurantPage(),
+      child: RestaurantPage(categoryId: categoryId, goBack: goBack),
     );
   }
 }
 
 class RestaurantPage extends StatefulWidget {
-  const RestaurantPage({Key? key}) : super(key: key);
+  final Function goBack;
+  final int categoryId;
+
+  const RestaurantPage({
+    Key? key,
+    required this.goBack,
+    required this.categoryId,
+  }) : super(key: key);
 
   @override
   State<RestaurantPage> createState() => _RestaurantPageState();
@@ -71,11 +80,14 @@ class _RestaurantPageState extends State<RestaurantPage> {
     context.read<RestaurantBloc>().add(RestaurantRefreshProductsEvent());
   }
 
-  void viewCart() {
+  void viewCart(RestaurantState state) {
     pushNewScreen(
       context,
       orderScreen,
       navbarStatus: false,
+      arguments: {
+        "go_back": widget.goBack,
+      },
     );
   }
 
@@ -90,83 +102,87 @@ class _RestaurantPageState extends State<RestaurantPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<RestaurantBloc, RestaurantState>(
-      listener: (context, state) {
-        if (state.productStatus == ProductStatus.loaded &&
-            refreshController.isRefresh) {
-          refreshController.refreshCompleted();
-        }
-      },
-      child: BlocBuilder<RestaurantBloc, RestaurantState>(
-        builder: (context, state) => Scaffold(
-          backgroundColor: getCurrentTheme(context).backgroundColor,
-          appBar: (state.restaurantStatus == RestaurantStatus.error ||
-                  state.categoryStatus == CategoryStatus.error ||
-                  state.productStatus == ProductStatus.error)
-              ? simpleAppBar(context, "")
-              : null,
-          body: (state.restaurantStatus == RestaurantStatus.error ||
-                  state.categoryStatus == CategoryStatus.error ||
-                  state.productStatus == ProductStatus.error)
-              ? ConnectionErrorWidget(refreshFunction: _refresh)
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: ScrollConfiguration(
-                        behavior: CustomScrollBehavior(),
-                        child: NestedScrollView(
-                          headerSliverBuilder:
-                              (BuildContext context, bool innerBoxIsScrolled) {
-                            return <Widget>[
-                              getRestaurantAppbar(
-                                context,
-                                state.restaurantModel,
-                                state.isFavorite,
-                                state,
-                              ),
-                              SliverPersistentHeader(
-                                pinned: true,
-                                delegate: ProductSliverDelegate(
-                                  child: const RestaurantCategory(),
+    return SafeArea(
+      child: BlocListener<RestaurantBloc, RestaurantState>(
+        listener: (context, state) {
+          if (state.productStatus == ProductStatus.loaded &&
+              refreshController.isRefresh) {
+            refreshController.refreshCompleted();
+          }
+        },
+        child: BlocBuilder<RestaurantBloc, RestaurantState>(
+          builder: (context, state) => Scaffold(
+            backgroundColor: getCurrentTheme(context).backgroundColor,
+            appBar: (state.restaurantStatus == RestaurantStatus.error ||
+                    state.categoryStatus == CategoryStatus.error ||
+                    state.productStatus == ProductStatus.error)
+                ? simpleAppBar(context, "")
+                : null,
+            body: (state.restaurantStatus == RestaurantStatus.error ||
+                    state.categoryStatus == CategoryStatus.error ||
+                    state.productStatus == ProductStatus.error)
+                ? ConnectionErrorWidget(refreshFunction: _refresh)
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: ScrollConfiguration(
+                          behavior: CustomScrollBehavior(),
+                          child: NestedScrollView(
+                            headerSliverBuilder: (BuildContext context,
+                                bool innerBoxIsScrolled) {
+                              return <Widget>[
+                                RestaurantAppBar(
+                                  restaurantModel: state.restaurantModel,
+                                  restaurantFavoriteState: state.isFavorite,
+                                  restaurantState: state,
+                                  categoryId: widget.categoryId,
+                                  goBack: widget.goBack,
                                 ),
-                              ),
-                            ];
-                          },
-                          body: SmartRefresher(
-                            controller: refreshController,
-                            enablePullUp: false,
-                            enablePullDown: true,
-                            onRefresh: _refresh,
-                            header: getRefreshHeader(),
-                            physics: const BouncingScrollPhysics(),
-                            child: const CustomScrollView(
-                              slivers: [
-                                SliverToBoxAdapter(
-                                  child: RestaurantProducts(),
+                                SliverPersistentHeader(
+                                  pinned: true,
+                                  delegate: ProductSliverDelegate(
+                                    child: const RestaurantCategory(),
+                                  ),
                                 ),
-                              ],
+                              ];
+                            },
+                            body: SmartRefresher(
+                              controller: refreshController,
+                              enablePullUp: false,
+                              enablePullDown: true,
+                              onRefresh: _refresh,
+                              header: getRefreshHeader(),
+                              physics: const BouncingScrollPhysics(),
+                              child: const CustomScrollView(
+                                slivers: [
+                                  SliverToBoxAdapter(
+                                    child: RestaurantProducts(),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    if (state.totalCount > 0)
-                      _cart(
-                        state.totalCount,
-                        state.totalAmount,
-                      ),
-                  ],
-                ),
+                      if (state.totalCount > 0)
+                        _cart(
+                          state.totalCount,
+                          state.totalAmount,
+                          state,
+                        ),
+                    ],
+                  ),
+          ),
         ),
       ),
     );
   }
 
-  _cart(int totalCount, int totalAmount) {
+  _cart(int totalCount, int totalAmount, state) {
     return InkWell(
-      onTap: viewCart,
+      onTap: () => viewCart(state),
       child: Container(
         margin: const EdgeInsets.all(16),
         decoration: getContainerDecoration(

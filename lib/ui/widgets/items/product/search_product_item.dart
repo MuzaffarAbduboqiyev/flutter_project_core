@@ -15,12 +15,14 @@ class SearchProductItem extends StatefulWidget {
   final int restaurantId;
   final int? productId;
   final int categoryId;
+  final Function goBack;
 
   const SearchProductItem({
     required this.searchProductModel,
     required this.restaurantId,
     required this.productId,
     required this.categoryId,
+    required this.goBack,
     Key? key,
   }) : super(key: key);
 
@@ -34,14 +36,14 @@ class _SearchProductItemState extends State<SearchProductItem> {
     return ListTile(
       onTap: _searchProduct,
       leading: SizedBox(
-        width: 50,
-        height: 50,
+        width: 60,
+        height: 60,
         child: getClipRReact(
-          borderRadius: 10,
+          borderRadius: 8,
           child: ImageLoading(
             imageUrl: widget.searchProductModel.image,
-            imageWidth: 50,
-            imageHeight: 50,
+            imageWidth: 60,
+            imageHeight: 60,
           ),
         ),
       ),
@@ -61,7 +63,7 @@ class _SearchProductItemState extends State<SearchProductItem> {
   }
 
   void _searchProduct() async {
-    print("Search Restaurant Product");// tayyor
+    print("Search Restaurant Product"); // tayyor
     context.read<SearchBloc>().add(SearchSaveHistoryEvent());
     await pushNewScreen(
       context,
@@ -70,6 +72,7 @@ class _SearchProductItemState extends State<SearchProductItem> {
         "restaurant_id": widget.searchProductModel.vendor.id,
         "product_id": widget.productId!,
         "category_id": widget.categoryId,
+        "go_back": widget.goBack,
       },
     );
   }

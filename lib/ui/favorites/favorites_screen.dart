@@ -16,7 +16,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteScreen extends StatelessWidget {
-  const FavoriteScreen({Key? key}) : super(key: key);
+  final Function goBack;
+
+  const FavoriteScreen({
+    Key? key,
+    required this.goBack,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +30,18 @@ class FavoriteScreen extends StatelessWidget {
         FavoriteState.initial(),
         favoriteRepository: singleton(),
       ),
-      child: const FavoritePage(),
+      child: FavoritePage(goBack: goBack),
     );
   }
 }
 
 class FavoritePage extends StatefulWidget {
-  const FavoritePage({Key? key}) : super(key: key);
+  final Function goBack;
+
+  const FavoritePage({
+    Key? key,
+    required this.goBack,
+  }) : super(key: key);
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
@@ -47,6 +57,7 @@ class _FavoritePageState extends State<FavoritePage> {
         "restaurant_id": state.favoriteData[index].id,
         "product_id": 0,
         "category_id": 0,
+        "go_back": widget.goBack,
       },
     );
   }

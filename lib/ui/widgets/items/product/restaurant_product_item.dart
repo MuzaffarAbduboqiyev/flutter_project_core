@@ -31,44 +31,39 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: _openProduct,
       child: Card(
-        color: getCurrentTheme(context).cardColor,
+        borderOnForeground: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        margin: const EdgeInsets.all(8),
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          height: 260,
-          width: double.maxFinite,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ImageLoading(
-                imageUrl: widget.productModel.image,
-                imageWidth: double.maxFinite,
-                imageHeight: 145,
+        margin: EdgeInsets.zero,
+        clipBehavior: Clip.antiAlias,
+        color: getCurrentTheme(context).cardColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ImageLoading(
+              imageUrl: widget.productModel.image,
+              imageWidth: double.infinity,
+              imageHeight: 145,
+              imageFitType: BoxFit.cover,
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                widget.productModel.name,
+                style: getCurrentTheme(context).textTheme.bodyLarge,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              SizedBox(
-                width: double.maxFinite,
-                height: 36,
-                child: Text(
-                  widget.productModel.name,
-                  style: getCurrentTheme(context).textTheme.bodyLarge,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Expanded(
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,9 +77,7 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
                         textAlign: TextAlign.start,
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8),
                     if (widget.productModel.selectedCount > 0)
                       Container(
                         decoration: getContainerDecoration(
@@ -93,9 +86,7 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
                           fillColor: getCurrentTheme(context).indicatorColor,
                         ),
                         padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 8,
-                        ),
+                            vertical: 4, horizontal: 8),
                         child: Text(
                           "${widget.productModel.selectedCount}",
                           style: getCustomStyle(
@@ -110,8 +101,8 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -130,3 +121,4 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
     );
   }
 }
+

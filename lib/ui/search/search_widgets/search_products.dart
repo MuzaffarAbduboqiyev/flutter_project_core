@@ -1,7 +1,7 @@
 import 'package:delivery_service/controller/search_controller/search_bloc.dart';
 import 'package:delivery_service/controller/search_controller/search_state.dart';
 import 'package:delivery_service/model/product_model/search_product_model.dart';
-import 'package:delivery_service/model/restaurant_model/vendor_model.dart';
+import 'package:delivery_service/model/search_model/vendor_model.dart';
 import 'package:delivery_service/ui/widgets/items/product/search_product_item.dart';
 import 'package:delivery_service/ui/widgets/items/restaurant/search_vendor_item.dart';
 import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
@@ -10,9 +10,16 @@ import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchProducts extends StatelessWidget {
-  const SearchProducts({Key? key}) : super(key: key);
+class SearchProducts extends StatefulWidget {
+  final Function goBack;
 
+  const SearchProducts({Key? key, required this.goBack}) : super(key: key);
+
+  @override
+  State<SearchProducts> createState() => _SearchProductsState();
+}
+
+class _SearchProductsState extends State<SearchProducts> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
@@ -69,7 +76,7 @@ class SearchProducts extends StatelessWidget {
   }
 
   /// search restaurant
-  _vendors(List<VendorModel> vendorModel, SearchState state) {
+  _vendors(vendorModel, state) {
     return ListView.builder(
       itemCount: vendorModel.length,
       shrinkWrap: true,
@@ -78,12 +85,13 @@ class SearchProducts extends StatelessWidget {
         vendorModel: vendorModel[index],
         restaurantId: vendorModel[index].id,
         productId: state.productModel.id,
+        goBack: widget.goBack,
       ),
     );
   }
 
   /// search product
-  _products(List<SearchProductModel> searchProductModel) {
+  _products(searchProductModel) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -92,6 +100,7 @@ class SearchProducts extends StatelessWidget {
         restaurantId: searchProductModel[index].id,
         productId: searchProductModel[index].id,
         categoryId: searchProductModel[index].id,
+        goBack: widget.goBack,
       ),
       itemCount: searchProductModel.length,
     );

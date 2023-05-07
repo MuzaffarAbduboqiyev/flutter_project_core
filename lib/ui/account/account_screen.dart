@@ -14,7 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+  final Function goBack;
+
+  const AccountScreen({Key? key, required this.goBack}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +25,15 @@ class AccountScreen extends StatelessWidget {
         AccountState.initial(),
         accountRepository: singleton(),
       ),
-      child: const AccountPage(),
+      child: AccountPage(goBack: goBack),
     );
   }
 }
 
 class AccountPage extends StatefulWidget {
-  const AccountPage({Key? key}) : super(key: key);
+  final Function goBack;
+
+  const AccountPage({Key? key, required this.goBack}) : super(key: key);
 
   @override
   State<AccountPage> createState() => _AccountPageState();
@@ -93,21 +97,29 @@ class _AccountPageState extends State<AccountPage> {
                 title: translate("account.favorites"),
                 icons: Icons.favorite_border,
                 onTap: () {
-                  pushNewScreen(context, favoritesScreen, navbarStatus: false);
+                  print("ffffffffffffffffffffffffffffffffffffffffffff");
+                  pushNewScreen(context, favoritesScreen,
+                      navbarStatus: false,
+                      arguments: {
+                        "go_back": widget.goBack,
+                      });
                 },
               ),
               ListTileWidgetItem(
                 title: translate("account.offers"),
                 icons: Icons.local_offer_outlined,
-                onTap: () {},
-              ),
-              ListTileWidgetItem(
-                title: translate("account.payments"),
-                icons: Icons.credit_card,
                 onTap: () {
-                  pushNewScreen(context, paymentsScreen, navbarStatus: false);
+                  pushNewScreen(context, offersPromosScreen,
+                      navbarStatus: false);
                 },
               ),
+              // ListTileWidgetItem(
+              //   title: translate("account.payments"),
+              //   icons: Icons.credit_card,
+              //   onTap: () {
+              //     pushNewScreen(context, paymentsScreen, navbarStatus: false);
+              //   },
+              // ),
               ListTileWidgetItem(
                 title: translate("account.location"),
                 icons: Icons.location_on_outlined,
@@ -160,5 +172,10 @@ class _AccountPageState extends State<AccountPage> {
             .add(AccountDeleteToken(deleteToken: state.token));
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

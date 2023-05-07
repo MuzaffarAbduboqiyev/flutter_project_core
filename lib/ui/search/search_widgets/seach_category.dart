@@ -16,11 +16,14 @@ class SearchCategory extends StatelessWidget {
       builder: (context, state) => ScrollConfiguration(
         behavior: const CupertinoScrollBehavior(),
         child: GridView.builder(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 10,
+            mainAxisExtent: 180,
             crossAxisCount: 2,
             childAspectRatio:
-                (((MediaQuery.of(context).size.width - 48) / 2) / 160),
+                (((MediaQuery.of(context).size.width - 48) / 2) / 180),
           ),
           itemBuilder: (_, index) => SearchCategoryItem(
             categoryModel: state.categoryModel[index],

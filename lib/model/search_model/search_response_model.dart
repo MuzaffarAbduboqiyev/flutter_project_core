@@ -1,5 +1,5 @@
 import 'package:delivery_service/model/product_model/search_product_model.dart';
-import 'package:delivery_service/model/restaurant_model/vendor_model.dart';
+import 'package:delivery_service/model/search_model/vendor_model.dart';
 
 class SearchResponseModel {
   final List<VendorModel> vendors;

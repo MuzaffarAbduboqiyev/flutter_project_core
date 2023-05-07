@@ -201,7 +201,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     final response = await restaurantRepository.getAllRestaurants();
     final databaseResponse = await restaurantRepository.getFavorites();
-
     if (response.status && response.data != null) {
       response.data?.asMap().forEach((index, element) {
         response.data?[index] =

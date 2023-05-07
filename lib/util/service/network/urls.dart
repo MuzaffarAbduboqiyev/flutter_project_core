@@ -49,3 +49,7 @@ const paymentUrl = "payment-methods";
 
 /// orders
 const ordersUrl = "orders";
+
+
+/// restaurant search
+const restaurantsSearchUrl = "products";

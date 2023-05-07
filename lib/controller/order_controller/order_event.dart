@@ -1,12 +1,12 @@
 import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/model/product_model/product_variation_model.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class OrderEvent {}
 
 class OrderGetProductEvent extends OrderEvent {}
 
 class OrderListenProductEvent extends OrderEvent {}
-
-class OrderRefreshProductEvent extends OrderEvent {}
 
 class OrderCartProductEvent extends OrderEvent {
   final List<ProductCartData> products;
@@ -75,5 +75,9 @@ class OrderListenTokenEvent extends OrderEvent {
 
   OrderListenTokenEvent({required this.token});
 }
+
 /// order get token
-class OrderGetTokenEvent extends OrderEvent{}
+class OrderGetTokenEvent extends OrderEvent {}
+
+/// order refresh
+class OrderRefreshProductsEvent extends OrderEvent {}

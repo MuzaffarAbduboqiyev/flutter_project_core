@@ -1,6 +1,7 @@
 import 'package:delivery_service/controller/account_controller/account_repository.dart';
 import 'package:delivery_service/controller/app_controller/app_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
+import 'package:delivery_service/controller/dashboard_controller/dashboard_repository.dart';
 import 'package:delivery_service/controller/dialog_controller/dialog_repository.dart';
 import 'package:delivery_service/controller/favorite_controller/favorite_repository.dart';
 import 'package:delivery_service/controller/home_controller/home_repository.dart';
@@ -12,6 +13,7 @@ import 'package:delivery_service/controller/payment_controller/payment_repositor
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/controller/profile_controller/profile_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
+import 'package:delivery_service/controller/restaurant_controller/restaurant_search_controller/restaurant_search_repository.dart';
 import 'package:delivery_service/controller/search_controller/search_repository.dart';
 import 'package:delivery_service/controller/welcome_controller/welcome_repository.dart';
 import 'package:delivery_service/model/category_model/category_network_service.dart';
@@ -26,6 +28,7 @@ import 'package:delivery_service/model/payment_model/payment_network_service.dar
 import 'package:delivery_service/model/product_model/product_network_service.dart';
 import 'package:delivery_service/model/profile_model/profile_network_service.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_network_service.dart';
+import 'package:delivery_service/model/restaurant_model/restaurant_search_network_service.dart';
 import 'package:delivery_service/model/search_model/search_network_service.dart';
 import 'package:delivery_service/model/welcome_model/welcome_network_service.dart';
 import 'package:delivery_service/util/service/network/network_service.dart';
@@ -91,7 +94,7 @@ void init() {
   /// Restaurant controller
   singleton.registerLazySingleton<RestaurantRepository>(
     () => RestaurantRepositoryImpl(
-      networkService: singleton(),
+      restaurantNetworkService: singleton(),
       categoryRepository: singleton(),
       productRepository: singleton(),
       locationRepository: singleton(),
@@ -108,7 +111,7 @@ void init() {
   /// Search controller
   singleton.registerLazySingleton<SearchRepository>(
     () => SearchRepositoryImpl(
-      networkService: singleton(),
+      searchNetworkService: singleton(),
       categoryRepository: singleton(),
       moorDatabase: singleton(),
     ),
@@ -263,6 +266,26 @@ void init() {
   );
   singleton.registerLazySingleton<OrdersNetworkService>(
     () => OrdersNetworkServiceImpl(
+      networkService: singleton(),
+    ),
+  );
+
+  /// dashboard controller
+  singleton.registerLazySingleton<DashboardRepository>(
+    () => DashboardRepositoryImpl(
+      moorDatabase: singleton(),
+    ),
+  );
+
+  /// restaurant search controller
+  singleton.registerLazySingleton<RestaurantSearchRepository>(
+    () => RestaurantSearchRepositoryImpl(
+      restaurantSearchNetworkService: singleton(),
+      moorDatabase: singleton(),
+    ),
+  );
+  singleton.registerLazySingleton<RestaurantSearchNetworkService>(
+    () => RestaurantSearchNetworkServiceImpl(
       networkService: singleton(),
     ),
   );

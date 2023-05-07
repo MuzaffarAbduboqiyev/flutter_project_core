@@ -7,7 +7,7 @@ import 'package:delivery_service/model/search_model/search_network_service.dart'
 import 'package:delivery_service/model/search_model/search_response_model.dart';
 
 abstract class SearchRepository {
-  Future<DataResponseModel<SearchResponseModel>> search({
+  Future<DataResponseModel<SearchResponseModel>> searchCategory({
     required String searchName,
   });
 
@@ -20,32 +20,38 @@ abstract class SearchRepository {
   Future<bool> saveSearchHistory({required String searchName});
 
   Stream<List<SearchData>> listenSearchHistory();
+
+  /// category Request
+  Future<DataResponseModel<SearchResponseModel>> categoryRequests({
+    required String searchName,
+    required int categoryId,
+  });
 }
 
 class SearchRepositoryImpl extends SearchRepository {
   /// Search oynadagi search qilingan product va vendorlarni serverdan fetch(olish) uchun ishlatiladi
-  final SearchNetworkService networkService;
+  final SearchNetworkService searchNetworkService;
 
   /// Search oynadagi categories larni serverdan olib kelish va uni parse qilish
   /// CategoryRepository ishi bo'lganligi uchun biz buni CategoryRepository ichida qilib,
   /// SearchRepository da o'sha fetch va parse qilingan methodni chaqirilamiz
   final CategoryRepository categoryRepository;
-
   final MoorDatabase moorDatabase;
 
   SearchRepositoryImpl({
-    required this.networkService,
+    required this.searchNetworkService,
     required this.categoryRepository,
     required this.moorDatabase,
   });
 
+  /// search search
   @override
-  Future<DataResponseModel<SearchResponseModel>> search({
+  Future<DataResponseModel<SearchResponseModel>> searchCategory({
     required String searchName,
   }) async {
     try {
       final networkResponse =
-          await networkService.search(searchName: searchName);
+          await searchNetworkService.searchCategoryUrl(searchName: searchName);
       final response = networkResponse.response;
       if (networkResponse.status && response != null) {
         if (response.data.containsKey("vendors") &&
@@ -87,11 +93,35 @@ class SearchRepositoryImpl extends SearchRepository {
 
   @override
   Future<bool> saveSearchHistory({required String searchName}) async {
-    await moorDatabase.insertSearchHistory(
-      SearchData(
-        searchName: searchName,
-      ),
-    );
+    await moorDatabase.insertSearchHistory(SearchData(searchName: searchName));
     return true;
+  }
+
+  /// category Request
+  @override
+  Future<DataResponseModel<SearchResponseModel>> categoryRequests(
+      {required int categoryId, required String searchName}) async {
+    try {
+      final networkResponse =
+          await searchNetworkService.searchCategoryRequestsUrl(
+        searchName: searchName,
+        categoryId: categoryId,
+      );
+      final response = networkResponse.response;
+      if (networkResponse.status && response != null) {
+        if (response.data.containsKey("vendors") &&
+            response.data.containsKey("products")) {
+          final searchResponse = SearchResponseModel.fromMap(response.data);
+          print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr: $searchResponse");
+          return DataResponseModel.success(model: searchResponse);
+        } else {
+          return getDataResponseErrorHandler(networkResponse);
+        }
+      } else {
+        return getDataResponseErrorHandler(networkResponse);
+      }
+    } catch (error) {
+      return DataResponseModel.error(responseMessage: error.toString());
+    }
   }
 }

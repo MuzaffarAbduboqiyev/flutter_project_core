@@ -6,6 +6,7 @@ enum OrderStatus {
   loading,
   loaded,
   error,
+  refreshing,
 }
 
 enum ShippingStatus {

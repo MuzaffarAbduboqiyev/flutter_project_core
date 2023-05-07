@@ -73,6 +73,22 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       "Uchkurgan District",
       "Uychi District",
       "Yangikurgan District",
+      ///////////////////////////
+      "Chartak Region",
+      "Chust Region",
+      "Kasansay Region",
+      "Mingbulak Region",
+      "Namangan Region",
+      "Yangi Namangan Region",
+      "Naryn Region",
+      "Pap Region",
+      "Turakurgan Region",
+      "Uchkurgan Region",
+      "Uychi Region",
+      "Yangikurgan Region",
+      "Namangan Region",
+      "Namangan",
+      ////////////////////////////
       "Chartak",
       "Chust",
       "Kasansay",
@@ -84,8 +100,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       "Turakurgan",
       "Uchkurgan",
       "Uychi",
+      "Karoskon",
       "Yangikurgan",
-      "Namangan",
     ];
 
     final response = await locationRepository.getLocationInfo(

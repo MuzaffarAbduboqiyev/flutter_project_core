@@ -89,9 +89,11 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                             onTap: () => _changeLocationSelectedStatus(
                                 state.location[index]),
                             leading: Icon(
-                              state.location[index].selectedStatus
-                                  ? Icons.check_box
-                                  : Icons.check_box_outline_blank_outlined,
+                              state.location[index].address.isNotEmpty
+                                  ? state.location[index].selectedStatus
+                                      ? Icons.check_box
+                                      : Icons.check_box_outline_blank_outlined
+                                  : null,
                               color: state.location[index].selectedStatus
                                   ? getCurrentTheme(context).indicatorColor
                                   : getCurrentTheme(context).iconTheme.color,
@@ -121,9 +123,12 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                                 onTap: () => _changeLocationSelectedStatus(
                                     state.location[index]),
                                 child: Icon(
-                                  state.location[index].selectedStatus
-                                      ? Icons.check_box
-                                      : Icons.check_box_outline_blank_outlined,
+                                  state.location[index].address.isNotEmpty
+                                      ? state.location[index].selectedStatus
+                                          ? Icons.check_box
+                                          : Icons
+                                              .check_box_outline_blank_outlined
+                                      : null,
                                   color: state.location[index].selectedStatus
                                       ? getCurrentTheme(context).indicatorColor
                                       : getCurrentTheme(context)

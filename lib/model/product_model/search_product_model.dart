@@ -1,4 +1,4 @@
-import 'package:delivery_service/model/restaurant_model/vendor_model.dart';
+import 'package:delivery_service/model/search_model/vendor_model.dart';
 import 'package:delivery_service/util/service/network/parser_service.dart';
 
 class SearchProductModel {

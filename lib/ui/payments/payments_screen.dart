@@ -20,11 +20,13 @@ class PaymentsPage extends StatefulWidget {
 }
 
 class _PaymentsPageState extends State<PaymentsPage> {
+  final TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simpleAppBar(context, translate("payments.payments")),
       backgroundColor: getCurrentTheme(context).backgroundColor,
+      appBar: simpleAppBar(context, translate("payments.payments")),
     );
   }
 }

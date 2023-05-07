@@ -2,6 +2,7 @@ import 'package:delivery_service/util/service/network/parser_service.dart';
 
 class ProductModel {
   final int id;
+  final int restaurantId;
   final String name;
   final String excerpt;
   final int price;
@@ -14,6 +15,7 @@ class ProductModel {
 
   ProductModel({
     required this.id,
+    required this.restaurantId,
     required this.name,
     required this.excerpt,
     required this.price,
@@ -27,6 +29,7 @@ class ProductModel {
 
   factory ProductModel.example() => ProductModel(
         id: 0,
+        restaurantId: 0,
         name: "",
         excerpt: "",
         price: 0,
@@ -40,6 +43,7 @@ class ProductModel {
 
   factory ProductModel.fromMap(Map<String, dynamic> response) => ProductModel(
         id: parseToInt(response: response, key: "id"),
+        restaurantId: parseToInt(response: response, key: "restaurant_id"),
         name: parseToString(response: response, key: "name"),
         excerpt: parseToString(response: response, key: "excerpt"),
         price: parseToPrice(response: response, key: "price"),
@@ -54,6 +58,7 @@ class ProductModel {
   ProductModel copyWith({
     int? id,
     String? name,
+    int? restaurantId,
     String? excerpt,
     int? price,
     int? count,
@@ -65,6 +70,7 @@ class ProductModel {
   }) =>
       ProductModel(
         id: id ?? this.id,
+        restaurantId: restaurantId ?? this.restaurantId,
         name: name ?? this.name,
         excerpt: excerpt ?? this.excerpt,
         price: price ?? this.price,

@@ -1,16 +1,22 @@
 import 'package:delivery_service/controller/home_controller/home_bloc.dart';
 import 'package:delivery_service/controller/home_controller/home_event.dart';
+import 'package:delivery_service/controller/home_controller/home_state.dart';
+import 'package:delivery_service/controller/restaurant_controller/restaurant_state.dart';
 import 'package:delivery_service/ui/home/home_widgets/home_category.dart';
 import 'package:delivery_service/ui/home/home_widgets/home_restaurant.dart';
 import 'package:delivery_service/ui/home/home_widgets/home_user.dart';
+import 'package:delivery_service/ui/widgets/refresh/refresh_header.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final Function goBack;
+
+  const HomeScreen({Key? key, required this.goBack}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,24 +27,33 @@ class HomeScreen extends StatelessWidget {
         locationRepository: singleton(),
         homeRepository: singleton(),
       )..add(HomeGetTokenEvent()),
-      child: const HomePage(),
+      child: HomePage(goBack: goBack),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final Function goBack;
+
+  const HomePage({Key? key, required this.goBack}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  late RefreshController refreshController = RefreshController();
+
   void _loadHomeData() {
     /// [HomeScreen] ishga tushgan vaqtda category larni serverdan yuklash eventi(amali)
     /// Bu [HomeBloc]ga [HomeGetCategoriesEvent] add bo'lganda [HomeBloc] dagi on<HomeGetCategoriesEvent> eventTransformerini chaqiradi
     /// va on<HomeGetCategoriesEvent> eventTransformerdagi [_getAllCategories] methodini ishga tushiradi.
     /// Biz HomeBloc ga HomeGetCategoriesEvent qilishdan avval HomeBlocda shu event kelsa qaysi method chaqirilishini belgilab qo'yganmiz
+    context.read<HomeBloc>().add(HomeGetCategoriesEvent());
+    context.read<HomeBloc>().add(HomeGetRestaurantsEvent());
+  }
+
+  _refresh() {
     context.read<HomeBloc>().add(HomeGetCategoriesEvent());
     context.read<HomeBloc>().add(HomeGetRestaurantsEvent());
   }
@@ -54,15 +69,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: getCurrentTheme(context).backgroundColor,
-        body: Column(
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state.restaurantStatus == RestaurantStatus.loaded &&
+            refreshController.isRefresh) {
+          refreshController.refreshCompleted();
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: getCurrentTheme(context).backgroundColor,
+          body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const HomeUserWidget(),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 16.0),
               const HomeCategory(),
               const SizedBox(height: 8.0),
               Padding(
@@ -73,10 +95,28 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 8.0),
-              const Expanded(
-                child: HomeRestaurant(),
+              Expanded(
+                child: SmartRefresher(
+                  controller: refreshController,
+                  enablePullUp: false,
+                  enablePullDown: true,
+                  onRefresh: _refresh,
+                  header: getRefreshHeader(),
+                  physics: const BouncingScrollPhysics(),
+                  child: CustomScrollView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: HomeRestaurant(goBack: widget.goBack),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ]),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -23,7 +23,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     );
 
     on<OrderCartProductEvent>(
-      _orderCartProduct,
+      _orderListenCartProduct,
       transformer: concurrent(),
     );
 
@@ -67,6 +67,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     /// get token
     on<OrderGetTokenEvent>(
       _getToken,
+      transformer: concurrent(),
+    );
+
+    /// refresh product
+    on<OrderRefreshProductsEvent>(
+      _refreshProducts,
       transformer: concurrent(),
     );
 
@@ -128,6 +134,24 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     );
   }
 
+  /// refresh product
+  FutureOr<void> _refreshProducts(
+      OrderRefreshProductsEvent event, Emitter<OrderState> emit) async {
+    emit(
+      state.copyWith(
+        orderStatus: OrderStatus.refreshing,
+      ),
+    );
+    final response = await orderRepository.refreshProducts();
+
+    emit(
+      state.copyWith(
+        orderStatus: (response.status) ? OrderStatus.loaded : OrderStatus.error,
+        error: response.message,
+      ),
+    );
+  }
+
   FutureOr<void> _orderShippingRequestEvent(
       OrderRequestButtonEvent event, Emitter<OrderState> emit) async {
     emit(
@@ -169,7 +193,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     );
   }
 
-  FutureOr<void> _orderCartProduct(
+  FutureOr<void> _orderListenCartProduct(
       OrderCartProductEvent event, Emitter<OrderState> emit) {
     int price = 0;
 

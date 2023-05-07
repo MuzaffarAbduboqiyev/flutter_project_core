@@ -1,5 +1,6 @@
 import 'package:delivery_service/controller/search_controller/search_bloc.dart';
 import 'package:delivery_service/controller/search_controller/search_event.dart';
+import 'package:delivery_service/controller/search_controller/search_state.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
@@ -23,12 +24,10 @@ class _SearchCategoryItemState extends State<SearchCategoryItem> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: _changeSearchName,
+      onTap: () => _changeSearchName(),
       child: Container(
         decoration: getContainerDecoration(context),
-        height: 160,
-        margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(14),
         width: double.maxFinite,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -39,12 +38,10 @@ class _SearchCategoryItemState extends State<SearchCategoryItem> {
               imageWidth: 62,
               imageHeight: 70,
             ),
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             Text(
               widget.categoryModel.name,
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: getCurrentTheme(context).textTheme.bodyLarge,
             ),
@@ -55,9 +52,14 @@ class _SearchCategoryItemState extends State<SearchCategoryItem> {
   }
 
   _changeSearchName() async {
-    print("Search GridView Product");
-    context
-        .read<SearchBloc>()
-        .add(SearchNameEvent(searchName: widget.categoryModel.name));
+    context.read<SearchBloc>().add(
+          SearchNameEvent(searchName: widget.categoryModel.name),
+        );
+    context.read<SearchBloc>().add(
+          SearchCategoryRequestEvent(
+            searchName: widget.categoryModel.name,
+            categoryId: widget.categoryModel.id,
+          ),
+        );
   }
 }

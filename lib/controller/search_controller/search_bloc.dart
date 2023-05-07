@@ -47,12 +47,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       transformer: restartable(),
     );
 
+    on<SearchCategoryRequestEvent>(
+      _categoryRequest,
+      transformer: restartable(),
+    );
+
     historyListener =
         searchRepository.listenSearchHistory().listen((searchHistories) {
-          add(
-            SearchHistoryEvent(searchHistories: searchHistories),
-          );
-        });
+      add(
+        SearchHistoryEvent(searchHistories: searchHistories),
+      );
+    });
   }
 
   FutureOr<void> _categories(
@@ -78,6 +83,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     );
   }
 
+  /// search category refresh
   FutureOr<void> _refresh(
       SearchRefreshEvent event, Emitter<SearchState> emit) async {
     if (state.searchName.isNotEmpty) {
@@ -87,6 +93,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
   }
 
+  /// search category name
   FutureOr<void> _searchName(
       SearchNameEvent event, Emitter<SearchState> emit) async {
     emit(
@@ -99,12 +106,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     );
 
     if (event.searchName.isNotEmpty) {
-      final response = await searchRepository.search(searchName: event.searchName);
+      final response =
+          await searchRepository.searchCategory(searchName: event.searchName);
 
       emit(
         state.copyWith(
           searchStatus:
-          (response.status) ? SearchStatus.loaded : SearchStatus.error,
+              (response.status) ? SearchStatus.loaded : SearchStatus.error,
           searchResponseModel: response.data,
           error: response.message,
         ),
@@ -117,6 +125,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     await searchRepository.removeSearchHistory(searchData: event.historyItem);
   }
 
+  ///  clear history
   FutureOr<void> _clearHistory(
       SearchClearHistoryEvent event, Emitter<SearchState> emit) async {
     await searchRepository.clearSearchHistory();
@@ -131,7 +140,30 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       SearchHistoryEvent event, Emitter<SearchState> emit) {
     emit(
       state.copyWith(
-        searchData:  event.searchHistories,
+        searchData: event.searchHistories,
+      ),
+    );
+  }
+
+  /// search category request
+  FutureOr<void> _categoryRequest(
+      SearchCategoryRequestEvent event, Emitter<SearchState> emit) async {
+    emit(
+      state.copyWith(
+        searchStatus: SearchStatus.loading,
+      ),
+    );
+    final response = await searchRepository.categoryRequests(
+      searchName: event.searchName,
+      categoryId: event.categoryId,
+    );
+
+    emit(
+      state.copyWith(
+        searchStatus:
+            (response.status) ? SearchStatus.loaded : SearchStatus.error,
+        searchResponseModel: response.data,
+        error: response.message,
       ),
     );
   }

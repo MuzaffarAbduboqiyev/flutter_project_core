@@ -2,7 +2,6 @@ import 'package:delivery_service/ui/account/account_screen.dart';
 import 'package:delivery_service/ui/dashboard/dashboard_screen.dart';
 import 'package:delivery_service/ui/delivery_location/map_screen.dart';
 import 'package:delivery_service/ui/favorites/favorites_screen.dart';
-import 'package:delivery_service/ui/home/home_screen.dart';
 import 'package:delivery_service/ui/location/location_screen.dart';
 import 'package:delivery_service/ui/order/order_screen.dart';
 import 'package:delivery_service/ui/orders/orders_screen.dart';
@@ -10,12 +9,15 @@ import 'package:delivery_service/ui/orders/reorder_screen/reorder_screen.dart';
 import 'package:delivery_service/ui/payments/payments_screen.dart';
 import 'package:delivery_service/ui/profile/profile_screen.dart';
 import 'package:delivery_service/ui/restaurant/restaurant_screen.dart';
+import 'package:delivery_service/ui/restaurant/restaurant_search/restaurant_search.dart';
 import 'package:delivery_service/ui/verification_otp/otp_verification_screen.dart';
 import 'package:delivery_service/ui/welcome_number/welcome_screen.dart';
 import 'package:delivery_service/ui/widgets/splash/splash_screen.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+import '../../../ui/offers_promos/offers_promos.dart';
 
 class ScreenObserver {
   final RouteObserver<PageRoute> routeObserver;
@@ -26,9 +28,6 @@ class ScreenObserver {
     switch (settings.name) {
       case dashboardScreen:
         return _buildRoute(settings, const DashboardScreen());
-
-      case homeScreen:
-        return _buildRoute(settings, const HomeScreen());
 
       default:
         return _errorRoute();
@@ -75,15 +74,18 @@ Future<bool> pushNewScreen(
           restaurantId: arguments?["restaurant_id"],
           productId: arguments?["product_id"],
           categoryId: arguments?["category_id"],
+          goBack: arguments?["go_back"],
         ),
         withNavBar: navbarStatus,
       );
+
       return true;
     case orderScreen:
       await PersistentNavBarNavigator.pushNewScreen(
         context,
         screen: OrderScreen(
-          // goBack: arguments?[""],
+          goBack: arguments?["go_back"],
+          isDashboard: false,
         ),
         withNavBar: navbarStatus,
       );
@@ -117,7 +119,7 @@ Future<bool> pushNewScreen(
     case accountScreen:
       await PersistentNavBarNavigator.pushNewScreen(
         context,
-        screen: const AccountScreen(),
+        screen: AccountScreen(goBack: arguments?["go_back"]),
         withNavBar: navbarStatus,
       );
       return true;
@@ -131,7 +133,7 @@ Future<bool> pushNewScreen(
     case favoritesScreen:
       await PersistentNavBarNavigator.pushNewScreen(
         context,
-        screen: const FavoriteScreen(),
+        screen: FavoriteScreen(goBack: arguments?["go_back"]),
         withNavBar: navbarStatus,
       );
       return true;
@@ -161,6 +163,23 @@ Future<bool> pushNewScreen(
         context,
         screen: const ReorderScreen(),
         withNavBar: navbarStatus,
+      );
+      return true;
+    case restaurantSearch:
+      await PersistentNavBarNavigator.pushNewScreen(
+        context,
+        screen: RestaurantSearchScreen(
+          restaurantId: arguments?["restaurant_id"],
+          categoryId: arguments?["category_id"],
+          goBack: arguments?["go_back"],
+        ),
+        withNavBar: navbarStatus,
+      );
+      return true;
+    case offersPromosScreen:
+      await PersistentNavBarNavigator.pushNewScreen(
+        context,
+        screen: const OffersPromosScreen(),
       );
       return true;
 

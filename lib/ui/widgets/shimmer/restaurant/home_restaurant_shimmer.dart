@@ -11,6 +11,8 @@ class HomeRestaurantShimmer extends StatelessWidget {
     return ScrollConfiguration(
       behavior: CustomScrollBehavior(),
       child: ListView.builder(
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
         itemCount: 15,
         itemBuilder: (context, index) => Shimmer.fromColors(
           baseColor: Colors.grey.shade400,

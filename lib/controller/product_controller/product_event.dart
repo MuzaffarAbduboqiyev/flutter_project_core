@@ -22,13 +22,9 @@ class ProductRefreshEvent extends ProductEvent {}
 
 class ProductCartEvent extends ProductEvent {
   final BuildContext context;
-
   final List<ProductVariationModel> productVariations;
 
-  ProductCartEvent({
-    required this.context,
-    required this.productVariations,
-  });
+  ProductCartEvent({required this.context, required this.productVariations});
 }
 
 class ProductVariationEvent extends ProductEvent {

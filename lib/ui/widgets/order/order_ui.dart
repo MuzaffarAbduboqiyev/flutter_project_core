@@ -9,11 +9,13 @@ import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 
 class OrderListView extends StatefulWidget {
-  // final Function goBack;
+  final Function goBack;
+  final bool isDashboard;
 
   const OrderListView({
     Key? key,
-    // required this.goBack,
+    required this.goBack,
+    required this.isDashboard,
   }) : super(key: key);
 
   @override
@@ -24,12 +26,6 @@ class _OrderListViewState extends State<OrderListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Order",
-          style: getCurrentTheme(context).textTheme.displayLarge,
-        ),
-      ),
       backgroundColor: getCurrentTheme(context).backgroundColor,
       body: Center(
         child: Padding(
@@ -64,7 +60,13 @@ class _OrderListViewState extends State<OrderListView> {
               ),
               const SizedBox(height: 32),
               InkWell(
-                onTap: _chekButton,
+                onTap: () {
+                  if (widget.isDashboard) {
+                    widget.goBack.call();
+                  } else {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  }
+                },
                 child: Container(
                   height: 53,
                   width: double.infinity,
@@ -84,9 +86,5 @@ class _OrderListViewState extends State<OrderListView> {
         ),
       ),
     );
-  }
-
-  void _chekButton() {
-    print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
   }
 }

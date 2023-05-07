@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeRestaurant extends StatefulWidget {
-  const HomeRestaurant({Key? key}) : super(key: key);
+  final Function goBack;
+
+  const HomeRestaurant({Key? key, required this.goBack}) : super(key: key);
 
   @override
   State<HomeRestaurant> createState() => _HomeRestaurantState();
@@ -33,11 +35,14 @@ class _HomeRestaurantState extends State<HomeRestaurant> {
                   : ScrollConfiguration(
                       behavior: CustomScrollBehavior(),
                       child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
                         itemCount: state.restaurantModel.length,
                         itemBuilder: (context, index) => HomeRestaurantItem(
                           restaurantModel: state.restaurantModel[index],
                           productModel: state.productModel,
                           categoryModel: state.categoryModel[index],
+                          goBack: widget.goBack,
                         ),
                       ),
                     ),
