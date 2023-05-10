@@ -69,6 +69,7 @@ class _LocationPageState extends State<LocationPage> {
                           ),
                           child: Container(
                             padding: const EdgeInsets.all(16),
+                            width: double.maxFinite,
                             decoration: BoxDecoration(
                               border: Border(
                                 bottom:

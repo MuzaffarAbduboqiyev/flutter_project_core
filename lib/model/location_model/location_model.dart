@@ -1,3 +1,5 @@
+import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/util/service/network/parser_service.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 class Location extends Table {
@@ -22,3 +24,24 @@ class Location extends Table {
   @override
   Set<Column>? get primaryKey => {id, lat, lng};
 }
+
+List<LocationData> parseToLocationModelList({
+  required List<dynamic> response,
+}) {
+  return response.map((e) => parseToLocationModel(response: e)).toList();
+}
+
+LocationData parseToLocationModel({
+  required dynamic response,
+}) =>
+    LocationData(
+      id: parseToInt(response: response, key: "id"),
+      lat: parseToString(response: response, key: "latitude"),
+      lng: parseToString(response: response, key: "longitude"),
+      defaults: parseToBool(response: response, key: "default"),
+      address: parseToString(response: response, key: "address"),
+      comment: parseToString(response: response, key: "comment"),
+      created: parseToString(response: response, key: "created_at"),
+      updated: parseToString(response: response, key: "updated_at"),
+      selectedStatus: parseToBool(response: response, key: "default"),
+    );

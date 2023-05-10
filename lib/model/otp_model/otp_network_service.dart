@@ -4,6 +4,7 @@ import 'package:delivery_service/util/service/network/urls.dart';
 
 abstract class OtpNetworkService {
   Future<NetworkResponseModel> getPhoneCode({required Map body});
+  Future<NetworkResponseModel> getLocations();
 }
 
   class OtpNetworkServiceImpl extends OtpNetworkService {
@@ -15,6 +16,12 @@ abstract class OtpNetworkService {
   Future<NetworkResponseModel> getPhoneCode({required Map body}) async {
     final response =
         await networkService.postMethod(url: verifyNumberUrl, body: body);
+    return response;
+  }
+
+  @override
+  Future<NetworkResponseModel> getLocations() async{
+    final response = await networkService.getMethod(url: addressesUrl);
     return response;
   }
 }

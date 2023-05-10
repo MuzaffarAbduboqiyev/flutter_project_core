@@ -1,3 +1,5 @@
+import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/util/service/network/parser_service.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 class ProductCart extends Table {
@@ -25,3 +27,22 @@ class ProductCart extends Table {
         variationId,
       };
 }
+
+/// Parse to ProductCartData list from dynamic list
+List<ProductCartData> parseProductCartDataList(List<dynamic> list) {
+  return list.map((e) => parseProductCartData(e)).toList();
+}
+
+/// Parse to ProductCartData from dynamic
+ProductCartData parseProductCartData(dynamic element) => ProductCartData(
+      restaurantId:
+          parseToInt(response: element["product"], key: "restaurant_id"),
+      price: parseToInt(response: element, key: "price"),
+      count: parseToInt(response: element, key: "quantity"),
+      productId: parseToInt(response: element["product"], key: "id"),
+      name: parseToString(response: element["product"], key: "name"),
+      image: parseToString(response: element["product"], key: "image"),
+      hasStock: parseToBool(response: element["product"], key: "in_stock"),
+      variationId: parseToInt(response: element, key: "id"),
+      selectedCount: parseToInt(response: element, key: "quantity"),
+    );

@@ -10,13 +10,20 @@ abstract class OrderNetworkService {
   Future<NetworkResponseModel> getPaymentCheckUrl();
 
   /// order request payment
-  Future<NetworkResponseModel> getPaymentRequestUrl({required Map<dynamic, dynamic> body});
+  Future<NetworkResponseModel> getPaymentRequestUrl(
+      {required Map<dynamic, dynamic> body});
 
   /// refresh product GetMethod
   Future<NetworkResponseModel> refreshGetMethodUrl();
 
+  /// Upload cart products to server
+  Future<NetworkResponseModel> uploadCartProducts({
+    required Map<dynamic, dynamic> body,
+  });
+
   /// refresh product PostMethod
-  Future<NetworkResponseModel> refreshPostMethodUrl({required Map<dynamic, dynamic> body});
+  Future<NetworkResponseModel> refreshPostMethodUrl(
+      {required Map<dynamic, dynamic> body});
 }
 
 class OrderNetworkServiceImpl extends OrderNetworkService {
@@ -60,6 +67,14 @@ class OrderNetworkServiceImpl extends OrderNetworkService {
   Future<NetworkResponseModel> refreshPostMethodUrl(
       {required Map<dynamic, dynamic> body}) async {
     final response = networkService.postMethod(url: cartUrl, body: body);
+    return response;
+  }
+
+  @override
+  Future<NetworkResponseModel> uploadCartProducts({
+    required Map<dynamic, dynamic> body,
+  })  async{
+    final response = await networkService.postMethod(url: cartUrl, body: body);
     return response;
   }
 }

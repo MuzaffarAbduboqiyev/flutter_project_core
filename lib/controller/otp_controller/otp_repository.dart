@@ -1,5 +1,7 @@
 import 'package:delivery_service/controller/welcome_controller/welcome_repository.dart';
 import 'package:delivery_service/model/local_database/hive_database.dart';
+import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/model/location_model/location_model.dart';
 import 'package:delivery_service/model/otp_model/otp_model.dart';
 import 'package:delivery_service/model/otp_model/otp_network_service.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
@@ -24,11 +26,13 @@ class OtpRepositoryImpl extends OtpRepository {
   final OtpNetworkService otpNetworkService;
   final WelcomeRepository welcomeRepository;
   final HiveDatabase hiveDatabase;
+  final MoorDatabase moorDatabase;
 
   OtpRepositoryImpl({
     required this.otpNetworkService,
     required this.welcomeRepository,
     required this.hiveDatabase,
+    required this.moorDatabase,
   });
 
   @override
@@ -45,6 +49,19 @@ class OtpRepositoryImpl extends OtpRepository {
         if (response.response?.data.containsKey("data") == true) {
           final sendRequest = OtpModel.formMap(response.response?.data["data"]);
           await userDataStorage(otpModel: sendRequest);
+
+          final locationResponse = await otpNetworkService.getLocations();
+          if (locationResponse.status == true &&
+              locationResponse.response != null &&
+              locationResponse.response?.data.containsKey("data") &&
+              locationResponse.response?.data["data"] != null &&
+              locationResponse.response?.data["data"] is List) {
+
+            await moorDatabase.insertAllLocations(
+              locationDataList: parseToLocationModelList(
+                  response: locationResponse.response?.data["data"]),
+            );
+          }
           return SimpleResponseModel.success();
         } else {
           return getSimpleResponseErrorHandler(response);

@@ -1,12 +1,11 @@
-import 'package:delivery_service/controller/location_controller/location_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
-import 'package:delivery_service/model/payment_model/order_model.dart';
 import 'package:delivery_service/model/order_model/order_network_service.dart';
+import 'package:delivery_service/model/payment_model/order_model.dart';
+import 'package:delivery_service/model/product_model/product_cart.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
-import 'package:delivery_service/util/service/network/parser_service.dart';
 import 'package:hive/hive.dart';
 
 abstract class OrderRepository {
@@ -142,39 +141,45 @@ class OrderRepositoryImpl extends OrderRepository {
   @override
   Future<SimpleResponseModel> refreshProducts() async {
     try {
-      final responseGet = await orderNetworkService.refreshGetMethodUrl();
+      final hasToken = await getTokenInfo();
 
-      if (responseGet.status == true && responseGet.response != null) {
-        if (responseGet.response?.data.containsKey("data")) {
-          List<ProductCartData> productData = [];
-          responseGet.response?.data["data"].forEach((element) {
-            final productCartData = ProductCartData(
-              restaurantId: parseToInt(
-                  response: element["product"], key: "restaurant_id"),
-              price: parseToInt(response: element, key: "price"),
-              count: parseToInt(response: element, key: "quantity"),
-              productId: parseToInt(response: element["product"], key: "id"),
-              name: parseToString(response: element["product"], key: "name"),
-              image: parseToString(response: element["product"], key: "image"),
-              hasStock:
-                  parseToBool(response: element["product"], key: "in_stock"),
-              variationId: parseToInt(response: element, key: "id"),
-              selectedCount: parseToInt(response: element, key: "quantity"),
-            );
+      if (hasToken) {
+        final localProducts = await moorDatabase.getCartProducts();
+        final List<Map<String, int>> uploadProducts = [];
 
-            productData.add(productCartData);
-          });
-
-          for (var element in productData) {
-            await moorDatabase.insertProductCart(productCartData: element);
+        if (localProducts.isNotEmpty) {
+          for (var element in localProducts) {
+            uploadProducts.add({
+              "id": element.variationId,
+              "quantity": element.selectedCount,
+            });
           }
+        }
+
+        final responseGet = (uploadProducts.isEmpty)
+            ? await orderNetworkService.refreshGetMethodUrl()
+            : await orderNetworkService.uploadCartProducts(
+                body: {
+                  "products": uploadProducts,
+                },
+              );
+
+        if (responseGet.status == true &&
+            responseGet.response != null &&
+            responseGet.response?.data.containsKey("data") == true &&
+            responseGet.response?.data["data"] != null &&
+            responseGet.response?.data["data"] is List) {
+          await moorDatabase.insertAllProductCartData(
+            productCartDataList:
+                parseProductCartDataList(responseGet.response?.data["data"]),
+          );
 
           return SimpleResponseModel.success();
         } else {
           return getSimpleResponseErrorHandler(responseGet);
         }
       } else {
-        return getSimpleResponseErrorHandler(responseGet);
+        return SimpleResponseModel.success();
       }
     } catch (error) {
       return SimpleResponseModel.error(responseMessage: error.toString());
@@ -182,105 +187,3 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 }
 
-/*
-  /// refresh product
-  @override
-  Future<SimpleResponseModel> refreshProducts() async {
-    try {
-      final getToken = await hiveDatabase.getToken();
-      final databaseProducts = await moorDatabase.getCartProducts();
-      final List<Map<String, int>> products = [];
-
-      for (var variationElement in databaseProducts) {
-        final cartProduct = {
-          "id": variationElement.productId,
-          "quantity": variationElement.selectedCount,
-        };
-        products.add(cartProduct);
-      }
-
-      if (getToken.isNotEmpty) {
-        final responseGet = await orderNetworkService.refreshGetMethodUrl();
-
-        if (responseGet.status == true && responseGet.response != null) {
-          if (responseGet.response?.data.containsKey("data")) {
-            List<ProductCartData> productData = [];
-            responseGet.response?.data["data"].forEach((element) {
-              final productCartData = ProductCartData(
-                restaurantId: parseToInt(
-                    response: element["product"], key: "restaurant_id"),
-                price: parseToInt(response: element, key: "price"),
-                count: parseToInt(response: element, key: "quantity"),
-                productId: parseToInt(response: element["product"], key: "id"),
-                name: parseToString(response: element["product"], key: "name"),
-                image:
-                    parseToString(response: element["product"], key: "image"),
-                hasStock:
-                    parseToBool(response: element["product"], key: "in_stock"),
-                variationId: parseToInt(response: element, key: "id"),
-                selectedCount: parseToInt(response: element, key: "quantity"),
-              );
-
-              productData.add(productCartData);
-            });
-
-            for (var element in productData) {
-              await moorDatabase.insertProductCart(productCartData: element);
-            }
-            return SimpleResponseModel.success();
-          } else {
-            return getSimpleResponseErrorHandler(responseGet);
-          }
-        } else {
-          return getSimpleResponseErrorHandler(responseGet);
-        }
-      }
-
-      /// refresh else qismi
-      else {
-        final body = {"products": products};
-        // final response =
-        //     await orderNetworkService.refreshPostMethodUrl(body: body);
-
-        final response = await orderNetworkService.refreshGetMethodUrl();
-        if (response.status == true && response.response != null) {
-          if (response.response?.data.containsKey("data")) {
-            List<ProductCartData> productData = [];
-            response.response?.data["data"].forEach((element) {
-              final productCartData = ProductCartData(
-                restaurantId: parseToInt(
-                    response: element["product"], key: "restaurant_id"),
-                price: parseToInt(response: element, key: "price"),
-                count: parseToInt(response: element, key: "quantity"),
-                productId: parseToInt(response: element["product"], key: "id"),
-                name: parseToString(response: element["product"], key: "name"),
-                image:
-                    parseToString(response: element["product"], key: "image"),
-                hasStock:
-                    parseToBool(response: element["product"], key: "in_stock"),
-                variationId: parseToInt(response: element, key: "id"),
-                selectedCount: parseToInt(response: element, key: "quantity"),
-              );
-
-              productData.add(productCartData);
-            });
-
-            for (var element in productData) {
-              await moorDatabase.insertProductCart(productCartData: element);
-            }
-
-            print(
-                "lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll ${response.response?.data}");
-            return SimpleResponseModel.success();
-          } else {
-            return getSimpleResponseErrorHandler(response);
-          }
-        } else {
-          return getSimpleResponseErrorHandler(response);
-        }
-      }
-    } catch (error) {
-      return SimpleResponseModel.error(responseMessage: error.toString());
-    }
-  }
- */

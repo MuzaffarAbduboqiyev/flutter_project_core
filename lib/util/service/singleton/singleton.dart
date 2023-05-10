@@ -194,6 +194,7 @@ void init() {
       otpNetworkService: singleton(),
       hiveDatabase: singleton(),
       welcomeRepository: singleton(),
+      moorDatabase: singleton(),
     ),
   );
 

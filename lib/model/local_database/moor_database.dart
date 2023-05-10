@@ -93,6 +93,19 @@ class MoorDatabase extends _$MoorDatabase {
         .insert(productCartData, mode: InsertMode.insertOrReplace);
   }
 
+  /// Product Cart Data Table Methods
+  /// Insert All Product Cart Data to local database
+  Future insertAllProductCartData({
+    required List<ProductCartData> productCartDataList,
+  }) =>
+      batch((batch) {
+        batch.insertAll(
+          productCart,
+          productCartDataList,
+          mode: InsertMode.insertOrReplace,
+        );
+      });
+
   Stream<List<ProductCartData>> listenCartProducts() =>
       select(productCart).watch();
 
@@ -125,6 +138,19 @@ class MoorDatabase extends _$MoorDatabase {
         locationData,
         mode: InsertMode.insertOrReplace,
       );
+
+  /// Location Data Methods
+  /// Insert All Locations to local database
+  Future insertAllLocations({
+    required List<LocationData> locationDataList,
+  }) =>
+      batch((batch) {
+        batch.insertAll(
+          location,
+          locationDataList,
+          mode: InsertMode.insertOrReplace,
+        );
+      });
 
   /// delete location
   Future<int> deleteLocation({required LocationData locationData}) =>
