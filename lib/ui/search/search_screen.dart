@@ -119,6 +119,7 @@ class _SearchPageState extends State<SearchPage> {
                 enabledBorder:
                     const OutlineInputBorder(borderRadius: BorderRadius.zero),
                 hintText: "Search...",
+
                 hintStyle: getCustomStyle(
                   context: context,
                   color: hintColor,

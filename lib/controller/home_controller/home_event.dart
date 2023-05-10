@@ -48,3 +48,23 @@ class HomeListenTokenEvent extends HomeEvent {
 
 /// get token
 class HomeGetTokenEvent extends HomeEvent {}
+
+/// listen userName
+class HomeListenUserNameEvent extends HomeEvent {
+  final String userName;
+
+  HomeListenUserNameEvent({required this.userName});
+}
+
+/// get userName
+class HomeUserNameEvent extends HomeEvent {}
+
+/// listen userSurname
+class HomeListenUserSurnameEvent extends HomeEvent {
+  final String userSurname;
+
+  HomeListenUserSurnameEvent({required this.userSurname});
+}
+
+/// get userSurname
+class HomeUserSurnameEvent extends HomeEvent {}

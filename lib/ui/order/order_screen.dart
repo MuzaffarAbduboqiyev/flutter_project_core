@@ -78,88 +78,92 @@ class _OrderPageState extends State<OrderPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    _getToken();
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocListener<OrderBloc, OrderState>(
-        listener: (context, state) {
-          if (state.orderStatus != OrderStatus.loading &&
-              refreshController.isRefresh) {
-            refreshController.refreshCompleted();
-          }
-        },
-        child: Scaffold(
-          appBar: simpleAppBar(context, translate("order.basket")),
-          backgroundColor: getCurrentTheme(context).backgroundColor,
-          body: BlocBuilder<OrderBloc, OrderState>(
-            builder: (context, state) => (state.products.isNotEmpty)
-                ? (state.orderStatus == OrderStatus.error)
-                    ? ConnectionErrorWidget(refreshFunction: _refresh)
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Column(
-                          children: [
-                            (state.token)
-                                ? Expanded(
-                                    child: SmartRefresher(
-                                      controller: refreshController,
-                                      enablePullUp: false,
-                                      enablePullDown: true,
-                                      onRefresh: _refresh,
-                                      header: getRefreshHeader(),
-                                      physics: const BouncingScrollPhysics(),
-                                      child: CustomScrollView(
-                                        shrinkWrap: true,
-                                        slivers: [
-                                          SliverToBoxAdapter(
-                                            child: SingleChildScrollView(
-                                              child: ListView.builder(
-                                                shrinkWrap: true,
-                                                physics:
-                                                    const BouncingScrollPhysics(),
-                                                itemCount:
-                                                    state.products.length,
-                                                itemBuilder: (context, index) =>
-                                                    OrderProduct(
-                                                        product: state
-                                                            .products[index]),
-                                              ),
+    return BlocListener<OrderBloc, OrderState>(
+      listener: (context, state) {
+        if (state.orderStatus != OrderStatus.loading &&
+            refreshController.isRefresh) {
+          refreshController.refreshCompleted();
+        }
+      },
+      child: Scaffold(
+        appBar: simpleAppBar(context, translate("order.basket")),
+        backgroundColor: getCurrentTheme(context).backgroundColor,
+        body: BlocBuilder<OrderBloc, OrderState>(
+          builder: (context, state) => (state.products.isNotEmpty)
+              ? (state.orderStatus == OrderStatus.error)
+                  ? ConnectionErrorWidget(refreshFunction: _refresh)
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        children: [
+                          (state.token)
+                              ? Expanded(
+                                  child: SmartRefresher(
+                                    controller: refreshController,
+                                    enablePullUp: false,
+                                    enablePullDown: true,
+                                    onRefresh: _refresh,
+                                    header: getRefreshHeader(),
+                                    physics: const BouncingScrollPhysics(),
+                                    child: CustomScrollView(
+                                      shrinkWrap: true,
+                                      slivers: [
+                                        SliverToBoxAdapter(
+                                          child: SingleChildScrollView(
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              itemCount:
+                                                  state.products.length,
+                                              itemBuilder: (context, index) =>
+                                                  OrderProduct(
+                                                      product: state
+                                                          .products[index]),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : Expanded(
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      itemCount: state.products.length,
-                                      itemBuilder: (context, index) =>
-                                          OrderProduct(
-                                              product: state.products[index]),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                            (state.token) ? const OrderDeliver() : Container(),
-                            (state.token)
-                                ? OrderShipping(
-                                    orderBloc: context.read<OrderBloc>(),
-                                    orderContext: context,
-                                  )
-                                : Container(),
-                            if (state.products.isNotEmpty) _paymentTotal(state),
-                            const SizedBox(height: 12.0),
-                            (state.token)
-                                ? OrderPayment(orderState: state)
-                                : Container(),
-                            const SizedBox(height: 8.0),
-                          ],
-                        ),
-                      )
-                : OrderListView(
-                    goBack: widget.goBack,
-                    isDashboard: widget.isDashboard,
-                  ),
-          ),
+                                )
+                              : Expanded(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: state.products.length,
+                                    itemBuilder: (context, index) =>
+                                        OrderProduct(
+                                            product: state.products[index]),
+                                  ),
+                                ),
+                          (state.token) ? const OrderDeliver() : Container(),
+                          (state.token)
+                              ? OrderShipping(
+                                  orderBloc: context.read<OrderBloc>(),
+                                  orderContext: context,
+                                )
+                              : Container(),
+                          if (state.products.isNotEmpty) _paymentTotal(state),
+                          const SizedBox(height: 12.0),
+                          (state.token)
+                              ? OrderPayment(orderState: state)
+                              : Container(),
+                          const SizedBox(height: 8.0),
+                        ],
+                      ),
+                    )
+              : OrderListView(
+                  goBack: widget.goBack,
+                  isDashboard: widget.isDashboard,
+                ),
         ),
       ),
     );
@@ -196,9 +200,9 @@ class _OrderPageState extends State<OrderPage> {
     );
   }
 
-  // @override
-  // dispose() {
-  //   refreshController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
 }

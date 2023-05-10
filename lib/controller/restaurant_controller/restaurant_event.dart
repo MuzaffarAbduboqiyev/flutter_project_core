@@ -41,3 +41,6 @@ class RestaurantCartEvent extends RestaurantEvent {
     required this.productVariations,
   });
 }
+
+/// get token
+class RestaurantGetTokenEvent extends RestaurantEvent {}

@@ -22,6 +22,7 @@ class SearchState {
   final ProductModel productModel;
   final VendorModel vendorModel;
   final int categoryId;
+  final bool token;
   final String error;
 
   SearchState({
@@ -34,6 +35,7 @@ class SearchState {
     required this.productModel,
     required this.vendorModel,
     required this.categoryId,
+    required this.token,
     required this.error,
   });
 
@@ -47,6 +49,7 @@ class SearchState {
         productModel: ProductModel.example(),
         vendorModel: VendorModel.example(),
         categoryId: 0,
+        token: false,
         error: "",
       );
 
@@ -60,6 +63,7 @@ class SearchState {
     ProductModel? productModel,
     VendorModel? vendorModel,
     int? categoryId,
+    bool? token,
     String? error,
   }) =>
       SearchState(
@@ -72,6 +76,7 @@ class SearchState {
         productModel: productModel ?? this.productModel,
         vendorModel: vendorModel ?? this.vendorModel,
         categoryId: categoryId ?? this.categoryId,
+        token: token ?? this.token,
         error: error ?? this.error,
       );
 }

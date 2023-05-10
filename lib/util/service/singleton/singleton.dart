@@ -97,7 +97,7 @@ void init() {
       restaurantNetworkService: singleton(),
       categoryRepository: singleton(),
       productRepository: singleton(),
-      locationRepository: singleton(),
+      hiveDatabase: singleton(),
       moorDatabase: singleton(),
     ),
   );
@@ -178,6 +178,7 @@ void init() {
   singleton.registerLazySingleton<WelcomeRepository>(
     () => WelcomeRepositoryImpl(
       welcomeNetworkService: singleton(),
+      hiveDatabase: singleton(),
     ),
   );
 
@@ -274,6 +275,7 @@ void init() {
   singleton.registerLazySingleton<DashboardRepository>(
     () => DashboardRepositoryImpl(
       moorDatabase: singleton(),
+      hiveDatabase: singleton(),
     ),
   );
 

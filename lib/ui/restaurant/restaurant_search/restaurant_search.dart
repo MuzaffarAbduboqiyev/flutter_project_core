@@ -88,10 +88,10 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
   }
 
   _refresh(state) {
-    context.read<RestaurantSearchBloc>().add(
-          RestaurantSearchGetProductEvent(
-              restaurantId: widget.restaurantId, searchName: state.searchName),
-        );
+    context.read<RestaurantSearchBloc>().add(RestaurantSearchGetProductEvent(
+        restaurantId: widget.restaurantId, searchName: state.searchName));
+    context.read<RestaurantSearchBloc>().add(RestaurantSearchListenProductEvent(
+        productCartData: state.productCartData));
   }
 
   @override

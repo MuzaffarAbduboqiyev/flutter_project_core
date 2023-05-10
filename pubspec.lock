@@ -241,6 +241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
+  drawer_manager:
+    dependency: "direct main"
+    description:
+      name: drawer_manager
+      sha256: "840f098769c52c2001f3c590f1574af1de11172bb42cb96c0137610affd9ecfe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   drift:
     dependency: transitive
     description:

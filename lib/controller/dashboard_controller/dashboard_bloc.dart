@@ -14,6 +14,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       _listenProducts,
       transformer: concurrent(),
     );
+
     streamSubscription =
         dashboardRepository.listenCartProducts().listen((event) {
       add(DashboardListenProductEvent(productCartData: event));

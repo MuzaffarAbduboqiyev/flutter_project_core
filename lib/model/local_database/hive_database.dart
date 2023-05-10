@@ -45,7 +45,15 @@ abstract class HiveDatabase {
 
   Future<bool> setName(String name);
 
+  Future<String> getSurname();
+
+  Future<bool> setSurname(String userSurname);
+
   Stream<BoxEvent> listenToken();
+
+  Stream<BoxEvent> listenName();
+
+  Stream<BoxEvent> listenSurname();
 }
 
 class HiveDatabaseImpl extends HiveDatabase {
@@ -53,6 +61,18 @@ class HiveDatabaseImpl extends HiveDatabase {
   Stream<BoxEvent> listenToken() async* {
     await generateHiveDatabase();
     yield* Hive.box(hiveDatabaseName).watch(key: hiveToken);
+  }
+
+  @override
+  Stream<BoxEvent> listenName() async* {
+    await generateHiveDatabase();
+    yield* Hive.box(hiveDatabaseName).watch(key: hiveName);
+  }
+
+  @override
+  Stream<BoxEvent> listenSurname() async* {
+    await generateHiveDatabase();
+    yield* Hive.box(hiveDatabaseName).watch(key: hiveSurname);
   }
 
   @override
@@ -113,9 +133,23 @@ class HiveDatabaseImpl extends HiveDatabase {
   }
 
   @override
+  Future<String> getSurname() async {
+    final box = await generateHiveDatabase();
+    final userSurname = await box.get(hiveSurname, defaultValue: "");
+    return userSurname;
+  }
+
+  @override
   Future<bool> setName(String name) async {
     final box = await generateHiveDatabase();
     await box.put(hiveName, name);
+    return true;
+  }
+
+  @override
+  Future<bool> setSurname(String userSurname) async {
+    final box = await generateHiveDatabase();
+    await box.put(hiveSurname, userSurname);
     return true;
   }
 }
@@ -125,3 +159,4 @@ const hiveCurrentTheme = "delivery_service_hive_theme";
 const hiveToken = "delivery_service_hive_token";
 const hivePhone = "delivery_service_hive_phone";
 const hiveName = "delivery_service_hive_name";
+const hiveSurname = "delivery_service_hive_surname";

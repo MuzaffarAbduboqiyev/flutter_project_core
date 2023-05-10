@@ -21,6 +21,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       transformer: concurrent(),
     );
 
+    /// set user name
+    on<ProfileSetUserNameEvent>(
+      _setUserInfo,
+      transformer: concurrent(),
+    );
   }
 
   FutureOr<void> _initialProfile(
@@ -49,5 +54,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
   }
 
-
+  FutureOr<void> _setUserInfo(
+      ProfileSetUserNameEvent event, Emitter<ProfileState> emit) async {
+    final userName =
+        await profileRepository.setUserName(userName: event.userName);
+    final userSurname =
+        await profileRepository.setUserSurname(userSurname: event.userSurname);
+    emit(
+      state.copyWith(
+        userName: userName,
+        userSurname: userSurname,
+      ),
+    );
+  }
 }

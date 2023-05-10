@@ -20,16 +20,21 @@ class ProfileUserNameEvent extends ProfileEvent {
   ProfileUserNameEvent({required this.userName});
 }
 
-/// user email
-class ProfileUserEmailEvent extends ProfileEvent {
-  final String userEmail;
+/// set userName
+class ProfileSetUserNameEvent extends ProfileEvent {
+  final String userName;
+  final String userSurname;
 
-  ProfileUserEmailEvent({required this.userEmail});
+  ProfileSetUserNameEvent({
+    required this.userName,
+    required this.userSurname,
+  });
 }
 
-/// user phone
-class ProfileUserPhoneEvent extends ProfileEvent {
-  final String userPhone;
+/// user get info
+class ProfileUserGetInfoEvent extends ProfileEvent {
+  final String name;
+  final String surName;
 
-  ProfileUserPhoneEvent({required this.userPhone});
+  ProfileUserGetInfoEvent({required this.name, required this.surName});
 }

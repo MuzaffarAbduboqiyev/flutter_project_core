@@ -8,4 +8,3 @@ class DashboardListenProductEvent extends DashboardEvent {
 
   DashboardListenProductEvent({required this.productCartData});
 }
-

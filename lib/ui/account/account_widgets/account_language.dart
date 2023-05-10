@@ -35,6 +35,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
     });
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -57,7 +58,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                           eng = false;
                         });
                       }),
-                  const Expanded(child: Text("Uzbekistan")),
+                  Expanded(child: Text(translate("language.uzb"))),
                   Image.asset("assets/img/uzb.png",
                       fit: BoxFit.cover, width: 50, height: 30),
                 ],
@@ -75,7 +76,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                           eng = false;
                         });
                       }),
-                  const Expanded(child: Text("Россия")),
+                  Expanded(child: Text(translate("language.rus"))),
                   Image.asset("assets/img/rus.png",
                       fit: BoxFit.cover, width: 50, height: 30),
                 ],
@@ -93,7 +94,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                           eng = true;
                         });
                       }),
-                  const Expanded(child: Text("English")),
+                  Expanded(child: Text(translate("language.eng"))),
                   Image.asset("assets/img/eng.png",
                       fit: BoxFit.cover, width: 50, height: 30),
                 ],

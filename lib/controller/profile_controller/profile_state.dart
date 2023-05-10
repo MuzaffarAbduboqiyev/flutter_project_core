@@ -11,16 +11,14 @@ class ProfileState {
   final ProfileStatus profileStatus;
   final ProfileModel profileModel;
   final String userName;
-  final String userEmail;
-  final String userPhone;
+  final String userSurname;
   final String error;
 
   ProfileState({
     required this.profileStatus,
     required this.profileModel,
     required this.userName,
-    required this.userEmail,
-    required this.userPhone,
+    required this.userSurname,
     required this.error,
   });
 
@@ -28,8 +26,7 @@ class ProfileState {
         profileStatus: ProfileStatus.init,
         profileModel: ProfileModel.example(),
         userName: "",
-        userEmail: "",
-        userPhone: "",
+        userSurname: "",
         error: "",
       );
 
@@ -37,16 +34,14 @@ class ProfileState {
     ProfileStatus? profileStatus,
     ProfileModel? profileModel,
     String? userName,
-    String? userEmail,
-    String? userPhone,
+    String? userSurname,
     String? error,
   }) =>
       ProfileState(
         profileStatus: profileStatus ?? this.profileStatus,
         profileModel: profileModel ?? this.profileModel,
         userName: userName ?? this.userName,
-        userEmail: userEmail ?? this.userEmail,
-        userPhone: userPhone ?? this.userPhone,
+        userSurname: userSurname ?? this.userSurname,
         error: error ?? this.error,
       );
 }

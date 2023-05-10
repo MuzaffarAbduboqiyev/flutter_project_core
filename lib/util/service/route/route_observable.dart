@@ -3,6 +3,7 @@ import 'package:delivery_service/ui/dashboard/dashboard_screen.dart';
 import 'package:delivery_service/ui/delivery_location/map_screen.dart';
 import 'package:delivery_service/ui/favorites/favorites_screen.dart';
 import 'package:delivery_service/ui/location/location_screen.dart';
+import 'package:delivery_service/ui/offers_promos/offers_promos.dart';
 import 'package:delivery_service/ui/order/order_screen.dart';
 import 'package:delivery_service/ui/orders/orders_screen.dart';
 import 'package:delivery_service/ui/orders/reorder_screen/reorder_screen.dart';
@@ -16,8 +17,6 @@ import 'package:delivery_service/ui/widgets/splash/splash_screen.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
-import '../../../ui/offers_promos/offers_promos.dart';
 
 class ScreenObserver {
   final RouteObserver<PageRoute> routeObserver;

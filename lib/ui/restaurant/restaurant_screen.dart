@@ -78,6 +78,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
     context.read<RestaurantBloc>().add(RestaurantGetEvent());
     context.read<RestaurantBloc>().add(RestaurantCategoriesEvent());
     context.read<RestaurantBloc>().add(RestaurantRefreshProductsEvent());
+    context.read<RestaurantBloc>().add(RestaurantGetTokenEvent());
   }
 
   void viewCart(RestaurantState state) {
@@ -85,17 +86,13 @@ class _RestaurantPageState extends State<RestaurantPage> {
       context,
       orderScreen,
       navbarStatus: false,
-      arguments: {
-        "go_back": widget.goBack,
-      },
+      arguments: {"go_back": widget.goBack},
     );
   }
 
   @override
   initState() {
-    refreshController = RefreshController(
-      initialRefresh: false,
-    );
+    refreshController = RefreshController(initialRefresh: false);
     _refresh();
     super.initState();
   }
@@ -133,13 +130,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                             headerSliverBuilder: (BuildContext context,
                                 bool innerBoxIsScrolled) {
                               return <Widget>[
-                                RestaurantAppBar(
-                                  restaurantModel: state.restaurantModel,
-                                  restaurantFavoriteState: state.isFavorite,
-                                  restaurantState: state,
-                                  categoryId: widget.categoryId,
-                                  goBack: widget.goBack,
-                                ),
+                                RestaurantAppBar(goBack: widget.goBack),
                                 SliverPersistentHeader(
                                   pinned: true,
                                   delegate: ProductSliverDelegate(

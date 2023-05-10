@@ -57,8 +57,8 @@ class CategoryRepositoryImpl extends CategoryRepository {
     required NetworkResponseModel response,
   }) {
     try {
-
-      if (response.status && response.response != null &&
+      if (response.status &&
+          response.response != null &&
           response.response?.data.containsKey("data")) {
         final List<CategoryModel> categories =
             parseCategoryModel(response.response?.data["data"]);

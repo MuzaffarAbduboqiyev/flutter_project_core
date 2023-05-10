@@ -19,6 +19,7 @@ class _AccountAppBarState extends State<AccountAppBar> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SvgPicture.asset(
@@ -26,11 +27,11 @@ class _AccountAppBarState extends State<AccountAppBar> {
           width: 48.0,
           height: 48.0,
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 12),
         Expanded(
           child: Text(
             "ArtTemplate",
-            style: getCurrentTheme(context).textTheme.displayLarge,
+            style: getCurrentTheme(context).textTheme.displayMedium,
           ),
         ),
         const SizedBox(width: 8),
@@ -40,16 +41,18 @@ class _AccountAppBarState extends State<AccountAppBar> {
               ? Icon(
                   Icons.dark_mode_outlined,
                   color: getCurrentTheme(context).iconTheme.color,
+                  size: 26,
                 )
               : Icon(
                   Icons.wb_sunny_outlined,
                   color: getCurrentTheme(context).iconTheme.color,
+                  size: 26,
                 ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 16),
         InkWell(
           onTap: _buttonLanguage,
-          child: const Icon(Icons.language),
+          child: const Icon(Icons.language, size: 26),
         ),
       ],
     );

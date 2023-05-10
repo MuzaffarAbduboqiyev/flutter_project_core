@@ -1,8 +1,6 @@
 import 'package:delivery_service/controller/orders_controller/orders_bloc.dart';
 import 'package:delivery_service/controller/orders_controller/orders_state.dart';
 import 'package:delivery_service/util/extensions/string_extension.dart';
-import 'package:delivery_service/util/service/route/route_names.dart';
-import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';

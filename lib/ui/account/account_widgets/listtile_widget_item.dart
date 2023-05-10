@@ -22,7 +22,7 @@ class ListTileWidgetItem extends StatelessWidget {
       onTap: () => onTap(),
       leading: Icon(
         icons,
-        size: 36,
+        size: 30,
         color: getCurrentTheme(context).iconTheme.color,
       ),
       title: Column(

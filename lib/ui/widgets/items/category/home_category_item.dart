@@ -36,6 +36,7 @@ class _HomeCategoryItemState extends State<HomeCategoryItem> {
     ///
     /// Biz CategoryModelni tanlasak, Serverda shu Categoryga mos Restaurantlarni olib kelamiz
     /// yoki CategoryModelni tanlanmagan bo'lsa, barcha Restauranlarni olib kelamiz
+    // ignore: no_leading_underscores_for_local_identifiers
     void _changeSelectedCategory() {
       context.read<HomeBloc>().add(
             HomeChangeSelectedCategoryEvent(

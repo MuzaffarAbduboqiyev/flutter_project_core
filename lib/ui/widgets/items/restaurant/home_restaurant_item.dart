@@ -1,5 +1,6 @@
 import 'package:delivery_service/controller/home_controller/home_bloc.dart';
 import 'package:delivery_service/controller/home_controller/home_event.dart';
+import 'package:delivery_service/controller/home_controller/home_state.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/product_model/product_model.dart';
 import 'package:delivery_service/model/restaurant_model/restaurant_model.dart';
@@ -34,115 +35,123 @@ class HomeRestaurantItem extends StatefulWidget {
 class _HomeRestaurantItemState extends State<HomeRestaurantItem> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 246.0,
-      width: double.maxFinite,
-      margin: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: _openRestaurantScreen,
-            child: getClipRReact(
-              borderRadius: 12.0,
-              child: ImageLoading(
-                imageUrl: widget.restaurantModel.image,
-                imageWidth: double.maxFinite,
-                imageHeight: 180.0,
-                imageFitType: BoxFit.cover,
-              ),
-            ),
-          ),
-          const SizedBox(height: 12.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.restaurantModel.name,
-                style: getCurrentTheme(context).textTheme.displayMedium,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              InkWell(
-                onTap: () {
-                  context.read<HomeBloc>().add(
-                        HomeChangeFavoriteEvent(
-                          restaurantModel: widget.restaurantModel,
-                        ),
-                      );
-                },
-                child: Icon(
-                  widget.restaurantModel.isFavorite
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                  color:
-                      widget.restaurantModel.isFavorite ? errorTextColor : null,
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) => Container(
+        height: 246.0,
+        width: double.maxFinite,
+        margin: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InkWell(
+              onTap: _openRestaurantScreen,
+              child: getClipRReact(
+                borderRadius: 12.0,
+                child: ImageLoading(
+                  imageUrl: widget.restaurantModel.image,
+                  imageWidth: double.maxFinite,
+                  imageHeight: 180.0,
+                  imageFitType: BoxFit.cover,
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 6.0),
-          SizedBox(
-            height: 17.0,
-            child: RichText(
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.start,
-              text: TextSpan(
-                children: [
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 4),
-                      child: Icon(
-                        Icons.star,
-                        color: getCurrentTheme(context).iconTheme.color,
-                        size: 15,
+            ),
+            const SizedBox(height: 12.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.restaurantModel.name,
+                  style: getCurrentTheme(context).textTheme.displayMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                InkWell(
+                  onTap: () {
+                    if (state.token == true) {
+                      context.read<HomeBloc>().add(
+                            HomeChangeFavoriteEvent(
+                              restaurantModel: widget.restaurantModel,
+                            ),
+                          );
+                    } else {
+                      pushNewScreen(context, welcomeScreen,
+                          navbarStatus: false);
+                    }
+                  },
+                  child: Icon(
+                    widget.restaurantModel.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: widget.restaurantModel.isFavorite
+                        ? errorTextColor
+                        : null,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6.0),
+            SizedBox(
+              height: 17.0,
+              child: RichText(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  children: [
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 4),
+                        child: Icon(
+                          Icons.star,
+                          color: getCurrentTheme(context).iconTheme.color,
+                          size: 15,
+                        ),
                       ),
                     ),
-                  ),
-                  TextSpan(
-                    text: widget.restaurantModel.rating.toString(),
-                    style: getCurrentTheme(context).textTheme.bodyMedium,
-                  ),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Icon(
-                        Icons.lens_rounded,
-                        color: getCurrentTheme(context).iconTheme.color,
-                        size: 4,
+                    TextSpan(
+                      text: widget.restaurantModel.rating.toString(),
+                      style: getCurrentTheme(context).textTheme.bodyMedium,
+                    ),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Icon(
+                          Icons.lens_rounded,
+                          color: getCurrentTheme(context).iconTheme.color,
+                          size: 4,
+                        ),
                       ),
                     ),
-                  ),
-                  TextSpan(
-                    text:
-                        "${widget.restaurantModel.deliveryTime} ${translate("restaurant.minute")}",
-                    style: getCurrentTheme(context).textTheme.bodyMedium,
-                  ),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Icon(
-                        Icons.lens_rounded,
-                        color: getCurrentTheme(context).iconTheme.color,
-                        size: 4,
+                    TextSpan(
+                      text:
+                          "${widget.restaurantModel.deliveryTime} ${translate("restaurant.minute")}",
+                      style: getCurrentTheme(context).textTheme.bodyMedium,
+                    ),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Icon(
+                          Icons.lens_rounded,
+                          color: getCurrentTheme(context).iconTheme.color,
+                          size: 4,
+                        ),
                       ),
                     ),
-                  ),
-                  TextSpan(
-                    text: widget.restaurantModel.affordability,
-                    style: getCurrentTheme(context).textTheme.bodyMedium,
-                  ),
-                ],
+                    TextSpan(
+                      text: widget.restaurantModel.affordability,
+                      style: getCurrentTheme(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

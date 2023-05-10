@@ -41,6 +41,12 @@ class _SearchCategoryItemState extends State<SearchCategoryItem> {
             const SizedBox(height: 24),
             Text(
               widget.categoryModel.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: getCurrentTheme(context).textTheme.bodyLarge,
+            ),
+            Text(
+              widget.categoryModel.id.toString(),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: getCurrentTheme(context).textTheme.bodyLarge,
@@ -54,12 +60,6 @@ class _SearchCategoryItemState extends State<SearchCategoryItem> {
   _changeSearchName() async {
     context.read<SearchBloc>().add(
           SearchNameEvent(searchName: widget.categoryModel.name),
-        );
-    context.read<SearchBloc>().add(
-          SearchCategoryRequestEvent(
-            searchName: widget.categoryModel.name,
-            categoryId: widget.categoryModel.id,
-          ),
         );
   }
 }

@@ -35,6 +35,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController surnameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,103 +50,41 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text("Name Listen: ${nameController.text}"),
+                Text("Surname Listen: ${surnameController.text}"),
+                Text("Name State: ${state.userName}"),
+                Text("Surname State: ${state.userSurname}"),
                 const SizedBox(height: 40),
                 const ProfileImage(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 42),
                 TextField(
-                  onChanged: (userName) {
-                    context
-                        .read<ProfileBloc>()
-                        .add(ProfileUserNameEvent(userName: userName));
-                  },
-                  cursorColor: textColor,
+                  controller: nameController,
                   decoration: InputDecoration(
-                    suffixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Icon(Icons.check),
-                    ),
+                    suffixIcon: const Icon(Icons.check),
                     labelStyle: getCurrentTheme(context).textTheme.labelMedium,
                     labelText: translate("profile.name").toUpperCase(),
-                    contentPadding: EdgeInsets.zero,
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 1,
-                          color: getCurrentTheme(context).dividerColor),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 1,
-                          color: getCurrentTheme(context).dividerColor),
-                    ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
                 TextField(
-                  onChanged: (userEmail) {
-                    context.read<ProfileBloc>().add(ProfileUserEmailEvent(
-                          userEmail: userEmail,
-                        ));
-                  },
-                  cursorColor: textColor,
+                  controller: surnameController,
                   decoration: InputDecoration(
-                    suffixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Icon(Icons.check),
-                    ),
-                    labelText: translate("profile.email").toUpperCase(),
+                    suffixIcon: const Icon(Icons.check),
                     labelStyle: getCurrentTheme(context).textTheme.labelMedium,
-                    contentPadding: EdgeInsets.zero,
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 1,
-                          color: getCurrentTheme(context).dividerColor),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 1,
-                          color: getCurrentTheme(context).dividerColor),
-                    ),
+                    labelText: translate("profile.surname").toUpperCase(),
                   ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  onChanged: (userPhone) {
-                    context.read<ProfileBloc>().add(ProfileUserPhoneEvent(
-                          userPhone: userPhone,
-                        ));
-                  },
-                  cursorColor: textColor,
-                  decoration: InputDecoration(
-                    suffixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 24),
-                      child: Icon(Icons.check),
-                    ),
-                    labelText: translate("profile.phone").toUpperCase(),
-                    labelStyle: getCurrentTheme(context).textTheme.labelMedium,
-                    contentPadding: EdgeInsets.zero,
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 1,
-                          color: getCurrentTheme(context).dividerColor),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 1,
-                          color: getCurrentTheme(context).dividerColor),
-                    ),
-                  ),
-                  keyboardType: TextInputType.phone,
                 ),
                 const SizedBox(height: 50),
                 InkWell(
-                  onTap: _buttonCart(state),
+                  onTap: _buttonCart,
                   child: Container(
                     height: 53,
                     width: double.infinity,
                     alignment: Alignment.center,
+                    margin: const EdgeInsets.all(16),
                     decoration: getContainerDecoration(
                       context,
-                      fillColor: getCurrentTheme(context).buttonColor,
+                      fillColor: buttonColor,
                     ),
                     child: Text(translate("profile.save").toUpperCase(),
                         style: getCustomStyle(
@@ -158,5 +99,12 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  _buttonCart(ProfileState state) {}
+  _buttonCart() {
+    print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu ${nameController.text}");
+    print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu ${surnameController.text}");
+    context.read<ProfileBloc>().add(ProfileSetUserNameEvent(
+          userName: nameController.text,
+          userSurname: surnameController.text,
+        ));
+  }
 }

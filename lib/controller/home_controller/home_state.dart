@@ -17,6 +17,8 @@ class HomeState {
   final List<RestaurantModel> restaurantModel;
   final List<FavoriteData> favoriteData;
   final bool token;
+  final String userName;
+  final String userSurname;
   final String error;
 
   HomeState({
@@ -29,6 +31,8 @@ class HomeState {
     required this.restaurantModel,
     required this.favoriteData,
     required this.token,
+    required this.userName,
+    required this.userSurname,
     required this.error,
   });
 
@@ -54,6 +58,8 @@ class HomeState {
         restaurantModel: [],
         favoriteData: [],
         token: false,
+        userName: "",
+        userSurname: "",
         error: "",
       );
 
@@ -70,6 +76,8 @@ class HomeState {
     List<RestaurantModel>? restaurantModel,
     List<FavoriteData>? favoriteData,
     bool? token,
+    String? userName,
+    String? userSurname,
     String? error,
   }) =>
       HomeState(
@@ -82,6 +90,8 @@ class HomeState {
         restaurantModel: restaurantModel ?? this.restaurantModel,
         favoriteData: favoriteData ?? this.favoriteData,
         token: token ?? this.token,
+        userName: userName ?? this.userName,
+        userSurname: userSurname ?? this.userSurname,
         error: error ?? this.error,
       );
 }

@@ -97,7 +97,7 @@ void main() async {
                 create: (context) => AppBloc(
                   AppState.initial(),
                   appRepository: singleton(),
-                )..add(AppGetThemeEvent()),
+                )..add(AppGetThemeEvent(),),
                 child: const MyApp(),
               )
             : ScreenObserver.createSplashScreen(),

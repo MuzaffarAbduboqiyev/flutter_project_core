@@ -43,11 +43,10 @@ class _DashboardPageState extends State<DashboardPage> {
   List<Widget> _screens = [];
 
   goBack() {
-    print("Clicked");
     _tabController.index = 0;
   }
 
-  void initScreens() {
+  initScreens() {
     _screens = [
       HomeScreen(goBack: goBack),
       SearchScreen(goBack: goBack),
@@ -69,10 +68,7 @@ class _DashboardPageState extends State<DashboardPage> {
         } else if (currentNavBarIndex == 1) {
           _screens[1] = SearchScreen(goBack: goBack);
         } else if (currentNavBarIndex == 2) {
-          _screens[2] = OrderScreen(
-            goBack: goBack,
-            isDashboard: true,
-          );
+          _screens[2] = OrderScreen(goBack: goBack, isDashboard: true);
         } else if (currentNavBarIndex == 3) {
           _screens[3] = AccountScreen(goBack: goBack);
         }
@@ -82,19 +78,19 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DashboardBloc, DashboardState>(
-      listener: (context, state) {
-        if (productCount == productCount) {
-          setState(() {
-            productCount = state.productCartData.length;
-          });
-        } else {
-          return;
-        }
-      },
-      child: SafeArea(
-        child: Scaffold(
-          body: PersistentTabView(
+    return Scaffold(
+      body: BlocListener<DashboardBloc, DashboardState>(
+        listener: (context, state) {
+          if (productCount == productCount) {
+            setState(() {
+              productCount = state.productCartData.length;
+            });
+          } else {
+            return;
+          }
+        },
+        child: SafeArea(
+          child: PersistentTabView(
             margin: EdgeInsets.zero,
             context,
             screens: _screens,

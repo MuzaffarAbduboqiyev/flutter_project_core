@@ -112,7 +112,6 @@ class SearchRepositoryImpl extends SearchRepository {
         if (response.data.containsKey("vendors") &&
             response.data.containsKey("products")) {
           final searchResponse = SearchResponseModel.fromMap(response.data);
-          print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr: $searchResponse");
           return DataResponseModel.success(model: searchResponse);
         } else {
           return getDataResponseErrorHandler(networkResponse);

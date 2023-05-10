@@ -20,6 +20,11 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
       _initial,
       transformer: concurrent(),
     );
+    /// get token
+    on<RestaurantGetTokenEvent>(
+      _getToken,
+      transformer: concurrent(),
+    );
 
     on<RestaurantGetEvent>(
       _getRestaurant,
@@ -59,13 +64,21 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     streamSubscription = restaurantRepository
         .listenCartProducts()
         .listen((cartProductVariations) {
-      add(
-        RestaurantCartEvent(productVariations: cartProductVariations),
-      );
+      add(RestaurantCartEvent(productVariations: cartProductVariations));
     });
   }
 
-  // _initial = boshlang'ich
+
+  /// get token
+  FutureOr<void> _getToken(
+      RestaurantGetTokenEvent event, Emitter<RestaurantState> emit) async {
+    final response = await restaurantRepository.getTokenInfo();
+    emit(
+      state.copyWith(token: response),
+    );
+  }
+
+  /// _initial = boshlang'ich
   FutureOr<void> _initial(
       RestaurantInitEvent event, Emitter<RestaurantState> emit) async {
     emit(
@@ -188,6 +201,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     );
 
     add(RestaurantCartUpdateEvent());
+    add(RestaurantGetTokenEvent());
   }
 
   /// _refreshProducts = Mahsulotlarni yangilash
@@ -213,6 +227,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     );
 
     add(RestaurantCartUpdateEvent());
+    add(RestaurantGetTokenEvent());
   }
 
   /// _changeFavorite = Sevimlini o'zgartirish
@@ -269,9 +284,8 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   FutureOr<void> _updateCartProducts(
       RestaurantCartUpdateEvent event, Emitter<RestaurantState> emit) async {
     final response = await restaurantRepository.getCartProducts();
-    add(
-      RestaurantCartEvent(productVariations: response),
-    );
+    add(RestaurantCartEvent(productVariations: response));
+    add(RestaurantGetTokenEvent());
   }
 
   @override

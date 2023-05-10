@@ -6,6 +6,11 @@ import 'package:delivery_service/model/response_model/network_response_model.dar
 
 abstract class ProfileRepository {
   Future<DataResponseModel<ProfileModel>> getAllUserData();
+
+  Future<String> setUserName({required String userName});
+
+  Future<String> setUserSurname({required String userSurname});
+
 }
 
 class ProfileRepositoryImpl extends ProfileRepository {
@@ -33,5 +38,19 @@ class ProfileRepositoryImpl extends ProfileRepository {
     } catch (error) {
       return DataResponseModel.error(responseMessage: error.toString());
     }
+  }
+
+  @override
+  Future<String> setUserName({required String userName}) async {
+    final response = await hiveDatabase.setName(userName);
+    print("ProfileRepository profileRepository userName: $userName");
+    return response.toString();
+  }
+
+  @override
+  Future<String> setUserSurname({required String userSurname}) async {
+    final response = await hiveDatabase.setSurname(userSurname);
+    print("ProfileRepository profileRepository userName: $userSurname");
+    return response.toString();
   }
 }

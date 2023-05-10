@@ -40,10 +40,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _changeSelectedCategory,
       transformer: sequential(),
     );
-    on<HomeGetTokenEvent>(
-      _getToken,
-      transformer: concurrent(),
-    );
 
     on<HomeGetRestaurantsEvent>(
       _getRestaurants,
@@ -69,11 +65,39 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       transformer: concurrent(),
     );
 
+    /// get token
+    on<HomeGetTokenEvent>(
+      _getToken,
+      transformer: concurrent(),
+    );
+
+    /// listen userName
+    on<HomeListenUserNameEvent>(
+      _listenUserName,
+      transformer: concurrent(),
+    );
+
+    /// get userName
+    on<HomeUserNameEvent>(
+      _getUserName,
+      transformer: concurrent(),
+    );
+
+    /// listen userSurname
+    on<HomeListenUserSurnameEvent>(
+      _listenUserSurname,
+      transformer: concurrent(),
+    );
+
+    /// get userSurname
+    on<HomeUserSurnameEvent>(
+      _getUserSurname,
+      transformer: concurrent(),
+    );
+
     streamSubscription = homeRepository.listenToken().listen((listenToken) {
       add(
-        HomeListenTokenEvent(
-          token: listenToken.value.toString().isNotEmpty,
-        ),
+        HomeListenTokenEvent(token: listenToken.value.toString().isNotEmpty),
       );
     });
     streamSubscription = locationRepository.listenLocation().listen((location) {
@@ -97,6 +121,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     streamSubscription =
         restaurantRepository.listenFavorite().listen((favorite) {
       add(HomeListenFavoriteEvent(favoriteData: favorite));
+    });
+
+    streamSubscription = homeRepository.listenUserName().listen((listenName) {
+      add(HomeListenUserNameEvent(userName: listenName.value));
+    });
+
+    streamSubscription =
+        homeRepository.listenUserSurname().listen((listenSurname) {
+      add(HomeListenUserSurnameEvent(userSurname: listenSurname.value));
     });
   }
 
@@ -127,6 +160,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(
       state.copyWith(
         locationData: event.locationData,
+      ),
+    );
+  }
+
+  /// listen userName
+  FutureOr<void> _listenUserName(
+      HomeListenUserNameEvent event, Emitter<HomeState> emit) async {
+    emit(
+      state.copyWith(
+        userName: event.userName,
       ),
     );
   }
@@ -234,6 +277,38 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       HomeChangeFavoriteEvent event, Emitter<HomeState> emit) async {
     await restaurantRepository.changeRestaurantFavoriteState(
         restaurantModel: event.restaurantModel);
+  }
+
+  FutureOr<void> _getUserName(
+      HomeUserNameEvent event, Emitter<HomeState> emit) async {
+    final userName = await homeRepository.getUserName();
+
+    emit(
+      state.copyWith(
+        userName: userName,
+      ),
+    );
+  }
+
+  /// listen Surname
+  FutureOr<void> _listenUserSurname(
+      HomeListenUserSurnameEvent event, Emitter<HomeState> emit) async {
+    emit(
+      state.copyWith(
+        userSurname: event.userSurname,
+      ),
+    );
+  }
+
+  /// get userSurname
+  FutureOr<void> _getUserSurname(
+      HomeUserSurnameEvent event, Emitter<HomeState> emit) async {
+    final userSurname = await homeRepository.getUserSurname();
+    emit(
+      state.copyWith(
+        userSurname: userSurname,
+      ),
+    );
   }
 
   @override

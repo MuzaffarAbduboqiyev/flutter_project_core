@@ -55,7 +55,7 @@
     "profile": "Profile",
     "save": "Save",
     "name": "Name",
-    "email": "Email",
+    "surname": "Surname",
     "phone": "Phone"
   },
   "favorites": {
@@ -125,5 +125,16 @@
   },
   "offers": {
     "offers": "Offers Promos"
+  },
+  "drawer": {
+    "til": "Language",
+    "choose": "Do you choose ?",
+    "favorites": "Favorites",
+    "profile": "My Profile"
+  },
+  "language": {
+    "uzb": "O'zbekcha",
+    "rus": "Русский",
+    "eng": "English"
   }
 }

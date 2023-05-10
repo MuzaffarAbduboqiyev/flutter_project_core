@@ -18,7 +18,7 @@ class MoorDatabase extends _$MoorDatabase {
             path: 'application_database.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 13;
 
   /// Search history operations
   /// Insert new search name -> Yangi qidiruv nomini kiritish

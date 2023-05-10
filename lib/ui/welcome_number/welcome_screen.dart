@@ -54,9 +54,9 @@ class _WelcomePageState extends State<WelcomePage> {
     return BlocListener<WelcomeBloc, WelcomeState>(
       listener: (context, state) {
         if (state.welcomeStatus == WelcomeStatus.loading) {
-            showLoadingDialog();
-          } else {
-        hideLoadingDialog();
+          showLoadingDialog();
+        } else {
+          hideLoadingDialog();
           if (state.welcomeStatus == WelcomeStatus.loaded) {
             pushNewScreen(context, otpVerificationScreen,
                 navbarStatus: false,

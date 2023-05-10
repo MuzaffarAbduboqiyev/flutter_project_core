@@ -97,12 +97,13 @@ class _AccountPageState extends State<AccountPage> {
                 title: translate("account.favorites"),
                 icons: Icons.favorite_border,
                 onTap: () {
-                  print("ffffffffffffffffffffffffffffffffffffffffffff");
-                  pushNewScreen(context, favoritesScreen,
-                      navbarStatus: false,
-                      arguments: {
-                        "go_back": widget.goBack,
-                      });
+                  if (state.token == true) {
+                    pushNewScreen(context, favoritesScreen,
+                        navbarStatus: false,
+                        arguments: {"go_back": widget.goBack});
+                  } else {
+                    pushNewScreen(context, welcomeScreen, navbarStatus: false);
+                  }
                 },
               ),
               ListTileWidgetItem(
@@ -113,13 +114,13 @@ class _AccountPageState extends State<AccountPage> {
                       navbarStatus: false);
                 },
               ),
-              // ListTileWidgetItem(
-              //   title: translate("account.payments"),
-              //   icons: Icons.credit_card,
-              //   onTap: () {
-              //     pushNewScreen(context, paymentsScreen, navbarStatus: false);
-              //   },
-              // ),
+              ListTileWidgetItem(
+                title: translate("account.payments"),
+                icons: Icons.credit_card,
+                onTap: () {
+                  pushNewScreen(context, paymentsScreen, navbarStatus: false);
+                },
+              ),
               ListTileWidgetItem(
                 title: translate("account.location"),
                 icons: Icons.location_on_outlined,

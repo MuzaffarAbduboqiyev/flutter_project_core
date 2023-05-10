@@ -55,7 +55,7 @@
     "profile": "Профиль",
     "save": "Сохранить",
     "name": "Имя",
-    "email": "Эл адрес",
+    "surname": "Фамилия",
     "phone": "Телефон"
   },
   "favorites": {
@@ -125,5 +125,16 @@
   },
   "offers": {
     "offers": "Предложения Акции"
+  },
+  "drawer": {
+    "til": "Язык",
+    "choose": "Вы выбираете ?",
+    "favorites": "Избранное",
+    "profile": "Мой профайл"
+  },
+  "language": {
+    "uzb": "O'zbekcha",
+    "rus": "Русский",
+    "eng": "English"
   }
 }

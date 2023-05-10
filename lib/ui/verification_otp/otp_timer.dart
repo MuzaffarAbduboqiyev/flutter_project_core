@@ -5,6 +5,7 @@ import 'package:delivery_service/util/extensions/string_extension.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/styles.dart';
+import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timer_builder/timer_builder.dart';
@@ -60,12 +61,7 @@ class _OtpTimerWidgetState extends State<OtpTimerWidget> {
                       var remaining = alert.difference(now);
                       return Text(
                         _formatDuration(remaining),
-                        style: getCustomStyle(
-                          context: context,
-                          textSize: 15,
-                          weight: FontWeight.w500,
-                          color: textColor,
-                        ),
+                        style: getCurrentTheme(context).textTheme.bodyLarge,
                         maxLines: 1,
                       );
                     })

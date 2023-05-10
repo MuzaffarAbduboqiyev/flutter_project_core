@@ -55,7 +55,7 @@
     "profile": "Profil",
     "save": "Saqlash",
     "name": "Ism",
-    "email": "Elektron pochta",
+    "surname": "Familiya",
     "phone": "Telefon"
   },
   "favorites": {
@@ -125,5 +125,16 @@
   },
   "offers": {
     "offers": "Promolar taklif qiladi"
+  },
+  "drawer": {
+    "til": "Til",
+    "choose": "Siz tanlaysizmi ?",
+    "favorites": "Sevimlilar",
+    "profile": "Mening profilim"
+  },
+  "language": {
+    "uzb": "O'zbekcha",
+    "rus": "Rus tili",
+    "eng": "English"
   }
 }

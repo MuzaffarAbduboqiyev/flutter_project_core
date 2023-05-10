@@ -1,3 +1,4 @@
+import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 import 'package:delivery_service/model/welcome_model/welcome_network_service.dart';
@@ -10,8 +11,12 @@ abstract class WelcomeRepository {
 
 class WelcomeRepositoryImpl extends WelcomeRepository {
   final WelcomeNetworkService welcomeNetworkService;
+  final HiveDatabase hiveDatabase;
 
-  WelcomeRepositoryImpl({required this.welcomeNetworkService});
+  WelcomeRepositoryImpl({
+    required this.welcomeNetworkService,
+    required this.hiveDatabase,
+  });
 
   @override
   Future<SimpleResponseModel> getPhoneNumber(

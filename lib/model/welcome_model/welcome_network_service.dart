@@ -13,7 +13,8 @@ class WelcomeNetworkServiceImpl extends WelcomeNetworkService {
 
   @override
   Future<NetworkResponseModel> getPhoneNumber({required Map body}) async {
-    final response = await networkService.postMethod(url: requestCodeUrl, body: body);
+    final response =
+        await networkService.postMethod(url: requestCodeUrl, body: body);
     return response;
   }
 }

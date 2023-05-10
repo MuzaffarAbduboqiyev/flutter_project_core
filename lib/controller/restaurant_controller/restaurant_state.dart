@@ -15,20 +15,21 @@ enum RestaurantStatus {
 
 class RestaurantState {
   final RestaurantStatus restaurantStatus;
+  final CategoryStatus categoryStatus;
   final ProductStatus productStatus;
   final RestaurantModel restaurantModel;
   final List<CategoryModel> categoryModel;
   final List<ProductModel> productModel;
   final int restaurantId;
-  final int productId;
   final int categoryId;
-  final CategoryStatus categoryStatus;
+  final int productId;
   final int selectedCategoryId;
   final String searchName;
   final bool isFavorite;
-  final String error;
   final int totalCount;
   final int totalAmount;
+  final bool token;
+  final String error;
 
   RestaurantState({
     required this.restaurantStatus,
@@ -45,6 +46,7 @@ class RestaurantState {
     required this.isFavorite,
     required this.totalCount,
     required this.totalAmount,
+    required this.token,
     required this.error,
   });
 
@@ -64,6 +66,7 @@ class RestaurantState {
         isFavorite: false,
         totalCount: 0,
         totalAmount: 0,
+        token: false,
         error: "",
       );
 
@@ -82,6 +85,7 @@ class RestaurantState {
     bool? isFavorite,
     int? totalCount,
     int? totalAmount,
+    bool? token,
     String? error,
   }) =>
       RestaurantState(
@@ -99,6 +103,7 @@ class RestaurantState {
         isFavorite: isFavorite ?? this.isFavorite,
         totalCount: totalCount ?? this.totalCount,
         totalAmount: totalAmount ?? this.totalAmount,
+        token: token ?? this.token,
         error: error ?? this.error,
       );
 }
