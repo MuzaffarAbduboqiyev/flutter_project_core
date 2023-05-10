@@ -86,7 +86,8 @@ class RestaurantRepositoryImpl extends RestaurantRepository {
     required int categoryId,
   }) async {
     final response = await restaurantNetworkService.getCategoryRestaurants(
-        categoryId: categoryId);
+      categoryId: categoryId,
+    );
     return _parseRestaurants(response);
   }
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_state.dart';
@@ -242,7 +243,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ),
     );
 
-    final response = await restaurantRepository.getAllRestaurants();
+    final response = (state.selectedCategoryId == -1)
+        ? await restaurantRepository.getAllRestaurants()
+        : await restaurantRepository.getCategoryRestaurants(
+            categoryId: state.selectedCategoryId,
+          );
     final databaseResponse = await restaurantRepository.getFavorites();
     if (response.status && response.data != null) {
       response.data?.asMap().forEach((index, element) {
