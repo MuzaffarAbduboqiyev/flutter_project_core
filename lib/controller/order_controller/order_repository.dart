@@ -144,25 +144,7 @@ class OrderRepositoryImpl extends OrderRepository {
       final hasToken = await getTokenInfo();
 
       if (hasToken) {
-        final localProducts = await moorDatabase.getCartProducts();
-        final List<Map<String, int>> uploadProducts = [];
-
-        if (localProducts.isNotEmpty) {
-          for (var element in localProducts) {
-            uploadProducts.add({
-              "id": element.variationId,
-              "quantity": element.selectedCount,
-            });
-          }
-        }
-
-        final response = (uploadProducts.isEmpty)
-            ? await orderNetworkService.refreshGetMethodUrl()
-            : await orderNetworkService.uploadCartProducts(
-                body: {
-                  "products": uploadProducts,
-                },
-              );
+        final response = await orderNetworkService.refreshGetMethodUrl();
 
         if (response.status == true &&
             response.response != null &&

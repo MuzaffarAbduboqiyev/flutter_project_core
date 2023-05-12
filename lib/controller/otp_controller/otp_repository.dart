@@ -5,7 +5,6 @@ import 'package:delivery_service/model/location_model/location_model.dart';
 import 'package:delivery_service/model/otp_model/otp_model.dart';
 import 'package:delivery_service/model/otp_model/otp_network_service.dart';
 import 'package:delivery_service/model/product_model/product_cart.dart';
-import 'package:delivery_service/model/product_model/product_parse_data.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 
@@ -65,22 +64,29 @@ class OtpRepositoryImpl extends OtpRepository {
           ////////////////////////////////////////////////////////////
           final localProducts = await moorDatabase.getCartProducts();
           final List<Map<String, int>> uploadProducts = [];
+          int restaurantId = -1;
 
           if (localProducts.isNotEmpty) {
             for (var element in localProducts) {
+              if (restaurantId == -1) {
+                restaurantId = element.restaurantId;
+              }
+
               uploadProducts.add({
                 "id": element.variationId,
                 "quantity": element.selectedCount,
-                "restaurant_id": element.restaurantId,
               });
             }
           }
+
+          final body = <String, dynamic>{};
+          body["products"] = uploadProducts;
+          body["restaurant_id"] = restaurantId;
+
           final responseProducts = (uploadProducts.isEmpty)
               ? await otpNetworkService.getProductsUrl()
               : await otpNetworkService.clearProductsUrl(
-                  body: {
-                    "products": uploadProducts,
-                  },
+                  body: body,
                 );
 
           if (responseProducts.status == true &&
@@ -89,8 +95,8 @@ class OtpRepositoryImpl extends OtpRepository {
               responseProducts.response?.data["data"] != null &&
               responseProducts.response?.data["data"] is List) {
             await moorDatabase.insertAllProductCartData(
-                productCartDataList:
-                    parseProductCartDataList(response.response?.data["data"]));
+                productCartDataList: parseProductCartDataList(
+                    responseProducts.response?.data["data"]));
           }
           ////////////////////////////////////////////////////////////
           return SimpleResponseModel.success();

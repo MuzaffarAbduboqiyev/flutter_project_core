@@ -79,6 +79,7 @@ class NetworkServiceImpl extends NetworkService {
     try {
       if (kDebugMode) {
         print("Request => Url: $url, body: $body");
+        print("Request header => Url: $url, body: $header");
       }
       final response = await dio.post(url, data: body);
       if (kDebugMode) {
