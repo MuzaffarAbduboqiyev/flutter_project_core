@@ -24,7 +24,7 @@ class AccountScreen extends StatelessWidget {
       create: (context) => AccountBloc(
         AccountState.initial(),
         accountRepository: singleton(),
-      ),
+      )..add(AccountGetUserInfoEvent()),
       child: AccountPage(goBack: goBack),
     );
   }
@@ -42,6 +42,7 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   _getTokenInfo() {
     context.read<AccountBloc>().add(AccountTokenInfoEvent());
+    context.read<AccountBloc>().add(AccountGetUserInfoEvent());
   }
 
   @override
@@ -64,15 +65,18 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: getCurrentTheme(context).backgroundColor,
-      body: BlocBuilder<AccountBloc, AccountState>(
-        builder: (context, state) => SingleChildScrollView(
+    return BlocBuilder<AccountBloc, AccountState>(
+      builder: (context, state) => Scaffold(
+        backgroundColor: getCurrentTheme(context).backgroundColor,
+        body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const AccountAppBar(),
+              AccountAppBar(
+                userSurname: state.userSurname,
+                userName: state.userName,
+              ),
               const SizedBox(height: 42.0),
               ListTileWidgetItem(
                 title: translate("account.orders"),
@@ -168,9 +172,13 @@ class _AccountPageState extends State<AccountPage> {
       title: translate("account.dialog"),
       content: "",
       confirm: () {
-        context
-            .read<AccountBloc>()
-            .add(AccountDeleteToken(deleteToken: state.token));
+        context.read<AccountBloc>().add(
+              AccountDeleteToken(
+                deleteToken: state.token,
+                deleteName: state.userName,
+                deleteSurname: state.userSurname,
+              ),
+            );
       },
     );
   }

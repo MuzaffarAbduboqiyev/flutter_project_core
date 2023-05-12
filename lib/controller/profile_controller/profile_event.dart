@@ -1,40 +1,43 @@
-import 'package:delivery_service/controller/product_controller/product_event.dart';
-import 'package:delivery_service/model/profile_model/profile_model.dart';
-
 abstract class ProfileEvent {}
 
-/// profile initial
-class ProfileInitialEvent extends ProfileEvent {
-  final ProfileModel? profileModel;
+class ListenNameEvent extends ProfileEvent {
+  final String name;
 
-  ProfileInitialEvent({required this.profileModel});
+  ListenNameEvent({required this.name});
 }
 
-/// profile get
-class ProfileGetUserEvent extends ProfileEvent {}
+class ListenSurnameEvent extends ProfileEvent {
+  final String surname;
 
-/// user name
-class ProfileUserNameEvent extends ProfileEvent {
-  final String userName;
-
-  ProfileUserNameEvent({required this.userName});
+  ListenSurnameEvent({required this.surname});
 }
 
-/// set userName
-class ProfileSetUserNameEvent extends ProfileEvent {
+/// listen userName
+class ProfileListenUserNameEvent extends ProfileEvent {
   final String userName;
+
+  ProfileListenUserNameEvent({required this.userName});
+}
+
+/// listen userSurname
+class ProfileListenUserSurnameEvent extends ProfileEvent {
   final String userSurname;
 
-  ProfileSetUserNameEvent({
+  ProfileListenUserSurnameEvent({required this.userSurname});
+}
+
+/// insert user info
+class ProfileSetUserInfoEvent extends ProfileEvent {
+  final String userName;
+  final String userSurname;
+  final String phoneNumber;
+
+  ProfileSetUserInfoEvent({
     required this.userName,
     required this.userSurname,
+    required this.phoneNumber,
   });
 }
 
-/// user get info
-class ProfileUserGetInfoEvent extends ProfileEvent {
-  final String name;
-  final String surName;
-
-  ProfileUserGetInfoEvent({required this.name, required this.surName});
-}
+/// get user info
+class ProfileGetUserInfoEvent extends ProfileEvent {}

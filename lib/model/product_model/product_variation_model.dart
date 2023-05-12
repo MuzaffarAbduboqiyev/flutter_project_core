@@ -23,15 +23,15 @@ class ProductVariationModel {
   });
 
   factory ProductVariationModel.example() => ProductVariationModel(
-        id: 0,
-        name: "",
-        price: 0,
-        priceDiffer: false,
-        count: 0,
-        hasStock: false,
-        available: false,
-        selectedCount: 0,
-      );
+    id: 0,
+    name: "",
+    price: 0,
+    priceDiffer: false,
+    count: 0,
+    hasStock: false,
+    available: false,
+    selectedCount: 0,
+  );
 
   factory ProductVariationModel.fromMap(Map<String, dynamic> response) =>
       ProductVariationModel(
@@ -65,8 +65,8 @@ class ProductVariationModel {
         available: available ?? this.available,
         selectedCount: selectedCount ?? this.selectedCount,
       );
-/// parse To Cart Model
-    ProductCartData parseToCartModel(int restaurantId, int productId, String productImage) =>
+  /// parse To Cart Model
+  ProductCartData parseToCartModel(int restaurantId, int productId, String productImage) =>
       ProductCartData(
         restaurantId: restaurantId,
         productId: productId,
@@ -81,9 +81,9 @@ class ProductVariationModel {
 }
 
 List<ProductVariationModel> parseToProductVariation(
-  dynamic response,
-  String key,
-) {
+    dynamic response,
+    String key,
+    ) {
   final List<ProductVariationModel> items = [];
   if (response.containsKey(key) &&
       response[key] != null &&

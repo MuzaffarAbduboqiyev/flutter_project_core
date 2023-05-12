@@ -7,8 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchHistoryItem extends StatefulWidget {
   final SearchData searchHistory;
+  final int categoryId;
 
-  const SearchHistoryItem({required this.searchHistory, Key? key})
+  const SearchHistoryItem(
+      {required this.searchHistory, required this.categoryId, Key? key})
       : super(key: key);
 
   @override
@@ -20,6 +22,7 @@ class _SearchHistoryItemState extends State<SearchHistoryItem> {
     context.read<SearchBloc>().add(
           SearchNameEvent(
             searchName: widget.searchHistory.searchName,
+            categoryId: widget.categoryId,
           ),
         );
   }

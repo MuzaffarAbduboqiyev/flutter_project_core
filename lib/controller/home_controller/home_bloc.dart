@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
@@ -78,21 +79,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       transformer: concurrent(),
     );
 
-    /// get userName
-    on<HomeUserNameEvent>(
-      _getUserName,
-      transformer: concurrent(),
-    );
-
     /// listen userSurname
     on<HomeListenUserSurnameEvent>(
       _listenUserSurname,
       transformer: concurrent(),
     );
 
-    /// get userSurname
-    on<HomeUserSurnameEvent>(
-      _getUserSurname,
+    /// listen phoneNumber
+    on<HomeListenPhoneNumberEvent>(
+      _listenPhoneNumber,
+      transformer: concurrent(),
+    );
+
+    /// get user info
+    on<HomeGetUserInfoEvent>(
+      _getUserInfo,
       transformer: concurrent(),
     );
 
@@ -161,16 +162,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(
       state.copyWith(
         locationData: event.locationData,
-      ),
-    );
-  }
-
-  /// listen userName
-  FutureOr<void> _listenUserName(
-      HomeListenUserNameEvent event, Emitter<HomeState> emit) async {
-    emit(
-      state.copyWith(
-        userName: event.userName,
       ),
     );
   }
@@ -284,13 +275,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         restaurantModel: event.restaurantModel);
   }
 
-  FutureOr<void> _getUserName(
-      HomeUserNameEvent event, Emitter<HomeState> emit) async {
-    final userName = await homeRepository.getUserName();
-
+  /// listen userName
+  FutureOr<void> _listenUserName(
+      HomeListenUserNameEvent event, Emitter<HomeState> emit) async {
     emit(
       state.copyWith(
-        userName: userName,
+        userName: event.userName,
       ),
     );
   }
@@ -305,13 +295,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  /// get userSurname
-  FutureOr<void> _getUserSurname(
-      HomeUserSurnameEvent event, Emitter<HomeState> emit) async {
-    final userSurname = await homeRepository.getUserSurname();
+  /// listen phoneNumber
+  FutureOr<void> _listenPhoneNumber(
+      HomeListenPhoneNumberEvent event, Emitter<HomeState> emit) async {
     emit(
       state.copyWith(
+        phoneNumber: event.phoneNumber,
+      ),
+    );
+  }
+
+  /// get user info
+  FutureOr<void> _getUserInfo(
+      HomeGetUserInfoEvent event, Emitter<HomeState> emit) async {
+    final userName = await homeRepository.getUserName();
+    final userSurname = await homeRepository.getUserSurname();
+    final phoneNumber = await homeRepository.getPhoneNumber();
+    emit(
+      state.copyWith(
+        userName: userName,
         userSurname: userSurname,
+        phoneNumber: phoneNumber,
       ),
     );
   }

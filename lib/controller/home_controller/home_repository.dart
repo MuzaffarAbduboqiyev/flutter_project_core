@@ -19,6 +19,12 @@ abstract class HomeRepository {
 
   /// get userSurname
   Future<String> getUserSurname();
+
+  /// listen phoneNumber
+  Stream<BoxEvent> listenPhoneNumber();
+
+  /// get phoneNumber
+  Future<String> getPhoneNumber();
 }
 
 class HomeRepositoryImpl extends HomeRepository {
@@ -41,6 +47,10 @@ class HomeRepositoryImpl extends HomeRepository {
   @override
   Stream<BoxEvent> listenUserName() => hiveDatabase.listenName();
 
+  /// listen userSurname
+  @override
+  Stream<BoxEvent> listenUserSurname() => hiveDatabase.listenSurname();
+
   /// get userName
   @override
   Future<String> getUserName() async {
@@ -48,14 +58,21 @@ class HomeRepositoryImpl extends HomeRepository {
     return response;
   }
 
-  /// listen userSurname
-  @override
-  Stream<BoxEvent> listenUserSurname() => hiveDatabase.listenSurname();
-
   /// get userSurname
   @override
   Future<String> getUserSurname() async {
     final response = await hiveDatabase.getSurname();
     return response;
   }
+
+  /// get phoneNumber
+  @override
+  Future<String> getPhoneNumber() async {
+    final response = await hiveDatabase.getPhone();
+    return response;
+  }
+
+  /// listen phoneNumber
+  @override
+  Stream<BoxEvent> listenPhoneNumber() => hiveDatabase.listenPhone();
 }

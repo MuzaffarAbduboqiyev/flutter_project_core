@@ -4,6 +4,8 @@ import 'package:delivery_service/model/local_database/moor_database.dart';
 import 'package:delivery_service/model/location_model/location_model.dart';
 import 'package:delivery_service/model/otp_model/otp_model.dart';
 import 'package:delivery_service/model/otp_model/otp_network_service.dart';
+import 'package:delivery_service/model/product_model/product_cart.dart';
+import 'package:delivery_service/model/product_model/product_parse_data.dart';
 import 'package:delivery_service/model/response_model/error_handler.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 
@@ -56,12 +58,41 @@ class OtpRepositoryImpl extends OtpRepository {
               locationResponse.response?.data.containsKey("data") &&
               locationResponse.response?.data["data"] != null &&
               locationResponse.response?.data["data"] is List) {
-
             await moorDatabase.insertAllLocations(
-              locationDataList: parseToLocationModelList(
-                  response: locationResponse.response?.data["data"]),
-            );
+                locationDataList: parseToLocationModelList(
+                    response: locationResponse.response?.data["data"]));
           }
+          ////////////////////////////////////////////////////////////
+          final localProducts = await moorDatabase.getCartProducts();
+          final List<Map<String, int>> uploadProducts = [];
+
+          if (localProducts.isNotEmpty) {
+            for (var element in localProducts) {
+              uploadProducts.add({
+                "id": element.variationId,
+                "quantity": element.selectedCount,
+                "restaurant_id": element.restaurantId,
+              });
+            }
+          }
+          final responseProducts = (uploadProducts.isEmpty)
+              ? await otpNetworkService.getProductsUrl()
+              : await otpNetworkService.clearProductsUrl(
+                  body: {
+                    "products": uploadProducts,
+                  },
+                );
+
+          if (responseProducts.status == true &&
+              responseProducts.response != null &&
+              responseProducts.response?.data.containsKey("data") == true &&
+              responseProducts.response?.data["data"] != null &&
+              responseProducts.response?.data["data"] is List) {
+            await moorDatabase.insertAllProductCartData(
+                productCartDataList:
+                    parseProductCartDataList(response.response?.data["data"]));
+          }
+          ////////////////////////////////////////////////////////////
           return SimpleResponseModel.success();
         } else {
           return getSimpleResponseErrorHandler(response);
@@ -78,7 +109,7 @@ class OtpRepositoryImpl extends OtpRepository {
   Future<bool> userDataStorage({required OtpModel otpModel}) async {
     try {
       await hiveDatabase.setToken(otpModel.token);
-      await hiveDatabase.setName(otpModel.name);
+      // await hiveDatabase.setName(otpModel.name);
       await hiveDatabase.setPhone(otpModel.phone_number);
       return true;
     } catch (error) {

@@ -39,9 +39,9 @@ List<SearchProductModel> parseSearchProductModel(dynamic response) {
 
   if (response is List) {
     for (var element in response) {
-      final SearchProductModel productModel =
+      final SearchProductModel searchModel =
           SearchProductModel.fromMap(element);
-      products.add(productModel);
+      products.add(searchModel);
     }
   }
 

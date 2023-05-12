@@ -9,6 +9,7 @@ import 'package:delivery_service/model/search_model/search_response_model.dart';
 abstract class SearchRepository {
   Future<DataResponseModel<SearchResponseModel>> searchCategory({
     required String searchName,
+    required int categoryId,
   });
 
   Future<DataResponseModel<List<CategoryModel>>> searchCategories();
@@ -48,10 +49,12 @@ class SearchRepositoryImpl extends SearchRepository {
   @override
   Future<DataResponseModel<SearchResponseModel>> searchCategory({
     required String searchName,
+    required int categoryId,
   }) async {
     try {
-      final networkResponse =
-          await searchNetworkService.searchCategoryUrl(searchName: searchName);
+      print("SearchRepository searchRepository categoryId: $categoryId");
+      final networkResponse = await searchNetworkService.searchCategoryUrl(
+          searchName: searchName, categoryId: categoryId);
       final response = networkResponse.response;
       if (networkResponse.status && response != null) {
         if (response.data.containsKey("vendors") &&

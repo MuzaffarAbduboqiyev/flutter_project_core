@@ -59,7 +59,10 @@ class _SearchCategoryItemState extends State<SearchCategoryItem> {
 
   _changeSearchName() async {
     context.read<SearchBloc>().add(
-          SearchNameEvent(searchName: widget.categoryModel.name),
+          SearchNameEvent(
+            searchName: widget.categoryModel.name,
+            categoryId: widget.categoryModel.id,
+          ),
         );
   }
 }

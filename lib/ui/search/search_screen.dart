@@ -49,18 +49,21 @@ class _SearchPageState extends State<SearchPage> {
   /// Biz search qilayapganimizda, har safar knopka bosilganda serverdan ma'lumot olib kelmasligimiz uchun,
   /// ma'lum vaqt belgilaymiz, agar shu vaqt ichida yana shu method chaqirilsa vaqtni yana qaytadan sanash boshlanadi
   /// va shu belgilangan vaqt tugagandan keyin, berilgan amal bajariladi
-  _changeSearchName() {
+  _changeSearchName(state) {
     EasyDebounce.debounce(
       "change_search_name",
       const Duration(milliseconds: 1000),
-      _submitChangedSearchName,
+      _submitChangedSearchName(state),
     );
   }
 
-  _submitChangedSearchName() {
+  _submitChangedSearchName(state) {
     if (_searchController.text != context.read<SearchBloc>().state.searchName) {
       context.read<SearchBloc>().add(
-            SearchNameEvent(searchName: _searchController.text),
+            SearchNameEvent(
+              searchName: _searchController.text,
+              categoryId: state.categoryId,
+            ),
           );
     }
   }
@@ -69,9 +72,9 @@ class _SearchPageState extends State<SearchPage> {
     context.read<SearchBloc>().add(SearchRefreshEvent());
   }
 
-  _clearSearch() {
+  _clearSearch(state) {
     _searchController.clear();
-    _submitChangedSearchName();
+    _submitChangedSearchName(state);
   }
 
   @override
@@ -89,89 +92,89 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: getCurrentTheme(context).backgroundColor,
-      body: Column(
-        children: [
-          Container(
-            decoration: getContainerDecoration(context,
-                borderRadius: 0.0,
-                borderColor: getCurrentTheme(context).canvasColor),
-            child: TextFormField(
-              controller: _searchController,
-              cursorColor: textColor,
-              showCursor: false,
-              autofocus: false,
-              textAlign: TextAlign.left,
-              style: getCurrentTheme(context).textTheme.displayMedium,
-              cursorRadius: const Radius.circular(16.0),
-              textInputAction: TextInputAction.search,
-              keyboardAppearance: Brightness.dark,
-              strutStyle: const StrutStyle(),
-              onChanged: (String productName) {
-                _changeSearchName();
-              },
-              decoration: InputDecoration(
-                disabledBorder:
-                    const OutlineInputBorder(borderRadius: BorderRadius.zero),
-                focusedBorder:
-                    const OutlineInputBorder(borderRadius: BorderRadius.zero),
-                enabledBorder:
-                    const OutlineInputBorder(borderRadius: BorderRadius.zero),
-                hintText: "Search...",
-
-                hintStyle: getCustomStyle(
-                  context: context,
-                  color: hintColor,
-                  weight: FontWeight.w500,
-                  textSize: 16,
-                ),
-                fillColor: getCurrentTheme(context).backgroundColor,
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 20.0),
-                prefixIcon:
-                    Icon(CupertinoIcons.search_circle, color: hintColor),
-                suffixIcon: GestureDetector(
-                  onTap: _clearSearch,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 16),
-                    child: Icon(
-                      CupertinoIcons.clear_circled,
-                      color: hintColor,
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) => Scaffold(
+        backgroundColor: getCurrentTheme(context).backgroundColor,
+        body: Column(
+          children: [
+            Container(
+              decoration: getContainerDecoration(context,
+                  borderRadius: 0.0,
+                  borderColor: getCurrentTheme(context).canvasColor),
+              child: TextFormField(
+                controller: _searchController,
+                autofocus: false,
+                textAlign: TextAlign.left,
+                style: getCurrentTheme(context).textTheme.displayMedium,
+                cursorRadius: const Radius.circular(16.0),
+                textInputAction: TextInputAction.search,
+                keyboardAppearance: Brightness.dark,
+                strutStyle: const StrutStyle(),
+                onChanged: (String productName) {
+                  _changeSearchName(state);
+                },
+                decoration: InputDecoration(
+                  disabledBorder:
+                      const OutlineInputBorder(borderRadius: BorderRadius.zero),
+                  focusedBorder:
+                      const OutlineInputBorder(borderRadius: BorderRadius.zero),
+                  enabledBorder:
+                      const OutlineInputBorder(borderRadius: BorderRadius.zero),
+                  hintText: "Search...",
+                  hintStyle: getCustomStyle(
+                    context: context,
+                    color: hintColor,
+                    weight: FontWeight.w500,
+                    textSize: 16,
+                  ),
+                  fillColor: getCurrentTheme(context).backgroundColor,
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 20.0),
+                  prefixIcon:
+                      Icon(CupertinoIcons.search_circle, color: hintColor),
+                  suffixIcon: GestureDetector(
+                    onTap: () => _clearSearch(state),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8, right: 16),
+                      child: Icon(
+                        CupertinoIcons.clear_circled,
+                        color: hintColor,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: BlocListener<SearchBloc, SearchState>(
-              listener: (context, state) {
-                if (state.searchName != _searchController.text) {
-                  _searchController.text = state.searchName;
-                  _searchController.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _searchController.text.length));
-                }
-              },
-              child: BlocBuilder<SearchBloc, SearchState>(
-                builder: (context, state) => (state.searchStatus ==
-                        SearchStatus.error)
-                    ? ConnectionErrorWidget(refreshFunction: _refresh)
-                    : (state.searchStatus == SearchStatus.loading)
-                        ? const SearchLoadingWidget()
-                        : (state.searchName.isEmpty)
-                            ? (state.searchData.isNotEmpty)
-                                ? const SearchHistory()
-                                : const SearchCategory()
-                            : (state.searchResponseModel.products.isNotEmpty ||
-                                    state
-                                        .searchResponseModel.vendors.isNotEmpty)
-                                ? SearchProducts(goBack: widget.goBack)
-                                : const NotFoundError(),
+            Expanded(
+              child: BlocListener<SearchBloc, SearchState>(
+                listener: (context, state) {
+                  if (state.searchName != _searchController.text) {
+                    _searchController.text = state.searchName;
+                    _searchController.selection = TextSelection.fromPosition(
+                        TextPosition(offset: _searchController.text.length));
+                  }
+                },
+                child: BlocBuilder<SearchBloc, SearchState>(
+                  builder: (context, state) =>
+                      (state.searchStatus == SearchStatus.error)
+                          ? ConnectionErrorWidget(refreshFunction: _refresh)
+                          : (state.searchStatus == SearchStatus.loading)
+                              ? const SearchLoadingWidget()
+                              : (state.searchName.isEmpty)
+                                  ? (state.searchData.isNotEmpty)
+                                      ? const SearchHistory()
+                                      : const SearchCategory()
+                                  : (state.searchResponseModel.products
+                                              .isNotEmpty ||
+                                          state.searchResponseModel.vendors
+                                              .isNotEmpty)
+                                      ? SearchProducts(goBack: widget.goBack)
+                                      : const NotFoundError(),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

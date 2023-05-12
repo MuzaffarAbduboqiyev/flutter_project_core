@@ -35,14 +35,14 @@ List<ProductCartData> parseProductCartDataList(List<dynamic> list) {
 
 /// Parse to ProductCartData from dynamic
 ProductCartData parseProductCartData(dynamic element) => ProductCartData(
-      restaurantId:
-          parseToInt(response: element["product"], key: "restaurant_id"),
+      variationId: parseToInt(response: element, key: "id"),
       price: parseToInt(response: element, key: "price"),
       count: parseToInt(response: element, key: "quantity"),
       productId: parseToInt(response: element["product"], key: "id"),
+      restaurantId:
+          parseToInt(response: element["product"], key: "restaurant_id"),
       name: parseToString(response: element["product"], key: "name"),
       image: parseToString(response: element["product"], key: "image"),
       hasStock: parseToBool(response: element["product"], key: "in_stock"),
-      variationId: parseToInt(response: element, key: "id"),
       selectedCount: parseToInt(response: element, key: "quantity"),
     );

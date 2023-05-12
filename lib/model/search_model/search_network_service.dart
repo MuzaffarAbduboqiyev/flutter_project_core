@@ -3,7 +3,10 @@ import 'package:delivery_service/util/service/network/network_service.dart';
 import 'package:delivery_service/util/service/network/urls.dart';
 
 abstract class SearchNetworkService {
-  Future<NetworkResponseModel> searchCategoryUrl({required String searchName});
+  Future<NetworkResponseModel> searchCategoryUrl({
+    required String searchName,
+    required int categoryId,
+  });
 
   /// search category requests
   Future<NetworkResponseModel> searchCategoryRequestsUrl({
@@ -19,9 +22,9 @@ class SearchNetworkServiceImpl extends SearchNetworkService {
 
   @override
   Future<NetworkResponseModel> searchCategoryUrl(
-      {required String searchName}) async {
+      {required String searchName, required int categoryId}) async {
     final response =
-        await networkService.getMethod(url: "$searchUrl?query=$searchName");
+        await networkService.getMethod(url: "$searchUrl?query=$categoryId");
     return response;
   }
 

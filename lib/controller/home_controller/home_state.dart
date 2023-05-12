@@ -19,6 +19,7 @@ class HomeState {
   final bool token;
   final String userName;
   final String userSurname;
+  final String phoneNumber;
   final String error;
 
   HomeState({
@@ -33,6 +34,7 @@ class HomeState {
     required this.token,
     required this.userName,
     required this.userSurname,
+    required this.phoneNumber,
     required this.error,
   });
 
@@ -60,6 +62,7 @@ class HomeState {
         token: false,
         userName: "",
         userSurname: "",
+        phoneNumber: "",
         error: "",
       );
 
@@ -78,6 +81,7 @@ class HomeState {
     bool? token,
     String? userName,
     String? userSurname,
+    String? phoneNumber,
     String? error,
   }) =>
       HomeState(
@@ -92,6 +96,7 @@ class HomeState {
         token: token ?? this.token,
         userName: userName ?? this.userName,
         userSurname: userSurname ?? this.userSurname,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
         error: error ?? this.error,
       );
 }

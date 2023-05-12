@@ -214,9 +214,9 @@ class _OrdersProductsState extends State<OrdersProducts> {
                       ),
                       Divider(
                         color: hintColor,
-                        indent: 14.0,
-                        endIndent: 14.0,
-                        height: 1.0,
+                        indent: 9.0,
+                        endIndent: 9.0,
+                        height: 0.8,
                         thickness: 1.0,
                       ),
                     ],

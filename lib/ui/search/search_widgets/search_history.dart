@@ -68,6 +68,7 @@ class _SearchHistoryState extends State<SearchHistory> {
               itemCount: state.searchData.length,
               itemBuilder: (context, index) => SearchHistoryItem(
                 searchHistory: state.searchData[index],
+                categoryId: state.categoryId,
               ),
             ),
           ),

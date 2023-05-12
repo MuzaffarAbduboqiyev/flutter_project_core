@@ -87,7 +87,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   FutureOr<void> _refresh(
       SearchRefreshEvent event, Emitter<SearchState> emit) async {
     if (state.searchName.isNotEmpty) {
-      add(SearchNameEvent(searchName: state.searchName));
+      add(SearchNameEvent(
+        searchName: state.searchName,
+        categoryId: state.categoryId,
+      ));
     } else {
       add(SearchCategoriesEvent());
     }
@@ -106,8 +109,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     );
 
     if (event.searchName.isNotEmpty) {
-      final response =
-          await searchRepository.searchCategory(searchName: event.searchName);
+      final response = await searchRepository.searchCategory(
+          searchName: event.searchName, categoryId: event.categoryId);
 
       emit(
         state.copyWith(

@@ -16,8 +16,12 @@ class SearchHistoryEvent extends SearchEvent {
 /// search category
 class SearchNameEvent extends SearchEvent {
   final String searchName;
+  final int categoryId;
 
-  SearchNameEvent({required this.searchName});
+  SearchNameEvent({
+    required this.searchName,
+    required this.categoryId,
+  });
 }
 
 class SearchRemoveHistoryEvent extends SearchEvent {

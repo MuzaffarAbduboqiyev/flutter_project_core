@@ -74,11 +74,14 @@ class _HomeUserDrawerState extends State<HomeUserDrawer> {
               "assets/img/avatar.svg",
             ),
             accountName: Text(
-              widget.userName,
+              widget.userName.isNotEmpty ? widget.userName : "Name...",
               style: getCustomStyle(
                   context: context, textSize: 15, weight: FontWeight.w500),
             ),
-            accountEmail: Text(widget.userSurname,
+            accountEmail: Text(
+                widget.userSurname.isNotEmpty
+                    ? widget.userSurname
+                    : "Surname...",
                 style: getCustomStyle(
                     context: context, textSize: 15, weight: FontWeight.w500)),
             decoration: BoxDecoration(
@@ -119,6 +122,10 @@ class _HomeUserDrawerState extends State<HomeUserDrawer> {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
+            trailing: Icon(
+              Icons.keyboard_arrow_right,
+              color: hintColor,
+            ),
           ),
           Divider(color: hintColor),
           ListTile(
@@ -136,6 +143,10 @@ class _HomeUserDrawerState extends State<HomeUserDrawer> {
               style: getCurrentTheme(context).textTheme.displayMedium,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
+            ),
+            trailing: Icon(
+              Icons.keyboard_arrow_right,
+              color: hintColor,
             ),
           ),
           Divider(color: hintColor),

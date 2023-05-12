@@ -54,8 +54,7 @@ class _HomePageState extends State<HomePage> {
     context.read<HomeBloc>().add(HomeGetCategoriesEvent());
     context.read<HomeBloc>().add(HomeGetRestaurantsEvent());
     context.read<HomeBloc>().add(HomeGetTokenEvent());
-    context.read<HomeBloc>().add(HomeUserNameEvent());
-    context.read<HomeBloc>().add(HomeUserSurnameEvent());
+    context.read<HomeBloc>().add(HomeGetUserInfoEvent());
   }
 
   _refresh() {
@@ -85,98 +84,59 @@ class _HomePageState extends State<HomePage> {
         }
       },
       child: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) => (state.token)
-            ? Scaffold(
-                appBar: AppBar(
+        builder: (context, state) => Scaffold(
+          appBar: (state.token)
+              ? AppBar(
                   toolbarHeight: 75.0,
                   elevation: 1.0,
                   title: const HomeUserWidget(),
-                ),
-                drawer: HomeUserDrawer(
+                )
+              : null,
+          drawer: (state.token)
+              ? HomeUserDrawer(
                   goBack: widget.goBack,
                   userName: state.userName,
                   userSurname: state.userSurname,
-                ),
-                drawerEnableOpenDragGesture: true,
-                backgroundColor: getCurrentTheme(context).backgroundColor,
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16.0),
-                    const HomeCategory(),
-                    const SizedBox(height: 8.0),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Text(
-                        translate("restaurant.restaurants"),
-                        style: getCurrentTheme(context).textTheme.displayLarge,
-                      ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Expanded(
-                      child: SmartRefresher(
-                        controller: refreshControllerTrue,
-                        enablePullUp: false,
-                        enablePullDown: true,
-                        onRefresh: _refresh,
-                        header: getRefreshHeader(),
-                        physics: const BouncingScrollPhysics(),
-                        child: CustomScrollView(
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          slivers: [
-                            SliverToBoxAdapter(
-                              child: HomeRestaurant(goBack: widget.goBack),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: getCurrentTheme(context).backgroundColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16.0),
-                    const HomeCategory(),
-                    const SizedBox(height: 8.0),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Text(
-                        translate("restaurant.restaurants"),
-                        style: getCurrentTheme(context).textTheme.displayLarge,
-                      ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Expanded(
-                      child: SmartRefresher(
-                        controller: refreshControllerFalse,
-                        enablePullUp: false,
-                        enablePullDown: true,
-                        onRefresh: _refresh,
-                        header: getRefreshHeader(),
-                        physics: const BouncingScrollPhysics(),
-                        child: CustomScrollView(
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          slivers: [
-                            SliverToBoxAdapter(
-                              child: HomeRestaurant(goBack: widget.goBack),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                )
+              : Container(),
+          backgroundColor: getCurrentTheme(context).backgroundColor,
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16.0),
+              const HomeCategory(),
+              const SizedBox(height: 8.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(
+                  translate("restaurant.restaurants"),
+                  style: getCurrentTheme(context).textTheme.displayLarge,
                 ),
               ),
+              const SizedBox(height: 8.0),
+              Expanded(
+                child: SmartRefresher(
+                  controller: refreshControllerTrue,
+                  enablePullUp: false,
+                  enablePullDown: true,
+                  onRefresh: _refresh,
+                  header: getRefreshHeader(),
+                  physics: const BouncingScrollPhysics(),
+                  child: CustomScrollView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: HomeRestaurant(goBack: widget.goBack),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -50,6 +50,8 @@ const paymentUrl = "payment-methods";
 /// orders
 const ordersUrl = "orders";
 
-
 /// restaurant search
 const restaurantsSearchUrl = "products";
+
+/// clear products
+const clearUrl = "cart/empty";

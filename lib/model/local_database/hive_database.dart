@@ -33,27 +33,29 @@ abstract class HiveDatabase {
 
   Future<bool> getThemeMode();
 
-  Future<String> getToken();
-
   Future<bool> setToken(String token);
-
-  Future<String> getPhone();
-
-  Future<bool> setPhone(String phone);
-
-  Future<String> getName();
 
   Future<bool> setName(String name);
 
+  Future<bool> setSurname(String surname);
+
+  Future<bool> setPhone(String phone);
+
+  Future<String> getToken();
+
+  Future<String> getName();
+
   Future<String> getSurname();
 
-  Future<bool> setSurname(String userSurname);
+  Future<String> getPhone();
 
   Stream<BoxEvent> listenToken();
 
   Stream<BoxEvent> listenName();
 
   Stream<BoxEvent> listenSurname();
+
+  Stream<BoxEvent> listenPhone();
 }
 
 class HiveDatabaseImpl extends HiveDatabase {
@@ -73,6 +75,12 @@ class HiveDatabaseImpl extends HiveDatabase {
   Stream<BoxEvent> listenSurname() async* {
     await generateHiveDatabase();
     yield* Hive.box(hiveDatabaseName).watch(key: hiveSurname);
+  }
+
+  @override
+  Stream<BoxEvent> listenPhone() async* {
+    await generateHiveDatabase();
+    yield* Hive.box(hiveDatabaseName).watch(key: hivePhone);
   }
 
   @override
@@ -147,9 +155,9 @@ class HiveDatabaseImpl extends HiveDatabase {
   }
 
   @override
-  Future<bool> setSurname(String userSurname) async {
+  Future<bool> setSurname(String surname) async {
     final box = await generateHiveDatabase();
-    await box.put(hiveSurname, userSurname);
+    await box.put(hiveSurname, surname);
     return true;
   }
 }

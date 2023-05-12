@@ -56,9 +56,6 @@ class HomeListenUserNameEvent extends HomeEvent {
   HomeListenUserNameEvent({required this.userName});
 }
 
-/// get userName
-class HomeUserNameEvent extends HomeEvent {}
-
 /// listen userSurname
 class HomeListenUserSurnameEvent extends HomeEvent {
   final String userSurname;
@@ -66,5 +63,12 @@ class HomeListenUserSurnameEvent extends HomeEvent {
   HomeListenUserSurnameEvent({required this.userSurname});
 }
 
-/// get userSurname
-class HomeUserSurnameEvent extends HomeEvent {}
+/// listen phoneNumber
+class HomeListenPhoneNumberEvent extends HomeEvent {
+  final String phoneNumber;
+
+  HomeListenPhoneNumberEvent({required this.phoneNumber});
+}
+
+/// get user info
+class HomeGetUserInfoEvent extends HomeEvent {}

@@ -7,55 +7,81 @@ import 'package:delivery_service/controller/profile_controller/profile_state.dar
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepository profileRepository;
+  late StreamSubscription streamSubscription;
 
   ProfileBloc(
     super.initialState, {
     required this.profileRepository,
   }) {
-    on<ProfileInitialEvent>(
-      _initialProfile,
-      transformer: concurrent(),
-    );
-    on<ProfileGetUserEvent>(
-      _getUser,
+    /// listen userName
+    on<ListenNameEvent>(
+      _nameListen,
       transformer: concurrent(),
     );
 
-    /// set user name
-    on<ProfileSetUserNameEvent>(
-      _setUserInfo,
+    /// listen userName
+    on<ListenSurnameEvent>(
+      _surnameListen,
       transformer: concurrent(),
     );
+
+    /// listen userName
+    on<ProfileListenUserNameEvent>(
+      _listenUserName,
+      transformer: concurrent(),
+    );
+
+    /// listen userSurname
+    on<ProfileListenUserSurnameEvent>(
+      _listenUserSurname,
+      transformer: concurrent(),
+    );
+
+    /// insert user info = malumotlarni kiritish
+    on<ProfileSetUserInfoEvent>(
+      _insertUsersInfo,
+      transformer: concurrent(),
+    );
+
+    /// get user info
+    on<ProfileGetUserInfoEvent>(
+      _getUsersInfo,
+      transformer: concurrent(),
+    );
+
+    streamSubscription = profileRepository.listenUserName().listen((userName) {
+      add(ProfileListenUserNameEvent(userName: userName.value.toString()));
+    });
+    streamSubscription =
+        profileRepository.listenUserSurname().listen((userSurname) {
+      add(ProfileListenUserSurnameEvent(
+          userSurname: userSurname.value.toString()));
+    });
   }
 
-  FutureOr<void> _initialProfile(
-      ProfileInitialEvent event, Emitter<ProfileState> emit) async {
+  /// listen userName
+  FutureOr<void> _listenUserName(
+      ProfileListenUserNameEvent event, Emitter<ProfileState> emit) async {
     emit(
       state.copyWith(
-        profileModel: event.profileModel,
+        userName: event.userName,
       ),
     );
   }
 
-  FutureOr<void> _getUser(
-      ProfileGetUserEvent event, Emitter<ProfileState> emit) async {
+  /// listen userSurname
+  FutureOr<void> _listenUserSurname(
+      ProfileListenUserSurnameEvent event, Emitter<ProfileState> emit) async {
     emit(
       state.copyWith(
-        profileStatus: ProfileStatus.loading,
-      ),
-    );
-    final response = await profileRepository.getAllUserData();
-    emit(
-      state.copyWith(
-        profileStatus:
-            (response.status) ? ProfileStatus.loaded : ProfileStatus.error,
-        error: response.message,
+        userSurname: event.userSurname,
       ),
     );
   }
 
-  FutureOr<void> _setUserInfo(
-      ProfileSetUserNameEvent event, Emitter<ProfileState> emit) async {
+  /// insert user info = malumotlarni kiritish
+  FutureOr<void> _insertUsersInfo(
+      ProfileSetUserInfoEvent event, Emitter<ProfileState> emit) async {
     final userName =
         await profileRepository.setUserName(userName: event.userName);
     final userSurname =
@@ -66,5 +92,44 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         userSurname: userSurname,
       ),
     );
+  }
+
+  /// get user info malumotlarni olish
+  FutureOr<void> _getUsersInfo(
+      ProfileGetUserInfoEvent event, Emitter<ProfileState> emit) async {
+    final userName = await profileRepository.getUserName();
+    final userSurname = await profileRepository.getUserSurname();
+    final phoneNumber = await profileRepository.getPhoneNumber();
+    emit(
+      state.copyWith(
+        userName: userName,
+        userSurname: userSurname,
+        phoneNumber: phoneNumber,
+      ),
+    );
+  }
+
+  FutureOr<void> _nameListen(
+      ListenNameEvent event, Emitter<ProfileState> emit) async {
+    emit(
+      state.copyWith(
+        name: event.name,
+      ),
+    );
+  }
+
+  FutureOr<void> _surnameListen(
+      ListenSurnameEvent event, Emitter<ProfileState> emit) async {
+    emit(
+      state.copyWith(
+        surname: event.surname,
+      ),
+    );
+  }
+
+  @override
+  Future<void> close() {
+    streamSubscription.cancel();
+    return super.close();
   }
 }

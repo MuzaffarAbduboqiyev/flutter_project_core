@@ -11,6 +11,7 @@ import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
 import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -85,26 +86,46 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                     itemCount: state.location.length,
                     itemBuilder: (context, index) => (state
                             .location[index].selectedStatus)
-                        ? ListTile(
-                            onTap: () => _changeLocationSelectedStatus(
-                                state.location[index]),
-                            leading: Icon(
-                              state.location[index].address.isNotEmpty
-                                  ? state.location[index].selectedStatus
-                                      ? Icons.check_box
-                                      : Icons.check_box_outline_blank_outlined
-                                  : null,
-                              color: state.location[index].selectedStatus
-                                  ? getCurrentTheme(context).indicatorColor
-                                  : getCurrentTheme(context).iconTheme.color,
-                            ),
-                            title: Text(
-                              state.location[index].address ?? "",
-                              style:
-                                  getCurrentTheme(context).textTheme.bodyLarge,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
-                            ),
+                        ? Column(
+                            children: [
+                              ListTile(
+                                onTap: () => _changeLocationSelectedStatus(
+                                    state.location[index]),
+                                leading: Icon(
+                                  state.location[index].address.isNotEmpty
+                                      ? state.location[index].selectedStatus
+                                          ? Icons.check_box
+                                          : Icons
+                                              .check_box_outline_blank_outlined
+                                      : null,
+                                  color: state.location[index].selectedStatus
+                                      ? getCurrentTheme(context).indicatorColor
+                                      : getCurrentTheme(context)
+                                          .iconTheme
+                                          .color,
+                                ),
+                                title: Text(
+                                  state.location[index].address ?? "",
+                                  style: getCurrentTheme(context)
+                                      .textTheme
+                                      .bodyLarge,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: DottedLine(
+                                  dashGradient: const [
+                                    Colors.grey,
+                                    Colors.grey,
+                                  ],
+                                  dashLength: 10.0,
+                                  lineThickness: 0.6,
+                                ),
+                              ),
+                            ],
                           )
                         : Dismissible(
                             onDismissed: (value) =>
@@ -118,32 +139,50 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                             background: Container(),
                             key: UniqueKey(),
                             direction: DismissDirection.endToStart,
-                            child: ListTile(
-                              leading: GestureDetector(
-                                onTap: () => _changeLocationSelectedStatus(
-                                    state.location[index]),
-                                child: Icon(
-                                  state.location[index].address.isNotEmpty
-                                      ? state.location[index].selectedStatus
-                                          ? Icons.check_box
-                                          : Icons
-                                              .check_box_outline_blank_outlined
-                                      : null,
-                                  color: state.location[index].selectedStatus
-                                      ? getCurrentTheme(context).indicatorColor
-                                      : getCurrentTheme(context)
-                                          .iconTheme
-                                          .color,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  leading: GestureDetector(
+                                    onTap: () => _changeLocationSelectedStatus(
+                                        state.location[index]),
+                                    child: Icon(
+                                      state.location[index].address.isNotEmpty
+                                          ? state.location[index].selectedStatus
+                                              ? Icons.check_box
+                                              : Icons
+                                                  .check_box_outline_blank_outlined
+                                          : null,
+                                      color:
+                                          state.location[index].selectedStatus
+                                              ? getCurrentTheme(context)
+                                                  .indicatorColor
+                                              : getCurrentTheme(context)
+                                                  .iconTheme
+                                                  .color,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    state.location[index].address ?? "",
+                                    style: getCurrentTheme(context)
+                                        .textTheme
+                                        .bodyLarge,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                  ),
                                 ),
-                              ),
-                              title: Text(
-                                state.location[index].address ?? "",
-                                style: getCurrentTheme(context)
-                                    .textTheme
-                                    .bodyLarge,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
-                              ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: DottedLine(
+                                    dashGradient: const [
+                                      Colors.grey,
+                                      Colors.grey,
+                                    ],
+                                    dashLength: 10.0,
+                                    lineThickness: 0.6,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                   ),

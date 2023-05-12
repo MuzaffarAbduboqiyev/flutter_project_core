@@ -58,12 +58,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       transformer: concurrent(),
     );
 
-    /// listen token
-    on<OrderListenTokenEvent>(
-      _listenToken,
-      transformer: concurrent(),
-    );
-
     /// get token
     on<OrderGetTokenEvent>(
       _getToken,
@@ -76,9 +70,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       transformer: concurrent(),
     );
 
-    streamSubscription = orderRepository.listenToken().listen((listen) {
-      add(OrderListenTokenEvent(token: listen.value));
-    });
     streamSubscription = orderRepository.listenCartProducts().listen((event) {
       event.sort((a, b) => a.price.compareTo(b.price));
       add(OrderCartProductEvent(products: event));
@@ -109,16 +100,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     emit(
       state.copyWith(
         locationData: event.locationData,
-      ),
-    );
-  }
-
-  /// listen Token
-  FutureOr<void> _listenToken(
-      OrderListenTokenEvent event, Emitter<OrderState> emit) async {
-    emit(
-      state.copyWith(
-        token: event.token,
       ),
     );
   }

@@ -156,7 +156,7 @@ class OrderRepositoryImpl extends OrderRepository {
           }
         }
 
-        final responseGet = (uploadProducts.isEmpty)
+        final response = (uploadProducts.isEmpty)
             ? await orderNetworkService.refreshGetMethodUrl()
             : await orderNetworkService.uploadCartProducts(
                 body: {
@@ -164,19 +164,19 @@ class OrderRepositoryImpl extends OrderRepository {
                 },
               );
 
-        if (responseGet.status == true &&
-            responseGet.response != null &&
-            responseGet.response?.data.containsKey("data") == true &&
-            responseGet.response?.data["data"] != null &&
-            responseGet.response?.data["data"] is List) {
+        if (response.status == true &&
+            response.response != null &&
+            response.response?.data.containsKey("data") == true &&
+            response.response?.data["data"] != null &&
+            response.response?.data["data"] is List) {
           await moorDatabase.insertAllProductCartData(
             productCartDataList:
-                parseProductCartDataList(responseGet.response?.data["data"]),
+                parseProductCartDataList(response.response?.data["data"]),
           );
 
           return SimpleResponseModel.success();
         } else {
-          return getSimpleResponseErrorHandler(responseGet);
+          return getSimpleResponseErrorHandler(response);
         }
       } else {
         return SimpleResponseModel.success();

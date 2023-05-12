@@ -12,6 +12,9 @@ class ProfileState {
   final ProfileModel profileModel;
   final String userName;
   final String userSurname;
+  final String phoneNumber;
+  final String name;
+  final String surname;
   final String error;
 
   ProfileState({
@@ -19,6 +22,9 @@ class ProfileState {
     required this.profileModel,
     required this.userName,
     required this.userSurname,
+    required this.phoneNumber,
+    required this.name,
+    required this.surname,
     required this.error,
   });
 
@@ -27,6 +33,9 @@ class ProfileState {
         profileModel: ProfileModel.example(),
         userName: "",
         userSurname: "",
+        phoneNumber: "",
+        name: "",
+        surname: "",
         error: "",
       );
 
@@ -35,6 +44,9 @@ class ProfileState {
     ProfileModel? profileModel,
     String? userName,
     String? userSurname,
+    String? phoneNumber,
+    String? name,
+    String? surname,
     String? error,
   }) =>
       ProfileState(
@@ -42,6 +54,9 @@ class ProfileState {
         profileModel: profileModel ?? this.profileModel,
         userName: userName ?? this.userName,
         userSurname: userSurname ?? this.userSurname,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        name: name ?? this.name,
+        surname: surname ?? this.surname,
         error: error ?? this.error,
       );
 }

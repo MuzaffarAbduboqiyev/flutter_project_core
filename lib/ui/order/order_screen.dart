@@ -103,53 +103,38 @@ class _OrderPageState extends State<OrderPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
                         children: [
-                          (state.token)
-                              ? Expanded(
-                                  child: SmartRefresher(
-                                    controller: refreshController,
-                                    enablePullUp: false,
-                                    enablePullDown: true,
-                                    onRefresh: _refresh,
-                                    header: getRefreshHeader(),
-                                    physics: const BouncingScrollPhysics(),
-                                    child: CustomScrollView(
-                                      shrinkWrap: true,
-                                      slivers: [
-                                        SliverToBoxAdapter(
-                                          child: SingleChildScrollView(
-                                            child: ListView.builder(
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const BouncingScrollPhysics(),
-                                              itemCount:
-                                                  state.products.length,
-                                              itemBuilder: (context, index) =>
-                                                  OrderProduct(
-                                                      product: state
-                                                          .products[index]),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                          Expanded(
+                            child: SmartRefresher(
+                              controller: refreshController,
+                              enablePullUp: false,
+                              enablePullDown: true,
+                              onRefresh: _refresh,
+                              header: getRefreshHeader(),
+                              physics: const BouncingScrollPhysics(),
+                              child: CustomScrollView(
+                                shrinkWrap: true,
+                                slivers: [
+                                  SliverToBoxAdapter(
+                                    child: SingleChildScrollView(
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const BouncingScrollPhysics(),
+                                        itemCount: state.products.length,
+                                        itemBuilder: (context, index) =>
+                                            OrderProduct(
+                                                product: state.products[index]),
+                                      ),
                                     ),
                                   ),
-                                )
-                              : Expanded(
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: const BouncingScrollPhysics(),
-                                    itemCount: state.products.length,
-                                    itemBuilder: (context, index) =>
-                                        OrderProduct(
-                                            product: state.products[index]),
-                                  ),
-                                ),
+                                ],
+                              ),
+                            ),
+                          ),
                           (state.token) ? const OrderDeliver() : Container(),
                           (state.token)
                               ? OrderShipping(
                                   orderBloc: context.read<OrderBloc>(),
-                                  orderContext: context,
-                                )
+                                  orderContext: context)
                               : Container(),
                           if (state.products.isNotEmpty) _paymentTotal(state),
                           const SizedBox(height: 12.0),

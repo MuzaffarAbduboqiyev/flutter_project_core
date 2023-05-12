@@ -144,6 +144,7 @@ class ProductRepositoryImpl extends ProductRepository {
         };
         products.add(cartProduct);
       }
+
       /// if qismiz
       if (getToken.isNotEmpty) {
         final body = {"products": products};
@@ -153,16 +154,16 @@ class ProductRepositoryImpl extends ProductRepository {
             List<ProductCartData> productData = [];
             response.response?.data["data"].forEach((element) {
               final productCartData = ProductCartData(
-                restaurantId: restaurantId,
+                variationId: parseToInt(response: element, key: "id"),
                 price: parseToInt(response: element, key: "price"),
                 count: parseToInt(response: element, key: "quantity"),
+                restaurantId: restaurantId,
                 productId: parseToInt(response: element["product"], key: "id"),
                 name: parseToString(response: element["product"], key: "name"),
                 image:
                     parseToString(response: element["product"], key: "image"),
                 hasStock:
                     parseToBool(response: element["product"], key: "in_stock"),
-                variationId: parseToInt(response: element, key: "id"),
                 selectedCount: parseToInt(response: element, key: "quantity"),
               );
 
