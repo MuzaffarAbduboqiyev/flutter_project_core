@@ -39,7 +39,7 @@ class _OrderTotalState extends State<OrderTotal> {
               maxLines: 1,
             ),
             Text(
-              "${moneyFormatter.format(widget.state.shippingPrice + widget.state.price)} ${translate("sum")}",
+              "${moneyFormatter.format(widget.state.totalPrice)} ${translate("sum")}",
               style: getCurrentTheme(context).textTheme.bodyMedium,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.end,

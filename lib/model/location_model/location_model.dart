@@ -25,6 +25,18 @@ class Location extends Table {
   Set<Column>? get primaryKey => {id, lat, lng};
 }
 
+final exampleLocationData = LocationData(
+  id: 0,
+  lat: "",
+  lng: "",
+  address: "",
+  comment: "",
+  updated: "",
+  created: "",
+  defaults: false,
+  selectedStatus: false,
+);
+
 List<LocationData> parseToLocationModelList({
   required List<dynamic> response,
 }) {

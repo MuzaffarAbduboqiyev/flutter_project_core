@@ -2,6 +2,7 @@ import 'package:delivery_service/controller/order_controller/order_bloc.dart';
 import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
 import 'package:delivery_service/model/location_model/location_model.dart';
+import 'package:delivery_service/model/order_model/payment_model.dart';
 import 'package:delivery_service/model/payment_model/order_model.dart';
 import 'package:delivery_service/ui/widgets/dialog/snack_bar.dart';
 import 'package:delivery_service/ui/widgets/scrolling/custom_scroll_behavior.dart';
@@ -12,8 +13,8 @@ import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class OrderShippingWidget extends StatelessWidget {
-  const OrderShippingWidget({Key? key}) : super(key: key);
+class OrderPaymentWidget extends StatelessWidget {
+  const OrderPaymentWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,28 +31,33 @@ class OrderShippingWidget extends StatelessWidget {
                   showSnackBar(
                       context: context,
                       message: "Please, select location first");
+                } else if (state.selectedShippingModel.id ==
+                    OrderShippingModel.example().id) {
+                  showSnackBar(
+                      context: context,
+                      message: "Please, select shipping first");
                 } else {
                   context
                       .read<OrderBloc>()
-                      .add(OrderGetShippingEvent(context: context));
+                      .add(OrderGetPaymentsEvent(context: context));
                 }
               },
-              child: (state.selectedShippingModel.id !=
-                      OrderShippingModel.example().id)
+              child: (state.selectedPaymentModel.id !=
+                      PaymentModel.example().id)
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Text(state.selectedShippingModel.name),
+                          child: Text(state.selectedPaymentModel.name),
                         ),
                         Text(
-                          "${state.selectedShippingModel.price}",
+                          state.selectedPaymentModel.description,
                         ),
                       ],
                     )
                   : Text(
-                      translate("shipping.shipping").toCapitalized(),
+                      translate("payments.payments").toCapitalized(),
                       style: getCurrentTheme(context).textTheme.displayLarge,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
@@ -59,19 +65,16 @@ class OrderShippingWidget extends StatelessWidget {
                     ),
             ),
           ),
-          Divider(
-            color: getCurrentTheme(context).dividerColor,
-            thickness: 1,
-          ),
+          Divider(),
         ],
       ),
     );
   }
 }
 
-showOrderShippingDialog({
+showOrderPaymentDialog({
   required BuildContext mainContext,
-  required List<OrderShippingModel> shippingModels,
+  required List<PaymentModel> paymentModels,
 }) =>
     showModalBottomSheet(
       context: mainContext,
@@ -91,7 +94,7 @@ showOrderShippingDialog({
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               child: Center(
                 child: Text(
-                  translate("shipping.shipping").toCapitalized(),
+                  translate("Payment").toCapitalized(),
                   style: getCurrentTheme(mainContext).textTheme.displayLarge,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -103,12 +106,12 @@ showOrderShippingDialog({
               child: ScrollConfiguration(
                 behavior: CustomScrollBehavior(),
                 child: ListView.builder(
-                  itemCount: shippingModels.length,
+                  itemCount: paymentModels.length,
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
                       mainContext.read<OrderBloc>().add(
-                            OrderSelectedShippingEvent(
-                              shippingModel: shippingModels[index],
+                            OrderSelectedPaymentEvent(
+                              paymentModel: paymentModels[index],
                             ),
                           );
                       Navigator.pop(builderContext);
@@ -123,7 +126,7 @@ showOrderShippingDialog({
                         title: Row(
                           children: [
                             Text(
-                              shippingModels[index].name,
+                              paymentModels[index].name,
                               style:
                                   getCurrentTheme(context).textTheme.bodyLarge,
                               overflow: TextOverflow.ellipsis,
@@ -132,7 +135,7 @@ showOrderShippingDialog({
                           ],
                         ),
                         subtitle: Text(
-                          "${shippingModels[index].price} ${translate("sum")}",
+                          paymentModels[index].description,
                           style: getCurrentTheme(context).textTheme.labelSmall,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,

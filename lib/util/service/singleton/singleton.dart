@@ -9,7 +9,6 @@ import 'package:delivery_service/controller/location_controller/location_reposit
 import 'package:delivery_service/controller/order_controller/order_repository.dart';
 import 'package:delivery_service/controller/orders_controller/orders_repository.dart';
 import 'package:delivery_service/controller/otp_controller/otp_repository.dart';
-import 'package:delivery_service/controller/payment_controller/payment_repository.dart';
 import 'package:delivery_service/controller/product_controller/product_repository.dart';
 import 'package:delivery_service/controller/profile_controller/profile_repository.dart';
 import 'package:delivery_service/controller/restaurant_controller/restaurant_repository.dart';
@@ -246,13 +245,6 @@ void init() {
     ),
   );
 
-  /// payment controller
-  singleton.registerLazySingleton<PaymentRepository>(
-    () => PaymentRepositoryImpl(
-      paymentNetworkService: singleton(),
-      moorDatabase: singleton(),
-    ),
-  );
   singleton.registerLazySingleton<PaymentNetworkService>(
     () => PaymentNetworkServiceImpl(
       networkService: singleton(),

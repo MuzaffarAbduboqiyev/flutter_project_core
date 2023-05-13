@@ -1,12 +1,9 @@
 import 'package:delivery_service/model/local_database/moor_database.dart';
-import 'package:delivery_service/model/product_model/product_variation_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:delivery_service/model/order_model/payment_model.dart';
+import 'package:delivery_service/model/payment_model/order_model.dart';
+import 'package:flutter/material.dart';
 
 abstract class OrderEvent {}
-
-class OrderGetProductEvent extends OrderEvent {}
-
-class OrderListenProductEvent extends OrderEvent {}
 
 class OrderCartProductEvent extends OrderEvent {
   final List<ProductCartData> products;
@@ -32,15 +29,11 @@ class OrderDeleteProductEvent extends OrderEvent {
   });
 }
 
-class OrderClearProductEvent extends OrderEvent {
-  final int productId;
-  final int variationId;
+/// order get token
+class OrderGetTokenEvent extends OrderEvent {}
 
-  OrderClearProductEvent({
-    required this.productId,
-    required this.variationId,
-  });
-}
+/// order refresh
+class OrderRefreshProductsEvent extends OrderEvent {}
 
 /// order listen location
 class OrderListenLocationEvent extends OrderEvent {
@@ -50,34 +43,37 @@ class OrderListenLocationEvent extends OrderEvent {
 }
 
 /// order shipping check button
-class OrderShippingCheckButtonEvent extends OrderEvent {
-  final int addressId;
+class OrderGetShippingEvent extends OrderEvent {
+  final BuildContext context;
 
-  OrderShippingCheckButtonEvent({required this.addressId});
-}
-
-/// order request button
-class OrderRequestButtonEvent extends OrderEvent {
-  final int shippingId;
-  final int shippingPrice;
-  final String shippingName;
-
-  OrderRequestButtonEvent({
-    required this.shippingId,
-    required this.shippingPrice,
-    required this.shippingName,
+  OrderGetShippingEvent({
+    required this.context,
   });
 }
 
-/// order listen token
-class OrderListenTokenEvent extends OrderEvent {
-  final bool token;
+/// order request button
+class OrderSelectedShippingEvent extends OrderEvent {
+  final OrderShippingModel shippingModel;
 
-  OrderListenTokenEvent({required this.token});
+  OrderSelectedShippingEvent({
+    required this.shippingModel,
+  });
 }
 
-/// order get token
-class OrderGetTokenEvent extends OrderEvent {}
+/// order get payments event
+class OrderGetPaymentsEvent extends OrderEvent {
+  final BuildContext context;
 
-/// order refresh
-class OrderRefreshProductsEvent extends OrderEvent {}
+  OrderGetPaymentsEvent({
+    required this.context,
+  });
+}
+
+/// order selected payment event
+class OrderSelectedPaymentEvent extends OrderEvent {
+  final PaymentModel paymentModel;
+
+  OrderSelectedPaymentEvent({
+    required this.paymentModel,
+  });
+}

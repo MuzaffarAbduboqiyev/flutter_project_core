@@ -1,13 +1,14 @@
 import 'package:delivery_service/controller/order_controller/order_bloc.dart';
 import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
-import 'package:delivery_service/ui/order/order_payment/order_checkout_payment.dart';
+import 'package:delivery_service/ui/order/order_payment/order_payment.dart';
 import 'package:delivery_service/ui/order/order_payment/order_payment_null.dart';
 import 'package:delivery_service/ui/order/order_products/order_location.dart';
 import 'package:delivery_service/ui/order/order_shipping/order_shipping.dart';
 import 'package:delivery_service/ui/order/order_total/order_total.dart';
 import 'package:delivery_service/ui/widgets/appbar/simple_appbar.dart';
 import 'package:delivery_service/ui/widgets/error/connection_error/connection_error.dart';
+import 'package:delivery_service/ui/widgets/loading/loader_dialog.dart';
 import 'package:delivery_service/ui/widgets/order/order_ui.dart';
 import 'package:delivery_service/ui/widgets/refresh/refresh_header.dart';
 import 'package:delivery_service/util/service/singleton/singleton.dart';
@@ -88,6 +89,16 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return BlocListener<OrderBloc, OrderState>(
       listener: (context, state) {
+        if (state.orderStatus == OrderStatus.loading) {
+          showLoadingDialog();
+        } else {
+          hideLoadingDialog();
+
+          if (state.orderStatus == OrderStatus.error) {
+            showErrorDialog(errorMessage: state.error);
+          }
+        }
+
         if (state.orderStatus != OrderStatus.loading &&
             refreshController.isRefresh) {
           refreshController.refreshCompleted();
@@ -97,7 +108,7 @@ class _OrderPageState extends State<OrderPage> {
         appBar: simpleAppBar(context, translate("order.basket")),
         backgroundColor: getCurrentTheme(context).backgroundColor,
         body: BlocBuilder<OrderBloc, OrderState>(
-          builder: (context, state) => (state.products.isNotEmpty)
+          builder: (context, state) => (state.orderProducts.isNotEmpty)
               ? (state.orderStatus == OrderStatus.error)
                   ? ConnectionErrorWidget(refreshFunction: _refresh)
                   : Padding(
@@ -120,10 +131,11 @@ class _OrderPageState extends State<OrderPage> {
                                       child: ListView.builder(
                                         shrinkWrap: true,
                                         physics: const BouncingScrollPhysics(),
-                                        itemCount: state.products.length,
+                                        itemCount: state.orderProducts.length,
                                         itemBuilder: (context, index) =>
                                             OrderProduct(
-                                                product: state.products[index]),
+                                                product:
+                                                    state.orderProducts[index]),
                                       ),
                                     ),
                                   ),
@@ -131,17 +143,15 @@ class _OrderPageState extends State<OrderPage> {
                               ),
                             ),
                           ),
-                          (state.token) ? const OrderLocation() : Container(),
-                          (state.token)
-                              ? OrderShipping(
-                                  orderBloc: context.read<OrderBloc>(),
-                                  orderContext: context)
+                          (state.hasToken)
+                              ? const OrderLocation()
                               : Container(),
-                          if (state.products.isNotEmpty)
-                            OrderTotal(state: state),
+                          (state.hasToken)
+                              ? const OrderShippingWidget()
+                              : OrderTotal(state: state),
                           const SizedBox(height: 12.0),
-                          (state.token)
-                              ? OrderPayment(orderState: state)
+                          (state.hasToken)
+                              ? const OrderPaymentWidget()
                               : const OrderPaymentNull(),
                           const SizedBox(height: 12.0),
                         ],

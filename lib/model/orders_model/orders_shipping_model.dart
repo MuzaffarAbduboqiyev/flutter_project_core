@@ -4,23 +4,23 @@ class OrdersShippingModel {
   final int id;
   final String name;
   final int price;
-  final String created_at;
-  final String updated_at;
+  final String createdAt;
+  final String updatedAt;
 
   OrdersShippingModel({
     required this.id,
     required this.name,
     required this.price,
-    required this.created_at,
-    required this.updated_at,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory OrdersShippingModel.example() => OrdersShippingModel(
         id: 0,
         name: "",
         price: 0,
-        created_at: "",
-        updated_at: "",
+        createdAt: "",
+        updatedAt: "",
       );
 
   factory OrdersShippingModel.fromMap(Map<String, dynamic> response) =>
@@ -28,22 +28,22 @@ class OrdersShippingModel {
         id: parseToInt(response: response, key: "id"),
         price: parseToInt(response: response, key: "price"),
         name: parseToString(response: response, key: "name"),
-        created_at: parseToString(response: response, key: "created_at"),
-        updated_at: parseToString(response: response, key: "updated_at"),
+        createdAt: parseToString(response: response, key: "created_at"),
+        updatedAt: parseToString(response: response, key: "updated_at"),
       );
 
   OrdersShippingModel copyWith({
     int? id,
     int? price,
     String? name,
-    String? created_at,
-    String? updated_at,
+    String? createdAt,
+    String? updatedAt,
   }) =>
       OrdersShippingModel(
         id: id ?? this.id,
         name: name ?? this.name,
         price: price ?? this.price,
-        created_at: created_at ?? this.created_at,
-        updated_at: updated_at ?? this.updated_at,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
       );
 }

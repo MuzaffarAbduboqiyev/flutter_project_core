@@ -3,7 +3,6 @@ import 'package:delivery_service/controller/app_controller/app_event.dart';
 import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
-import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expandable/expandable.dart';
@@ -73,15 +72,12 @@ class _HomeUserDrawerState extends State<HomeUserDrawer> {
             ),
             accountName: Text(
               widget.userName.isNotEmpty ? widget.userName : "Name...",
-              style: getCustomStyle(
-                  context: context, textSize: 15, weight: FontWeight.w500),
+              style: getCurrentTheme(context).textTheme.bodyMedium,
             ),
             accountEmail: Text(
-                widget.userSurname.isNotEmpty
-                    ? widget.userSurname
-                    : "Surname...",
-                style: getCustomStyle(
-                    context: context, textSize: 15, weight: FontWeight.w500)),
+              widget.userSurname.isNotEmpty ? widget.userSurname : "Surname...",
+              style: getCurrentTheme(context).textTheme.bodyMedium,
+            ),
             decoration: BoxDecoration(
               color: Colors.black,
               border: Border(

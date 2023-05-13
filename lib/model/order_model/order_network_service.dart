@@ -6,13 +6,6 @@ abstract class OrderNetworkService {
   /// order shipping
   Future<NetworkResponseModel> getShippingUrl({required int addressId});
 
-  /// order check payment
-  Future<NetworkResponseModel> getPaymentCheckUrl();
-
-  /// order request payment
-  Future<NetworkResponseModel> getPaymentRequestUrl(
-      {required Map<dynamic, dynamic> body});
-
   /// refresh product GetMethod
   Future<NetworkResponseModel> refreshGetMethodUrl();
 
@@ -24,6 +17,12 @@ abstract class OrderNetworkService {
   /// refresh product PostMethod
   Future<NetworkResponseModel> refreshPostMethodUrl(
       {required Map<dynamic, dynamic> body});
+
+  Future<NetworkResponseModel> fetchPaymentModels();
+
+  Future<NetworkResponseModel> order({
+    required Map body,
+  });
 }
 
 class OrderNetworkServiceImpl extends OrderNetworkService {
@@ -38,22 +37,6 @@ class OrderNetworkServiceImpl extends OrderNetworkService {
     final response =
         await networkService.getMethod(url: "addresses/$addressId/shipping");
     print("NetworkService addressId: $addressId");
-    return response;
-  }
-
-  @override
-  Future<NetworkResponseModel> getPaymentCheckUrl() async {
-    final response = await networkService.getMethod(url: paymentUrl);
-
-    return response;
-  }
-
-  @override
-  Future<NetworkResponseModel> getPaymentRequestUrl(
-      {required Map<dynamic, dynamic> body}) async {
-    final response =
-        await networkService.postMethod(url: ordersUrl, body: body);
-
     return response;
   }
 
@@ -73,8 +56,22 @@ class OrderNetworkServiceImpl extends OrderNetworkService {
   @override
   Future<NetworkResponseModel> uploadCartProducts({
     required Map<dynamic, dynamic> body,
-  })  async{
+  }) async {
     final response = await networkService.postMethod(url: cartUrl, body: body);
+    return response;
+  }
+
+  @override
+  Future<NetworkResponseModel> fetchPaymentModels() async {
+    final response = await networkService.getMethod(url: paymentUrl);
+    return response;
+  }
+
+  @override
+  Future<NetworkResponseModel> order({
+    required Map<dynamic, dynamic> body,
+  }) async {
+    final response = networkService.postMethod(url: ordersUrl, body: body);
     return response;
   }
 }

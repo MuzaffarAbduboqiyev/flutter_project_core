@@ -77,7 +77,7 @@ class _OrderProductState extends State<OrderProduct> {
         padding: const EdgeInsets.only(top: 8.0),
         child: Dismissible(
           onDismissed: (value) => _deleteProduct(),
-          key: ValueKey(state.products),
+          key: ValueKey(state.orderProducts),
           background: Container(
             color: errorTextColor,
             child: const Icon(Icons.delete_outline),

@@ -36,9 +36,9 @@ class _OrderLocationState extends State<OrderLocation> {
           child: ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.location_on_sharp, size: 28),
-            title: (state.locationData.selectedStatus)
+            title: (state.selectedLocationData.selectedStatus)
                 ? Text(
-                    state.locationData.address ?? "",
+                    state.selectedLocationData.address,
                     style: getCurrentTheme(context).textTheme.displayMedium,
                     maxLines: 2,
                   )
@@ -46,8 +46,9 @@ class _OrderLocationState extends State<OrderLocation> {
                     translate("location.locations"),
                     style: getCurrentTheme(context).textTheme.bodyMedium,
                   ),
-            trailing: const Icon(
+            trailing: Icon(
               Icons.keyboard_arrow_down_outlined,
+              color: getCurrentTheme(context).iconTheme.color,
               size: 28,
             ),
           ),
