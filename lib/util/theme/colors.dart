@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 // Application uchun kerakli ranglar
 final greyBackgroundColor = HexColor.fromHex("#1A1A1A");
 final backgroundColor = HexColor.fromHex("#000000");

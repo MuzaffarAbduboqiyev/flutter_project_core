@@ -1,6 +1,6 @@
 import 'package:delivery_service/controller/order_controller/order_bloc.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
-import 'package:delivery_service/ui/order/order_products/delivery_dialog.dart';
+import 'package:delivery_service/ui/order/order_products/order_location_dialog.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
@@ -8,20 +8,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class OrderDeliver extends StatefulWidget {
-  const OrderDeliver({Key? key}) : super(key: key);
+class OrderLocation extends StatefulWidget {
+  const OrderLocation({Key? key}) : super(key: key);
 
   @override
-  State<OrderDeliver> createState() => _OrderDeliverState();
+  State<OrderLocation> createState() => _OrderLocationState();
 }
 
-class _OrderDeliverState extends State<OrderDeliver> {
+class _OrderLocationState extends State<OrderLocation> {
   final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc, OrderState>(
-      builder: (context, state) => InkWell(
+      builder: (context, state) => GestureDetector(
         onTap: () => dialogProduct(state),
         child: Container(
           height: 85,

@@ -69,7 +69,7 @@ class _OrderPaymentWidgetState extends State<OrderPaymentWidget> {
                   .withOpacity(0.5),
               builder: (context) => Center(
                 child: AlertDialog(
-                  backgroundColor: backgroundColor,
+                  backgroundColor: getCurrentTheme(context).backgroundColor,
                   shadowColor: Colors.black,
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -93,7 +93,8 @@ class _OrderPaymentWidgetState extends State<OrderPaymentWidget> {
                           itemCount: state.paymentModel.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) => InkWell(
-                            onTap: () => _buttonCart(state.paymentModel[index]),
+                            onTap: () =>
+                                _paymentButton(state.paymentModel[index]),
                             child: Container(
                               margin: const EdgeInsets.all(4),
                               decoration: getContainerDecoration(context),
@@ -120,7 +121,7 @@ class _OrderPaymentWidgetState extends State<OrderPaymentWidget> {
       },
       child: InkWell(
         onTap: () => (widget.orderState.shippingName).isNotEmpty
-            ? _checkoutButton()
+            ? checkoutButton()
             : null,
         child: Container(
           alignment: Alignment.center,
@@ -169,11 +170,11 @@ class _OrderPaymentWidgetState extends State<OrderPaymentWidget> {
     );
   }
 
-  _checkoutButton() {
+  checkoutButton() {
     context.read<PaymentBloc>().add(PaymentCheckButtonEvent());
   }
 
-  _buttonCart(paymentModel) {
+  _paymentButton(paymentModel) {
     context.read<PaymentBloc>().add(
           OrdersPaymentRequestEvent(
             locationId: widget.orderState.locationData.id,
@@ -182,5 +183,51 @@ class _OrderPaymentWidgetState extends State<OrderPaymentWidget> {
           ),
         );
     Navigator.pop(context);
+  }
+
+  locationSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(16.0),
+          ),
+        ),
+        backgroundColor: Colors.orange,
+        closeIconColor: getCurrentTheme(context).iconTheme.color,
+        showCloseIcon: true,
+        content: Text(
+          translate("order.location"),
+          style: getCurrentTheme(context).textTheme.bodyMedium,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.start,
+          maxLines: 1,
+        ),
+      ),
+    );
+  }
+
+  shippingSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(16.0),
+          ),
+        ),
+        backgroundColor: Colors.orange,
+        closeIconColor: getCurrentTheme(context).iconTheme.color,
+        showCloseIcon: true,
+        content: Text(
+          translate("order.shipping"),
+          style: getCurrentTheme(context).textTheme.bodyMedium,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.start,
+          maxLines: 1,
+        ),
+      ),
+    );
   }
 }

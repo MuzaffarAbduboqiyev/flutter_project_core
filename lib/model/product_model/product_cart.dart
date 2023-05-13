@@ -22,10 +22,7 @@ class ProductCart extends Table {
   IntColumn get variationId => integer()();
 
   @override
-  Set<Column>? get primaryKey => {
-        productId,
-        variationId,
-      };
+  Set<Column>? get primaryKey => {productId, variationId};
 }
 
 /// Parse to ProductCartData list from dynamic list

@@ -15,8 +15,10 @@
     "address": "My addresses",
     "ready": "Ready",
     "location": "Location not selected",
+    "shipping": "No delivery selected",
     "addMap": "Add another",
-    "restaurant": "Restaurant not selected"
+    "restaurant": "Restaurant not selected",
+    "login": "Login"
   },
   "location": {
     "location": "Location",
@@ -29,14 +31,16 @@
   },
   "account": {
     "signout": "Signo ut",
-    "signoin": "Signo in",
+    "login": "Login",
     "orders": "My Orders",
     "profile": "My Profile",
     "favorites": "Favorites",
     "offers": "Offers & Promos",
     "payments": "Payments",
     "location": "Location",
-    "dialog": "Anmelden"
+    "dialog": "Anmelden",
+    "error": "Not registered ?",
+    "language": "Language"
   },
   "welcome": {
     "welcome": "Welcome!",
@@ -98,9 +102,10 @@
     "account": "Account"
   },
   "home": {
-    "user_info": {
-      "title": "Deliver to"
-    }
+    "title": "Deliver to",
+    "welcome": "Welcome",
+    "login": "Login",
+    "sign": "Sign up"
   },
   "restaurant": {
     "minute": "min",
@@ -135,6 +140,7 @@
   "language": {
     "uzb": "O'zbekcha",
     "rus": "Русский",
-    "eng": "English"
+    "eng": "English",
+    "confirmation": "Confirmation"
   }
 }

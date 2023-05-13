@@ -85,20 +85,16 @@ class _HomePageState extends State<HomePage> {
       },
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) => Scaffold(
-          appBar: (state.token)
-              ? AppBar(
-                  toolbarHeight: 75.0,
-                  elevation: 1.0,
-                  title: const HomeUserWidget(),
-                )
-              : null,
-          drawer: (state.token)
-              ? HomeUserDrawer(
-                  goBack: widget.goBack,
-                  userName: state.userName,
-                  userSurname: state.userSurname,
-                )
-              : Container(),
+          appBar: AppBar(
+            toolbarHeight: 75.0,
+            elevation: 1.0,
+            title: const HomeUserWidget(),
+          ),
+          drawer: HomeUserDrawer(
+            goBack: widget.goBack,
+            userName: state.userName,
+            userSurname: state.userSurname,
+          ),
           backgroundColor: getCurrentTheme(context).backgroundColor,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,

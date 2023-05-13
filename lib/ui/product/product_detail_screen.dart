@@ -59,6 +59,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   List<ProductVariationModel> variationModels = [];
   num _price = 0;
 
+  /// moorDatabase insert qilish
   addCart() {
     context.read<ProductBloc>().add(
           ProductCartEvent(
@@ -70,7 +71,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         );
   }
 
-  // add qilish
+  /// product countni bitta qilish
   increaseCount(int index) {
     if (variationModels[index].selectedCount < variationModels[index].count) {
       setState(() {
@@ -83,7 +84,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     }
   }
 
-  // remove bitta kamaytrish
+  /// product bitta kamaytrish
   decreaseCount(int index) {
     if (variationModels[index].selectedCount > 0) {
       setState(() {
@@ -143,7 +144,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               child: _body(state),
                             ),
                             const SizedBox(height: 10),
-                            _cart(),
+                            _cartButton(),
                           ],
                         ),
         ),
@@ -217,9 +218,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                           ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
+                                          const SizedBox(height: 8),
                                           Text(
                                             "${moneyFormatter.format(variationModel.price)} ${translate("sum")}",
                                             style: getCurrentTheme(context)
@@ -229,9 +228,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                           ),
-                                          const SizedBox(
-                                            height: 6,
-                                          ),
+                                          const SizedBox(height: 6),
                                           Text(
                                             "${translate("in_stock")}: ${variationModel.count}",
                                             style: getCurrentTheme(context)
@@ -244,9 +241,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
+                                    const SizedBox(width: 8),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -276,9 +271,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                                   size: 24,
                                                 ),
                                               ),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
+                                              const SizedBox(width: 8),
                                               Expanded(
                                                 child: Text(
                                                   variationModel.selectedCount
@@ -293,16 +286,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                                   textAlign: TextAlign.center,
                                                 ),
                                               ),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
+                                              const SizedBox(width: 8),
                                               InkWell(
                                                 onTap: () =>
                                                     increaseCount(index),
-                                                child: const Icon(
-                                                  Icons.add,
-                                                  size: 24,
-                                                ),
+                                                child: const Icon(Icons.add,
+                                                    size: 24),
                                               ),
                                             ],
                                           ),
@@ -325,7 +314,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  _cart() {
+  _cartButton() {
     return InkWell(
       onTap: addCart,
       child: Container(
@@ -342,9 +331,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               translate("add").toUpperCase(),
               style: getCustomStyle(context: context, color: Colors.black),
             ),
-            const SizedBox(
-              width: 16,
-            ),
+            const SizedBox(width: 16),
             Expanded(
               child: Text(
                 "${moneyFormatter.format(_price)} ${translate("sum")}",

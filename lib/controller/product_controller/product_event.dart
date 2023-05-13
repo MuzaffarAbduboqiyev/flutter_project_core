@@ -18,13 +18,20 @@ class ProductInitialEvent extends ProductEvent {
 
 class ProductGetEvent extends ProductEvent {}
 
+/// product refresh
 class ProductRefreshEvent extends ProductEvent {}
 
+/// moorDatabase insert
 class ProductCartEvent extends ProductEvent {
   final BuildContext context;
   final List<ProductVariationModel> productVariations;
+  // final int stockCount;
 
-  ProductCartEvent({required this.context, required this.productVariations});
+  ProductCartEvent({
+    required this.context,
+    required this.productVariations,
+    // required this.stockCount,
+  });
 }
 
 class ProductVariationEvent extends ProductEvent {

@@ -158,7 +158,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                         ),
                       ),
                       if (state.totalCount > 0)
-                        _cart(
+                        _cartButton(
                           state.totalCount,
                           state.totalAmount,
                           state,
@@ -171,7 +171,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
     );
   }
 
-  _cart(int totalCount, int totalAmount, state) {
+  _cartButton(int totalCount, int totalAmount, state) {
     return InkWell(
       onTap: () => viewCart(state),
       child: Container(

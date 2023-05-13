@@ -24,6 +24,7 @@ class _OrderProductState extends State<OrderProduct> {
   final moneyFormatter = NumberFormat("#,##0", "uz_UZ");
   num price = 0;
 
+  /// order product count bitta qushish
   increaseCount() {
     if (widget.product.count > widget.product.selectedCount) {
       final ProductCartData product = widget.product
@@ -35,6 +36,7 @@ class _OrderProductState extends State<OrderProduct> {
     }
   }
 
+  /// order product count bitta kamayishi
   decreaseCount() {
     if (widget.product.selectedCount > 1) {
       final ProductCartData product = widget.product
@@ -47,7 +49,7 @@ class _OrderProductState extends State<OrderProduct> {
       removeProduct();
     }
   }
-
+/// product count 0 ga kelganda delet bulishi
   removeProduct() {
     context.read<OrderBloc>().add(
           OrderDeleteProductEvent(

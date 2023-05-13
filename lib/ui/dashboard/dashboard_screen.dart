@@ -78,8 +78,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocListener<DashboardBloc, DashboardState>(
+    return BlocListener<DashboardBloc, DashboardState>(
         listener: (context, state) {
           if (productCount == productCount) {
             setState(() {
@@ -89,32 +88,33 @@ class _DashboardPageState extends State<DashboardPage> {
             return;
           }
         },
-        child: SafeArea(
-          child: PersistentTabView(
-            margin: EdgeInsets.zero,
-            context,
-            screens: _screens,
-            controller: _tabController,
-            items: _navBarsItems(),
-            navBarHeight: 74.0,
-            backgroundColor: getCurrentTheme(context)
-                    .bottomNavigationBarTheme
-                    .backgroundColor ??
-                navBgColor,
-            handleAndroidBackButtonPress: true,
-            stateManagement: true,
-            hideNavigationBarWhenKeyboardShows: true,
-            resizeToAvoidBottomInset: true,
-            popActionScreens: PopActionScreensType.all,
-            screenTransitionAnimation: const ScreenTransitionAnimation(
-              animateTabTransition: true,
-              curve: Curves.ease,
-              duration: Duration(milliseconds: 200),
+      child: SafeArea(
+          child: Scaffold(
+            body: PersistentTabView(
+              margin: EdgeInsets.zero,
+              context,
+              screens: _screens,
+              controller: _tabController,
+              items: _navBarsItems(),
+              navBarHeight: 74.0,
+              backgroundColor: getCurrentTheme(context)
+                      .bottomNavigationBarTheme
+                      .backgroundColor ??
+                  navBgColor,
+              handleAndroidBackButtonPress: true,
+              stateManagement: true,
+              hideNavigationBarWhenKeyboardShows: true,
+              resizeToAvoidBottomInset: true,
+              popActionScreens: PopActionScreensType.all,
+              screenTransitionAnimation: const ScreenTransitionAnimation(
+                animateTabTransition: true,
+                curve: Curves.ease,
+                duration: Duration(milliseconds: 200),
+              ),
+              navBarStyle: NavBarStyle.style13,
             ),
-            navBarStyle: NavBarStyle.style13,
           ),
         ),
-      ),
     );
   }
 

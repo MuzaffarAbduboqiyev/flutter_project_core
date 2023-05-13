@@ -15,8 +15,10 @@
     "address": "Mening manzillarim",
     "ready": "Tayyor",
     "location": "Manzil tanlanmagan",
+    "shipping": "Yetkazib berish tanlanmagan",
     "addMap": "Boshqasini qo'shing",
-    "restaurant": "Restoran tanlanmagan"
+    "restaurant": "Restoran tanlanmagan",
+    "login": "Tizimga kirish"
   },
   "location": {
     "location": "Manzil",
@@ -29,14 +31,16 @@
   },
   "account": {
     "signout": "Tizimdan chiqish",
-    "signoin": "Tizimga kiring",
+    "login": "Tizimga kirish",
     "orders": "Mening buyurtmalarim",
     "profile": "Mening profilim",
     "favorites": "Sevimlilar",
     "offers": "Takliflar va promolar",
     "payments": "To'lovlar",
     "location": "Manzil",
-    "dialog": "Ro'yxatdan o'tish"
+    "dialog": "Ro'yxatdan o'tish",
+    "error": "Ro'yxatdan o'tmaganmisiz ?",
+    "language": "Til"
   },
   "welcome": {
     "welcome": "Xush kelibsiz!",
@@ -98,9 +102,10 @@
     "account": "Hisob"
   },
   "home": {
-    "user_info": {
-      "title": "Yetkazib berish"
-    }
+    "title": "Yetkazib berish",
+    "welcome": "Xush kelibsiz",
+    "login": "Tizimga kirish",
+    "sign": "Ro'yxatdan o'tish"
   },
   "restaurant": {
     "minute": "min",
@@ -135,6 +140,7 @@
   "language": {
     "uzb": "O'zbekcha",
     "rus": "Rus tili",
-    "eng": "English"
+    "eng": "English",
+    "confirmation": "Tasdiqlash"
   }
 }

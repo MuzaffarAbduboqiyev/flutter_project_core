@@ -251,34 +251,6 @@ class _MapPageState extends State<MapPage> {
       ),
     );
   }
-
-  _showSearch() async {
-    final p = await PlacesAutocomplete.show(
-        context: context,
-        radius: 30000,
-        apiKey: kGoogleApiKey,
-        onError: onError,
-        mode: Mode.overlay,
-        language: 'uz',
-        hint: "Search...",
-        logo: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(8),
-          child: SvgPicture.asset("assets/img/google_white.svg"),
-        ),
-        backArrowIcon: SvgPicture.asset("assets/img/google_white.png"),
-        components: [webService.Component(webService.Component.country, 'uz')]);
-
-    if (p != null) {
-      GoogleMapsPlaces mapsPlaces = GoogleMapsPlaces(apiKey: kGoogleApiKey);
-      PlacesDetailsResponse detailResponse =
-          await mapsPlaces.getDetailsByPlaceId(p.placeId ?? "");
-      double lat = detailResponse.result.geometry?.location.lat ?? 0;
-      double lng = detailResponse.result.geometry?.location.lng ?? 0;
-      _changeCameraPosition(lat, lng);
-    }
-  }
-
   onError(value) async {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(

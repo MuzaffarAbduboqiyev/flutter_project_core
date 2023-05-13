@@ -1,8 +1,6 @@
 import 'package:delivery_service/controller/app_controller/app_bloc.dart';
 import 'package:delivery_service/controller/app_controller/app_event.dart';
 import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
-import 'package:delivery_service/util/service/route/route_names.dart';
-import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/styles.dart';
@@ -107,49 +105,6 @@ class _HomeUserDrawerState extends State<HomeUserDrawer> {
             ],
           ),
           const SizedBox(height: 8.0),
-          ListTile(
-            onTap: () {
-              pushNewScreen(context, profileScreen, navbarStatus: false);
-            },
-            leading: Icon(
-              Icons.person_outline,
-              color: getCurrentTheme(context).iconTheme.color,
-              size: 28,
-            ),
-            title: Text(
-              translate("drawer.profile"),
-              style: getCurrentTheme(context).textTheme.displayMedium,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-            trailing: Icon(
-              Icons.keyboard_arrow_right,
-              color: hintColor,
-            ),
-          ),
-          Divider(color: hintColor),
-          ListTile(
-            onTap: () {
-              pushNewScreen(context, favoritesScreen,
-                  navbarStatus: false, arguments: {"go_back": widget.goBack});
-            },
-            leading: Icon(
-              Icons.favorite_border,
-              color: getCurrentTheme(context).iconTheme.color,
-              size: 28,
-            ),
-            title: Text(
-              translate("drawer.favorites"),
-              style: getCurrentTheme(context).textTheme.displayMedium,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-            trailing: Icon(
-              Icons.keyboard_arrow_right,
-              color: hintColor,
-            ),
-          ),
-          Divider(color: hintColor),
           ExpandableNotifier(
             child: ScrollOnExpand(
               scrollOnExpand: true,

@@ -17,18 +17,19 @@ class ListTileWidgetItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      minLeadingWidth: 1,
+      minLeadingWidth: 8 ,
       contentPadding: const EdgeInsets.only(left: 0.0, top: 8),
       onTap: () => onTap(),
       leading: Icon(
         icons,
-        size: 30,
+        size: 28,
         color: getCurrentTheme(context).iconTheme.color,
       ),
       title: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,14 +40,15 @@ class ListTileWidgetItem extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 1.0, color: lightHintColor),
-              ),
-            ),
-          )
         ],
+      ),
+      subtitle: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 1.0, color: lightHintColor),
+          ),
+        ),
       ),
     );
   }

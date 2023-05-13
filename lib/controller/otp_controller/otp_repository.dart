@@ -62,42 +62,42 @@ class OtpRepositoryImpl extends OtpRepository {
                     response: locationResponse.response?.data["data"]));
           }
           ////////////////////////////////////////////////////////////
-          final localProducts = await moorDatabase.getCartProducts();
-          final List<Map<String, int>> uploadProducts = [];
-          int restaurantId = -1;
-
-          if (localProducts.isNotEmpty) {
-            for (var element in localProducts) {
-              if (restaurantId == -1) {
-                restaurantId = element.restaurantId;
-              }
-
-              uploadProducts.add({
-                "id": element.variationId,
-                "quantity": element.selectedCount,
-              });
-            }
-          }
-
-          final body = <String, dynamic>{};
-          body["products"] = uploadProducts;
-          body["restaurant_id"] = restaurantId;
-
-          final responseProducts = (uploadProducts.isEmpty)
-              ? await otpNetworkService.getProductsUrl()
-              : await otpNetworkService.clearProductsUrl(
-                  body: body,
-                );
-
-          if (responseProducts.status == true &&
-              responseProducts.response != null &&
-              responseProducts.response?.data.containsKey("data") == true &&
-              responseProducts.response?.data["data"] != null &&
-              responseProducts.response?.data["data"] is List) {
-            await moorDatabase.insertAllProductCartData(
-                productCartDataList: parseProductCartDataList(
-                    responseProducts.response?.data["data"]));
-          }
+          // final localProducts = await moorDatabase.getCartProducts();
+          // final List<Map<String, int>> uploadProducts = [];
+          // int restaurantId = -1;
+          //
+          // if (localProducts.isNotEmpty) {
+          //   for (var element in localProducts) {
+          //     if (restaurantId == -1) {
+          //       restaurantId = element.restaurantId;
+          //     }
+          //
+          //     uploadProducts.add({
+          //       "id": element.variationId,
+          //       "quantity": element.selectedCount,
+          //     });
+          //   }
+          // }
+          //
+          // final body = <String, dynamic>{};
+          // body["products"] = uploadProducts;
+          // body["restaurant_id"] = restaurantId;
+          //
+          // final responseProducts = (uploadProducts.isEmpty)
+          //     ? await otpNetworkService.getProductsUrl()
+          //     : await otpNetworkService.clearProductsUrl(
+          //         body: body,
+          //       );
+          //
+          // if (responseProducts.status == true &&
+          //     responseProducts.response != null &&
+          //     responseProducts.response?.data.containsKey("data") == true &&
+          //     responseProducts.response?.data["data"] != null &&
+          //     responseProducts.response?.data["data"] is List) {
+          //   await moorDatabase.insertAllProductCartData(
+          //       productCartDataList: parseProductCartDataList(
+          //           responseProducts.response?.data["data"]));
+          // }
           ////////////////////////////////////////////////////////////
           return SimpleResponseModel.success();
         } else {
