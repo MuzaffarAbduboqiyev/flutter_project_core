@@ -11,24 +11,21 @@ import 'package:hive/hive.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class OrderRepository {
+  /// listen product
   Stream<List<ProductCartData>> listenCartProducts();
 
   Future<SimpleResponseModel> updateCart({
     required ProductCartData cartData,
   });
 
+  /// delete product
   Future<SimpleResponseModel> deleteCart({
     required ProductCartData deleteCartData,
     required int productId,
     required int variationId,
   });
 
-  Future<bool> clearOrderHistory({
-    required int productId,
-    required int variationId,
-  });
-
-  /// order shipping
+  /// get order shipping
   Future<DataResponseModel<List<OrderShippingModel>>> getOrderShipping(
       {required int addressId});
 
@@ -38,15 +35,17 @@ abstract class OrderRepository {
   /// get Token
   Future<bool> getTokenInfo();
 
-  /// restaurant search
+  /// order refresh product
   Future<SimpleResponseModel> refreshProducts();
 
+  /// fetch payment
   Future<DataResponseModel<List<PaymentModel>>> fetchPaymentModels({
     required int shippingId,
     required int locationId,
   });
 
-  Future<SimpleResponseModel> order({
+  /// order payment
+  Future<SimpleResponseModel> orderPayment({
     required int locationId,
     required int shippingId,
     required int paymentId,
@@ -104,15 +103,6 @@ class OrderRepositoryImpl extends OrderRepository {
     } catch (error) {
       return SimpleResponseModel.error(responseMessage: error.toString());
     }
-  }
-
-  @override
-  Future<bool> clearOrderHistory({
-    required int productId,
-    required int variationId,
-  }) async {
-    await moorDatabase.clearOrderHistory();
-    return true;
   }
 
   @override
@@ -208,7 +198,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<SimpleResponseModel> order({
+  Future<SimpleResponseModel> orderPayment({
     required int locationId,
     required int shippingId,
     required int paymentId,
@@ -248,4 +238,3 @@ class OrderRepositoryImpl extends OrderRepository {
     }
   }
 }
-

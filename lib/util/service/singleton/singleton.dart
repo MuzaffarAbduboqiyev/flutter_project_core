@@ -1,3 +1,4 @@
+import 'package:chuck_interceptor/chuck.dart';
 import 'package:delivery_service/controller/account_controller/account_repository.dart';
 import 'package:delivery_service/controller/app_controller/app_repository.dart';
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
@@ -53,8 +54,9 @@ void init() {
 
   /// Dio - network bilan ma'lumot almashinuvchi service(hizmat ko'rsatuvchi)
   /// Dio ni singltonlik qilish
+
   singleton.registerLazySingleton<Dio>(
-    () => Dio(dioBaseOptions),
+    () => Dio(dioBaseOptions)..interceptors.add(singleton<Chuck>().getDioInterceptor()),
   );
 
   /// Network serviceni
@@ -62,8 +64,21 @@ void init() {
     () => NetworkServiceImpl(
       dio: singleton(),
       hiveDatabase: singleton(),
+      chuck: singleton(),
     ),
   );
+
+  /// Network serviceni
+  singleton.registerLazySingleton<Chuck>(
+    () => Chuck(
+      showNotification: true,
+      showInspectorOnShake: true,
+      maxCallsCount: 1000,
+      darkTheme: true,
+    ),
+  );
+
+
 
   /// App controller
   singleton.registerLazySingleton<AppRepository>(

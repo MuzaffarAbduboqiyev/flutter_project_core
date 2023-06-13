@@ -7,7 +7,10 @@ showSnackBar({
 }) =>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        // backgroundColor: currentTheme().appBarTheme.backgroundColor,
+        clipBehavior: Clip.antiAlias,
+        padding: const EdgeInsets.all(16),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(8.0))),
         backgroundColor: getCurrentTheme(context).cardColor,
         showCloseIcon: true,
         content: Text(

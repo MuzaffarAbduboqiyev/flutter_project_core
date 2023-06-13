@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:delivery_service/controller/category_controller/category_repository.dart';
 import 'package:delivery_service/model/category_model/category_model.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
@@ -21,12 +23,6 @@ abstract class SearchRepository {
   Future<bool> saveSearchHistory({required String searchName});
 
   Stream<List<SearchData>> listenSearchHistory();
-
-  /// category Request
-  Future<DataResponseModel<SearchResponseModel>> categoryRequests({
-    required String searchName,
-    required int categoryId,
-  });
 }
 
 class SearchRepositoryImpl extends SearchRepository {
@@ -52,9 +48,11 @@ class SearchRepositoryImpl extends SearchRepository {
     required int categoryId,
   }) async {
     try {
-      print("SearchRepository searchRepository categoryId: $categoryId");
       final networkResponse = await searchNetworkService.searchCategoryUrl(
           searchName: searchName, categoryId: categoryId);
+      // final jsonData  = await Isolate.run(() async {
+      //   final fileData = await File(filename).readAsString();
+      // });
       final response = networkResponse.response;
       if (networkResponse.status && response != null) {
         if (response.data.containsKey("vendors") &&
@@ -88,6 +86,7 @@ class SearchRepositoryImpl extends SearchRepository {
     return true;
   }
 
+  /// clear Search History
   @override
   Future<bool> clearSearchHistory() async {
     await moorDatabase.clearSearchHistory();
@@ -98,32 +97,5 @@ class SearchRepositoryImpl extends SearchRepository {
   Future<bool> saveSearchHistory({required String searchName}) async {
     await moorDatabase.insertSearchHistory(SearchData(searchName: searchName));
     return true;
-  }
-
-  /// category Request
-  @override
-  Future<DataResponseModel<SearchResponseModel>> categoryRequests(
-      {required int categoryId, required String searchName}) async {
-    try {
-      final networkResponse =
-          await searchNetworkService.searchCategoryRequestsUrl(
-        searchName: searchName,
-        categoryId: categoryId,
-      );
-      final response = networkResponse.response;
-      if (networkResponse.status && response != null) {
-        if (response.data.containsKey("vendors") &&
-            response.data.containsKey("products")) {
-          final searchResponse = SearchResponseModel.fromMap(response.data);
-          return DataResponseModel.success(model: searchResponse);
-        } else {
-          return getDataResponseErrorHandler(networkResponse);
-        }
-      } else {
-        return getDataResponseErrorHandler(networkResponse);
-      }
-    } catch (error) {
-      return DataResponseModel.error(responseMessage: error.toString());
-    }
   }
 }

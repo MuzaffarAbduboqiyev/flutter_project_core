@@ -1,6 +1,6 @@
 import 'package:delivery_service/controller/home_controller/home_bloc.dart';
 import 'package:delivery_service/controller/home_controller/home_state.dart';
-import 'package:delivery_service/ui/order/order_products/order_location_dialog.dart';
+import 'package:delivery_service/ui/order/order_location/order_location_dialog.dart';
 import 'package:delivery_service/util/service/route/route_names.dart';
 import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';

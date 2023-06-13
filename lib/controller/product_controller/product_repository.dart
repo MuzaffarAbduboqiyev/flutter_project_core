@@ -147,7 +147,10 @@ class ProductRepositoryImpl extends ProductRepository {
 
       /// if qismiz
       if (getToken.isNotEmpty) {
-        final body = {"products": products};
+        final body = {
+          "products": products,
+          "restaurant_id": restaurantId,
+        };
         final response = await productNetworkService.checkInfo(body: body);
         if (response.status == true && response.response != null) {
           if (response.response?.data.containsKey("data")) {
@@ -281,4 +284,3 @@ class ProductRepositoryImpl extends ProductRepository {
     }
   }
 }
-

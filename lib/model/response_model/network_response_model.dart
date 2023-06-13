@@ -26,8 +26,6 @@ class NetworkResponseModel {
         response: null,
         errorMessage: errorMessage,
       );
-
-
 }
 
 /// SimpleResponseModel = OddiyJavobModel
@@ -41,6 +39,7 @@ class SimpleResponseModel {
     required this.status,
     required this.message,
   });
+
   factory SimpleResponseModel.success({String? responseMessage}) =>
       SimpleResponseModel(
         status: true,

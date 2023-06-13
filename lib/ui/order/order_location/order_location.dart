@@ -1,6 +1,6 @@
 import 'package:delivery_service/controller/order_controller/order_bloc.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
-import 'package:delivery_service/ui/order/order_products/order_location_dialog.dart';
+import 'package:delivery_service/ui/order/order_location/order_location_dialog.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
@@ -24,9 +24,9 @@ class _OrderLocationState extends State<OrderLocation> {
       builder: (context, state) => GestureDetector(
         onTap: () => dialogProduct(state),
         child: Container(
-          height: 85,
           width: double.infinity,
           alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 6.0),
           decoration: BoxDecoration(
             border: Border(
               top: BorderSide(width: 0.5, color: hintColor),
@@ -36,19 +36,25 @@ class _OrderLocationState extends State<OrderLocation> {
           child: ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.location_on_sharp, size: 28),
+            horizontalTitleGap: 0.0,
             title: (state.selectedLocationData.selectedStatus)
                 ? Text(
                     state.selectedLocationData.address,
-                    style: getCurrentTheme(context).textTheme.displayMedium,
+                    style: getCurrentTheme(context).textTheme.bodyMedium,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
                     maxLines: 2,
                   )
                 : Text(
                     translate("location.locations"),
                     style: getCurrentTheme(context).textTheme.bodyMedium,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                    maxLines: 1,
                   ),
             trailing: Icon(
               Icons.keyboard_arrow_down_outlined,
-              color: getCurrentTheme(context).iconTheme.color,
+              color: hintColor,
               size: 28,
             ),
           ),

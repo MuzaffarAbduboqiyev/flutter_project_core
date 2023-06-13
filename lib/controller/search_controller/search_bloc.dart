@@ -46,17 +46,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       _searchHistory,
       transformer: restartable(),
     );
-
-    on<SearchCategoryRequestEvent>(
-      _categoryRequest,
-      transformer: restartable(),
-    );
-
     historyListener =
         searchRepository.listenSearchHistory().listen((searchHistories) {
-      add(
-        SearchHistoryEvent(searchHistories: searchHistories),
-      );
+      add(SearchHistoryEvent(searchHistories: searchHistories));
     });
   }
 
@@ -122,7 +114,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       );
     }
   }
-
+/// _remove History
   FutureOr<void> _removeHistory(
       SearchRemoveHistoryEvent event, Emitter<SearchState> emit) async {
     await searchRepository.removeSearchHistory(searchData: event.historyItem);
@@ -144,29 +136,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     emit(
       state.copyWith(
         searchData: event.searchHistories,
-      ),
-    );
-  }
-
-  /// search category request
-  FutureOr<void> _categoryRequest(
-      SearchCategoryRequestEvent event, Emitter<SearchState> emit) async {
-    emit(
-      state.copyWith(
-        searchStatus: SearchStatus.loading,
-      ),
-    );
-    final response = await searchRepository.categoryRequests(
-      searchName: event.searchName,
-      categoryId: event.categoryId,
-    );
-
-    emit(
-      state.copyWith(
-        searchStatus:
-            (response.status) ? SearchStatus.loaded : SearchStatus.error,
-        searchResponseModel: response.data,
-        error: response.message,
       ),
     );
   }

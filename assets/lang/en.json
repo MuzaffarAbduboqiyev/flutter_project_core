@@ -30,6 +30,7 @@
     "error": "Sorry, we can only serve Namangan region at the moment"
   },
   "account": {
+    "appbar": "Profile",
     "signout": "Signo ut",
     "login": "Login",
     "orders": "My Orders",
@@ -78,11 +79,15 @@
     "processing": "Processing"
   },
   "payments": {
-    "payments": "Payments"
+    "payments": "Payments",
+    "button": "Payments:",
+    "locationBar": "Please, select location first",
+    "shippingBar": "Please, select shipping first"
   },
   "shipping": {
     "shipping": "Shipping",
-    "button": "Confirmation"
+    "button": "Shipping:",
+    "locationBar": "Please, select location first"
   },
   "no_orders_yet": "No Orders Yet",
   "discover": "Discover and place your first order",
@@ -105,7 +110,7 @@
     "title": "Deliver to",
     "welcome": "Welcome",
     "login": "Login",
-    "sign": "Sign up"
+    "sign": "Sign up..."
   },
   "restaurant": {
     "minute": "min",

@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) => Scaffold(
           appBar: AppBar(
-            toolbarHeight: 75.0,
+            toolbarHeight: 70.0,
             elevation: 1.0,
             title: const HomeUserWidget(),
           ),
@@ -94,6 +94,7 @@ class _HomePageState extends State<HomePage> {
             goBack: widget.goBack,
             userName: state.userName,
             userSurname: state.userSurname,
+            state: state,
           ),
           backgroundColor: getCurrentTheme(context).backgroundColor,
           body: Column(

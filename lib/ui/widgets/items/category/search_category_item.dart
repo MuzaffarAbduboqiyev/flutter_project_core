@@ -41,12 +41,6 @@ class _SearchCategoryItemState extends State<SearchCategoryItem> {
             const SizedBox(height: 24),
             Text(
               widget.categoryModel.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: getCurrentTheme(context).textTheme.bodyLarge,
-            ),
-            Text(
-              widget.categoryModel.id.toString(),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: getCurrentTheme(context).textTheme.bodyLarge,

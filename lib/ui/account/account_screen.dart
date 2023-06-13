@@ -1,7 +1,6 @@
 import 'package:delivery_service/controller/account_controller/account_bloc.dart';
 import 'package:delivery_service/controller/account_controller/account_event.dart';
 import 'package:delivery_service/controller/account_controller/account_state.dart';
-import 'package:delivery_service/ui/account/account_widgets/account_language.dart';
 import 'package:delivery_service/ui/account/account_widgets/account_null.dart';
 import 'package:delivery_service/ui/account/account_widgets/listtile_widget_item.dart';
 import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
@@ -104,10 +103,10 @@ class _AccountPageState extends State<AccountPage> {
                               ],
                             )
                           : Text(
-                              "ArtTemplate",
+                              translate("account.appbar"),
                               style: getCurrentTheme(context)
                                   .textTheme
-                                  .displayMedium,
+                                  .displayLarge,
                             ),
                     ],
                   )),
@@ -150,17 +149,17 @@ class _AccountPageState extends State<AccountPage> {
                               navbarStatus: false);
                         },
                       ),
-                      ListTileWidgetItem(
-                        title: translate("account.language"),
-                        icons: Icons.language,
-                        onTap: () {
-                          showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: false,
-                              backgroundColor: Colors.transparent,
-                              builder: (context) => const LanguageWidget());
-                        },
-                      ),
+                      // ListTileWidgetItem(
+                      //   title: translate("account.language"),
+                      //   icons: Icons.language,
+                      //   onTap: () {
+                      //     showModalBottomSheet(
+                      //         context: context,
+                      //         isScrollControlled: false,
+                      //         backgroundColor: Colors.transparent,
+                      //         builder: (context) => const LanguageWidget());
+                      //   },
+                      // ),
                       Expanded(child: Container()),
                       InkWell(
                         onTap: () => _buttonSignoUt(state),

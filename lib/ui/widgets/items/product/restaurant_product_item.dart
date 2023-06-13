@@ -121,4 +121,3 @@ class _RestaurantProductItemState extends State<RestaurantProductItem> {
     );
   }
 }
-

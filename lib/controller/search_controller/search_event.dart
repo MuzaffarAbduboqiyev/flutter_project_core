@@ -33,16 +33,5 @@ class SearchRemoveHistoryEvent extends SearchEvent {
 /// search restaurant va product
 class SearchSaveHistoryEvent extends SearchEvent {}
 
-/// category check request
-class SearchCategoryRequestEvent extends SearchEvent {
-  final String searchName;
-  final int categoryId;
-
-  SearchCategoryRequestEvent({
-    required this.searchName,
-    required this.categoryId,
-  });
-}
-
 /// clear history
 class SearchClearHistoryEvent extends SearchEvent {}

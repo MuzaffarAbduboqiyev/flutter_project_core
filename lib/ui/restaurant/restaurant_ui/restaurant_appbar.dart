@@ -56,11 +56,11 @@ class _RestaurantAppBarState extends State<RestaurantAppBar> {
                   onTap: () => _searchCheckButton(state),
                   child: Icon(
                     Icons.search,
-                    size: 30,
+                    size: 28,
                     color: textColor,
                   ),
                 ),
-                const SizedBox(width: 24.0),
+                const SizedBox(width: 10.0),
                 InkWell(
                   onTap: () {
                     if (state.token == true) {
@@ -73,27 +73,25 @@ class _RestaurantAppBarState extends State<RestaurantAppBar> {
                     }
                   },
                   child: Icon(
-                    state.isFavorite
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                    color: state.isFavorite
-                        ? errorTextColor
-                        : textColor,
-                    size: 30,
+                    state.isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: state.isFavorite ? errorTextColor : textColor,
+                    size: 28,
                   ),
                 ),
-                const SizedBox(width: 24.0),
+                const SizedBox(width: 12.0),
               ],
               expandedHeight: 254.0,
               pinned: true,
               snap: true,
               floating: true,
               flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                title: Text(state.restaurantModel.name,
-                    style: getCurrentTheme(context).textTheme.displayLarge,
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1),
+                title: Text(
+                  state.restaurantModel.name,
+                  style: getCurrentTheme(context).textTheme.displayLarge,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                  textScaleFactor: 1,
+                ),
                 background: Stack(children: [
                   ImageLoading(
                     imageUrl: state.restaurantModel.image,
@@ -102,7 +100,7 @@ class _RestaurantAppBarState extends State<RestaurantAppBar> {
                     imageFitType: BoxFit.fill,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 100.0, left: 16),
+                    padding: const EdgeInsets.only(top: 74.0, left: 16),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +108,7 @@ class _RestaurantAppBarState extends State<RestaurantAppBar> {
                           Row(
                             children: [
                               Container(
-                                padding: const EdgeInsets.all(15),
+                                padding: const EdgeInsets.all(16),
                                 alignment: Alignment.center,
                                 decoration: getContainerDecoration(
                                   context,
@@ -131,7 +129,7 @@ class _RestaurantAppBarState extends State<RestaurantAppBar> {
                                           padding: EdgeInsets.only(right: 4),
                                           child: Icon(
                                             Icons.star,
-                                            size: 15,
+                                            size: 16,
                                           ),
                                         ),
                                       ),
@@ -148,7 +146,7 @@ class _RestaurantAppBarState extends State<RestaurantAppBar> {
                               ),
                               const SizedBox(width: 8.0),
                               Container(
-                                padding: const EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(14),
                                 alignment: Alignment.center,
                                 decoration: getContainerDecoration(
                                   context,

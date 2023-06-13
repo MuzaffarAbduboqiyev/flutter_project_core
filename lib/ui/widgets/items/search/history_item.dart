@@ -26,7 +26,7 @@ class _SearchHistoryItemState extends State<SearchHistoryItem> {
           ),
         );
   }
-
+/// delete search name
   _deleteCurrentSearch() {
     context.read<SearchBloc>().add(
           SearchRemoveHistoryEvent(

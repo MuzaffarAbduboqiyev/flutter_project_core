@@ -2,6 +2,7 @@ import 'package:delivery_service/controller/order_controller/order_bloc.dart';
 import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
 import 'package:delivery_service/model/local_database/moor_database.dart';
+import 'package:delivery_service/ui/widgets/clip_r_react/clip_widget.dart';
 import 'package:delivery_service/ui/widgets/image_loading/image_loading.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
@@ -49,7 +50,8 @@ class _OrderProductState extends State<OrderProduct> {
       removeProduct();
     }
   }
-/// product count 0 ga kelganda delet bulishi
+
+  /// product count 0 ga kelganda delet bulishi
   removeProduct() {
     context.read<OrderBloc>().add(
           OrderDeleteProductEvent(
@@ -74,7 +76,7 @@ class _OrderProductState extends State<OrderProduct> {
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc, OrderState>(
       builder: (context, state) => Padding(
-        padding: const EdgeInsets.only(top: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
         child: Dismissible(
           onDismissed: (value) => _deleteProduct(),
           key: ValueKey(state.orderProducts),
@@ -88,10 +90,14 @@ class _OrderProductState extends State<OrderProduct> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ImageLoading(
-                  imageUrl: widget.product.image,
-                  imageHeight: 70,
-                  imageWidth: 70,
+                getClipRReact(
+                  borderRadius: 10,
+                  child: ImageLoading(
+                    imageUrl: widget.product.image,
+                    imageHeight: 70,
+                    imageWidth: 70,
+                    imageFitType: BoxFit.cover,
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(

@@ -3,7 +3,7 @@ import 'package:delivery_service/controller/order_controller/order_event.dart';
 import 'package:delivery_service/controller/order_controller/order_state.dart';
 import 'package:delivery_service/ui/order/order_payment/order_payment.dart';
 import 'package:delivery_service/ui/order/order_payment/order_payment_null.dart';
-import 'package:delivery_service/ui/order/order_products/order_location.dart';
+import 'package:delivery_service/ui/order/order_location/order_location.dart';
 import 'package:delivery_service/ui/order/order_shipping/order_shipping.dart';
 import 'package:delivery_service/ui/order/order_total/order_total.dart';
 import 'package:delivery_service/ui/widgets/appbar/simple_appbar.dart';
@@ -111,51 +111,46 @@ class _OrderPageState extends State<OrderPage> {
           builder: (context, state) => (state.orderProducts.isNotEmpty)
               ? (state.orderStatus == OrderStatus.error)
                   ? ConnectionErrorWidget(refreshFunction: _refresh)
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: SmartRefresher(
-                              controller: refreshController,
-                              enablePullUp: false,
-                              enablePullDown: true,
-                              onRefresh: _refresh,
-                              header: getRefreshHeader(),
-                              physics: const BouncingScrollPhysics(),
-                              child: CustomScrollView(
-                                shrinkWrap: true,
-                                slivers: [
-                                  SliverToBoxAdapter(
-                                    child: SingleChildScrollView(
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: const BouncingScrollPhysics(),
-                                        itemCount: state.orderProducts.length,
-                                        itemBuilder: (context, index) =>
-                                            OrderProduct(
-                                                product:
-                                                    state.orderProducts[index]),
-                                      ),
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: SmartRefresher(
+                            controller: refreshController,
+                            enablePullUp: false,
+                            enablePullDown: true,
+                            onRefresh: _refresh,
+                            header: getRefreshHeader(),
+                            physics: const BouncingScrollPhysics(),
+                            child: CustomScrollView(
+                              shrinkWrap: true,
+                              slivers: [
+                                SliverToBoxAdapter(
+                                  child: SingleChildScrollView(
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: const BouncingScrollPhysics(),
+                                      itemCount: state.orderProducts.length,
+                                      itemBuilder: (context, index) =>
+                                          OrderProduct(
+                                              product:
+                                                  state.orderProducts[index]),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                          (state.hasToken)
-                              ? const OrderLocation()
-                              : Container(),
-                          (state.hasToken)
-                              ? const OrderShippingWidget()
-                              : OrderTotal(state: state),
-                          const SizedBox(height: 12.0),
-                          (state.hasToken)
-                              ? const OrderPaymentWidget()
-                              : const OrderPaymentNull(),
-                          const SizedBox(height: 12.0),
-                        ],
-                      ),
+                        ),
+                        (state.hasToken) ? const OrderLocation() : Container(),
+                        (state.hasToken)
+                            ? const OrderShippingWidget()
+                            : OrderTotal(state: state),
+                        const SizedBox(height: 16.0),
+                        (state.hasToken)
+                            ? OrderPaymentWidget(state: state)
+                            : const OrderPaymentNull(),
+                        const SizedBox(height: 12.0),
+                      ],
                     )
               : OrderListView(
                   goBack: widget.goBack,

@@ -61,11 +61,15 @@ dependencies:
   # Network service:
   # Network bilan ishlash uchun
   # Ma'lumotlarni serverga yuborish va serverdan ma;lumotlarni olib kelish uchun foydalaniladi
-  dio: ^4.0.6
+  dio: ^5.1.2
+
+  # yuborilgan malumotlarni bilib, kurib, kuzatib, turish, uchun
+  chuck_interceptor: ^1.1.4
+
 
   # Fonts va Styles
   # Textlarni ko'rinishi uchun TextStyle berish uchun foydalaniladi
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.4
 
   # Local Database
   # Kichik ma'lumotlarni Local devicega saqlab turish uchun

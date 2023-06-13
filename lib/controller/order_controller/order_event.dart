@@ -5,18 +5,21 @@ import 'package:flutter/material.dart';
 
 abstract class OrderEvent {}
 
+/// order cart product
 class OrderCartProductEvent extends OrderEvent {
   final List<ProductCartData> products;
 
   OrderCartProductEvent({required this.products});
 }
 
+/// order update product
 class OrderUpdateProductEvent extends OrderEvent {
   final ProductCartData productsCart;
 
   OrderUpdateProductEvent({required this.productsCart});
 }
 
+/// order delete product
 class OrderDeleteProductEvent extends OrderEvent {
   final ProductCartData deleteProduct;
   final int productId;
@@ -42,7 +45,7 @@ class OrderListenLocationEvent extends OrderEvent {
   OrderListenLocationEvent({required this.locationData});
 }
 
-/// order shipping check button
+/// order get shipping
 class OrderGetShippingEvent extends OrderEvent {
   final BuildContext context;
 
@@ -51,7 +54,7 @@ class OrderGetShippingEvent extends OrderEvent {
   });
 }
 
-/// order request button
+/// order selected shipping
 class OrderSelectedShippingEvent extends OrderEvent {
   final OrderShippingModel shippingModel;
 

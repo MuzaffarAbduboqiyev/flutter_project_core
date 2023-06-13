@@ -187,6 +187,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       );
 
       if (response.status) {
+        // ignore: use_build_context_synchronously
         showOrderShippingDialog(
           mainContext: event.context,
           shippingModels: response.data ?? [],
@@ -241,6 +242,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       );
 
       if (response.status) {
+        // ignore: use_build_context_synchronously
         showOrderPaymentDialog(
           mainContext: event.context,
           paymentModels: response.data ?? [],
@@ -263,6 +265,17 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       ),
     );
 
+    final response = await orderRepository.orderPayment(
+      locationId: event.paymentModel.locationId,
+      shippingId: event.paymentModel.shippingId,
+      paymentId: event.paymentModel.id,
+    );
+    emit(
+      state.copyWith(
+        orderStatus: (response.status) ? OrderStatus.loaded : OrderStatus.error,
+        error: response.message,
+      ),
+    );
   }
 
   /// update cart product

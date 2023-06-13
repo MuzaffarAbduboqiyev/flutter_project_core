@@ -130,8 +130,10 @@ class _SearchPageState extends State<SearchPage> {
                   fillColor: getCurrentTheme(context).backgroundColor,
                   contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 20.0),
-                  prefixIcon:
-                      Icon(CupertinoIcons.search_circle, color: hintColor),
+                  prefixIcon: Icon(
+                    CupertinoIcons.search_circle,
+                    color: hintColor,
+                  ),
                   suffixIcon: GestureDetector(
                     onTap: () => _clearSearch(state),
                     child: Padding(
@@ -151,7 +153,8 @@ class _SearchPageState extends State<SearchPage> {
                   if (state.searchName != _searchController.text) {
                     _searchController.text = state.searchName;
                     _searchController.selection = TextSelection.fromPosition(
-                        TextPosition(offset: _searchController.text.length));
+                      TextPosition(offset: _searchController.text.length),
+                    );
                   }
                 },
                 child: BlocBuilder<SearchBloc, SearchState>(

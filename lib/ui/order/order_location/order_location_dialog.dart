@@ -86,11 +86,53 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                     itemCount: state.location.length,
                     itemBuilder: (context, index) => (state
                             .location[index].selectedStatus)
-                        ? Column(
-                            children: [
-                              ListTile(
-                                onTap: () => _changeLocationSelectedStatus(
-                                    state.location[index]),
+                        ? InkWell(
+                            onTap: () => _changeLocationSelectedStatus(
+                                state.location[index]),
+                            child: ListTile(
+                              horizontalTitleGap: 0.0,
+                              leading: Icon(
+                                state.location[index].address.isNotEmpty
+                                    ? state.location[index].selectedStatus
+                                        ? Icons.check_box
+                                        : Icons.check_box_outline_blank_outlined
+                                    : null,
+                                color: state.location[index].selectedStatus
+                                    ? getCurrentTheme(context).indicatorColor
+                                    : getCurrentTheme(context).iconTheme.color,
+                              ),
+                              title: Text(
+                                state.location[index].address ?? "",
+                                style: getCurrentTheme(context)
+                                    .textTheme
+                                    .bodyLarge,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.start,
+                                maxLines: 3,
+                              ),
+                            ),
+                          )
+                        : Dismissible(
+                            onDismissed: (value) =>
+                                _deleteLocation(state.location[index]),
+                            secondaryBackground: Container(
+                              color: errorTextColor,
+                              child: Center(
+                                child: Icon(
+                                  Icons.delete_outline,
+                                  color:
+                                      getCurrentTheme(context).iconTheme.color,
+                                ),
+                              ),
+                            ),
+                            background: Container(),
+                            key: UniqueKey(),
+                            direction: DismissDirection.endToStart,
+                            child: InkWell(
+                              onTap: () => _changeLocationSelectedStatus(
+                                  state.location[index]),
+                              child: ListTile(
+                                horizontalTitleGap: 0.0,
                                 leading: Icon(
                                   state.location[index].address.isNotEmpty
                                       ? state.location[index].selectedStatus
@@ -113,76 +155,6 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                                   maxLines: 3,
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: DottedLine(
-                                  dashGradient: const [
-                                    Colors.grey,
-                                    Colors.grey,
-                                  ],
-                                  dashLength: 10.0,
-                                  lineThickness: 0.6,
-                                ),
-                              ),
-                            ],
-                          )
-                        : Dismissible(
-                            onDismissed: (value) =>
-                                _deleteLocation(state.location[index]),
-                            secondaryBackground: Container(
-                              color: errorTextColor,
-                              child: const Center(
-                                child: Icon(Icons.delete_outline),
-                              ),
-                            ),
-                            background: Container(),
-                            key: UniqueKey(),
-                            direction: DismissDirection.endToStart,
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  leading: GestureDetector(
-                                    onTap: () => _changeLocationSelectedStatus(
-                                        state.location[index]),
-                                    child: Icon(
-                                      state.location[index].address.isNotEmpty
-                                          ? state.location[index].selectedStatus
-                                              ? Icons.check_box
-                                              : Icons
-                                                  .check_box_outline_blank_outlined
-                                          : null,
-                                      color:
-                                          state.location[index].selectedStatus
-                                              ? getCurrentTheme(context)
-                                                  .indicatorColor
-                                              : getCurrentTheme(context)
-                                                  .iconTheme
-                                                  .color,
-                                    ),
-                                  ),
-                                  title: Text(
-                                    state.location[index].address ?? "",
-                                    style: getCurrentTheme(context)
-                                        .textTheme
-                                        .bodyLarge,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: DottedLine(
-                                    dashGradient: const [
-                                      Colors.grey,
-                                      Colors.grey,
-                                    ],
-                                    dashLength: 10.0,
-                                    lineThickness: 0.6,
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                   ),
@@ -191,9 +163,9 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
               InkWell(
                 onTap: () => googleMaps(context),
                 child: Container(
-                  height: 53,
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   decoration: BoxDecoration(
                     border: Border(
                       top: BorderSide(width: 1, color: hintColor),
@@ -231,9 +203,9 @@ class _DeliveryDialogPageState extends State<DeliveryDialogPage> {
                   }
                 },
                 child: Container(
-                  height: 53,
                   width: double.infinity,
                   margin: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(10),
                   decoration: getContainerDecoration(
                     context,
                     fillColor:

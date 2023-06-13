@@ -24,6 +24,7 @@ class _OrderPaymentNullState extends State<OrderPaymentNull> {
         height: 53,
         width: double.infinity,
         alignment: Alignment.center,
+        margin: const EdgeInsets.symmetric(horizontal: 16.0),
         decoration: getContainerDecoration(
           context,
           fillColor: getCurrentTheme(context).cardColor,

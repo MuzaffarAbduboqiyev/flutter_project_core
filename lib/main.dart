@@ -1,3 +1,4 @@
+import 'package:chuck_interceptor/chuck.dart';
 import 'package:delivery_service/controller/app_controller/app_bloc.dart';
 import 'package:delivery_service/controller/app_controller/app_event.dart';
 import 'package:delivery_service/controller/app_controller/app_state.dart';
@@ -97,7 +98,9 @@ void main() async {
                 create: (context) => AppBloc(
                   AppState.initial(),
                   appRepository: singleton(),
-                )..add(AppGetThemeEvent(),),
+                )..add(
+                    AppGetThemeEvent(),
+                  ),
                 child: const MyApp(),
               )
             : ScreenObserver.createSplashScreen(),
@@ -116,8 +119,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final ScreenObserver screenObserver;
 
+  final globalKey = GlobalKey<NavigatorState>();
+
   @override
   void initState() {
+    singleton<Chuck>().setNavigatorKey(globalKey);
+
     screenObserver = ScreenObserver();
     super.initState();
   }
@@ -142,6 +149,9 @@ class _MyAppState extends State<MyApp> {
         theme: (state.isDarkMode) ? MyTheme.dark() : MyTheme.light(),
         onGenerateRoute: screenObserver.onGenerateRoure,
         navigatorObservers: [screenObserver.routeObserver],
+
+
+        navigatorKey: singleton<Chuck>().getNavigatorKey(),
 
         /// [EasyLocalization] dagi [startLocale] ga berilgan tilni oladi
         locale: context.locale,

@@ -26,7 +26,7 @@ class LocationNetworkService {
       );
       return NetworkResponseModel.success(response: response);
     } on DioError catch (error) {
-      if (error.type == DioErrorType.connectTimeout) {
+      if (error.type == DioErrorType.connectionTimeout) {
         return NetworkResponseModel.error(
             errorMessage: "Исключение времени ожидания соединения");
       } else {

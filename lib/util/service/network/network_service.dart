@@ -1,3 +1,4 @@
+import 'package:chuck_interceptor/chuck.dart';
 import 'package:delivery_service/model/local_database/hive_database.dart';
 import 'package:delivery_service/model/response_model/network_response_model.dart';
 import 'package:delivery_service/util/service/network/urls.dart';
@@ -28,10 +29,12 @@ abstract class NetworkService {
 class NetworkServiceImpl extends NetworkService {
   final HiveDatabase hiveDatabase;
   final Dio dio;
+  final Chuck chuck;
 
   NetworkServiceImpl({
     required this.hiveDatabase,
     required this.dio,
+    required this.chuck,
   });
 
   /// [NetworkServiceImpl.getMethod] method [Dio] kutubxonasining [Dio.get] methodidan foydalanish uchun ishlatiladi
@@ -46,14 +49,17 @@ class NetworkServiceImpl extends NetworkService {
     dio.options.headers = header;
     try {
       if (kDebugMode) {
-        print("Url: $url");
+        print("Request Url: $url");
       }
       final response = await dio.get(url);
+      if (kDebugMode) {
+        print("Response Url: $url\nResponse: $response");
+      }
       return NetworkResponseModel.success(response: response);
     } on DioError catch (error) {
       /// Get request [dioBaseOptions] da ko'rsatilgan vaqtda response kelmasa [DioErrorType.connectTimeout] error beradi
 
-      if (error.type == DioErrorType.connectTimeout) {
+      if (error.type == DioErrorType.connectionTimeout) {
         return NetworkResponseModel.error(
             errorMessage: "Исключение времени ожидания соединения");
       } else {
@@ -90,7 +96,7 @@ class NetworkServiceImpl extends NetworkService {
       if (kDebugMode) {
         print("Response => Url: $url, error: $error");
       }
-      if (error.type == DioErrorType.connectTimeout) {
+      if (error.type == DioErrorType.connectionTimeout) {
         return NetworkResponseModel.error(
             errorMessage: "Исключение времени ожидания соединения");
       } else {
@@ -127,7 +133,7 @@ class NetworkServiceImpl extends NetworkService {
     } on DioError catch (error) {
       /// Get request [dioBaseOptions] da ko'rsatilgan vaqtda response kelmasa [DioErrorType.connectTimeout] error beradi
 
-      if (error.type == DioErrorType.connectTimeout) {
+      if (error.type == DioErrorType.connectionTimeout) {
         return NetworkResponseModel.error(
             errorMessage: "Исключение времени ожидания соединения");
       } else {
@@ -139,12 +145,12 @@ class NetworkServiceImpl extends NetworkService {
 
 final dioBaseOptions = BaseOptions(
   baseUrl: baseUrl,
-  connectTimeout: 30000,
-  receiveTimeout: 30000,
+  sendTimeout: const Duration(seconds: 30),
+  receiveTimeout: const Duration(seconds: 30),
 );
 
 final quramizDioBaseOptions = BaseOptions(
   baseUrl: quramizBaseUrl,
-  connectTimeout: 30000,
-  receiveTimeout: 30000,
+  connectTimeout: const Duration(seconds: 30),
+  receiveTimeout: const Duration(seconds: 30),
 );

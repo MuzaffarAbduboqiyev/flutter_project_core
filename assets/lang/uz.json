@@ -30,6 +30,7 @@
     "error": "Uzur biz hozirda faqat Namangan xududiga hizmat kursata olamiz"
   },
   "account": {
+    "appbar": "Profil",
     "signout": "Tizimdan chiqish",
     "login": "Tizimga kirish",
     "orders": "Mening buyurtmalarim",
@@ -78,11 +79,15 @@
     "processing": "Qayta ishlash"
   },
   "payments": {
-    "payments": "To'lovlar"
+    "payments": "To'lovlar",
+    "button": "To'lovlar:",
+    "locationBar": "Iltimos, avval manzilni tanlang",
+    "shippingBar": "Iltimos, avval yetkazib berishni tanlang"
   },
   "shipping": {
-    "shipping": "Yuk tashish",
-    "button": "Tasdiqlash"
+    "shipping": "Yetkazib berish",
+    "button": "Yetkazib berish:",
+    "locationBar": "Iltimos, avval manzilni tanlang"
   },
   "no_orders_yet": "Hozircha buyurtmalar yoʻq",
   "discover": "Birinchi buyurtmangizni kashf qiling va joylashtiring",
@@ -105,7 +110,7 @@
     "title": "Yetkazib berish",
     "welcome": "Xush kelibsiz",
     "login": "Tizimga kirish",
-    "sign": "Ro'yxatdan o'tish"
+    "sign": "Ro'yxatdan o'tish..."
   },
   "restaurant": {
     "minute": "min",

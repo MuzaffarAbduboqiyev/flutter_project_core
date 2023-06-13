@@ -1,8 +1,12 @@
 import 'package:delivery_service/controller/app_controller/app_bloc.dart';
 import 'package:delivery_service/controller/app_controller/app_event.dart';
+import 'package:delivery_service/controller/home_controller/home_state.dart';
 import 'package:delivery_service/ui/widgets/dialog/confirm_dialog.dart';
+import 'package:delivery_service/util/service/route/route_names.dart';
+import 'package:delivery_service/util/service/route/route_observable.dart';
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
+import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expandable/expandable.dart';
@@ -14,12 +18,14 @@ class HomeUserDrawer extends StatefulWidget {
   final Function goBack;
   final String userName;
   final String userSurname;
+  final HomeState state;
 
   const HomeUserDrawer({
     Key? key,
     required this.goBack,
     required this.userName,
     required this.userSurname,
+    required this.state,
   }) : super(key: key);
 
   @override
@@ -69,17 +75,29 @@ class _HomeUserDrawerState extends State<HomeUserDrawer> {
           UserAccountsDrawerHeader(
             currentAccountPicture: SvgPicture.asset(
               "assets/img/avatar.svg",
+              width: 48,
+              height: 48,
             ),
             accountName: Text(
               widget.userName.isNotEmpty ? widget.userName : "Name...",
-              style: getCurrentTheme(context).textTheme.bodyMedium,
+              style: getCustomStyle(
+                context: context,
+                color: lightBackgroundColor,
+                weight: FontWeight.w500,
+                textSize: 15,
+              ),
             ),
             accountEmail: Text(
               widget.userSurname.isNotEmpty ? widget.userSurname : "Surname...",
-              style: getCurrentTheme(context).textTheme.bodyMedium,
+              style: getCustomStyle(
+                context: context,
+                color: lightBackgroundColor,
+                weight: FontWeight.w500,
+                textSize: 15,
+              ),
             ),
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: backgroundColor,
               border: Border(
                 bottom: BorderSide(width: 1.0, color: hintColor),
               ),
@@ -92,15 +110,44 @@ class _HomeUserDrawerState extends State<HomeUserDrawer> {
                     ? const Icon(
                         Icons.wb_sunny_outlined,
                         color: Colors.white,
+                        size: 28,
                       )
                     : const Icon(
                         Icons.dark_mode_outlined,
                         color: Colors.white,
+                        size: 28,
                       ),
               ),
             ],
           ),
-          const SizedBox(height: 8.0),
+          (widget.state.token)
+              ? Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: hintColor, width: 0.5))),
+                  child: ListTile(
+                    onTap: () {
+                      pushNewScreen(context, profileScreen,
+                          navbarStatus: false);
+                    },
+                    leading: Icon(
+                      Icons.person_outline,
+                      color: getCurrentTheme(context).iconTheme.color,
+                      size: 28,
+                    ),
+                    title: Text(
+                      translate("drawer.profile"),
+                      style: getCurrentTheme(context).textTheme.displayMedium,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    trailing: Icon(
+                      Icons.keyboard_arrow_right,
+                      color: hintColor,
+                    ),
+                  ),
+                )
+              : Container(),
           ExpandableNotifier(
             child: ScrollOnExpand(
               scrollOnExpand: true,
@@ -123,7 +170,7 @@ class _HomeUserDrawerState extends State<HomeUserDrawer> {
                   ),
                   trailing: Icon(
                     Icons.expand_more,
-                    color: getCurrentTheme(context).iconTheme.color,
+                    color: hintColor,
                   ),
                 ),
                 collapsed: Container(),

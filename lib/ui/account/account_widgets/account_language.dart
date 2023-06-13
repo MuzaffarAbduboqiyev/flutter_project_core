@@ -1,6 +1,7 @@
 import 'package:delivery_service/util/service/translator/translate_service.dart';
 import 'package:delivery_service/util/theme/colors.dart';
 import 'package:delivery_service/util/theme/decorations.dart';
+import 'package:delivery_service/util/theme/styles.dart';
 import 'package:delivery_service/util/theme/theme_methods.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,12 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                   getContainerDecoration(context, fillColor: buttonColor),
               child: Text(
                 translate("language.confirmation"),
-                style: getCurrentTheme(context).textTheme.bodyMedium,
+                style: getCustomStyle(
+                  context: context,
+                  textSize: 15,
+                  color: backgroundColor,
+                  weight: FontWeight.w500,
+                ),
               ),
             ),
           )

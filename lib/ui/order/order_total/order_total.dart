@@ -20,8 +20,9 @@ class _OrderTotalState extends State<OrderTotal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
       width: double.infinity,
+      padding:
+      const EdgeInsets.symmetric(horizontal: 16, vertical:14),
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(width: 0.5, color: hintColor),
@@ -34,13 +35,14 @@ class _OrderTotalState extends State<OrderTotal> {
           children: [
             Text(
               "${translate("order.total")}:",
-              style: getCurrentTheme(context).textTheme.displayMedium,
+              style: getCurrentTheme(context).textTheme.bodyLarge,
               overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.start,
               maxLines: 1,
             ),
             Text(
               "${moneyFormatter.format(widget.state.totalPrice)} ${translate("sum")}",
-              style: getCurrentTheme(context).textTheme.bodyMedium,
+              style: getCurrentTheme(context).textTheme.labelSmall,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.end,
               maxLines: 1,
